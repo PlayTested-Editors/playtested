@@ -22,9 +22,16 @@ We’ve seen sequels that somehow perfected already "perfect" formulas and new I
 
 <div class="flex flex-col md:flex-row-reverse items-center gap-6 mb-12 pb-6 border-b border-slate-700">
 <<<<<<< HEAD
+<<<<<<< HEAD
   <img src="/images/uploads/arc01.avif" alt="" class="w-full md:w-2/5 rounded shadow" />
 =======
   <img src="/images/uploads/arc01.avif" alt="undefined" class="w-full md:w-2/5 rounded shadow" />
+>>>>>>> dev
+=======
+  <img src="/images/uploads/arc01.avif" alt="undefined" class="w-full md:w-2/5 rounded shadow" />
+=======
+  <img src="/images/uploads/arc01.avif" alt="" class="w-full md:w-2/5 rounded shadow" />
+>>>>>>> 0bd361fbc808268f521df5a6a27324a7761a23f6
 >>>>>>> dev
   <div class="flex-1 w-full">
 
@@ -42,9 +49,16 @@ A masterclass in restraint within the extraction shooter genre. It strips away t
 
 <div class="flex flex-col md:flex-row items-center gap-6 mb-12 pb-6 border-b border-slate-700">
 <<<<<<< HEAD
+<<<<<<< HEAD
   <img src="/images/uploads/2025-07-16-the-alters-4.avif" alt="" class="w-full md:w-2/5 rounded shadow" />
 =======
   <img src="/images/uploads/2025-07-16-the-alters-4.avif" alt="undefined" class="w-full md:w-2/5 rounded shadow" />
+>>>>>>> dev
+=======
+  <img src="/images/uploads/2025-07-16-the-alters-4.avif" alt="undefined" class="w-full md:w-2/5 rounded shadow" />
+=======
+  <img src="/images/uploads/2025-07-16-the-alters-4.avif" alt="" class="w-full md:w-2/5 rounded shadow" />
+>>>>>>> 0bd361fbc808268f521df5a6a27324a7761a23f6
 >>>>>>> dev
   <div class="flex-1 w-full">
 
@@ -62,9 +76,16 @@ My absolute "surprise game" of the year. It’s rare to find a game that feeds y
 
 <div class="flex flex-col md:flex-row-reverse items-center gap-6 mb-12 pb-6 border-b border-slate-700">
 <<<<<<< HEAD
+<<<<<<< HEAD
   <img src="/images/uploads/dispatch04.avif" alt="" class="w-full md:w-2/5 rounded shadow" />
 =======
   <img src="/images/uploads/dispatch04.avif" alt="undefined" class="w-full md:w-2/5 rounded shadow" />
+>>>>>>> dev
+=======
+  <img src="/images/uploads/dispatch04.avif" alt="undefined" class="w-full md:w-2/5 rounded shadow" />
+=======
+  <img src="/images/uploads/dispatch04.avif" alt="" class="w-full md:w-2/5 rounded shadow" />
+>>>>>>> 0bd361fbc808268f521df5a6a27324a7761a23f6
 >>>>>>> dev
   <div class="flex-1 w-full">
 
@@ -82,9 +103,16 @@ In an era of 100-hour epics, *Dispatch* is a breath of fresh air—a tight, epis
 
 <div class="flex flex-col md:flex-row items-center gap-6 mb-12 pb-6 border-b border-slate-700">
 <<<<<<< HEAD
+<<<<<<< HEAD
   <img src="/images/uploads/2025-07-31-doom-dark-ages-0.avif" alt="" class="w-full md:w-2/5 rounded shadow" />
 =======
   <img src="/images/uploads/2025-07-31-doom-dark-ages-0.avif" alt="undefined" class="w-full md:w-2/5 rounded shadow" />
+>>>>>>> dev
+=======
+  <img src="/images/uploads/2025-07-31-doom-dark-ages-0.avif" alt="undefined" class="w-full md:w-2/5 rounded shadow" />
+=======
+  <img src="/images/uploads/2025-07-31-doom-dark-ages-0.avif" alt="" class="w-full md:w-2/5 rounded shadow" />
+>>>>>>> 0bd361fbc808268f521df5a6a27324a7761a23f6
 >>>>>>> dev
   <div class="flex-1 w-full">
 
@@ -102,9 +130,16 @@ Fast, refined, and unapologetically brutal. It manages to bridge the gap between
 
 <div class="flex flex-col md:flex-row-reverse items-center gap-6 mb-12 pb-6 border-b border-slate-700">
 <<<<<<< HEAD
+<<<<<<< HEAD
   <img src="/images/uploads/goy06.avif" alt="" class="w-full md:w-2/5 rounded shadow" />
 =======
   <img src="/images/uploads/goy06.avif" alt="undefined" class="w-full md:w-2/5 rounded shadow" />
+>>>>>>> dev
+=======
+  <img src="/images/uploads/goy06.avif" alt="undefined" class="w-full md:w-2/5 rounded shadow" />
+=======
+  <img src="/images/uploads/goy06.avif" alt="" class="w-full md:w-2/5 rounded shadow" />
+>>>>>>> 0bd361fbc808268f521df5a6a27324a7761a23f6
 >>>>>>> dev
   <div class="flex-1 w-full">
 
@@ -122,9 +157,16 @@ A masterclass in open-world pacing. It’s a game that respects the player's tim
 
 <div class="flex flex-col md:flex-row items-center gap-6 mb-12 pb-6 border-b border-slate-700">
 <<<<<<< HEAD
+<<<<<<< HEAD
   <img src="/images/uploads/2025-07-09-death-stranding-2-1.avif" alt="" class="w-full md:w-2/5 rounded shadow" />
 =======
   <img src="/images/uploads/2025-07-09-death-stranding-2-1.avif" alt="undefined" class="w-full md:w-2/5 rounded shadow" />
+>>>>>>> dev
+=======
+  <img src="/images/uploads/2025-07-09-death-stranding-2-1.avif" alt="undefined" class="w-full md:w-2/5 rounded shadow" />
+=======
+  <img src="/images/uploads/2025-07-09-death-stranding-2-1.avif" alt="" class="w-full md:w-2/5 rounded shadow" />
+>>>>>>> 0bd361fbc808268f521df5a6a27324a7761a23f6
 >>>>>>> dev
   <div class="flex-1 w-full">
 
@@ -143,9 +185,16 @@ Kojima doubles down on the "journey over destination" philosophy, resulting in a
 
 <div class="flex flex-col md:flex-row-reverse items-center gap-6 mb-12 pb-6 border-b border-slate-700">
 <<<<<<< HEAD
+<<<<<<< HEAD
   <img src="/images/uploads/2025-06-27-kcd2-1.avif" alt="" class="w-full md:w-2/5 rounded shadow" />
 =======
   <img src="/images/uploads/2025-06-27-kcd2-1.avif" alt="undefined" class="w-full md:w-2/5 rounded shadow" />
+>>>>>>> dev
+=======
+  <img src="/images/uploads/2025-06-27-kcd2-1.avif" alt="undefined" class="w-full md:w-2/5 rounded shadow" />
+=======
+  <img src="/images/uploads/2025-06-27-kcd2-1.avif" alt="" class="w-full md:w-2/5 rounded shadow" />
+>>>>>>> 0bd361fbc808268f521df5a6a27324a7761a23f6
 >>>>>>> dev
   <div class="flex-1 w-full">
 
@@ -163,9 +212,16 @@ The sheer ambition here is staggering. It’s not just an RPG; it’s a living, 
 
 <div class="flex flex-col md:flex-row items-center gap-6 mb-12 pb-6 border-b border-slate-700">
 <<<<<<< HEAD
+<<<<<<< HEAD
   <img src="/images/uploads/splitfiction01.avif" alt="" class="w-full md:w-2/5 rounded shadow" />
 =======
   <img src="/images/uploads/splitfiction01.avif" alt="undefined" class="w-full md:w-2/5 rounded shadow" />
+>>>>>>> dev
+=======
+  <img src="/images/uploads/splitfiction01.avif" alt="undefined" class="w-full md:w-2/5 rounded shadow" />
+=======
+  <img src="/images/uploads/splitfiction01.avif" alt="" class="w-full md:w-2/5 rounded shadow" />
+>>>>>>> 0bd361fbc808268f521df5a6a27324a7761a23f6
 >>>>>>> dev
   <div class="flex-1 w-full">
 
@@ -183,9 +239,16 @@ The gold standard for co-op gaming. It’s a constant barrage of creativity that
 
 <div class="flex flex-col md:flex-row-reverse items-center gap-6 mb-12 pb-6 border-b border-slate-700">
 <<<<<<< HEAD
+<<<<<<< HEAD
   <img src="/images/uploads/hadesii04.avif" alt="u" class="w-full md:w-2/5 rounded shadow" />
 =======
   <img src="/images/uploads/hadesii04.avif" alt="undefined" class="w-full md:w-2/5 rounded shadow" />
+>>>>>>> dev
+=======
+  <img src="/images/uploads/hadesii04.avif" alt="undefined" class="w-full md:w-2/5 rounded shadow" />
+=======
+  <img src="/images/uploads/hadesii04.avif" alt="u" class="w-full md:w-2/5 rounded shadow" />
+>>>>>>> 0bd361fbc808268f521df5a6a27324a7761a23f6
 >>>>>>> dev
   <div class="flex-1 w-full">
 

@@ -242,13 +242,13 @@ if (window.CMS) {
       { name: "alignment", label: "Image Alignment", widget: "select", options: ["Left", "Right"], default: "Right" },
       { name: "content", label: "Content", widget: "markdown" },
     ],
-    pattern: /^<div class="flex flex-col (md:flex-row|md:flex-row-reverse) items-center gap-6 mb-12 pb-6 border-b border-slate-700">\s*<img\s+src=["']?([^"'\s>]+)["']?\s+alt=["']?([^"']*)["']?\s+class="w-full md:w-2\/5 rounded shadow"\s*(?:style=["']?max-height:\s*(\d+)px;?["']?\s*)?\/>\s*(?:<div[^>]*>)?\s*([\s\S]*?)\s*(?:<\/div>)?\s*<\/div>/m,
+    pattern: /^<div class="flex flex-col (md:flex-row|md:flex-row-reverse) items-center gap-6 mb-12 pb-6 border-b border-slate-700">[\s\S]*?<img[\s\S]*?src=["']?([^"'\s>]+)["']?[\s\S]*?alt=["']?([^"']*)["']?[\s\S]*?\/>\s*(?:<div[^>]*>)?\s*([\s\S]*?)\s*(?:<\/div>)?\s*<\/div>/m,
     fromBlock: function (match) {
       return {
         alignment: match[1] === "md:flex-row" ? "Left" : "Right",
         image: match[2],
         alt: match[3],
-        content: match[5].trim()
+        content: (match[4] || "").trim()
       };
     },
     toBlock: function (obj) {
@@ -306,12 +306,12 @@ ${obj.content}
       { name: "alt", label: "Alt Text", widget: "string" },
       { name: "height", label: "Max Height (px)", widget: "number", default: 600 },
     ],
-    pattern: /^<div class="image-sized-wrapper" style="--img-height:(\d+)px;">\s*<img\s+src=["']?([^"'\s>]+)["']?\s+alt=["']?([^"']*)["']?\s+class="mx-auto block rounded shadow"\s*style=["']?max-height:\s*(\d+)px;?["']?\s*\/>\s*<\/div>/m,
+    pattern: /^<div class="image-sized-wrapper"[^>]*>\s*<img[\s\S]*?src=["']?([^"'\s>]+)["']?[\s\S]*?alt=["']?([^"']*)["']?[\s\S]*?style=["']?max-height:\s*(\d+)px;?["']?[\s\S]*?\/>\s*<\/div>/m,
     fromBlock: function (match) {
       return {
-        height: parseInt(match[1] || match[4] || "600", 10),
-        image: match[2],
-        alt: match[3]
+        image: match[1],
+        alt: match[2],
+        height: parseInt(match[3] || "600", 10)
       };
     },
     toBlock: function (obj) {
