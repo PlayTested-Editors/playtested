@@ -44,18 +44,9 @@ score: 8
 * 🖥️ **Technical Rough Edges:** The UI / UX is noticeably clunky and prone to breaking and unresponsiveness.
 * 🔋 **Hardware Tax:** Despite its simplistic premise, its system requirements isn’t that friendly to cozy games who might otherwise have a lower powered laptop.
 
-
-
-<div class="flex flex-col md:flex-row-reverse items-center gap-6 mb-12 pb-6 border-b border-slate-700">
-  <img src="/images/uploads/shantytown03.avif" alt="" class="w-full md:w-2/5 rounded shadow" />
-  <div class="flex-1 w-full">
-
 There’s a specific kind of magic in games that don't ask you to be a god or a master planner, but rather just a simple gamer who likes to solve easy puzzles, while also decorating a tiny piece of land. While most city builders demand you manage revenues, sewage lines, and the general happiness of a digital populace, **ShantyTown** takes a much more intimate route. It’s a bite-sized, stress-free experience that understands exactly why we like putting digital blocks on top of each other: the sheer, tactile joy of making something pretty out of nothing. It doesn’t want your sweat; it just wants your afternoon.
 
 In **ShantyTown**, you step into the shoes of a surveyor tasked with assembling vibrant, dense urban micro ‘ShantyTown’ cities across 20 distinct locations all in one big map. The core loop is built around a "deck-based" placement system where you are assigned a randomized sequence of buildings, signs, and props to use, rather than picking from an open menu where everything is available (although there is a Creative Mode where you are free to add everything you’ve unlocked so far).
-
-  </div>
-</div>
 
 To progress in the levels, you must fulfill specific upgrade requirements for your structures—such as providing lighting, utilities, or decorations—which causes them to get upgraded and transform into more detailed, polished versions of themselves. Once you’ve satisfied enough of these needs that vary per level, and filled the environment, you capture a final snapshot of your creation, logging it into your permanent dossier before moving to the next blank canvas.
 
@@ -73,8 +64,6 @@ What’s fascinating is how the game handles your freedom. Technically, there is
 </div>
 
 ### **The Beauty of Looking Back**
-
-
 
 <div class="flex flex-col md:flex-row items-center gap-6 mb-12 pb-6 border-b border-slate-700">
   <img src="/images/uploads/shantytown05.avif" alt="" class="w-full md:w-2/5 rounded shadow" />
