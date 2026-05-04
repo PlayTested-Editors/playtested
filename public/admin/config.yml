@@ -2,7 +2,7 @@ logo_url: "/images/logo01.avif"
 
 backend:
   name: github
-  repo: lyndon025/playtested
+  repo: PlayTested-Editors/playtested
   branch: main
   base_url: https://www.playtested.net
   auth_endpoint: auth
