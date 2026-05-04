@@ -1,6 +1,6 @@
 ---
 title: The Moon’s Best Kept Secret? Why CAPCOM’s PRAGMATA Is a Sci-Fi Experiment
-  Worth Trying
+  Worth Trying | PRAGMATA Review
 pubDate: 2026-04-21T12:00:00.000+08:00
 draft: true
 description: The dual-control system between Hugh and Diana in CAPCOM’s PRAGMATA
