@@ -1,6 +1,6 @@
 ---
 title: The Moon’s Best Kept Secret? Why CAPCOM’s PRAGMATA Is a Sci-Fi Experiment
-  Worth Trying
+  Worth Trying | PRAGMATA Review
 pubDate: 2026-04-21T12:00:00.000+08:00
 draft: true
 description: The dual-control system between Hugh and Diana in CAPCOM’s PRAGMATA
@@ -18,7 +18,7 @@ author: mcytg
 game: PRAGMATA
 score: 9
 ---
-Quick Pros and Cons
+**Pros**
 
 🚀 Synergy between Hugh and Diana that feels incredibly rewarding.
 
@@ -29,6 +29,8 @@ Quick Pros and Cons
 🔄 The upgrade loop feels addicting, replaying in New Game Plus mode feels like a new experience.
 
 ⏱️ You’ll likely finish the whole game in one sitting or a weekend due to the story pacing.
+
+**Cons**
 
 📉 Steep learning curve initially when managing two characters at once.
 
@@ -58,6 +60,6 @@ Another training room made me use a different approach. Instead of taking enemie
 
 The lunar surface feels immersive and as someone who loves space-themed stories, it feels like home to me. The narrative pacing of the story felt brief without fillers. The game felt bittersweet for me. The emotional parts of the story between Hugh and Diana's relationship sticks with you.
 
-# The Final Verdict
+# Conclusion
 
 PRAGMATA as a space enthusiast is enjoyable as a whole as long as you manage your expectations given the price point. If you can get past the initial steep learning curve of the game's intro, you’ll find an action-puzzler with innovation.
