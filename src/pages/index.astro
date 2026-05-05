@@ -14,7 +14,7 @@ const allSubmissions = await getCollection("submissions");
 // Combine them into a single array
 type CombinedCollectionEntry =
   | CollectionEntry<"article">
-  | CollectionEntry<"submission">;
+  | CollectionEntry<"submissions">;
 const allPosts: CombinedCollectionEntry[] = [...allArticles, ...allSubmissions];
 
 // Sort all combined posts by publication date
