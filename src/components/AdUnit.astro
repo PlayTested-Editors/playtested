@@ -3,12 +3,12 @@ import SiteOptions from "../site.config.mjs";
 
 interface Props {
     type: "in-article" | "sidebar" | "footer";
-    provider?: "adsense" | "carbon";
+    provider?: "adsense" | "carbon" | "adsterra";
     class?: string;
 }
 
 const { type, provider, class: className = "" } = Astro.props;
-const { ads } = SiteOptions;
+const ads = (SiteOptions as any).ads;
 
 const isAdSense =
     (provider === "adsense" || (!provider && ads.adSense.enabled)) &&
@@ -16,6 +16,12 @@ const isAdSense =
 const isCarbon =
     (provider === "carbon" || (!provider && ads.carbonAds.enabled)) &&
     ads.carbonAds.enabled;
+const isAdsterra =
+    (provider === "adsterra" || (!provider && ads.adsterra.enabled)) &&
+    ads.adsterra.enabled;
+
+const isAdsterraNative = isAdsterra && ads.adsterra.nativeBannerEnabled;
+const isAdsterraFooter = isAdsterra && ads.adsterra.footerBannerEnabled;
 
 // Minimum heights to prevent CLS
 const minHeights = {
@@ -51,6 +57,31 @@ const minHeights = {
             <script is:inline>
                 (adsbygoogle = window.adsbygoogle || []).push({});
             </script>
+        </div>
+    )
+}
+
+{
+    isAdsterra && (
+        <div
+            class={`ad-container adsterra-container my-8 mx-auto text-center overflow-hidden ${minHeights[type]} ${className}`}
+        >
+            {type === "in-article" && isAdsterraNative && (
+                <div id={`container-${ads.adsterra.nativeBannerId}`}></div>
+                <script is:inline type="text/javascript" src={`https://pl28747193.effectivegatecpm.com/${ads.adsterra.nativeBannerId}/invoke.js`}></script>
+            )}
+            {type === "footer" && isAdsterraFooter && (
+                <script is:inline type="text/javascript" define:vars={{ id: ads.adsterra.footerBannerId }}>
+                    atOptions = {
+                        'key' : id,
+                        'format' : 'js',
+                        'height' : 90,
+                        'width' : 728,
+                        'params' : {}
+                    };
+                </script>
+                <script is:inline type="text/javascript" src={`https://www.highperformanceformat.com/${ads.adsterra.footerBannerId}/invoke.js`}></script>
+            )}
         </div>
     )
 }

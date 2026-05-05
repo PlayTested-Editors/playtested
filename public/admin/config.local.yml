@@ -4,7 +4,7 @@ logo_url: "/images/logo01.avif"
 # still required by Decap, not used in local mode
 backend:
   name: github
-  repo: lyndon025/playtested
+  repo: PlayTested-Editors/playtested
   branch: main
 
 media_folder: "public/images/uploads"

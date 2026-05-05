@@ -242,7 +242,8 @@ if (window.CMS) {
       { name: "alignment", label: "Image Alignment", widget: "select", options: ["Left", "Right"], default: "Right" },
       { name: "content", label: "Content", widget: "markdown" },
     ],
-    pattern: /^<div class="flex flex-col (md:flex-row|md:flex-row-reverse) items-center gap-6 mb-12 pb-6 border-b border-slate-700">[\s\S]*?<img[\s\S]*?src=["']?([^"'\s>]+)["']?[\s\S]*?alt=["']?([^"']*)["']?[\s\S]*?\/>\s*(?:<div[^>]*>)?\s*([\s\S]*?)\s*(?:<\/div>)?\s*<\/div>/m,
+    // Made anchor-less and more flexible with classes/attributes
+    pattern: /<div class="flex flex-col (md:flex-row-reverse|md:flex-row)[^>]*>[\s\S]*?<img[\s\S]*?src=["']?([^"'\s>]+)["']?[\s\S]*?alt=["']?([^"']*)["']?[\s\S]*?\/>\s*(?:<div[^>]*>)?\s*([\s\S]*?)\s*(?:<\/div>)?\s*<\/div>/m,
     fromBlock: function (match) {
       return {
         alignment: match[1] === "md:flex-row" ? "Left" : "Right",
@@ -306,7 +307,8 @@ ${obj.content}
       { name: "alt", label: "Alt Text", widget: "string" },
       { name: "height", label: "Max Height (px)", widget: "number", default: 600 },
     ],
-    pattern: /^<div class="image-sized-wrapper"[^>]*>\s*<img[\s\S]*?src=["']?([^"'\s>]+)["']?[\s\S]*?alt=["']?([^"']*)["']?[\s\S]*?style=["']?max-height:\s*(\d+)px;?["']?[\s\S]*?\/>\s*<\/div>/m,
+    // Anchor-less and handles any attribute order
+    pattern: /<div class="image-sized-wrapper"[^>]*>\s*<img[\s\S]*?src=["']?([^"'\s>]+)["']?[\s\S]*?alt=["']?([^"']*)["']?[\s\S]*?style=["']?max-height:\s*(\d+)px;?["']?[\s\S]*?\/>\s*<\/div>/m,
     fromBlock: function (match) {
       return {
         image: match[1],

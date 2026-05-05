@@ -434,7 +434,8 @@ const formattedDate = new Intl.DateTimeFormat("en-US", {
 
 <script is:inline define:vars={{ ads: SiteOptions.ads }}>
   function injectAds() {
-    if (!ads.adSense.enabled && !ads.carbonAds.enabled) return;
+    if (!ads.adSense.enabled && !ads.carbonAds.enabled && !ads.adsterra.enabled)
+      return;
 
     const articleBody = document.querySelector(".prose");
     if (!articleBody) return;
@@ -469,13 +470,14 @@ const formattedDate = new Intl.DateTimeFormat("en-US", {
         `;
         targetP.insertAdjacentElement("afterend", adWrapper);
         (window.adsbygoogle = window.adsbygoogle || []).push({});
-      } else if (ads.carbonAds.enabled) {
-        // Carbon doesn't like being injected multiple times easily, but we can try
+      } else if (ads.adsterra.enabled && ads.adsterra.nativeBannerEnabled) {
+        adWrapper.innerHTML = `
+          <div id="container-${ads.adsterra.nativeBannerId}"></div>
+        `;
         const script = document.createElement("script");
         script.async = true;
-        script.type = "text/javascript";
-        script.src = `//cdn.carbonads.com/carbon.js?serve=${ads.carbonAds.serve}&placement=${ads.carbonAds.placement}`;
-        script.id = "_carbonads_js";
+        script.dataset.cfasync = "false";
+        script.src = `https://pl28747193.effectivegatecpm.com/${ads.adsterra.nativeBannerId}/invoke.js`;
         adWrapper.appendChild(script);
         targetP.insertAdjacentElement("afterend", adWrapper);
       }

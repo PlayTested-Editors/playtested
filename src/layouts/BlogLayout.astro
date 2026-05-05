@@ -95,9 +95,6 @@ const schema = JSON.stringify({
       </script>
       <script type="application/ld+json" set:html={schema}></script>
     )}
-    {SiteOptions.ads.adSense.enabled && (
-      <script is:inline async src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${SiteOptions.ads.adSense.clientId}`} crossorigin="anonymous"></script>
-    )}
   </head>
 
   <body class="bg-gray-200 text-gray-900 dark:bg-slate-900 dark:text-slate-200 transition-colors duration-300 min-h-full">
@@ -110,5 +107,8 @@ const schema = JSON.stringify({
         Hi! I'm the PlayTested.net AI. Ask me anything about the articles on this site!
     </template>
     <ChatWidget />
+    {(SiteOptions as any).ads.adsterra.enabled && (SiteOptions as any).ads.adsterra.popunderEnabled && (SiteOptions as any).ads.adsterra.popunderId && (
+      <script is:inline type='text/javascript' src={`//pl28747188.effectivegatecpm.com/52/03/7f/52037f86ba5e341879c1fddb90988d0d.js`}></script>
+    )}
   </body>
 </html>

@@ -46,10 +46,21 @@ export default {
     // Ad Configuration
     ads: {
         adSense: {
-            enabled: import.meta.env.PUBLIC_ADSENSE_ENABLED === "true",
+            enabled: false,
             clientId: import.meta.env.PUBLIC_ADSENSE_CLIENT_ID,
             articleUnitId: import.meta.env.PUBLIC_ADSENSE_ARTICLE_UNIT_ID,
             footerUnitId: import.meta.env.PUBLIC_ADSENSE_FOOTER_UNIT_ID,
+        },
+        adsterra: {
+            enabled: import.meta.env.PUBLIC_ADSTERRA_ENABLED === "true",
+            nativeBannerEnabled: true,
+            footerBannerEnabled: true,
+            socialBarEnabled: false,
+            popunderEnabled: false,
+            nativeBannerId: import.meta.env.PUBLIC_ADSTERRA_NATIVE_ID, // Your Adsterra Native Banner ID
+            footerBannerId: import.meta.env.PUBLIC_ADSTERRA_FOOTER_ID, // Your Adsterra Standard Banner ID
+            socialBarId: import.meta.env.PUBLIC_ADSTERRA_SOCIAL_ID, // Your Adsterra Social Bar ID
+            popunderId: import.meta.env.PUBLIC_ADSTERRA_POPUNDER_ID, // Your Adsterra Popunder ID
         },
         carbonAds: {
             enabled: false,
