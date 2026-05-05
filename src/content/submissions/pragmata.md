@@ -3,7 +3,6 @@ title: The Moon’s Best Kept Secret? Why CAPCOM’s PRAGMATA Is a Sci-Fi Experi
   Worth Trying | PRAGMATA Review
 pubDate: 2026-04-21T12:00:00.000+08:00
 draft: false
-
 description: The dual-control system between Hugh and Diana in CAPCOM’s PRAGMATA
   transforms potential "escort mission" tropes into a rewarding, synchronized
   action-puzzler reminiscent of The World Ends with You. This core mechanic
@@ -17,6 +16,15 @@ featured: false
 thumb: /images/uploads/20260417155604_1.avif
 author: mcytg
 game: PRAGMATA
+gallery:
+  - /images/uploads/pragmata_1.avif
+  - /images/uploads/pragmata_2.avif
+  - /images/uploads/pragmata_3.avif
+  - /images/uploads/pragmata_4.avif
+  - /images/uploads/pragmata_5.avif
+  - /images/uploads/pragmata_6.avif
+  - /images/uploads/pragmata_7.avif
+  - /images/uploads/pragmata_8.avif
 score: 9
 ---
 **Pros**
