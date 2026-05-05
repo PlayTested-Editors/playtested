@@ -2,7 +2,8 @@
 title: The Moon’s Best Kept Secret? Why CAPCOM’s PRAGMATA Is a Sci-Fi Experiment
   Worth Trying
 pubDate: 2026-04-21T12:00:00.000+08:00
-draft: true
+draft: false
+
 description: The dual-control system between Hugh and Diana in CAPCOM’s PRAGMATA
   transforms potential "escort mission" tropes into a rewarding, synchronized
   action-puzzler reminiscent of The World Ends with You. This core mechanic
