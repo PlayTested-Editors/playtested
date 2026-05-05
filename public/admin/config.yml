@@ -8,6 +8,7 @@ backend:
   auth_endpoint: auth
   use_graphql: false
   open_authoring: true
+  squash_merges: true
 
 site_url: https://www.playtested.net
 
