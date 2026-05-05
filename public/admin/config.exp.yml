@@ -14,7 +14,7 @@ site_url: https://exp.playtested.pages.dev
 
 media_folder: "public/images/uploads"
 public_folder: "/images/uploads"
-publish_mode: simple      
+publish_mode: editorial_workflow      
 
 collections:
 
