@@ -34,7 +34,7 @@ export async function getStaticPaths() {
 
 type Props = {
   author: string
-  posts: (CollectionEntry<"article"> | CollectionEntry<"submission">)[];
+  posts: (CollectionEntry<"article"> | CollectionEntry<"submissions">)[];
 }
 
 const { author, posts } = Astro.props

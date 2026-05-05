@@ -13,11 +13,11 @@ site_url: https://exp.playtested.pages.dev
 
 media_folder: "public/images/uploads"
 public_folder: "/images/uploads"
-publish_mode: editorial_workflow      
+publish_mode: simple      
 
 collections:
 
-  - name: "submission"
+  - name: "submissions"
     label: "User Submissions"
     folder: "src/content/submissions"
     create: true
