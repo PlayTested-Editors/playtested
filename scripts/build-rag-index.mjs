@@ -16,13 +16,34 @@ function parseFrontmatter(fileContent) {
     const body = match[2].trim();
     const data = {};
 
+    let currentKey = null;
     frontmatterRaw.split("\n").forEach(line => {
+        const listMatch = line.match(/^\s*-\s*(.*)/);
+        if (listMatch && currentKey) {
+            if (!Array.isArray(data[currentKey])) {
+                data[currentKey] = [];
+            }
+            let val = listMatch[1].trim();
+            if (val.startsWith('"') && val.endsWith('"')) val = val.slice(1, -1);
+            if (val.startsWith("'") && val.endsWith("'")) val = val.slice(1, -1);
+            data[currentKey].push(val);
+            return;
+        }
+
         const parts = line.split(":");
         if (parts.length >= 2) {
             const key = parts[0].trim();
+            currentKey = key;
             let value = parts.slice(1).join(":").trim();
+            
+            if (value === "") {
+                data[key] = "";
+                return;
+            }
+
             if (value.startsWith('"') && value.endsWith('"')) value = value.slice(1, -1);
             if (value.startsWith("'") && value.endsWith("'")) value = value.slice(1, -1);
+            
             if (value.startsWith("[") && value.endsWith("]")) {
                 value = value.slice(1, -1).split(",").map(s => s.trim().replace(/^['"]|['"]$/g, ""));
                 data[key] = value;
