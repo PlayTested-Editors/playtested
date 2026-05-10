@@ -13,7 +13,7 @@ export const GET = async ({ site }) => {
     }));
 
   return rss({
-    title: 'PlayTested',
+    title: 'PlayTested.Net',
     description: 'Video Game Reviews, Tech Blog, and AI-powered insights for PC, Console, and Mobile. No-nonsense game reviews that cut through the noise.',
     site: site?.toString() ?? 'https://playtested.net',
     items
