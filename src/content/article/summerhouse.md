@@ -1,5 +1,5 @@
 ---
-title: Tiny Houses, Mid-sized Chill, Big Friction | SUMMERHOUSE Review
+title: Tiny Houses, Mid-Sized Chill, Big Friction | SUMMERHOUSE Review
 pubDate: 2026-05-15T16:00:00.000+08:00
 draft: false
 description: Sometimes you just want to turn your brain off and build something
