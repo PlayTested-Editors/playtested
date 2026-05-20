@@ -1,5 +1,5 @@
 ---
-title: "Sony's Goodbye to PC: A Massive Missed PC Opportunity"
+title: Instead of Fleeing PC, Sony Should Have Built a Day-One PlayStation Storefront
 pubDate: 2026-05-20T09:30:00.000+08:00
 draft: false
 description: >-
