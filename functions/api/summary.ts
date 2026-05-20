@@ -51,10 +51,10 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
 
         // 3. Generate Summary using OpenRouter
         const messages = [
-            { role: "system", content: "You are a helpful assistant that summarizes game reviews. Provide concise, objective summaries without mentioning the author's name." },
+            { role: "system", content: "You are a helpful assistant that summarizes game reviews and articles. Provide concise, objective summaries without mentioning the author's name." },
             {
                 role: "user",
-                content: `Please provide a concise summary (max 3 sentences) of the following game review. Capture the main sentiment and key pros/cons. Do NOT mention the author's name in your summary.\n\nReview Content:\n${text.substring(0, 6000)}`
+                content: `Please provide a concise summary (max 3 sentences) of the following game review and article. Capture the main sentiment and key pros/cons. Do NOT mention the author's name in your summary.\n\nReview Content:\n${text.substring(0, 6000)}`
             },
         ];
 

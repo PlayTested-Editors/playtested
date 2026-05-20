@@ -158,7 +158,44 @@ if (window.CMS) {
         }).filter(Boolean).toJS();
       }
 
+      // Helper function to resolve image paths in React elements recursively
+      const resolveReactAssets = (node) => {
+        if (!node) return node;
+
+        if (Array.isArray(node)) {
+          return node.map(child => resolveReactAssets(child));
+        }
+
+        if (node && node.props) {
+          const props = node.props;
+          let newProps = null;
+
+          // Resolve img src if it points to a local upload path
+          if (node.type === 'img' && typeof props.src === 'string' && props.src.startsWith('/images/uploads/')) {
+            const resolved = getAsset(props.src);
+            if (resolved) {
+              newProps = { ...props, src: resolved.toString() };
+            }
+          }
+
+          // Recursively resolve children
+          if (props.children) {
+            const newChildren = resolveReactAssets(props.children);
+            if (newChildren !== props.children) {
+              newProps = newProps || { ...props };
+              newProps.children = newChildren;
+            }
+          }
+
+          if (newProps && window.React && window.React.cloneElement) {
+            return window.React.cloneElement(node, newProps);
+          }
+        }
+        return node;
+      };
+
       const bodyEl = widgetFor && widgetFor("body");
+      const resolvedBodyEl = bodyEl ? resolveReactAssets(bodyEl) : null;
 
       return window.h(
         "article",
@@ -223,7 +260,7 @@ if (window.CMS) {
           window.h("hr", { style: { margin: "1rem 0", clear: "both" } }),
 
           // Body markdown preview
-          window.h("div", { className: "markdown-preview" }, bodyEl || null),
+          window.h("div", { className: "markdown-preview" }, resolvedBodyEl || null),
         ]
       );
     }
@@ -263,9 +300,10 @@ ${obj.content}
   </div>
 </div>`;
     },
-    toPreview: function (obj) {
+    toPreview: function (obj, getAsset) {
       const alignment = obj.alignment || "Right";
       const flexDirection = alignment === "Left" ? "row" : "row-reverse";
+      const resolvedImg = (obj.image && getAsset) ? getAsset(obj.image).toString() : (obj.image || "");
 
       return window.h('div', {
         style: {
@@ -279,7 +317,7 @@ ${obj.content}
         }
       }, [
         window.h('img', {
-          src: obj.image,
+          src: resolvedImg,
           alt: obj.alt,
           style: {
             width: '40%',
@@ -322,9 +360,10 @@ ${obj.content}
   <img src="${obj.image}" alt="${obj.alt}" class="mx-auto block rounded shadow" style="max-height: ${height}px;" />
 </div>`;
     },
-    toPreview: function (obj) {
+    toPreview: function (obj, getAsset) {
+      const resolvedImg = (obj.image && getAsset) ? getAsset(obj.image).toString() : (obj.image || "");
       return window.h('img', {
-        src: obj.image,
+        src: resolvedImg,
         alt: obj.alt,
         style: {
           maxHeight: `${obj.height || 600}px`,
