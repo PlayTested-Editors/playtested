@@ -28,7 +28,7 @@ On the surface, it looks like Sony is just protecting console hardware. But look
 
 Sony’s biggest complaint is that recent PC ports underperformed. But honestly, what did they expect?
 
-[Industry data shows that when major AAA games launch on PC and console simultaneously, PC naturally captures a massive 44% of the total player base. But when Sony forced PC players to wait a year or two for titles like *God of War Ragnarök* or *Marvel’s Spider-Man 2*, that PC player share cratered to a miserable 5% to 6%.](https://www.darkhorizons.com/study-delayed-playstation-pc-ports-hurting-sales/)
+[Industry data shows that when major AAA games launch on PC and console simultaneously, PC naturally captures a massive 44% of the total player base. But when Sony forced PC players to wait a year or two for titles like *God of War Ragnarök* or *Marvel’s Spider-Man 2*, that PC player share cratered to a miserable 5% to 6%.](https://www.gamesindustry.biz/sales-data-indicates-sonys-ps5-ports-are-increasingly-losing-audience-share-on-pc-but-only-because-of-release-timing)
 
 By making PC an afterthought, Sony choked out their own sales. By the time a port finally arrived at full price, the global marketing hype had completely died down, the story was thoroughly spoiled across social media, and the most impatient fans had already broken down and bought a PS5. Of course the ports underperformed—they were engineered to do so.
 
