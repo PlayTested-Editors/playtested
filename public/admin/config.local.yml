@@ -52,6 +52,7 @@ collections:
 
       - { label: "Author", name: "author", widget: "string", default: "lyndonguitar" }
       - { label: "Game", name: "game", widget: "string", required: false }
+      - { label: "Link Title / URL Slug Override", name: "slug", widget: "string", required: false, hint: "Optional custom URL slug override. If left blank, it defaults to the Game name, or the Article Title if no Game is specified." }
 
 
       # Gallery: optional list of images (array of strings)
@@ -102,6 +103,7 @@ collections:
 
       - { label: "Author", name: "author", widget: "string", default: "lyndonguitar" }
       - { label: "Game", name: "game", widget: "string", required: false }
+      - { label: "Link Title / URL Slug Override", name: "slug", widget: "string", required: false, hint: "Optional custom URL slug override. If left blank, it defaults to the Game name, or the Article Title if no Game is specified." }
 
 
       # Gallery: optional list of images (array of strings)
