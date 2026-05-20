@@ -15,6 +15,8 @@ const articleCollection = defineCollection({
     thumb: z.string().optional(),
     large: z.string().optional(),
     gallery: z.array(z.string()).optional(),
+    game: z.string().optional(),
+    slug: z.string().optional(),
   }),
 })
 
@@ -32,6 +34,8 @@ const submissionCollection = defineCollection({
     thumb: z.string().optional(),
     large: z.string().optional(),
     gallery: z.array(z.string()).optional(),
+    game: z.string().optional(),
+    slug: z.string().optional(),
   }),
 });
 

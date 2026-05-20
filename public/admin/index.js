@@ -337,4 +337,57 @@ ${obj.content}
       });
     }
   });
+
+  // Helper function to slugify a string in a URL-friendly way
+  function slugify(text) {
+    return text
+      .toString()
+      .toLowerCase()
+      .trim()
+      .replace(/\s+/g, '-')           // Replace spaces with -
+      .replace(/[^\w\-]+/g, '')       // Remove all non-word chars (except -)
+      .replace(/\-\-+/g, '-')         // Replace multiple - with single -
+      .replace(/^-+/, '')             // Trim - from start of text
+      .replace(/-+$/, '');            // Trim - from end of text
+  }
+
+  // Pre-save event listener to auto-populate slug if empty
+  CMS.registerEventListener({
+    name: 'preSave',
+    handler: ({ entry }) => {
+      const collectionName = entry.get('collection');
+      if (collectionName !== 'article' && collectionName !== 'submissions') {
+        return entry.get('data');
+      }
+
+      const data = entry.get('data');
+      let slugVal = data.get('slug');
+
+      // If slug is not provided, fallback to game, then to title
+      if (!slugVal || !slugVal.trim()) {
+        const gameVal = data.get('game');
+        const titleVal = data.get('title');
+
+        let sourceText = "";
+        if (gameVal && gameVal.trim()) {
+          sourceText = gameVal.trim();
+        } else if (titleVal && titleVal.trim()) {
+          sourceText = titleVal.trim();
+        }
+
+        if (sourceText) {
+          slugVal = slugify(sourceText);
+        }
+      } else {
+        // Even if they typed it, make sure it's a valid slugified URL
+        slugVal = slugify(slugVal);
+      }
+
+      if (slugVal) {
+        return data.set('slug', slugVal);
+      }
+
+      return data;
+    }
+  });
 }
