@@ -35,7 +35,7 @@ Instead of fixing the release window, Sony's board room misread the data, blamed
 
 ### The 30% Storefront Tax
 
-<div class="flex flex-col md:flex-row items-center gap-6 mb-12 pb-6 border-b border-slate-700">
+<div class="flex flex-col md:flex-row-reverse items-center gap-6 mb-12 pb-6 border-b border-slate-700">
   <img src="/images/uploads/pspcsteam.avif" alt="" class="w-full md:w-2/5 rounded shadow" />
   <div class="flex-1 w-full">
 
@@ -49,8 +49,6 @@ If they had launched a proprietary launcher and made their marquee titles comple
 
   </div>
 </div>
-
-
 
 ### The Next Xbox and Valve's Machines.
 
