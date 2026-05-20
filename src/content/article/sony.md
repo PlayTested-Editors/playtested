@@ -33,6 +33,8 @@ By making PC an afterthought, Sony choked out their own sales. By the time a por
 
 Instead of fixing the release window, Sony's board room misread the data, blamed the PC market, and decided to take their ball and go home.
 
+![](/images/uploads/pspcsteam.avif)
+
 ### The 30% Storefront Tax
 
 When Sony first dipped its toes into PC, it treated Steam and Epic like a low-risk dumping ground for older games. But relying entirely on third-party storefronts meant handing over a massive 30% cut of every digital sale to Valve.
@@ -42,6 +44,8 @@ For a company used to keeping 100% of first-party revenue on the PlayStation Net
 Instead of crying foul over shrinking margins and pulling the plug, Sony should have built a native, standalone PlayStation Storefront on PC years ago.
 
 If they had launched a proprietary launcher and made their marquee titles completely exclusive to it on day one, PC players would have willingly downloaded it to play games like *Wolverine* on launch day. Sony would have bypassed the 30% middleman tax entirely, secured a direct pipeline to the consumer, and made the PC ecosystem wildly profitable.
+
+![](/images/uploads/ds2steamdeck.avif)
 
 ### The Next Xbox and Valve's Machines.
 
