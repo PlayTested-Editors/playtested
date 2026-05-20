@@ -35,8 +35,6 @@ Instead of fixing the release window, Sony's board room misread the data, blamed
 
 ### The 30% Storefront Tax
 
-
-
 <div class="flex flex-col md:flex-row items-center gap-6 mb-12 pb-6 border-b border-slate-700">
   <img src="/images/uploads/pspcsteam.avif" alt="" class="w-full md:w-2/5 rounded shadow" />
   <div class="flex-1 w-full">
@@ -48,6 +46,13 @@ For a company used to keeping 100% of first-party revenue on the PlayStation Net
 Instead of crying foul over shrinking margins and pulling the plug, Sony should have built a native, standalone PlayStation Storefront on PC years ago.
 
 If they had launched a proprietary launcher and made their marquee titles completely exclusive to it on day one, PC players would have willingly downloaded it to play games like *Wolverine* on launch day. Sony would have bypassed the 30% middleman tax entirely, secured a direct pipeline to the consumer, and made the PC ecosystem wildly profitable.
+
+  </div>
+</div>
+
+
+
+### The Next Xbox and Valve's Machines.
 
 <div class="flex flex-col md:flex-row-reverse items-center gap-6 mb-12 pb-6 border-b border-slate-700">
   <img src="/images/uploads/ds2steamdeck.avif" alt="" class="w-full md:w-2/5 rounded shadow" />
@@ -61,11 +66,6 @@ And the nightmare gets worse when looking at Microsoft. Xbox's upcoming next-gen
 
   </div>
 </div>
-
-  </div>
-</div>
-
-### The Next Xbox and Valve's Machines.
 
 > By relying on Steam instead of building their own ecosystem, Sony accidentally turned their greatest first-party weapons into future Xbox and Steam software.
 
