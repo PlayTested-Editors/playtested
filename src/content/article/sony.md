@@ -46,7 +46,7 @@ For a company used to keeping 100% of first-party revenue on the PlayStation Net
 
 Instead of crying foul over shrinking margins and pulling the plug, Sony should have built a native, standalone PlayStation Storefront on PC years ago.
 
-If they had launched a proprietary launcher and made their marquee titles completely exclusive to it on day one, PC players would have willingly downloaded it to play games like *Wolverine* on launch day. Sony would have bypassed the 30% middleman tax entirely, secured a direct pipeline to the consumer, and made the PC ecosystem wildly profitable.
+If they had launched a proprietary launcher and made their marquee titles completely exclusive to it on day one, PC players would have willingly downloaded it to play games like *Wolverine* on launch day. Sony would have bypassed the 30% middleman tax entirely, secured a direct pipeline to the consumer, and made the PC ecosystem wildly profitable. Bonus points if they actually introduce cross-buy (like Xbox's Play Anywhere program), that would actually make the storefront even more enticing, and would benefit PlayStation users to jump across PC and PlayStation frequently.
 
   </div>
 </div>
