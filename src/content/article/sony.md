@@ -16,6 +16,7 @@ featured: false
 thumb: /images/uploads/pspc.avif
 author: lyndonguitar
 game: Sony
+slug: instead-of-fleeing-pc-sony-should-have-built-a-day-one-playstation-storefront
 ---
 If you’ve been enjoying the trend of playing major PlayStation hits on your PC rig, the party is officially winding down.
 
