@@ -41,8 +41,11 @@ For two decades, a single corporate juggernaut has held the life simulation genr
 ### **Cons**
 
 🔥 Violently unoptimized and heavily CPU-bound performance will aggressively punish players regardless of CPU specs
+
 🐌 Agonizingly long loading times
+
 🧱 Rampant bugs and issues that constantly remind you that the game is still deeply in the oven
+
 ☁️ The complete lack of cloud saves and controller support alienates the massive handheld PC market
 
 <div class="flex flex-col md:flex-row-reverse items-center gap-6 mb-12 pb-6 border-b border-slate-700">
@@ -57,23 +60,6 @@ However, not everything is exactly the same, Instead, it rebuilds the foundation
 </div>
 
 <div class="flex flex-col md:flex-row-reverse items-center gap-6 mb-12 pb-6 border-b border-slate-700">
-  <img src="" alt="" class="w-full md:w-2/5 rounded shadow" />
-  <div class="flex-1 w-full">
-
-
-
-Let’s get one thing straight right out of the gate: **they completely nailed the character creator system (called the Paramaker).** I have already lost an embarrassing number of hours just tinkering in this menu before even touching the actual gameplay. The sheer comprehensiveness of the toolset surprised me especially for an Early Access release. You aren't just picking from pre-set jawlines or scrolling through five generic noses. You can completely customize the exact mold of specific body parts.
-
-Want to realistically distribute body fat rather than just sliding a master "weight" toggle? Go for it. The UI is remarkably intuitive, giving you the choice to either dial in exact numbers for surgical precision or physically drag features around the model. And crucially, even if you choose the tactile, free-form dragging motion, the game smartly overlays a square grid reference visual. You never lose your sense of proportion. It’s a perfect example in giving players total aesthetic freedom without making the interface feel like a spreadsheet. Even non life sim games should take notes from this one.
-
-  </div>
-</div>
-
-### **Playing God in the ‘Paramaker’**
-
-
-
-<div class="flex flex-col md:flex-row-reverse items-center gap-6 mb-12 pb-6 border-b border-slate-700">
   <img src="/images/uploads/paralives04.avif" alt="" class="w-full md:w-2/5 rounded shadow" />
   <div class="flex-1 w-full">
 
@@ -83,8 +69,6 @@ Want to realistically distribute body fat rather than just sliding a master "wei
 
   </div>
 </div>
-
-
 
 ### **More Complex Character Personalities**
 
@@ -114,8 +98,6 @@ However, the development team has implemented a brilliant stopgap: absolute colo
 <div class="flex flex-col md:flex-row items-center gap-6 mb-12 pb-6 border-b border-slate-700">
   <img src="/images/uploads/paralives01.avif" alt="" class="w-full md:w-2/5 rounded shadow" />
   <div class="flex-1 w-full">
-
-
 
 Now, we have to talk about the ugly side of Early Access. This game is still incomplete and still needs a lot more time in the oven. It is incredibly CPU heavy and violently unoptimized. If the developers intend to reach a wider audience base—specifically the cozy gaming crowd who often play on relatively weak, non-gaming laptops—they have a massive mountain to climb. The performance is currently rough. It lags a lot, and the long loading times are VERY noticeable. Both in loading a game session and also while loading interiors of the buildings you visit.
 
