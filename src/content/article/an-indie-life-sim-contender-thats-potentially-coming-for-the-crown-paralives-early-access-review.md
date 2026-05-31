@@ -28,6 +28,8 @@ gallery:
 ---
 For two decades, a single corporate juggernaut has held the life simulation genre hostage. We’ve been starving for an alternative, living off breadcrumbs and endless expansion packs. Even a sequel for that game series is unlikely. But suddenly, the last two years has been a treat for Life Sim fans. On one side, you have Krafton’s *inZOI* delivering terrifyingly photorealistic, Unreal Engine 5 corporate firepower. And on the other, you have *Paralives*—a new, scrappy, hand-drawn-esque indie game built by people that feels like they understand the soul of the genre. Booting up the freshly dropped Early Access build of *Paralives* feels like stepping into a true modern successor with a touch of Indie flavor. But it is also, undeniably, a very rough draft.
 
+> **Editor’s Note:** This review/preview is based on an Early Access build of *Paralives as of May 2026*. Because the title is still in active development, our assessment reflects the current state of gameplay, mechanics, and technical performance, all of which are subject to change prior to the official retail release.
+
 ### **Pros**
 
 🧬 The entirely unrestrained character creator lets you organically sculpt everything from body fat down to the exact curvature of your character’ nose using intuitive drag-and-drop UI. Not only that but also their personality ranging from sleep schedule to cleaning habits.
