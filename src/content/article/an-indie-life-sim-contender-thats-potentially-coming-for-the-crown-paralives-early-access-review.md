@@ -89,7 +89,11 @@ Furthermore, conversations are significantly more interactive. You are handed ac
   </div>
 </div>
 
-### **The Infinite Wardrobe (With a Catch)**
+One of the most fascinating addition to the *Paralives* formula is the Storyteller system. It’s an ingenious way to handle difficulty modifiers by framing them as distinct personalities watching over your town, like a Director. You pick from predefined "narrators" before you start—like the ruthless Ricardo or a literal dog named Stella. Although you can still customize their to your preferences.
+
+The Storyteller will dictate the baseline rules of your save file or playthrough, adjusting everything from your starting cash to whether your Paras are smart enough to automatically use the bathroom at work. However, they don't just sit in a settings menu. Every night while your Paras sleep, your Storyteller pops up to hand you "Story Cards" to choose from. These cards inject random buffs, narrative curveballs, or fresh objectives that keep the day-to-day routine from ever feeling stale. It ensures that the simulation is doing something for you, either gently pushing back against your plans or giving you a break. It's a massive breath of fresh air for the genre that spices up the life of your Paras in more ways than usual. Again, many things in this game are more gamified and more interactive.
+
+### The Infinite Wardrobe (With a Catch)
 
 Currently, there is undeniably a limited selection of actual items and variants in the game. The architectural foundation is beautiful, but the catalog feels noticeably thin.
 
