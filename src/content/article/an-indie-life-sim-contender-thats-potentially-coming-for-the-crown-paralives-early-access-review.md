@@ -129,6 +129,6 @@ Aside from the general bugs and jankiness that currently exists, the current lac
 
 *Paralives* is already incredibly enjoyable and highly playable in its own unique way, even if for a short bit. Even in its absolute infancy, just populating a room, building a house, or exploring the starting town is already fun. The passion poured into this project is palpable in every hand-drawn shadow and clever UI menu.
 
-**But my definitive recommendation is to wait.**
+**You can absolutely purchase now to support the devs, but my definitive recommendation is to wait before playing,** 
 
 Wait for more optimization updates, or perhaps hold off until the official 1.0 release before you commit to a serious, hundred-hour playthrough. If you want to support the developers and test out the incredible Paramaker, absolutely buy it right now. Provide feedback. Break the systems. But if you are looking to lose yourself in a flawless, seamless second life without fighting the framerate and jank, reserve your full playthrough experience for further down the line. The blueprints for a masterpiece are all here on the table, but the paint is still very wet.
