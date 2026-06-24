@@ -37,15 +37,20 @@ Getting 33 people to agree on anything on the internet usually ends in a chaotic
 
 ### **Pros**
 
-🤝 Frictionless multiplayer mechanics effortlessly herd a max of 33 randoms into a cohesive team 
+🤝 Frictionless multiplayer mechanics effortlessly herd a max of 33 randoms into a cohesive team
+
 ⚔️ Scratches that *Diablo 3* Adventure Mode itch on a massive, shared scale 
+
 🏹 Distinct weapon classes demand real learning curves rather than mindless button-mashing and typical archetypes
+
 💀 High baseline difficulty practically forces camaraderie and organic cooperation
 
 ### **Cons**
 
 🧍‍♂️ Combat feels undeniably stiff and anchors you in place during attack animations 
+
 🌀 Blinding visual clutter makes dodging crucial enemy telegraphs a total guessing game
+
 📉 The shrinking player count leaves later maps feeling awkwardly hollow and lonely 
 
 <div class="flex flex-col md:flex-row-reverse items-center gap-6 mb-12 pb-6 border-b border-slate-700">
@@ -58,8 +63,6 @@ To be more specific, you start in a hub world along with other people in a ‘MM
 
   </div>
 </div>
-
-
 
 From there, your massive army naturally splinters off into smaller groups to tackle localized mini-dungeons called "Torture Chambers" and complete regional objectives, hoarding relics and buffs to power up your character. Once the timer ticks down, the "Wrath of God" physically engulfs the outer map, funneling every single surviving player into one final, chaotic boss fight that demands tight coordination, perfectly timed revives, and heavy use of cooperative combo attacks to secure the win. 
 
