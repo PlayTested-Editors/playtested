@@ -20,8 +20,11 @@ collections:
     create: true
     slug: "{{slug}}"
     preview_path: "article/{{slug}}"
-    sortable_fields: ["draft", "commit_date", "pubDate", "title"]
-    sort: "draft:desc, pubDate:desc"
+    sortable_fields:
+      - { field: pubDate, default_sort: desc }
+      - commit_date
+      - title
+      - draft
     extension: "md"
     fields:
       - { label: "Title", name: "title", widget: "string" }
@@ -71,8 +74,11 @@ collections:
     create: true
     slug: "{{slug}}"
     preview_path: "article/{{slug}}"
-    sortable_fields: ["draft", "commit_date", "pubDate", "title"]
-    sort: "draft:desc, pubDate:desc"
+    sortable_fields:
+      - { field: pubDate, default_sort: desc }
+      - commit_date
+      - title
+      - draft
     extension: "md"
     fields:
       - { label: "Title", name: "title", widget: "string" }
