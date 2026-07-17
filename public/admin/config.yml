@@ -28,7 +28,7 @@ collections:
     slug: "{{slug}}"
     preview_path: "article/{{slug}}"
     sortable_fields: ["draft", "commit_date", "pubDate", "title"]
-    sort: "draft:desc, commit_date:desc"
+    sort: "draft:desc, pubDate:desc"
     extension: "md"
     fields:
       - { label: "Title", name: "title", widget: "string", hint: "Review Title | Game Name Review (e.g. Best Game Ever | Half-Life Review)"  }
@@ -79,7 +79,7 @@ collections:
     slug: "{{slug}}"
     preview_path: "article/{{slug}}"
     sortable_fields: ["draft", "commit_date", "pubDate", "title"]
-    sort: "draft:desc, commit_date:desc"
+    sort: "draft:desc, pubDate:desc"
     extension: "md"
     fields:
       - { label: "Title", name: "title", widget: "string", hint: "Review Title | Game Name Review (e.g. Best Game Ever | Half-Life Review)" }
