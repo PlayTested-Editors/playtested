@@ -277,7 +277,7 @@ if (window.CMS) {
       { name: "image", label: "Image", widget: "image" },
       { name: "alt", label: "Alt Text", widget: "string" },
       { name: "alignment", label: "Image Alignment", widget: "select", options: ["Left", "Right"], default: "Right" },
-      { name: "content", label: "Content", widget: "markdown" },
+      { name: "content", label: "Content", widget: "markdown", editor_components: [] },
     ],
     // Made anchor-less and more flexible with classes/attributes
     pattern: /<div class="flex flex-col (md:flex-row-reverse|md:flex-row)[^>]*>[\s\S]*?<img[\s\S]*?src=["']?([^"'\s>]+)["']?[\s\S]*?alt=["']?([^"']*)["']?[\s\S]*?\/>\s*(?:<div[^>]*>)?\s*([\s\S]*?)\s*(?:<\/div>)?\s*<\/div>/m,
