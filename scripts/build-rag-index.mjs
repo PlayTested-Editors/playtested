@@ -143,9 +143,13 @@ const buildRagIndex = () => {
             const { data, body } = parseFrontmatter(content);
             const filename = path.basename(filePath, path.extname(filePath));
 
-            // Use filename as slug (this matches the actual site routing)
-            // Fix: Normalize double dashes to single dash to match Astro/website routing
-            const slug = filename.replace(/-+/g, '-');
+            // Match the site's routing: Astro uses the frontmatter `slug` override when
+            // present (see article/[slug].astro getStaticPaths -> content.slug), and only
+            // falls back to the filename otherwise. Mirror that here so chatbot links
+            // point at the real URL instead of the filename-derived one.
+            const slug = (data.slug && String(data.slug).trim())
+                ? String(data.slug).trim()
+                : filename.replace(/-+/g, '-');
 
             // Track authors
             if (data.author) {

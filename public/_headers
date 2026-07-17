@@ -1,0 +1,10 @@
+# Cloudflare Pages custom headers
+
+# CMS-uploaded images live at a stable, un-fingerprinted path. Before an image is
+# deployed, a request to its URL returns a 200 HTML fallback that Cloudflare tags with
+# `max-age=14400` (4 hours). When the editor previews an article in /admin/ the image
+# does not exist yet, so the browser caches that fallback and shows a broken image until
+# a hard refresh. Force revalidation on this path so freshly published images load
+# immediately (unchanged images still return a cheap 304 via ETag).
+/images/uploads/*
+  Cache-Control: public, max-age=0, must-revalidate

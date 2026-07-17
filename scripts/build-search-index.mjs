@@ -52,7 +52,12 @@ const buildSearchIndex = () => {
     files.forEach(filePath => {
       const content = fs.readFileSync(filePath, "utf-8");
       const { data, body } = parseFrontmatter(content);
-      const slug = path.basename(filePath, path.extname(filePath));
+      const filename = path.basename(filePath, path.extname(filePath));
+      // Honor the frontmatter `slug` override when present so search links match the
+      // site's routing (see build-rag-index.mjs); otherwise fall back to the filename.
+      const slug = (data.slug && String(data.slug).trim())
+        ? String(data.slug).trim()
+        : filename.replace(/-+/g, '-');
 
       allPosts.push({
         id: slug,
