@@ -45,11 +45,11 @@ Capcom’s RE Engine is firing on all cylinders again, but this time they aren't
 * ⏱️ Campaign that feels drastically too short
 * 🗺️ Ditching interconnected labyrinth maps in favor of disjointed location and short time jumps
 
+Capcom’s in-house tech is usually top-tier, but *Resident Evil: Requiem* is just on another level. This is easily the absolute peak of the RE Engine to date. The graphics are super impressive right out of the gate. The environmental detail in the opening hours is just so thick it practically suffocates you. Capcom really flexes the lighting, the peeling textures, and the grotesque enemy mutations right away, rendering everything with this sickeningly gorgeous realism. Looking back at the screenshots I took during my playthrough, almost every single one legitimately looks like pre-rendered CGI.
+
 <div class="flex flex-col md:flex-row-reverse items-center gap-6 mb-12 pb-6 border-b border-slate-700">
   <img src="/images/uploads/re901.avif" alt="" class="w-full md:w-2/5 rounded shadow" />
   <div class="flex-1 w-full">
-
-Capcom’s in-house tech is usually top-tier, but *Resident Evil: Requiem* is just on another level. This is easily the absolute peak of the RE Engine to date. The graphics are super impressive right out of the gate. The environmental detail in the opening hours is just so thick it practically suffocates you. Capcom really flexes the lighting, the peeling textures, and the grotesque enemy mutations right away, rendering everything with this sickeningly gorgeous realism. Looking back at the screenshots I took during my playthrough, almost every single one legitimately looks like pre-rendered CGI.
 
 For the first time, we get to seamlessly swap between classic third-person and intimate first-person views whenever we want. It’s a massive win for how you experience the horror. You can tailor the claustrophobia to your exact liking, whether you are nervously peeking around a corner or getting ready to blow a bio-weapon's head off. And you can set this option individually for Grace and Leon.
 
