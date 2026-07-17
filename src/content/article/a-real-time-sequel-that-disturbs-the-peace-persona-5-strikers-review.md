@@ -11,7 +11,7 @@ category: review
 tags:
   - PC
   - Console
-featured: false
+featured: true
 thumb: /images/uploads/p5s00.avif
 author: lyndonguitar
 game: Persona 5 Strikers
