@@ -29,6 +29,8 @@ gallery:
   - /images/uploads/omea07.avif
   - /images/uploads/omea00.avif
 ---
+*Editor’s Note: This review/preview is based on an Demo build as of July 2026. Because of this, our assessment reflects the current state of gameplay, mechanics, and technical performance, all of which are subject to change prior to the official retail release with full content available.*
+
 For as long as we’ve played RPGs, we’ve been lying to ourselves about freedom. We boot up massive, triple-A epics boasting "limitless choices," only to find ourselves clicking through the same three or four predetermined dialogue branches. You either play as the saint, the sarcastic mercenary, the funny guy, or whatever. OMEA is the first time in a very long time where I felt the walls of that digital playground actually fall down. It’s an AI-powered narrative adventure where you don't choose from a list—you just say or type what you want to do, and a dynamic Game Master reacts on the fly on the exactly the words you’ve said... It is a wildly ambitious look at what roleplaying could eventually become, even if the current technology still feels a bit rough around the edges.
 
 ### **Pros**
