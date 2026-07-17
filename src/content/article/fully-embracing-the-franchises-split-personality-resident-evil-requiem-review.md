@@ -21,10 +21,9 @@ slug: resident-evil-requiem
 gallery:
   - /images/uploads/re901.avif
   - /images/uploads/re902.avif
-  - /images/uploads/re902.avif
+  - /images/uploads/re905.avif
   - /images/uploads/re903.avif
   - /images/uploads/re904.avif
-  - /images/uploads/re905.avif
   - /images/uploads/re900.avif
   - /images/uploads/re906.avif
   - /images/uploads/re907.avif
