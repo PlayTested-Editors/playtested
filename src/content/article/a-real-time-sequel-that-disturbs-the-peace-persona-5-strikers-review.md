@@ -1,6 +1,6 @@
 ---
 title: "A Real-Time Sequel That Disturbs The Peace | Persona 5 Strikers Review "
-pubDate: 2026-07-18T15:38:00.000+08:00
+pubDate: 2026-07-18T00:30:00.000+08:00
 draft: true
 description: Persona 5 Strikers rolls up not as some cheap, slapped-together
   spin-off, but as Persona 5-2 in everything but name and combat. It trades the
