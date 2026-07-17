@@ -2,7 +2,7 @@
 title: "A must-play narratively driven RPG and technical showcase | Cyberpunk
   2077: Ultimate Edition Review"
 pubDate: 2025-10-08T14:45:00.000+08:00
-draft: true
+draft: false
 description: The stars finally lined up, and I was able to play Cyberpunk 2077
   almost five years after its release. Honestly, I didn’t even know what to
   expect. My hype and expectations for the game have been on a rollercoaster

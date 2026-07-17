@@ -1,5 +1,6 @@
 ---
 import { getCollection, type CollectionEntry } from "astro:content";
+import { isVisible } from "../../../../lib/content";
 import SiteOptions from "../../../../site.config.mjs";
 import BlogLayout from "../../../../layouts/BlogLayout.astro";
 import Header from "../../../../components/Header.astro";
@@ -13,8 +14,8 @@ type CombinedCollectionEntry = CollectionEntry<"article"> | CollectionEntry<"sub
 // 1) Generate dynamic paths for category pages 2…N
 export async function getStaticPaths() {
   const POSTS_PER_PAGE = SiteOptions.postsPerPage ?? 10;
-  const articles = await getCollection("article");
-  const submissions = await getCollection("submissions");
+  const articles = await getCollection("article", isVisible);
+  const submissions = await getCollection("submissions", isVisible);
   const allContent: CombinedCollectionEntry[] = [...articles, ...submissions];
   const categories = new Map<string, any[]>();
   for (const post of allContent) {
@@ -38,8 +39,8 @@ export async function getStaticPaths() {
 const { category, page } = Astro.params;
 const currentPage = Number(page);
 
-const articles = await getCollection("article");
-const submissions = await getCollection("submissions");
+const articles = await getCollection("article", isVisible);
+const submissions = await getCollection("submissions", isVisible);
 const allContent: CombinedCollectionEntry[] = [...articles, ...submissions];
 
 const posts = allContent

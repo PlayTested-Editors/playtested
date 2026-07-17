@@ -1,5 +1,6 @@
 ---
 import { type CollectionEntry, getCollection } from "astro:content";
+import { isVisible } from "../../lib/content";
 import { createHash } from "node:crypto";
 import BlogLayout from "../../layouts/BlogLayout.astro";
 import Header from "../../components/Header.astro";
@@ -15,8 +16,8 @@ type Post = CollectionEntry<"article"> | CollectionEntry<"submissions">;
 
 // 1) Use getStaticPaths to generate a path for every article and submission
 export async function getStaticPaths() {
-  const articles = await getCollection("article");
-  const submissions = await getCollection("submissions");
+  const articles = await getCollection("article", isVisible);
+  const submissions = await getCollection("submissions", isVisible);
   const allContent = [...articles, ...submissions];
 
   return allContent.map((content) => ({
@@ -47,7 +48,7 @@ const titleLines = title.includes("|")
   : [title];
 
 // 3) Fetch all posts for "You might also like" section
-const allPosts = await getCollection("article");
+const allPosts = await getCollection("article", isVisible);
 const featuredPosts = allPosts
   .filter((p) => p.slug !== post.slug && p.data.featured)
   .sort(() => Math.random() - 0.5)

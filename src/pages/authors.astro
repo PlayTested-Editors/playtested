@@ -1,13 +1,14 @@
 ---
 import { getCollection } from "astro:content"
+import { isVisible } from "../lib/content";
 import BlogLayout from "../layouts/BlogLayout.astro"
 import Header from "../components/Header.astro"
 import Footer from "../components/Footer.astro"
 import SiteOptions from "../site.config.mjs"
 
 // Get all articles and extract unique authors
-const articles = await getCollection("article")
-const submissions = await getCollection("submissions")
+const articles = await getCollection("article", isVisible)
+const submissions = await getCollection("submissions", isVisible)
 const allPosts = [...articles, ...submissions]
 const authorMap = new Map()
 

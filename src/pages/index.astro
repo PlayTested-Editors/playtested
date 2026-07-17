@@ -1,5 +1,6 @@
 ---
 import { getCollection, type CollectionEntry } from "astro:content";
+import { isVisible } from "../lib/content";
 import BlogLayout from "../layouts/BlogLayout.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
@@ -8,8 +9,8 @@ import FeaturedCard from "../components/FeaturedCard.astro";
 import SiteOptions from "../site.config.mjs";
 
 // Fetch both collections
-const allArticles = await getCollection("article");
-const allSubmissions = await getCollection("submissions");
+const allArticles = await getCollection("article", isVisible);
+const allSubmissions = await getCollection("submissions", isVisible);
 
 // Combine them into a single array
 type CombinedCollectionEntry =

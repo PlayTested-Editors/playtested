@@ -1,5 +1,6 @@
 ---
 import { getCollection, type CollectionEntry } from "astro:content";
+import { isVisible } from "../lib/content";
 import BlogLayout from "../layouts/BlogLayout.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
@@ -9,8 +10,8 @@ import SiteOptions from "../site.config.mjs";
 type CombinedCollectionEntry = CollectionEntry<"article"> | CollectionEntry<"submissions">;
 
 // Get both collections and combine them
-const articles = await getCollection("article");
-const submissions = await getCollection("submissions");
+const articles = await getCollection("article", isVisible);
+const submissions = await getCollection("submissions", isVisible);
 const allPosts: CombinedCollectionEntry[] = [...articles, ...submissions];
 
 // Get all unique categories from the combined posts

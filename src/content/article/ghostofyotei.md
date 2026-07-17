@@ -1,7 +1,7 @@
 ---
 title: Masterclass in Anti-Fatigue Open World Design | Ghost of Yotei Review
 pubDate: 2025-10-20T12:23:00.000+08:00
-draft: true
+draft: false
 description: Ghost of Yotei, the newest installment in the acclaimed feudal
   Japan action series, shifts the stage to Ezo/Hokkaido Japan, introducing a new
   protagonist, Atsu, and a razor-sharp revenge narrative. Set during a

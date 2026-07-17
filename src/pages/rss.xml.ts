@@ -1,8 +1,9 @@
 import rss from '@astrojs/rss';
 import { getCollection } from 'astro:content';
+import { isVisible } from "../lib/content";
 
 export const GET = async ({ site }) => {
-  const posts = await getCollection('article');
+  const posts = await getCollection('article', isVisible);
   const items = posts
     .sort((a, b) => +b.data.pubDate - +a.data.pubDate)
     .map((p) => ({

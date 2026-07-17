@@ -1,7 +1,7 @@
 ---
 title: Short, Stacked, and Absolutely Stellar | Dispatch Review
 pubDate: 2026-01-05T01:59:00.000+08:00
-draft: true
+draft: false
 description: How is it possible that a short game like Dispatch is this
   jam-packed with absolutely cool, hilarious, and outright epic moments? A lot
   of “short” narrative games feel like extended demos or proof-of-concept

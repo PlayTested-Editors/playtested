@@ -2,7 +2,7 @@
 title: Fully Embracing the Franchise's Split Personality | Resident Evil Requiem
   Review
 pubDate: 2026-07-17T11:27:00.000+08:00
-draft: true
+draft: false
 description: Resident Evil Requiem throws you into a gorgeous, terrifying
   experiment that mashes the creeping, claustrophobic terror of the modern
   titles right up against the heavy-hitting, battle-tested action of the

@@ -1,5 +1,6 @@
 ---
 import { getCollection } from "astro:content";
+import { isVisible } from "../lib/content";
 
 interface Props {
   id?: string;
@@ -28,8 +29,8 @@ const qrValue = url.href;
 // Fetch featured articles for Home card from BOTH collections
 let featuredArticles: any[] = [];
 if (type === "home") {
-  const articles = await getCollection("article");
-  const submissions = await getCollection("submissions");
+  const articles = await getCollection("article", isVisible);
+  const submissions = await getCollection("submissions", isVisible);
   const allPosts = [...articles, ...submissions];
   featuredArticles = allPosts
     .filter((p) => p.data.featured)

@@ -1,8 +1,9 @@
 import { getCollection } from "astro:content";
+import { isVisible } from "../lib/content";
 
 export async function GET() {
-  const articles = await getCollection("article");
-  const submissions = await getCollection("submissions");
+  const articles = await getCollection("article", isVisible);
+  const submissions = await getCollection("submissions", isVisible);
   const allPosts = [...articles, ...submissions];
 
   const searchIndex = allPosts.map((post) => ({

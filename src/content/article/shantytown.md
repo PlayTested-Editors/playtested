@@ -2,7 +2,7 @@
 title: Innocently taps into your creative side in a way that feels effortless |
   ShantyTown Review
 pubDate: 2026-05-01T13:46:00.000+08:00
-draft: true
+draft: false
 description: ShantyTown is a creative, stress-free puzzle game that also happens
   to be a bite-sized city builder. Eschewing the complex logistics of power
   grids, budgetary concerns, or population happiness, it focuses on the simple,

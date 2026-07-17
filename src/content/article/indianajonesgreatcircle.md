@@ -2,7 +2,7 @@
 title: Just Like The Movies, Might Even Be Better | Indiana Jones and the Great
   Circle Review
 pubDate: 2024-12-24
-draft: true
+draft: false
 description: Indiana Jones and the Great Circle surprises with its effective
   first-person perspective, engaging puzzles, and a combat style that perfectly
   captures Indy’s character, despite some rudimentary gameplay elements.

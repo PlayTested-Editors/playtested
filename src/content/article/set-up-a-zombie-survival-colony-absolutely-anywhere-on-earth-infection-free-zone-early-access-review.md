@@ -2,7 +2,7 @@
 title: Set up a zombie survival colony absolutely anywhere on Earth | Infection
   Free Zone Early Access Review
 pubDate: 2026-07-17T09:32:00.000+08:00
-draft: true
+draft: false
 description: Infection Free Zone is a real-time strategy title uses open-source
   real-world map data to let you set up a zombie survival colony absolutely
   anywhere on Earth, using REAL LIFE maps. When the menu first booted up and

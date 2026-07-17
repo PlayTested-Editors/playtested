@@ -1,0 +1,43 @@
+name: Scheduled Publish
+
+# The site is static, so a post with a future `pubDate` isn't live until a build
+# runs after its time. This checks every 30 min whether a scheduled post has
+# become due but isn't live yet, and only then triggers a Cloudflare Pages
+# rebuild (via a deploy hook). No due post => no build, so it barely touches the
+# monthly build quota.
+
+on:
+  schedule:
+    - cron: "*/30 * * * *"
+  workflow_dispatch:
+
+jobs:
+  publish-due:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Check for due-but-unpublished posts
+        id: check
+        env:
+          SITE: https://playtested.net
+        run: node .github/scripts/check-scheduled.mjs
+
+      - name: Publish due post(s)
+        if: steps.check.outputs.due == 'true'
+        env:
+          HOOK: ${{ secrets.CF_DEPLOY_HOOK }}
+        run: |
+          if [ -z "$HOOK" ]; then
+            echo "::warning::CF_DEPLOY_HOOK secret not set — cannot rebuild. Add it under Settings > Secrets and variables > Actions."
+            exit 0
+          fi
+          echo "A scheduled post is due — triggering Cloudflare Pages rebuild."
+          curl -fsS -X POST "$HOOK" > /dev/null
+          echo "Waiting 5 min for the deploy, then refreshing the AI vector index..."
+          sleep 300
+          curl -fsS https://playtested.net/api/seed > /dev/null || echo "vector reseed failed (non-fatal)"
+          echo "Done."

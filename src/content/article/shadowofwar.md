@@ -1,7 +1,7 @@
 ---
 title: From Bad First Impression to Favorite | Shadow of War - Review
 pubDate: 2025-09-18T22:31:00.000+08:00
-draft: true
+draft: false
 description: "Middle-earth: Shadow of War is a triumphant action RPG built on a
   foundation of compelling systems. The game's addictive Nemesis, Follower, and
   Fortress systems create a cycle of conquest and personal narrative that makes

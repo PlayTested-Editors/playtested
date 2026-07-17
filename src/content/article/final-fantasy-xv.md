@@ -2,7 +2,7 @@
 title: Beautiful, atmospheric, but still a missed opportunity | Final Fantasy XV
   Review
 pubDate: 2026-05-02T00:21:00.000+08:00
-draft: true
+draft: false
 description: The legacy of Final Fantasy has always been defined by evolution,
   but few shifts were as seismic as the move from the strategic, menu-driven
   command systems of the past to the frantic, real-time action of the modern

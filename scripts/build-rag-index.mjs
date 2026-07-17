@@ -141,6 +141,14 @@ const buildRagIndex = () => {
         files.forEach(filePath => {
             const content = fs.readFileSync(filePath, "utf-8");
             const { data, body } = parseFrontmatter(content);
+
+            // Skip drafts and future-scheduled posts (mirrors src/lib/content.ts isVisible)
+            if (String(data.draft).toLowerCase() === "true") return;
+            if (data.pubDate) {
+                const _pub = new Date(data.pubDate);
+                if (!isNaN(_pub.getTime()) && _pub.getTime() > Date.now()) return;
+            }
+
             const filename = path.basename(filePath, path.extname(filePath));
 
             // Match the site's routing: Astro uses the frontmatter `slug` override when

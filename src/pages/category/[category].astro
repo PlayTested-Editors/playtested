@@ -1,5 +1,6 @@
 ---
 import { getCollection, type CollectionEntry } from "astro:content";
+import { isVisible } from "../../lib/content";
 import SiteOptions from "../../site.config.mjs";
 import BlogLayout from "../../layouts/BlogLayout.astro";
 import Header from "../../components/Header.astro";
@@ -11,8 +12,8 @@ const POSTS_PER_PAGE = SiteOptions.postsPerPage ?? 10;
 type CombinedCollectionEntry = CollectionEntry<"article"> | CollectionEntry<"submissions">;
 
 export async function getStaticPaths() {
-  const articles = await getCollection("article");
-  const submissions = await getCollection("submissions");
+  const articles = await getCollection("article", isVisible);
+  const submissions = await getCollection("submissions", isVisible);
   const allContent: CombinedCollectionEntry[] = [...articles, ...submissions];
   const allCategories = Array.from(new Set(
     allContent.map(p => p.data.category?.toLowerCase().replace(/\s+/g, "-")).filter(Boolean)
@@ -21,8 +22,8 @@ export async function getStaticPaths() {
 }
 
 const { category } = Astro.params;
-const articles = await getCollection("article");
-const submissions = await getCollection("submissions");
+const articles = await getCollection("article", isVisible);
+const submissions = await getCollection("submissions", isVisible);
 const allContent: CombinedCollectionEntry[] = [...articles, ...submissions];
 
 const postsInCat = allContent

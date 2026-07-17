@@ -1,7 +1,7 @@
 ---
 title: The King of Rogue-lites is Back and More Fun Than Ever | Hades II Review
 pubDate: 2025-12-05T21:43:00.000+08:00
-draft: true
+draft: false
 description: "How do you follow up a game that redefined its genre and was
   universally praised as a modern masterpiece? In Hades II, Supergiant Games has
   answered that impossible question with a resounding success. The original

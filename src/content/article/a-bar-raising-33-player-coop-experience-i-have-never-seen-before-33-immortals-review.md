@@ -2,7 +2,7 @@
 title: A Bar Raising 33-Player Coop Experience I Have Never Seen Before | 33
   Immortals Review
 pubDate: 2026-06-24T21:09:00.000+08:00
-draft: true
+draft: false
 description: "33 Immortal's setup is simple: you and 32 other players drop into
   a sprawling map with one goal—survive, gear up, and take down a massive boss.
   It structurally borrows a lot from the Battle Royale genre, but flips the

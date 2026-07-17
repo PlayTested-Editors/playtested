@@ -1,7 +1,7 @@
 ---
 title: An Extraction Shooter That Respects Your Time And Money | Arc Raiders Review
 pubDate: 2026-01-20T07:21:00.000+08:00
-draft: true
+draft: false
 description: Arc Raiders is a third-person extraction shooter that drops players
   into a sci-fi post-apocalyptic world dominated by ruthless ‘Arc” machines.
   Unlike the grueling marathons of its contemporaries, it offers a refined,

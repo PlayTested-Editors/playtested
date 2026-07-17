@@ -1,5 +1,6 @@
 ---
 import { getCollection, type CollectionEntry } from "astro:content";
+import { isVisible } from "../../lib/content";
 import BlogLayout from "../../layouts/BlogLayout.astro";
 import Header from "../../components/Header.astro";
 import Footer from "../../components/Footer.astro";
@@ -15,8 +16,8 @@ type CombinedCollectionEntry = CollectionEntry<"article"> | CollectionEntry<"sub
 // Required for dynamic route generation
 export async function getStaticPaths() {
   const POSTS_PER_PAGE = SiteOptions.postsPerPage ?? 10;
-  const articles = await getCollection("article");
-  const submissions = await getCollection("submissions");
+  const articles = await getCollection("article", isVisible);
+  const submissions = await getCollection("submissions", isVisible);
   const allContent: CombinedCollectionEntry[] = [...articles, ...submissions];
 
   const tagSet = new Set<string>();
@@ -35,8 +36,8 @@ export async function getStaticPaths() {
 
 // Runtime logic
 const { tag } = Astro.params as { tag: string };
-const articles = await getCollection("article");
-const submissions = await getCollection("submissions");
+const articles = await getCollection("article", isVisible);
+const submissions = await getCollection("submissions", isVisible);
 const allContent: CombinedCollectionEntry[] = [...articles, ...submissions];
 
 // filter using the *same* normalization

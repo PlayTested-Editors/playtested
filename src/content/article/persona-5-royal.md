@@ -1,7 +1,7 @@
 ---
 title: The King of JRPGs | Persona 5 Royal Review
 pubDate: 2026-01-27T13:55:00.000+08:00
-draft: true
+draft: false
 description: Persona 5 Royal is the definitive edition of Atlus's award-winning
   JRPG, thrusting players into the double life of a high school student in
   modern-day Tokyo. By day, you navigate the complexities of teenage life –

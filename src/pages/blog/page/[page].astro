@@ -1,5 +1,6 @@
 ---
 import { getCollection, type CollectionEntry } from "astro:content";
+import { isVisible } from "../../../lib/content";
 import SiteOptions from "../../../site.config.mjs";
 import BlogLayout from "../../../layouts/BlogLayout.astro";
 import Header from "../../../components/Header.astro";
@@ -16,8 +17,8 @@ type CombinedCollectionEntry = CollectionEntry<"article"> | CollectionEntry<"sub
 // Required for dynamic route generation
 export async function getStaticPaths() {
   const POSTS_PER_PAGE = SiteOptions.postsPerPage ?? 10;
-  const articles = await getCollection("article");
-  const submissions = await getCollection("submissions");
+  const articles = await getCollection("article", isVisible);
+  const submissions = await getCollection("submissions", isVisible);
   const allContent: CombinedCollectionEntry[] = [...articles, ...submissions];
   const totalPages = Math.ceil(allContent.length / POSTS_PER_PAGE);
   return Array.from({ length: totalPages }, (_, i) => ({
@@ -30,8 +31,8 @@ const { page } = Astro.params;
 const currentPage = Number(page);
 
 // Fetch & sort newest → oldest
-const articles = await getCollection("article");
-const submissions = await getCollection("submissions");
+const articles = await getCollection("article", isVisible);
+const submissions = await getCollection("submissions", isVisible);
 const allPosts: CombinedCollectionEntry[] = [...articles, ...submissions];
 
 const sortedPosts = allPosts.sort(

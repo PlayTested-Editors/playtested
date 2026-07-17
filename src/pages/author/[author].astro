@@ -1,5 +1,6 @@
 ---
 import { type CollectionEntry, getCollection } from "astro:content"
+import { isVisible } from "../../lib/content";
 import BlogLayout from "../../layouts/BlogLayout.astro"
 import Header from "../../components/Header.astro"
 import Footer from "../../components/Footer.astro"
@@ -8,8 +9,8 @@ import SiteOptions from "../../site.config.mjs"
 
 export async function getStaticPaths() {
   // 1. Fetch both collections
-  const articles = await getCollection("article");
-  const submissions = await getCollection("submissions");
+  const articles = await getCollection("article", isVisible);
+  const submissions = await getCollection("submissions", isVisible);
 
   // 2. Merge them into a single array
   const allPosts = [...articles, ...submissions];
