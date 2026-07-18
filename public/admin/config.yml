@@ -36,7 +36,7 @@ collections:
     fields:
       - { label: "Title", name: "title", widget: "string", hint: "Review Title | Game Name Review (e.g. Best Game Ever | Half-Life Review)"  }
       - { label: "Publish Date", name: "pubDate", widget: "datetime", hint: "You can backdate this to older dates (From when you wrote the review or played the game)"  }
-      - { label: "Draft", name: "draft", widget: "boolean", default: true }
+      - { label: "Draft", name: "draft", widget: "boolean", default: false }
       - { label: "Description", name: "description", widget: "text", hint: "Write a short one paragraph summary or copy paste the first/second paragraph of your review" }
 
       # Category: dropdown (required)
@@ -90,7 +90,7 @@ collections:
     fields:
       - { label: "Title", name: "title", widget: "string", hint: "Review Title | Game Name Review (e.g. Best Game Ever | Half-Life Review)" }
       - { label: "Publish Date", name: "pubDate", widget: "datetime", hint: "You can backdate this to older dates (From when you wrote the review or played the game)"  }
-      - { label: "Draft", name: "draft", widget: "boolean", default: true }
+      - { label: "Draft", name: "draft", widget: "boolean", default: false }
       - { label: "Description", name: "description", widget: "text", hint: "Write a short one paragraph summary or copy paste the first/second paragraph of your review"  }
 
       # Category: dropdown (required)

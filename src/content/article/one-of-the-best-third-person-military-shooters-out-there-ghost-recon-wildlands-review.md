@@ -2,7 +2,7 @@
 title: One of the best Third Person Military Shooters out there | Ghost Recon
   Wildlands Review
 pubDate: 2026-07-24T18:14:00.000+08:00
-draft: true
+draft: false
 description: Ghost Recon Wildlands is a massive, open-world tactical shooter
   that drops you and up to three friends (or AI squadmates) behind enemy lines
   in a beautiful but deadly recreation of Bolivia. Your overarching goal is to

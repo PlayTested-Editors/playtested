@@ -43,7 +43,6 @@ const dueSlugs = [];
 for (const dir of dirs) {
   for (const file of walk(dir)) {
     const d = frontmatter(fs.readFileSync(file, "utf8"));
-    if (String(d.draft).toLowerCase() === "true") continue;
     if (!d.pubDate) continue;
     const t = new Date(d.pubDate).getTime();
     if (isNaN(t) || t > now) continue; // future-scheduled → not due yet

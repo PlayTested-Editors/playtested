@@ -1,7 +1,7 @@
 ---
 title: A Wild Ride That Earns the Number | 007 First Light Review
 pubDate: 2026-07-19T17:26:00.000+08:00
-draft: true
+draft: false
 description: We finally have a new James Bond game in 007 First Light, and it
   completely blew past my expectations. Everyone assumed the studio behind the
   modern Hitman trilogy would just slap a tuxedo on Agent 47 and call it a day,

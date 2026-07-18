@@ -29,7 +29,7 @@ collections:
     fields:
       - { label: "Title", name: "title", widget: "string" }
       - { label: "Publish Date", name: "pubDate", widget: "datetime" }
-      - { label: "Draft", name: "draft", widget: "boolean", default: true }
+      - { label: "Draft", name: "draft", widget: "boolean", default: false }
       - { label: "Description", name: "description", widget: "text" }
 
       # Category: dropdown (required)
@@ -83,7 +83,7 @@ collections:
     fields:
       - { label: "Title", name: "title", widget: "string" }
       - { label: "Publish Date", name: "pubDate", widget: "datetime" }
-      - { label: "Draft", name: "draft", widget: "boolean", default: true }
+      - { label: "Draft", name: "draft", widget: "boolean", default: false }
       - { label: "Description", name: "description", widget: "text" }
 
       # Category: dropdown (required)

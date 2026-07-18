@@ -142,8 +142,7 @@ const buildRagIndex = () => {
             const content = fs.readFileSync(filePath, "utf-8");
             const { data, body } = parseFrontmatter(content);
 
-            // Skip drafts and future-scheduled posts (mirrors src/lib/content.ts isVisible)
-            if (String(data.draft).toLowerCase() === "true") return;
+            // Skip future-scheduled posts (mirrors src/lib/content.ts isVisible)
             if (data.pubDate) {
                 const _pub = new Date(data.pubDate);
                 if (!isNaN(_pub.getTime()) && _pub.getTime() > Date.now()) return;
