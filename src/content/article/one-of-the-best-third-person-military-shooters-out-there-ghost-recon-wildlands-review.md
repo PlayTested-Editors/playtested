@@ -65,7 +65,7 @@ As someone who has played a lot of hardcore milsims like *Arma*, this game manag
   </div>
 </div>
 
-###  **Fluid Gunplay and Combat, Except for the Grenades…**
+### **Fluid Gunplay and Combat, Except for the Grenades…**
 
 When it comes to the actual combat, the gunplay easily holds its own against the best third-person shooters on the market. The movement system is super fluid, largely thanks to a highly intuitive automated cover system. As long as you are crouched near a wall or a barrier, your character naturally snaps to it, making it really easy to peek corners and manage sightlines without getting glued to the geometry.
 
@@ -99,7 +99,7 @@ Unfortunately, the stealth detection mechanics feel a bit dated. The alarm syste
   <img src="/images/uploads/grwl007.avif" alt="" class="w-full md:w-2/5 rounded shadow" />
   <div class="flex-1 w-full">
 
-While the single-player experience with the AI squad is great, *Wildlands* truly shines when you bring in a friend, largely because it features one of the most player-friendly co-op systems I've ever seen.
+While the single-player experience with the AI squad is great, *Wildlands* also shines when you bring in a friend, largely because it features one of the most player-friendly co-op system progressions I've ever seen.
 
 Ubisoft completely understood that friends aren't always going to be at the exact same point in the story. In which many games don’t get. In other games, it’s either friends leave each other behind in the story, or they wait for each other’s schedules clear up to even play.
 
