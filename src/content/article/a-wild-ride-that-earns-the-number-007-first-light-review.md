@@ -56,10 +56,14 @@ I’m going to start by saying that the combat system in *First Light* is absolu
   <img src="/images/uploads/07fl04.avif" alt="" class="w-full md:w-2/5 rounded shadow" />
   <div class="flex-1 w-full">
 
-The hand-to-hand melee is arguably the best part. It perfectly captures that haphazardly reckless, yet completely lethal vibe of James Bond, or maybe even action films in general. You aren't just mashing an attack button; you are actively using the environment to absolutely brutalize enemies. You can shove guys into shelves, smash them through decorative glass, throw random items scattered around the room, or just heave them over railings. Every single hit carries this immense weight and gravitas. It feels incredibly grounded. Even the gunplay feeds into this chaotic energy—there is nothing quite as satisfying as emptying a magazine and then physically throwing the empty gun at a mercenary’s head to close the distance, then sprinting towards him to throw him out the window, getting his pistol, shooting another guy's hand and his assault rifle gets thrown into the air, you catch it, and you spray everyone down. It is raw, messy action movie perfection.
+The hand-to-hand melee is arguably the best part. It perfectly captures that haphazardly reckless, yet completely lethal vibe of James Bond, or maybe even action films in general. You aren't just mashing an attack button; you are actively using the environment to absolutely brutalize enemies. You can shove guys into shelves, smash them through decorative glass, throw random items scattered around the room, or just heave them over railings. 
+
+Every single hit carries this immense weight and gravitas. It feels incredibly grounded. Even the gunplay feeds into this chaotic energy—there is nothing quite as satisfying as emptying a magazine and then physically throwing the empty gun at a mercenary’s head to close the distance, then sprinting towards him to throw him out the window, getting his pistol, shooting another guy's hand and his assault rifle gets thrown into the air, you catch it, and you spray everyone down. It is raw, messy action movie perfection. This is hands down the best action shooter combat I've played in years.
 
   </div>
 </div>
+
+
 
 ### **Escaping Agent 47’s Shadow**
 
