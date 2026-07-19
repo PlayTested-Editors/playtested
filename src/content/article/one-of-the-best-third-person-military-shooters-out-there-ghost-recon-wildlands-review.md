@@ -30,6 +30,7 @@ gallery:
   - /images/uploads/grwl005.avif
   - /images/uploads/grwl006.avif
   - /images/uploads/grwl007.avif
+score: 8.5
 ---
 My history with *Ghost Recon Wildlands* is a long, drawn-out saga. I actually played the beta back in 2017 right before launch, but didn't touch the full game until 2021. During that first full game attempt, I dropped it almost immediately. I took one look at the sheer size of the map, the endless icons of Buchons, and the incredibly grindy progression system required to unlock basic attachments and perks, and I just completely bounced off it. The Ubisoft open-world bloat totally overwhelmed me.
 
