@@ -25,6 +25,7 @@ gallery:
   - /images/uploads/p5s05.avif
   - /images/uploads/p5s06.avif
   - /images/uploads/p5s07.avif
+score: 9
 ---
 After dropping over a hundred hours into the masterpiece that was *Persona 5 Royal*, you'd think we'd all be burned out on the Phantom Thieves, especially after the Royal Edition. But Atlus wasn't done. *Persona 5 Strikers* rolls up not as some cheap, slapped-together spin-off, but as *Persona 5-2* in everything but name and combat. It trades the turn-based menus for frantic real-time action, giving us a summer road trip that feels incredibly refreshing, tightly focused, and surprisingly essential to the overall lore.
 
