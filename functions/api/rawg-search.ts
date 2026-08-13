@@ -18,7 +18,7 @@ export const onRequestGet: PagesFunction = async ({ request, env }) => {
 
   const r = await fetch(apiUrl, {
     headers: {
-      "User-Agent": "PlayTested/1.0 (contact@playtested.net)",
+      "User-Agent": "PlayTested/1.0 (lyndon@playtested.net)",
       // If your RAWG dashboard restricts to certain domains, these help locally:
       "Referer": "https://playtested.net",
       "Origin":  "https://playtested.net",
