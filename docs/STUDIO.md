@@ -63,6 +63,22 @@ The free plan allows 100,000 Worker requests per day, **shared by every Worker o
   - The mode can be forced from the studio.
 - Optional alert webhook (Discord/Slack) when the mode changes.
 
+### D1 read budget
+
+D1's free plan allows **5M rows read and 100k rows written per day, for the whole account** (every database counts, including other projects). "Rows read" counts every row a query scans, not just the rows it returns.
+
+- **Every query must use an index.** Check new queries with `EXPLAIN QUERY PLAN`: `SEARCH … USING INDEX` is fine, while `SCAN <table>` on a big table is not.
+- **Search passages are keyed by rowid** (`doc_id * 100 + chunk`). Never filter `search_fts` by `slug`, because FTS5 columns can't be indexed.
+- **Writing FTS5 rows is read-heavy:** about 3k reads per article, because segment merges count as reads. A publish is fine. A full re-index done article by article is not: it cost about 2.2M reads on 2026-10-05.
+- **Measure before and after any bulk operation:** `npx wrangler d1 insights playtested-dev --sort-by=reads --timePeriod=1h`. Wait a few minutes before trusting it, because the numbers lag.
+- **Measured steady-state costs:**
+  - search: ~300 reads
+  - AI answer / Ask this review: ~300
+  - studio list view: ~50–100
+  - publish: ~3k
+  - idle 10-minute job: ~5
+- **The watchdog** steps the site down at 60% and 85% of any daily quota, D1 included.
+
 ## Setup (secrets)
 
 Worker secrets are set with `npx wrangler secret put NAME`, run in the project folder. Values never go in git.
