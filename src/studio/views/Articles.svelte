@@ -16,7 +16,7 @@
     ["published", "Published"],
   ] as const;
 
-  let data = $state<{ articles: ArticleSummary[]; names: Record<string, string>; total: number; page: number; pageSize: number; counts: Record<string, number> } | null>(null);
+  let data = $state<{ articles: ArticleSummary[]; names: Record<string, string>; total: number | null; hasMore: boolean; page: number; pageSize: number; counts: Record<string, number> } | null>(null);
   let categories = $state<{ value: string; count: number }[]>([]);
   let loading = $state(false);
   let q = $state(route.query.get("q") || "");
@@ -68,7 +68,6 @@
     }
   }
 
-  let pages = $derived(data ? Math.max(1, Math.ceil(data.total / data.pageSize)) : 1);
 </script>
 
 <div class="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
@@ -152,12 +151,12 @@
     {/if}
   </div>
 
-  {#if data && pages > 1}
+  {#if data && (page > 1 || data.hasMore)}
     <div class="mt-4 flex items-center justify-between text-sm">
-      <p class="text-slate-500">{data.total.toLocaleString()} articles · page {page} of {pages}</p>
+      <p class="text-slate-500">{data.total !== null ? `${data.total.toLocaleString()} articles · ` : ""}page {page}</p>
       <div class="flex gap-2">
         <button class="btn-secondary" disabled={page <= 1} onclick={() => setParam({ page: String(page - 1) })}>Previous</button>
-        <button class="btn-secondary" disabled={page >= pages} onclick={() => setParam({ page: String(page + 1) })}>Next</button>
+        <button class="btn-secondary" disabled={!data.hasMore} onclick={() => setParam({ page: String(page + 1) })}>Next</button>
       </div>
     </div>
   {/if}

@@ -16,10 +16,21 @@ export type Level = 0 | 1 | 2;
 export type DegradeMode = "auto" | "normal" | "conserve" | "essential";
 export type Feature = "chat" | "summary" | "search" | "recommend" | "compare" | "askReview" | "comments" | "liveFallback";
 
+export interface UsageMetric {
+  label: string;
+  used: number;
+  limit: number;
+}
+
 export interface UsageSnapshot {
   day: string;
+  /** Worker + Pages Functions requests today (account-wide). */
   total: number;
   byScript: Record<string, number>;
+  /** Every free-plan daily quota the watchdog tracks, including requests. */
+  metrics?: Record<string, UsageMetric>;
+  /** The quota closest to its limit. */
+  worst?: { key: string; pct: number };
   checkedAt: number;
   error?: string;
 }

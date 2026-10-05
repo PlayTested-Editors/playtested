@@ -247,7 +247,7 @@ route("GET", "/articles", "contributor", async (c) => {
     where.push("live_json IS NOT NULL AND pub_date > ?");
     args.push(now());
   } else if (state === "pending") {
-    where.push("live_json IS NOT NULL AND state != 'published'");
+    where.push("state IN ('draft', 'in_review', 'changes_requested', 'approved') AND live_json IS NOT NULL");
   } else if (state === "unpublished") {
     where.push("live_json IS NULL");
   } else if (state) {
@@ -278,26 +278,35 @@ route("GET", "/articles", "contributor", async (c) => {
   const page = Math.max(Number(p.get("page")) || 1, 1);
   const whereSql = where.length ? `WHERE ${where.join(" AND ")}` : "";
 
-  const [rows, total, counts, scheduled, pending] = await c.env.DB.batch([
-    c.env.DB.prepare(`SELECT * FROM articles ${whereSql} ORDER BY ${sort} LIMIT ? OFFSET ?`).bind(...args, pageSize, (page - 1) * pageSize),
-    c.env.DB.prepare(`SELECT COUNT(*) AS n FROM articles ${whereSql}`).bind(...args),
-    c.env.DB.prepare("SELECT state, COUNT(*) AS n FROM articles GROUP BY state"),
-    c.env.DB.prepare("SELECT COUNT(*) AS n FROM articles WHERE live_json IS NOT NULL AND pub_date > ?").bind(now()),
-    c.env.DB.prepare("SELECT COUNT(*) AS n FROM articles WHERE live_json IS NOT NULL AND state != 'published'"),
+  // Every query here reads through an index, so a list view costs roughly
+  // the rows it shows, not the whole table (D1 free plan: 5M rows read/day).
+  // No total COUNT(*): paging uses pageSize + 1 to know if there's more.
+  const [rows, counts, scheduled, pending] = await c.env.DB.batch([
+    c.env.DB.prepare(`SELECT * FROM articles ${whereSql} ORDER BY ${sort} LIMIT ? OFFSET ?`).bind(...args, pageSize + 1, (page - 1) * pageSize),
+    c.env.DB.prepare("SELECT state, COUNT(*) AS n FROM articles WHERE state IN ('draft', 'in_review', 'changes_requested', 'approved') GROUP BY state"),
+    c.env.DB.prepare("SELECT COUNT(*) AS n FROM articles WHERE pub_date > ? AND live_json IS NOT NULL").bind(now()),
+    c.env.DB.prepare("SELECT COUNT(*) AS n FROM articles WHERE state IN ('draft', 'in_review', 'changes_requested', 'approved') AND live_json IS NOT NULL"),
   ]);
-  const list = (rows.results as ArticleRow[]).map(rowSummary);
+  const all = rows.results as ArticleRow[];
+  const list = all.slice(0, pageSize).map(rowSummary);
   const names = await userNames(c.env, list.flatMap((a) => [a.updatedBy, a.createdBy]));
+  const stateCounts = Object.fromEntries((counts.results as { state: string; n: number }[]).map((r) => [r.state, r.n]));
+  const extra = {
+    scheduled: (scheduled.results[0] as { n: number }).n,
+    pending: (pending.results[0] as { n: number }).n,
+  };
+  // A total is only known (cheaply) for the in-progress tabs.
+  const total = !q && !p.get("category") && !p.get("author") && p.get("mine") !== "1" && state
+    ? ((stateCounts as Record<string, number>)[state] ?? (extra as Record<string, number>)[state] ?? null)
+    : null;
   return json({
     articles: list,
     names,
-    total: (total.results[0] as { n: number }).n,
+    total,
+    hasMore: all.length > pageSize,
     page,
     pageSize,
-    counts: {
-      ...Object.fromEntries((counts.results as { state: string; n: number }[]).map((r) => [r.state, r.n])),
-      scheduled: (scheduled.results[0] as { n: number }).n,
-      pending: (pending.results[0] as { n: number }).n,
-    },
+    counts: { ...stateCounts, ...extra },
   });
 });
 
@@ -418,6 +427,7 @@ route("POST", "/articles/:id/publish", "chief", async (c, m) => {
   }
   const published = await markPublished(c.env, c.user!, row, data, hash, commit);
   await recordDeploy(c.env, "publish", "requested", { commit: commit.sha, userId: c.user!.id, message: data.title });
+  c.waitUntil(c.env.CACHE.delete(META_CACHE_KEY));
   c.waitUntil(indexArticle(c.env, data, hash).catch((e) => console.error("index failed", e)));
   return json({ ...(await articleDetail(c, published)), commit });
 });
@@ -512,7 +522,11 @@ route("POST", "/notes/:id/resolve", "contributor", async (c, m) => {
   return json(await articleDetail(c, (await getArticle(c.env, note.article_id))!));
 });
 
+const META_CACHE_KEY = "studio:meta:v1";
+
 route("GET", "/meta", "contributor", async (c) => {
+  const cached = await c.env.CACHE.get(META_CACHE_KEY);
+  if (cached) return json(JSON.parse(cached));
   const [cats, tags, authors] = await c.env.DB.batch([
     c.env.DB.prepare("SELECT category AS v, COUNT(*) AS n FROM articles WHERE category IS NOT NULL GROUP BY category ORDER BY n DESC"),
     c.env.DB.prepare(
@@ -521,7 +535,9 @@ route("GET", "/meta", "contributor", async (c) => {
     c.env.DB.prepare("SELECT author AS v, COUNT(*) AS n FROM articles WHERE author IS NOT NULL GROUP BY author ORDER BY n DESC"),
   ]);
   const pick = (r: D1Result) => (r.results as { v: string; n: number }[]).map((x) => ({ value: x.v, count: x.n }));
-  return json({ categories: pick(cats), tags: pick(tags), authors: pick(authors) });
+  const meta = { categories: pick(cats), tags: pick(tags), authors: pick(authors) };
+  await c.env.CACHE.put(META_CACHE_KEY, JSON.stringify(meta), { expirationTtl: 6 * 3600 });
+  return json(meta);
 });
 
 // ---------------------------------------------------------------------------
@@ -731,7 +747,7 @@ route("GET", "/comments", "editor", async (c) => {
        FROM comments m JOIN commenters c ON c.id = m.commenter_id LEFT JOIN articles a ON a.slug = m.slug
        ${where} ORDER BY m.created_at DESC LIMIT 50 OFFSET ?`,
     ).bind(...args, (page - 1) * 50),
-    c.env.DB.prepare("SELECT status, COUNT(*) AS n FROM comments GROUP BY status"),
+    c.env.DB.prepare("SELECT 'pending' AS status, COUNT(*) AS n FROM comments WHERE status = 'pending'"),
   ]);
   return json({
     comments: rows.results,
@@ -766,18 +782,19 @@ route("PATCH", "/commenters/:id", "chief", async (c, m) => {
 });
 
 route("GET", "/index", "editor", async (c) => {
-  const [docs, pending] = await c.env.DB.batch([
+  const [docs, flag] = await c.env.DB.batch([
     c.env.DB.prepare("SELECT COUNT(*) AS n, COALESCE(SUM(chunk_count), 0) AS chunks, MAX(indexed_at) AS last FROM search_docs"),
-    c.env.DB.prepare(
-      `SELECT COUNT(*) AS n FROM articles a LEFT JOIN search_docs s ON s.slug = a.slug
-       WHERE a.live_json IS NOT NULL AND (s.slug IS NULL OR s.hash != a.live_hash)`,
-    ),
+    c.env.DB.prepare("SELECT value FROM settings WHERE key = 'index_dirty'"),
   ]);
   const d = docs.results[0] as { n: number; chunks: number; last: number | null };
-  return json({ indexed: d.n, chunks: d.chunks, lastIndexedAt: d.last, pending: (pending.results[0] as { n: number }).n });
+  const dirty = (flag.results[0] as { value: string } | undefined)?.value === "1";
+  return json({ indexed: d.n, chunks: d.chunks, lastIndexedAt: d.last, pending: dirty ? 1 : 0 });
 });
 
-route("POST", "/index/run", "chief", async (c) => json(await reindexPending(c.env, 6)));
+route("POST", "/index/run", "chief", async (c) => {
+  const vectors = c.url.searchParams.get("vectors") === "0" ? false : undefined;
+  return json(await reindexPending(c.env, vectors === false ? 12 : 6, { force: true, vectors }));
+});
 
 // ---------------------------------------------------------------------------
 

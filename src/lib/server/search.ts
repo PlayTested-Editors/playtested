@@ -10,6 +10,7 @@
  */
 import type { Env } from "./env";
 import { liveOf, type ArticleData, type ArticleRow } from "./articles";
+import { getGuards } from "./guards";
 import { now, parseJson, sha256Hex } from "./util";
 
 export const EMBED_MODEL = "@cf/baai/bge-small-en-v1.5";
@@ -101,14 +102,39 @@ async function embed(env: Env, texts: string[]): Promise<number[][]> {
   return out;
 }
 
-export async function indexArticle(env: Env, d: ArticleData, hash: string): Promise<number> {
-  const chunks = chunkArticle(d);
-  const prev = await env.DB.prepare("SELECT chunk_count FROM search_docs WHERE slug = ?").bind(d.slug).first<{ chunk_count: number }>();
+// Passages are keyed by rowid = doc_id * ROWS_PER_DOC + chunk index, so an
+// article's passages are read and deleted with rowid ranges. (FTS5 columns
+// can't be indexed: filtering by slug scanned every passage in the table.)
+const ROWS_PER_DOC = 100;
+const rowidOf = (docId: number, idx: number) => docId * ROWS_PER_DOC + idx;
+
+async function docIdFor(env: Env, slug: string): Promise<{ docId: number; chunkCount: number }> {
+  const row = await env.DB.prepare("SELECT doc_id, chunk_count FROM search_docs WHERE slug = ?")
+    .bind(slug)
+    .first<{ doc_id: number | null; chunk_count: number }>();
+  if (row?.doc_id) return { docId: row.doc_id, chunkCount: row.chunk_count };
+  const next = await env.DB.prepare("SELECT COALESCE(MAX(doc_id), 0) + 1 AS id FROM search_docs").first<{ id: number }>();
+  return { docId: next?.id ?? 1, chunkCount: row?.chunk_count ?? 0 };
+}
+
+/** Flag the background job to look for articles to (re-)index. */
+export async function markIndexDirty(env: Env): Promise<void> {
+  await env.DB.prepare(
+    "INSERT INTO settings (key, value, updated_at) VALUES ('index_dirty', '1', ?) ON CONFLICT(key) DO UPDATE SET value = '1', updated_at = excluded.updated_at",
+  )
+    .bind(now())
+    .run();
+}
+
+export async function indexArticle(env: Env, d: ArticleData, hash: string, opts: { vectors?: boolean } = {}): Promise<number> {
+  const chunks = chunkArticle(d).slice(0, ROWS_PER_DOC);
+  const { docId, chunkCount: prevCount } = await docIdFor(env, d.slug);
 
   await env.DB.batch([
-    env.DB.prepare("DELETE FROM search_fts WHERE slug = ?").bind(d.slug),
+    env.DB.prepare("DELETE FROM search_fts WHERE rowid >= ? AND rowid < ?").bind(rowidOf(docId, 0), rowidOf(docId + 1, 0)),
     ...chunks.map((c) =>
-      env.DB.prepare("INSERT INTO search_fts (slug, idx, title, heading, body) VALUES (?, ?, ?, ?, ?)").bind(
+      env.DB.prepare("INSERT INTO search_fts (rowid, slug, idx, title, heading, body) VALUES (?, ?, ?, ?, ?, ?)").bind(
+        rowidOf(docId, c.idx),
         d.slug,
         c.idx,
         d.title,
@@ -117,13 +143,15 @@ export async function indexArticle(env: Env, d: ArticleData, hash: string): Prom
       ),
     ),
     env.DB.prepare(
-      `INSERT INTO search_docs (slug, title, description, category, tags, author, score, pub_date, thumb, hash, chunk_count, indexed_at)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-       ON CONFLICT(slug) DO UPDATE SET title = excluded.title, description = excluded.description, category = excluded.category,
-         tags = excluded.tags, author = excluded.author, score = excluded.score, pub_date = excluded.pub_date, thumb = excluded.thumb,
-         hash = excluded.hash, chunk_count = excluded.chunk_count, indexed_at = excluded.indexed_at`,
+      `INSERT INTO search_docs (slug, doc_id, title, description, category, tags, author, score, pub_date, thumb, hash, chunk_count, indexed_at)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+       ON CONFLICT(slug) DO UPDATE SET doc_id = excluded.doc_id, title = excluded.title, description = excluded.description,
+         category = excluded.category, tags = excluded.tags, author = excluded.author, score = excluded.score,
+         pub_date = excluded.pub_date, thumb = excluded.thumb, hash = excluded.hash, chunk_count = excluded.chunk_count,
+         indexed_at = excluded.indexed_at`,
     ).bind(
       d.slug,
+      docId,
       d.title,
       d.description,
       d.category,
@@ -138,42 +166,71 @@ export async function indexArticle(env: Env, d: ArticleData, hash: string): Prom
     ),
   ]);
 
-  const prefix = await vectorPrefix(d.slug);
-  const vectors = await embed(
-    env,
-    chunks.map((c) => `${d.title}${c.heading ? ` — ${c.heading}` : ""}\n${c.text}`.slice(0, 2000)),
-  );
-  await env.VECTORS.upsert(
-    chunks.map((c, i) => ({
-      id: `${prefix}-${c.idx}`,
-      values: vectors[i],
-      metadata: { slug: d.slug, idx: c.idx, category: d.category || "" },
-    })),
-  );
-  if (prev && prev.chunk_count > chunks.length) {
-    const stale = Array.from({ length: prev.chunk_count - chunks.length }, (_, i) => `${prefix}-${chunks.length + i}`);
-    await env.VECTORS.deleteByIds(stale);
+  // Vectors are keyed by slug + chunk index; a text-only rebuild (same
+  // chunking) can skip re-embedding.
+  if (opts.vectors !== false) {
+    const prefix = await vectorPrefix(d.slug);
+    const vectors = await embed(
+      env,
+      chunks.map((c) => `${d.title}${c.heading ? ` — ${c.heading}` : ""}\n${c.text}`.slice(0, 2000)),
+    );
+    await env.VECTORS.upsert(
+      chunks.map((c, i) => ({
+        id: `${prefix}-${c.idx}`,
+        values: vectors[i],
+        metadata: { slug: d.slug, idx: c.idx, category: d.category || "" },
+      })),
+    );
+    if (prevCount > chunks.length) {
+      const stale = Array.from({ length: prevCount - chunks.length }, (_, i) => `${prefix}-${chunks.length + i}`);
+      await env.VECTORS.deleteByIds(stale);
+    }
   }
   return chunks.length;
 }
 
 export async function removeFromIndex(env: Env, slug: string): Promise<void> {
-  const prev = await env.DB.prepare("SELECT chunk_count FROM search_docs WHERE slug = ?").bind(slug).first<{ chunk_count: number }>();
+  const row = await env.DB.prepare("SELECT doc_id, chunk_count FROM search_docs WHERE slug = ?")
+    .bind(slug)
+    .first<{ doc_id: number | null; chunk_count: number }>();
+  if (!row) return;
   await env.DB.batch([
-    env.DB.prepare("DELETE FROM search_fts WHERE slug = ?").bind(slug),
+    ...(row.doc_id
+      ? [env.DB.prepare("DELETE FROM search_fts WHERE rowid >= ? AND rowid < ?").bind(rowidOf(row.doc_id, 0), rowidOf(row.doc_id + 1, 0))]
+      : []),
     env.DB.prepare("DELETE FROM search_docs WHERE slug = ?").bind(slug),
   ]);
-  if (prev?.chunk_count) {
+  if (row.chunk_count) {
     const prefix = await vectorPrefix(slug);
-    await env.VECTORS.deleteByIds(Array.from({ length: prev.chunk_count }, (_, i) => `${prefix}-${i}`));
+    await env.VECTORS.deleteByIds(Array.from({ length: row.chunk_count }, (_, i) => `${prefix}-${i}`));
   }
 }
 
 /**
  * Index whatever is out of date: published articles whose content hash
  * differs from the indexed one, and index rows for articles no longer live.
+ * Only does real work when the index_dirty flag is set (by the git sync or a
+ * migration) — an idle run costs one row read.
  */
-export async function reindexPending(env: Env, limit = 8): Promise<{ indexed: string[]; removed: string[]; remaining: number }> {
+export async function reindexPending(
+  env: Env,
+  limit = 8,
+  opts: { force?: boolean; vectors?: boolean } = {},
+): Promise<{ indexed: string[]; removed: string[]; remaining: number }> {
+  // Flag values: "0" idle, "1" changed content (re-embed), "text" passages
+  // only (e.g. after a schema change; the vectors are still valid).
+  const flag = await env.DB.prepare("SELECT value FROM settings WHERE key = 'index_dirty'").first<{ value: string }>();
+  if (!opts.force && flag?.value !== "1" && flag?.value !== "text") return { indexed: [], removed: [], remaining: 0 };
+  // Writing FTS5 rows is read-heavy on D1 (the index merges segments, which
+  // counts as rows read — roughly 3k per article). Background indexing waits
+  // whenever today's D1 reads are past half the free allowance.
+  if (!opts.force) {
+    const d1 = (await getGuards(env)).usage?.metrics?.d1Read;
+    if (d1 && d1.used / d1.limit > 0.5) return { indexed: [], removed: [], remaining: 1 };
+  }
+  const vectors = opts.vectors ?? flag?.value !== "text";
+  // Ordered by pub_date with a LIMIT: while many articles are pending this
+  // stops after ~limit rows instead of scanning everything.
   const pending = await env.DB.prepare(
     `SELECT a.* FROM articles a LEFT JOIN search_docs s ON s.slug = a.slug
      WHERE a.live_json IS NOT NULL AND (s.slug IS NULL OR s.hash != a.live_hash)
@@ -185,20 +242,19 @@ export async function reindexPending(env: Env, limit = 8): Promise<{ indexed: st
   for (const row of pending.results) {
     const live = liveOf(row);
     if (!live) continue;
-    await indexArticle(env, live, row.live_hash || "");
+    await indexArticle(env, live, row.live_hash || "", { vectors });
     indexed.push(row.slug);
   }
+  if (pending.results.length >= limit) return { indexed, removed: [], remaining: 1 };
+
+  // Caught up: drop index rows for articles no longer live, then clear the flag.
   const orphans = await env.DB.prepare(
     `SELECT s.slug FROM search_docs s LEFT JOIN articles a ON a.slug = s.slug AND a.live_json IS NOT NULL
-     WHERE a.id IS NULL LIMIT 20`,
+     WHERE a.id IS NULL LIMIT 50`,
   ).all<{ slug: string }>();
   for (const o of orphans.results) await removeFromIndex(env, o.slug);
-
-  const left = await env.DB.prepare(
-    `SELECT COUNT(*) AS n FROM articles a LEFT JOIN search_docs s ON s.slug = a.slug
-     WHERE a.live_json IS NOT NULL AND (s.slug IS NULL OR s.hash != a.live_hash)`,
-  ).first<{ n: number }>();
-  return { indexed, removed: orphans.results.map((o) => o.slug), remaining: left?.n ?? 0 };
+  await env.DB.prepare("UPDATE settings SET value = '0', updated_at = ? WHERE key = 'index_dirty'").bind(now()).run();
+  return { indexed, removed: orphans.results.map((o) => o.slug), remaining: 0 };
 }
 
 // ---------------------------------------------------------------------------
@@ -227,11 +283,18 @@ export interface ChunkHit {
 export async function keywordSearch(env: Env, q: string, limit = 30, slug?: string): Promise<ChunkHit[]> {
   const match = ftsQuery(q);
   if (!match) return [];
+  // Scope to one article with its rowid range (slug is unindexed in FTS5).
+  let range: [number, number] | null = null;
+  if (slug) {
+    const doc = await env.DB.prepare("SELECT doc_id FROM search_docs WHERE slug = ?").bind(slug).first<{ doc_id: number | null }>();
+    if (!doc?.doc_id) return [];
+    range = [rowidOf(doc.doc_id, 0), rowidOf(doc.doc_id + 1, 0)];
+  }
   const sql = `SELECT slug, idx, heading, body AS text,
       snippet(search_fts, 4, '<mark>', '</mark>', '…', 28) AS snippet
-    FROM search_fts WHERE search_fts MATCH ? ${slug ? "AND slug = ?" : ""}
+    FROM search_fts WHERE search_fts MATCH ? ${range ? "AND rowid >= ? AND rowid < ?" : ""}
     ORDER BY bm25(search_fts, 0.0, 0.0, 8.0, 3.0, 1.0) LIMIT ?`;
-  const stmt = slug ? env.DB.prepare(sql).bind(match, slug, limit) : env.DB.prepare(sql).bind(match, limit);
+  const stmt = range ? env.DB.prepare(sql).bind(match, range[0], range[1], limit) : env.DB.prepare(sql).bind(match, limit);
   try {
     return (await stmt.all<ChunkHit>()).results;
   } catch {
@@ -250,9 +313,16 @@ export async function semanticSearch(env: Env, q: string, topK = 20, slug?: stri
     .map((m) => ({ slug: String(m.metadata?.slug ?? ""), idx: Number(m.metadata?.idx ?? -1), score: m.score }))
     .filter((k) => k.slug && k.idx >= 0 && k.score > 0.55);
   if (!keys.length) return [];
-  const where = keys.map(() => "(slug = ? AND idx = ?)").join(" OR ");
-  const rows = await env.DB.prepare(`SELECT slug, idx, heading, body AS text FROM search_fts WHERE ${where}`)
-    .bind(...keys.flatMap((k) => [k.slug, k.idx]))
+  // Passages are fetched by rowid (key lookups), never by scanning.
+  const slugs = [...new Set(keys.map((k) => k.slug))];
+  const docs = await env.DB.prepare(`SELECT slug, doc_id FROM search_docs WHERE slug IN (${slugs.map(() => "?").join(",")})`)
+    .bind(...slugs)
+    .all<{ slug: string; doc_id: number | null }>();
+  const docIds = new Map(docs.results.filter((d) => d.doc_id).map((d) => [d.slug, d.doc_id as number]));
+  const rowids = keys.filter((k) => docIds.has(k.slug)).map((k) => rowidOf(docIds.get(k.slug)!, k.idx));
+  if (!rowids.length) return [];
+  const rows = await env.DB.prepare(`SELECT slug, idx, heading, body AS text FROM search_fts WHERE rowid IN (${rowids.map(() => "?").join(",")})`)
+    .bind(...rowids)
     .all<ChunkHit>();
   const byKey = new Map(rows.results.map((r) => [`${r.slug}#${r.idx}`, r]));
   return keys.map((k) => byKey.get(`${k.slug}#${k.idx}`)).filter(Boolean) as ChunkHit[];

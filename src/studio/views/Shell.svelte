@@ -30,7 +30,8 @@
   onMount(() => {
     loadCounts();
     refreshDeploys();
-    const t = setInterval(loadCounts, 60_000);
+    // Counts are cheap but not free; refresh every 5 minutes while visible.
+    const t = setInterval(() => document.visibilityState === "visible" && loadCounts(), 300_000);
     return () => clearInterval(t);
   });
 

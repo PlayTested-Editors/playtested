@@ -16,7 +16,15 @@
       liveFallbackMinutes: number;
       features: Record<Feature, boolean>;
       caps: Record<Feature, number>;
-      usage?: { day: string; total: number; byScript: Record<string, number>; checkedAt: number; error?: string };
+      usage?: {
+        day: string;
+        total: number;
+        byScript: Record<string, number>;
+        metrics?: Record<string, { label: string; used: number; limit: number }>;
+        worst?: { key: string; pct: number };
+        checkedAt: number;
+        error?: string;
+      };
     };
     level: number;
     today: Record<string, number>;
@@ -135,7 +143,6 @@
   }
 
   let usage = $derived(g?.settings.usage);
-  let pct = $derived(usage && g ? (usage.total / g.settings.dailyLimit) * 100 : 0);
   let changed = $derived(Boolean(g && draft && JSON.stringify(draft) !== JSON.stringify($state.snapshot(g.settings))));
   const levelName = ["Normal", "Conserve", "Essential only"];
   const chief = isChief();
@@ -161,7 +168,7 @@
         <div class="flex flex-wrap items-start justify-between gap-4">
           <div>
             <h2 class="font-semibold">Today's usage</h2>
-            <p class="text-xs text-slate-500">Worker + Pages Functions requests across your whole Cloudflare account (resets 8 AM PH time).</p>
+            <p class="text-xs text-slate-500">Every free-plan daily limit, across your whole Cloudflare account (resets 8 AM PH time). The closest one to its limit sets the mode.</p>
           </div>
           <div class="flex items-center gap-2">
             <span class="rounded-full px-2.5 py-1 text-xs font-semibold {g.level === 0 ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-300' : g.level === 1 ? 'bg-amber-50 text-amber-700 dark:bg-amber-500/10 dark:text-amber-300' : 'bg-rose-50 text-rose-700 dark:bg-rose-500/10 dark:text-rose-300'}">Mode: {levelName[g.level]}</span>
@@ -169,13 +176,24 @@
           </div>
         </div>
         {#if usage && !usage.error}
-          <p class="mt-4 text-3xl font-bold tabular-nums">{usage.total.toLocaleString()} <span class="text-base font-medium text-slate-400">/ {g.settings.dailyLimit.toLocaleString()} ({pct.toFixed(1)}%)</span></p>
-          <div class="relative mt-3 h-3 rounded-full bg-slate-100 dark:bg-slate-800">
-            <div class="h-full rounded-full transition-all duration-700 {pct >= g.settings.thresholds.essential ? 'bg-rose-500' : pct >= g.settings.thresholds.conserve ? 'bg-amber-500' : 'bg-emerald-500'}" style="width: {Math.min(100, Math.max(pct, 0.5))}%"></div>
-            <span class="absolute -top-1 h-5 w-0.5 bg-amber-500" style="left: {g.settings.thresholds.conserve}%" title="Conserve"></span>
-            <span class="absolute -top-1 h-5 w-0.5 bg-rose-500" style="left: {g.settings.thresholds.essential}%" title="Essential only"></span>
-          </div>
-          <div class="mt-4 grid gap-1 text-xs sm:grid-cols-2">
+          <ul class="mt-4 space-y-3">
+            {#each Object.entries(usage.metrics ?? { requests: { label: "Worker requests", used: usage.total, limit: g.settings.dailyLimit } }) as [key, m] (key)}
+              {@const mp = m.limit ? (m.used / m.limit) * 100 : 0}
+              <li>
+                <div class="flex items-baseline justify-between text-sm">
+                  <span class="font-medium">{m.label}</span>
+                  <span class="tabular-nums text-slate-500">{m.used.toLocaleString()} / {m.limit.toLocaleString()} <span class="font-semibold {mp >= g.settings.thresholds.essential ? 'text-rose-600' : mp >= g.settings.thresholds.conserve ? 'text-amber-600' : 'text-slate-700 dark:text-slate-200'}">({mp.toFixed(1)}%)</span></span>
+                </div>
+                <div class="relative mt-1.5 h-2 rounded-full bg-slate-100 dark:bg-slate-800">
+                  <div class="h-full rounded-full transition-all duration-700 {mp >= g.settings.thresholds.essential ? 'bg-rose-500' : mp >= g.settings.thresholds.conserve ? 'bg-amber-500' : 'bg-emerald-500'}" style="width: {Math.min(100, Math.max(mp, 0.5))}%"></div>
+                  <span class="absolute -top-1 h-4 w-0.5 bg-amber-500/70" style="left: {g.settings.thresholds.conserve}%"></span>
+                  <span class="absolute -top-1 h-4 w-0.5 bg-rose-500/70" style="left: {g.settings.thresholds.essential}%"></span>
+                </div>
+              </li>
+            {/each}
+          </ul>
+          <p class="mt-5 text-xs font-semibold uppercase tracking-wide text-slate-500">Worker requests by project</p>
+          <div class="mt-2 grid gap-1 text-xs sm:grid-cols-2">
             {#each Object.entries(usage.byScript).sort((a, b) => b[1] - a[1]) as [name, n]}
               <div class="flex justify-between rounded-lg bg-slate-50 px-3 py-1.5 dark:bg-slate-800/50"><span class="truncate text-slate-600 dark:text-slate-300">{name}</span><span class="tabular-nums font-medium">{n.toLocaleString()}</span></div>
             {/each}

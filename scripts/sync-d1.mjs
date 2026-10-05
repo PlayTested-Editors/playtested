@@ -146,6 +146,12 @@ for (const row of existing) {
 }
 
 console.log(`D1 sync: ${added} new, ${updated} changed, ${removed} removed (of ${articles.length} in git).`);
+if (stmts.length) {
+  // Something changed: let the Worker's background job re-index search.
+  stmts.push(
+    `INSERT INTO settings (key, value, updated_at) VALUES ('index_dirty', '1', ${now}) ON CONFLICT(key) DO UPDATE SET value = '1', updated_at = excluded.updated_at;`,
+  );
+}
 if (stmts.length && !DRY) {
   fs.mkdirSync(".wrangler/tmp", { recursive: true });
   const sqlFile = ".wrangler/tmp/sync-d1.sql";

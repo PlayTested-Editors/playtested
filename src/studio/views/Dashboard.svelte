@@ -6,14 +6,13 @@
   import { relTime, dateTime } from "../format";
   import StateBadge from "../ui/StateBadge.svelte";
 
-  type List = { articles: ArticleSummary[]; names: Record<string, string>; total: number };
+  type List = { articles: ArticleSummary[]; names: Record<string, string>; total: number | null };
   let review = $state<List | null>(null);
   let changes = $state<List | null>(null);
   let mine = $state<List | null>(null);
   let scheduled = $state<List | null>(null);
   let recent = $state<List | null>(null);
   let guards = $state<{ settings: any; level: number; integrations: Record<string, boolean> } | null>(null);
-  let index = $state<{ indexed: number; pending: number } | null>(null);
 
   onMount(async () => {
     try {
@@ -26,7 +25,7 @@
         q("state=published&sort=pub&pageSize=6"),
       ]);
       if (isEditorOrAbove()) {
-        [guards, index] = await Promise.all([api.get<any>("/guards"), api.get<any>("/index")]);
+        guards = await api.get<any>("/guards");
       }
     } catch (e) {
       toastError(e);
@@ -38,7 +37,14 @@
     return h < 12 ? "Good morning" : h < 18 ? "Good afternoon" : "Good evening";
   })();
 
-  let usagePct = $derived(guards?.settings?.usage ? Math.min(100, (guards.settings.usage.total / guards.settings.dailyLimit) * 100) : 0);
+  // Show the quota closest to its limit (requests, D1 reads/writes, AI, KV).
+  let worstMetric = $derived.by(() => {
+    const u = guards?.settings?.usage;
+    if (!u) return null;
+    const key = u.worst?.key ?? "requests";
+    return u.metrics?.[key] ?? { label: "Worker requests", used: u.total, limit: guards!.settings.dailyLimit };
+  });
+  let usagePct = $derived(worstMetric ? Math.min(100, (worstMetric.used / worstMetric.limit) * 100) : 0);
   let missing = $derived(guards ? Object.entries(guards.integrations).filter(([k, v]) => !v && ["github", "analytics", "google"].includes(k)).map(([k]) => k) : []);
   const levelText = ["Normal", "Conserve", "Essential only"];
 </script>
@@ -113,11 +119,12 @@
             <span class="rounded-full px-2 py-0.5 text-[11px] font-semibold {guards.level === 0 ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-300' : guards.level === 1 ? 'bg-amber-50 text-amber-700 dark:bg-amber-500/10 dark:text-amber-300' : 'bg-rose-50 text-rose-700 dark:bg-rose-500/10 dark:text-rose-300'}">{levelText[guards.level]}</span>
           </div>
           {#if guards.settings.usage && !guards.settings.usage.error}
-            <p class="mt-3 text-2xl font-bold tabular-nums">{guards.settings.usage.total.toLocaleString()}<span class="text-sm font-medium text-slate-400"> / {guards.settings.dailyLimit.toLocaleString()}</span></p>
+            <p class="mt-3 text-xs font-medium text-slate-500">{worstMetric?.label} (closest to its limit)</p>
+            <p class="text-2xl font-bold tabular-nums">{worstMetric?.used.toLocaleString()}<span class="text-sm font-medium text-slate-400"> / {worstMetric?.limit.toLocaleString()}</span></p>
             <div class="relative mt-2 h-2 overflow-hidden rounded-full bg-slate-100 dark:bg-slate-800">
               <div class="h-full rounded-full transition-all duration-700 {usagePct >= guards.settings.thresholds.essential ? 'bg-rose-500' : usagePct >= guards.settings.thresholds.conserve ? 'bg-amber-500' : 'bg-emerald-500'}" style="width: {Math.max(usagePct, 1)}%"></div>
             </div>
-            <p class="mt-2 text-xs text-slate-500">Worker requests across your whole Cloudflare account · checked {relTime(guards.settings.usage.checkedAt)}</p>
+            <p class="mt-2 text-xs text-slate-500">Across your whole Cloudflare account · checked {relTime(guards.settings.usage.checkedAt)} · <a class="text-indigo-600 hover:underline dark:text-indigo-400" href="/studio/settings/">all limits</a></p>
           {:else}
             <p class="mt-3 text-sm text-slate-500">{guards.settings.usage?.error ?? "Waiting for the first check (runs every 10 minutes)."}</p>
           {/if}
@@ -125,12 +132,6 @@
       {/if}
       {@render panel("Scheduled", scheduled, "Nothing scheduled.", "/studio/articles/?state=scheduled", true)}
       {@render panel("Recently published", recent, "Nothing published yet.", "/studio/articles/?state=published&sort=pub", true)}
-      {#if index}
-        <section class="card p-5 text-sm">
-          <h2 class="font-semibold">Search index</h2>
-          <p class="mt-1 text-slate-500">{index.indexed.toLocaleString()} articles searchable{index.pending ? ` · ${index.pending} waiting` : ""}</p>
-        </section>
-      {/if}
     </div>
   </div>
 </div>
