@@ -65,8 +65,8 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
                 headers: {
                     "Authorization": `Bearer ${env.OPENROUTER_API_KEY}`,
                     "Content-Type": "application/json",
-                    "HTTP-Referer": "https://playtested.net", // Required by OpenRouter
-                    "X-Title": "PlayTested", // Required by OpenRouter
+                    "HTTP-Referer": "https://playtested.net/ai/summary", // Required by OpenRouter
+                    "X-Title": "PlayTested.Net - AI Summary", // Required by OpenRouter
                 },
                 body: JSON.stringify({
                     model: "google/gemini-2.5-flash-lite", // Cheap/Free model

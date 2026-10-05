@@ -21,6 +21,8 @@ No explanations, no numbers, no periods, no extra text whatsoever. Just the titl
     headers: {
       Authorization: `Bearer ${OPENROUTER_API_KEY}`,
       "Content-Type": "application/json",
+      "HTTP-Referer": "https://playtested.net/ai/recommend",
+      "X-Title": "PlayTested.Net - Recommender",
     },
     body: JSON.stringify({
       model: "google/gemini-2.5-flash-lite",
@@ -78,6 +80,8 @@ Now explain in 3 paragraphs — one per game — why the user would enjoy each t
     headers: {
       Authorization: `Bearer ${OPENROUTER_API_KEY}`,
       "Content-Type": "application/json",
+      "HTTP-Referer": "https://playtested.net/ai/recommend",
+      "X-Title": "PlayTested.Net - Recommender",
     },
     body: JSON.stringify({
       model: "google/gemini-2.5-flash-lite",

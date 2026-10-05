@@ -16,7 +16,12 @@ export const onRequestPost: PagesFunction = async ({ request, env }: { request: 
 
   const aiResponse = await fetch("https://openrouter.ai/api/v1/chat/completions", {
     method: "POST",
-    headers: { Authorization: `Bearer ${OPENROUTER_API_KEY}`, "Content-Type": "application/json" },
+    headers: {
+      Authorization: `Bearer ${OPENROUTER_API_KEY}`,
+      "Content-Type": "application/json",
+      "HTTP-Referer": "https://playtested.net/ai/compare",
+      "X-Title": "PlayTested.Net - Comparator",
+    },
     body: JSON.stringify({
       model: "google/gemma-3-27b-it:free",
       messages: [

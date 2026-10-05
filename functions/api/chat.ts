@@ -175,8 +175,8 @@ ${contextText}`
             headers: {
                 "Authorization": `Bearer ${env.OPENROUTER_API_KEY} `,
                 "Content-Type": "application/json",
-                "HTTP-Referer": url.origin,
-                "X-Title": "PlayTested.Net",
+                "HTTP-Referer": "https://playtested.net/ai/chat",
+                "X-Title": "PlayTested.Net - Chatbot",
             },
             body: JSON.stringify({
                 model: "google/gemini-2.5-flash-lite", // Gemini 2.5 Flash Lite
