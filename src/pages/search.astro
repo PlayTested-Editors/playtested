@@ -1,162 +1,749 @@
 ---
+/**
+ * /search/?q=… — two layers:
+ *  - Instant: MiniSearch over the static /search-index.json (titles, games,
+ *    tags, descriptions). Free; powers the as-you-type suggestions and a
+ *    fallback when live search is paused.
+ *  - Full: /api/search (hybrid keyword + semantic over whole articles), run on
+ *    Enter or after typing pauses, with the best matching passage per result.
+ * Filters and sorting apply in the browser. The "Ask AI" answer card calls
+ * /api/answer only when the visitor asks, or the query is clearly a question.
+ */
 import BlogLayout from "../layouts/BlogLayout.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
+
+const select =
+  "rounded-lg border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-800 py-1.5 pl-2.5 pr-8 text-sm text-gray-800 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500";
+const sparkle =
+  "M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456z";
+const chip =
+  "rounded-full border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-3 py-1.5 text-sm text-gray-700 dark:text-slate-300 hover:border-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 transition-colors";
+const popular = ["Elden Ring", "co-op", "roguelike", "JRPG", "mobile", "horror"];
+const questions = ["What are the best RPGs you've reviewed?", "Is Black Myth: Wukong worth it?", "Which games are good for couch co-op?"];
 ---
 
-<BlogLayout title="Search">
+<BlogLayout title="Search" description="Search every PlayTested review, or ask our AI a question.">
   <Header showTitle={true} />
 
-  <main class="mt-6 mb-12">
-    <h1 class="text-2xl font-bold mb-2">
-      Search results for: <span id="search-query" class="italic text-blue-500"
-      ></span>
-    </h1>
-    <p id="search-count" class="text-sm text-gray-600 dark:text-gray-400 mb-4">
-    </p>
+  <div id="search-app" data-search-app class="mx-auto mt-8 mb-16 max-w-5xl lg:mt-12">
+    <form id="search-form" action="/search/" method="get" role="search" class="relative" autocomplete="off">
+      <div class="flex flex-col gap-2 sm:flex-row">
+        <div class="relative flex-1">
+          <svg class="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35m1.1-5.65a7.5 7.5 0 11-15.001 0 7.5 7.5 0 0115.001 0z"></path>
+          </svg>
+          <label for="search-input" class="sr-only">Search reviews</label>
+          <input
+            id="search-input"
+            name="q"
+            type="search"
+            spellcheck="false"
+            enterkeyhint="search"
+            maxlength="200"
+            placeholder="Search reviews, games, or ask a question…"
+            role="combobox"
+            aria-autocomplete="list"
+            aria-expanded="false"
+            aria-controls="search-suggest"
+            class="h-12 w-full rounded-xl border border-gray-300 bg-white pl-11 pr-4 text-base text-gray-900 shadow-sm placeholder-gray-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100 dark:placeholder-slate-500"
+          />
+          <ul
+            id="search-suggest"
+            role="listbox"
+            aria-label="Suggestions"
+            hidden
+            class="absolute left-0 right-0 top-full z-30 mt-2 max-h-[70vh] overflow-y-auto rounded-xl border border-gray-200 bg-white py-1 shadow-xl dark:border-slate-700 dark:bg-slate-800"
+          >
+          </ul>
+        </div>
+        <div class="flex gap-2">
+          <button type="submit" class="h-12 flex-1 rounded-xl bg-indigo-600 px-5 font-semibold text-white shadow-sm transition-colors hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-indigo-400/40 sm:flex-none">
+            Search
+          </button>
+          <button
+            id="ask-ai-btn"
+            type="button"
+            class="inline-flex h-12 flex-1 items-center justify-center gap-2 rounded-xl border border-indigo-200 bg-gradient-to-r from-indigo-50 to-purple-50 px-4 font-semibold text-indigo-700 shadow-sm transition hover:border-indigo-300 hover:from-indigo-100 hover:to-purple-100 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-indigo-400/40 dark:border-indigo-500/40 dark:from-indigo-500/10 dark:to-purple-500/10 dark:text-indigo-300 dark:hover:from-indigo-500/20 dark:hover:to-purple-500/20 sm:flex-none"
+          >
+            <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d={sparkle}></path></svg>
+            Ask AI
+          </button>
+        </div>
+      </div>
+    </form>
 
-    <ul
-      id="search-results"
-      class="divide-y divide-gray-200 dark:divide-gray-800"
+    <section
+      id="ai-answer"
+      hidden
+      aria-labelledby="ai-answer-title"
+      class="mt-6 rounded-2xl border border-indigo-200 bg-gradient-to-br from-indigo-50 via-white to-purple-50 p-4 shadow-sm sm:p-5 dark:border-indigo-500/30 dark:from-indigo-950/60 dark:via-slate-800 dark:to-purple-950/40"
     >
-    </ul>
-    <div
-      id="pagination"
-      class="flex gap-2 mt-6 flex-wrap text-sm font-semibold text-blue-500"
-    >
+      <div class="flex items-center gap-2">
+        <span class="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 text-white" aria-hidden="true">
+          <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d={sparkle}></path></svg>
+        </span>
+        <h2 id="ai-answer-title" class="text-sm font-semibold text-indigo-950 dark:text-indigo-100">AI answer</h2>
+        <span class="hidden text-xs text-indigo-700/80 sm:inline dark:text-indigo-300/80">from PlayTested reviews</span>
+        <div class="ml-auto flex items-center gap-1">
+          <button id="ai-answer-stop" type="button" hidden class="rounded-lg px-2 py-1 text-xs font-medium text-indigo-800 hover:bg-indigo-100 dark:text-indigo-200 dark:hover:bg-indigo-500/20">Stop</button>
+          <button id="ai-answer-copy" type="button" hidden class="rounded-lg px-2 py-1 text-xs font-medium text-indigo-800 hover:bg-indigo-100 dark:text-indigo-200 dark:hover:bg-indigo-500/20">Copy</button>
+          <button id="ai-answer-close" type="button" aria-label="Hide AI answer" title="Hide" class="grid h-7 w-7 place-items-center rounded-lg text-indigo-800 hover:bg-indigo-100 dark:text-indigo-200 dark:hover:bg-indigo-500/20">
+            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path></svg>
+          </button>
+        </div>
+      </div>
+      <div id="ai-answer-body" aria-live="polite" class="mt-3 text-[15px] leading-relaxed text-gray-800 dark:text-slate-200"></div>
+      <div id="ai-answer-sources" class="mt-3 flex flex-wrap gap-1.5 empty:hidden"></div>
+      <div id="ai-answer-foot" hidden class="mt-4 flex flex-wrap items-center justify-between gap-2 border-t border-indigo-100 pt-3 text-xs dark:border-indigo-500/20">
+        <button id="ai-answer-followup" type="button" class="font-semibold text-indigo-700 hover:underline dark:text-indigo-300">Ask a follow-up in chat →</button>
+        <span class="text-gray-500 dark:text-slate-400">AI can make mistakes — the reviews have the full story.</span>
+      </div>
+    </section>
+
+    <div class="mt-8">
+      <h1 id="results-title" class="text-xl font-bold text-gray-900 sm:text-2xl dark:text-slate-100">Search PlayTested</h1>
+      <p id="results-count" class="mt-1 text-sm text-gray-600 dark:text-slate-400" aria-live="polite"></p>
     </div>
-  </main>
+
+    <div id="filters" hidden class="mt-4 flex flex-wrap items-center gap-2 rounded-xl border border-gray-200 bg-white/70 p-3 dark:border-slate-700 dark:bg-slate-800/60">
+      <label for="f-category" class="sr-only">Category</label>
+      <select id="f-category" data-filter="category" class={select}><option value="">All categories</option></select>
+      <label for="f-platform" class="sr-only">Platform</label>
+      <select id="f-platform" data-filter="platform" class={select}><option value="">All platforms</option></select>
+      <label for="f-score" class="sr-only">Score</label>
+      <select id="f-score" data-filter="score" class={select}>
+        <option value="">Any score</option>
+        <option value="9">9 and up</option>
+        <option value="8">8 and up</option>
+        <option value="7">7 and up</option>
+        <option value="lt7">Below 7</option>
+        <option value="none">Not scored</option>
+      </select>
+      <label for="f-year" class="sr-only">Year</label>
+      <select id="f-year" data-filter="year" class={select}><option value="">Any year</option></select>
+      <button id="f-clear" type="button" hidden class="px-1 text-sm font-medium text-indigo-600 hover:underline dark:text-indigo-400">Clear filters</button>
+      <div class="ml-auto flex items-center gap-2">
+        <label for="f-sort" class="text-sm text-gray-500 dark:text-slate-400">Sort</label>
+        <select id="f-sort" data-filter="sort" class={select}>
+          <option value="relevance">Relevance</option>
+          <option value="newest">Newest</option>
+          <option value="score">Highest score</option>
+        </select>
+      </div>
+    </div>
+
+    <div id="search-notice" class="mt-4 empty:hidden"></div>
+
+    <ol
+      id="results"
+      class="mt-4 space-y-3 [&_mark]:rounded [&_mark]:bg-amber-200/80 [&_mark]:px-0.5 [&_mark]:text-inherit dark:[&_mark]:bg-amber-400/25"
+    >
+    </ol>
+    <div class="mt-6 text-center">
+      <button id="show-more" type="button" hidden class="rounded-xl border border-gray-300 bg-white px-5 py-2 text-sm font-semibold text-gray-700 transition-colors hover:border-indigo-400 hover:text-indigo-700 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-200 dark:hover:text-indigo-300">
+        Show more results
+      </button>
+    </div>
+
+    <div id="search-intro" class="mt-6 space-y-5">
+      <div>
+        <h2 class="mb-2 text-sm font-semibold uppercase tracking-wide text-gray-500 dark:text-slate-400">Popular searches</h2>
+        <div class="flex flex-wrap gap-2">{popular.map((p) => <button type="button" data-q={p} class={chip}>{p}</button>)}</div>
+      </div>
+      <div>
+        <h2 class="mb-2 text-sm font-semibold uppercase tracking-wide text-gray-500 dark:text-slate-400">Or ask a question</h2>
+        <div class="flex flex-wrap gap-2">
+          {
+            questions.map((p) => (
+              <button type="button" data-q={p} class={`${chip} inline-flex items-center gap-1.5`}>
+                <svg class="h-4 w-4 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d={sparkle} /></svg>
+                {p}
+              </button>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </div>
 
   <Footer />
-
-  <script type="module">
-    import MiniSearch from "https://cdn.jsdelivr.net/npm/minisearch@6.1.0/+esm";
-
-    const RESULTS_PER_PAGE = 10;
-
-    window.addEventListener("DOMContentLoaded", async () => {
-      const query =
-        new URLSearchParams(window.location.search)
-          .get("q")
-          ?.toLowerCase()
-          .trim() || "";
-
-      const querySpan = document.getElementById("search-query");
-      if (querySpan) querySpan.textContent = `"${query}"`;
-
-      const resultContainer = document.getElementById("search-results");
-      const countEl = document.getElementById("search-count");
-      const pagination = document.getElementById("pagination");
-
-      if (!resultContainer || !countEl || !pagination) {
-        console.error("❌ Required DOM elements not found.");
-        return;
-      }
-
-      let articles = [];
-
-      try {
-        const res = await fetch("/search-index.json");
-        if (!res.ok) throw new Error("Failed to fetch search-index.json");
-        articles = await res.json();
-        console.log("✅ search-index.json loaded:", articles.length, "items");
-      } catch (err) {
-        console.error("❌ Error loading search index:", err);
-        resultContainer.innerHTML = `<p class="text-red-600 dark:text-red-400 mt-4">Failed to load search data.</p>`;
-        return;
-      }
-
-      let miniSearch;
-      try {
-        miniSearch = new MiniSearch({
-          fields: ["title", "description", "tags", "body"],
-          storeFields: ["title", "description", "url"],
-        });
-        miniSearch.addAll(articles);
-      } catch (err) {
-        console.error("❌ Error initializing MiniSearch:", err);
-        resultContainer.innerHTML = `<p class="text-red-600 dark:text-red-400 mt-4">Failed to set up search.</p>`;
-        return;
-      }
-
-      let results = [];
-      try {
-        results = query ? miniSearch.search(query) : [];
-
-        // Sort by released date descending (assuming search-index.json has 'released' field)
-        results.sort((a, b) => {
-          const dateA = new Date(a.released || "1900-01-01");
-          const dateB = new Date(b.released || "1900-01-01");
-          return dateB - dateA;
-        });
-
-        console.log("🔍 Search results:", results.length);
-      } catch (err) {
-        console.error("❌ Search failed:", err);
-      }
-
-      if (results.length === 0) {
-        resultContainer.innerHTML = `<p class="text-gray-500 dark:text-gray-400 mt-4">No results found for "${query}".</p>`;
-        countEl.textContent = "";
-        pagination.innerHTML = "";
-        return;
-      }
-
-      countEl.textContent = `${results.length} result${results.length > 1 ? "s" : ""} found for "${query}"`;
-
-      let currentPage = 1;
-      const totalPages = Math.ceil(results.length / RESULTS_PER_PAGE);
-
-      const renderPage = (page) => {
-        resultContainer.innerHTML = "";
-        const start = (page - 1) * RESULTS_PER_PAGE;
-        const end = start + RESULTS_PER_PAGE;
-
-        results.slice(start, end).forEach((result) => {
-          const li = document.createElement("li");
-          li.className =
-            "py-4 border-b border-gray-500 dark:border-gray-800 flex gap-6 items-start";
-          li.innerHTML = `
-            <div class="flex-1">
-              <a href="${result.url}" class="text-xl font-semibold hover:underline block">${result.title}</a>
-              <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">${result.description}</p>
-            </div>
-          `;
-          resultContainer.appendChild(li);
-        });
-
-        renderPagination(page);
-      };
-
-      const renderPagination = (activePage) => {
-        pagination.innerHTML = "";
-
-        const createBtn = (label, pageNum, disabled = false) => {
-          const btn = document.createElement("button");
-          btn.textContent = label;
-          btn.className = `px-3 py-1 rounded ${disabled ? "opacity-50 cursor-not-allowed" : "hover:underline"}`;
-          btn.disabled = disabled;
-          if (!disabled) btn.onclick = () => renderPage(pageNum);
-          return btn;
-        };
-
-        pagination.appendChild(
-          createBtn("Prev", activePage - 1, activePage === 1)
-        );
-
-        for (let i = 1; i <= totalPages; i++) {
-          const btn = createBtn(i, i);
-          if (i === activePage)
-            btn.classList.add("bg-blue-100", "dark:bg-slate-700");
-          pagination.appendChild(btn);
-        }
-
-        pagination.appendChild(
-          createBtn("Next", activePage + 1, activePage === totalPages)
-        );
-      };
-
-      renderPage(1);
-    });
-  </script>
 </BlogLayout>
+
+<script>
+  import MiniSearch from "minisearch";
+  import { navigate } from "astro:transitions/client";
+  import {
+    citedRefs,
+    copyText,
+    escapeHtml,
+    getJson,
+    isAbort,
+    noticeHtml,
+    perFrame,
+    renderMarkdown,
+    sourceChips,
+    streamAi,
+    toPlainText,
+    TYPING_DOTS,
+    type Refs,
+  } from "../lib/ai-client";
+
+  interface Passage {
+    idx: number;
+    heading: string;
+    snippet: string;
+  }
+  interface Doc {
+    slug: string;
+    title: string;
+    description: string | null;
+    category: string | null;
+    tags: string[];
+    score: number | null;
+    pubDate: number | null;
+    thumb: string | null;
+    game?: string;
+    chunks?: Passage[];
+  }
+  type Index = { mini: MiniSearch<Doc>; docs: Map<string, Doc> };
+
+  const PAGE = 10;
+  const STOP = new Set(
+    "a an and are as at be but by for from has have i in is it its of on or that the this to was were what when where which who why will with you your me my about does do did how can should would could any some best good worth game games review reviews".split(" "),
+  );
+  const QUESTION = /^(who|what|what's|whats|when|where|why|how|which|is|are|was|were|does|do|did|can|could|should|would|will|has|have)\b/i;
+  const isQuestion = (q: string) => q.split(/\s+/).length >= 3 && (/\?\s*$/.test(q) || QUESTION.test(q));
+  const PLATFORMS: [string, RegExp][] = [
+    ["PC", /^(pc|steam|windows|steam-deck|epic-games(-store)?)$/],
+    ["PlayStation", /^(playstation(-\d)?|ps[345]|psvr2?)$/],
+    ["Xbox", /^xbox/],
+    ["Nintendo Switch", /^(nintendo|switch|nintendo-switch(-2)?)$/],
+    ["Mobile", /^(mobile|android|ios|iphone|ipad)$/],
+  ];
+  const CONSOLES = new Set(["PlayStation", "Xbox", "Nintendo Switch"]);
+
+  const niceCategory = (c: string | null) => (c ? c.charAt(0).toUpperCase() + c.slice(1).toLowerCase() : "");
+  const yearOf = (d: Doc) => (d.pubDate ? String(new Date(d.pubDate).getFullYear()) : "");
+  function platformsOf(d: Doc): string[] {
+    const out = new Set<string>();
+    for (const raw of d.tags) {
+      const t = raw.toLowerCase().trim().replace(/\s+/g, "-");
+      if (t === "console") out.add("Console");
+      for (const [name, re] of PLATFORMS) if (re.test(t)) out.add(name);
+    }
+    if ([...out].some((p) => CONSOLES.has(p))) out.add("Console");
+    return [...out];
+  }
+  const termsOf = (q: string) => [...new Set(q.toLowerCase().match(/[a-z0-9]{3,}/g) ?? [])].filter((t) => !STOP.has(t)).slice(0, 8);
+  const escRe = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+  /** Escape a passage, keeping the <mark> highlights keyword search adds (or adding our own). */
+  function highlight(raw: string, terms: string[]): string {
+    let s = escapeHtml(raw).replace(/&lt;mark&gt;/g, "<mark>").replace(/&lt;\/mark&gt;/g, "</mark>");
+    if (!s.includes("<mark>") && terms.length) {
+      // Word starts only, and never inside an escaped entity like &amp;.
+      s = s.replace(new RegExp(`(^|[^&#\\w])(${terms.map(escRe).join("|")})`, "gi"), "$1<mark>$2</mark>");
+    }
+    return s;
+  }
+
+  // ---------------------------------------------------------------------------
+  // Static index (fetched once per visit, shared across navigations)
+
+  let indexPromise: Promise<Index> | null = null;
+  function loadIndex(): Promise<Index> {
+    if (!indexPromise) {
+      indexPromise = fetch("/search-index.json")
+        .then((r) => {
+          if (!r.ok) throw new Error(`search index ${r.status}`);
+          return r.json() as Promise<Doc[]>;
+        })
+        .then((rows) => {
+          const processTerm = (t: string) => {
+            const term = t.toLowerCase();
+            return STOP.has(term) ? null : term;
+          };
+          const mini = new MiniSearch<Doc>({
+            idField: "slug",
+            fields: ["title", "game", "tags", "description", "category"],
+            extractField: (doc, field) => {
+              const v = (doc as unknown as Record<string, unknown>)[field];
+              return Array.isArray(v) ? v.join(" ") : String(v ?? "");
+            },
+            processTerm,
+            searchOptions: { boost: { game: 4, title: 3, tags: 1.5 }, prefix: true, fuzzy: 0.2, processTerm },
+          });
+          mini.addAll(rows);
+          return { mini, docs: new Map(rows.map((r) => [r.slug, r])) };
+        });
+      indexPromise.catch(() => (indexPromise = null));
+    }
+    return indexPromise;
+  }
+
+  function quick(idx: Index, q: string, n: number): Doc[] {
+    let hits = idx.mini.search(q, { combineWith: "AND" });
+    if (!hits.length) hits = idx.mini.search(q);
+    return hits.slice(0, n).map((h) => idx.docs.get(String(h.id))!).filter(Boolean);
+  }
+
+  // ---------------------------------------------------------------------------
+
+  function setup(app: HTMLElement) {
+    app.dataset.ready = "1";
+    const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
+    const form = $<HTMLFormElement>("search-form");
+    const input = $<HTMLInputElement>("search-input");
+    const suggest = $<HTMLUListElement>("search-suggest");
+    const askBtn = $<HTMLButtonElement>("ask-ai-btn");
+    const titleEl = $<HTMLElement>("results-title");
+    const countEl = $<HTMLElement>("results-count");
+    const filtersEl = $<HTMLElement>("filters");
+    const clearBtn = $<HTMLButtonElement>("f-clear");
+    const noticeEl = $<HTMLElement>("search-notice");
+    const resultsEl = $<HTMLOListElement>("results");
+    const moreBtn = $<HTMLButtonElement>("show-more");
+    const introEl = $<HTMLElement>("search-intro");
+    const answerEl = $<HTMLElement>("ai-answer");
+    const answerBody = $<HTMLElement>("ai-answer-body");
+    const answerSources = $<HTMLElement>("ai-answer-sources");
+    const answerFoot = $<HTMLElement>("ai-answer-foot");
+    const answerStop = $<HTMLButtonElement>("ai-answer-stop");
+    const answerCopy = $<HTMLButtonElement>("ai-answer-copy");
+    const selects = [...filtersEl.querySelectorAll("select[data-filter]")] as unknown as HTMLSelectElement[];
+    const sel = (name: string) => selects.find((s) => s.dataset.filter === name)!;
+
+    const cache = new Map<string, Doc[]>(); // full results per query, for this page view
+    let current = { q: "", results: [] as Doc[], terms: [] as string[], loading: false };
+    let shown = PAGE;
+    let searchCtl: AbortController | null = null;
+    let answerCtl: AbortController | null = null;
+    let answer = { q: "", text: "", refs: {} as Refs, done: false };
+    let debounce = 0;
+    let active = -1;
+
+    // --- URL state -------------------------------------------------------
+
+    const params = new URLSearchParams(location.search);
+    for (const s of selects) {
+      const v = params.get(s.dataset.filter!);
+      if (v) {
+        if (![...s.options].some((o) => o.value === v)) s.add(new Option(v, v));
+        s.value = v;
+      }
+    }
+    const syncUrl = () => {
+      const p = new URLSearchParams();
+      if (current.q) p.set("q", current.q);
+      for (const s of selects) if (s.value && !(s.dataset.filter === "sort" && s.value === "relevance")) p.set(s.dataset.filter!, s.value);
+      const qs = p.toString();
+      // Keep the router's history state so back/forward still work with view transitions.
+      history.replaceState(history.state, "", `${location.pathname}${qs ? `?${qs}` : ""}`);
+    };
+
+    // --- filters & rendering ----------------------------------------------
+
+    function fillOptions(s: HTMLSelectElement, values: string[], allLabel: string) {
+      const keep = s.value;
+      s.innerHTML = "";
+      s.add(new Option(allLabel, ""));
+      for (const v of values) s.add(new Option(v, v));
+      if (keep && !values.includes(keep)) s.add(new Option(keep, keep));
+      s.value = keep;
+    }
+
+    function rebuildFilters() {
+      const docs = current.results;
+      fillOptions(sel("category"), [...new Set(docs.map((d) => niceCategory(d.category)).filter(Boolean))].sort(), "All categories");
+      fillOptions(sel("platform"), [...new Set(docs.flatMap(platformsOf))].sort(), "All platforms");
+      fillOptions(sel("year"), [...new Set(docs.map(yearOf).filter(Boolean))].sort().reverse(), "Any year");
+    }
+
+    function filtered(): Doc[] {
+      const cat = sel("category").value;
+      const plat = sel("platform").value;
+      const score = sel("score").value;
+      const year = sel("year").value;
+      const list = current.results.filter((d) => {
+        if (cat && niceCategory(d.category) !== cat) return false;
+        if (plat && !platformsOf(d).includes(plat)) return false;
+        if (year && yearOf(d) !== year) return false;
+        if (score === "none") return d.score === null;
+        if (score === "lt7") return d.score !== null && d.score < 7;
+        if (score) return d.score !== null && d.score >= Number(score);
+        return true;
+      });
+      const sort = sel("sort").value;
+      if (sort === "newest") list.sort((a, b) => (b.pubDate ?? 0) - (a.pubDate ?? 0));
+      if (sort === "score") list.sort((a, b) => (b.score ?? -1) - (a.score ?? -1) || (b.pubDate ?? 0) - (a.pubDate ?? 0));
+      return list;
+    }
+
+    function card(d: Doc, terms: string[]): string {
+      const url = `/article/${encodeURIComponent(d.slug)}/`;
+      const date = d.pubDate ? new Date(d.pubDate) : null;
+      const cat = niceCategory(d.category);
+      const best = d.chunks?.[0];
+      const passage = best
+        ? `${best.heading ? `<span class="font-semibold text-gray-700 dark:text-slate-300">${escapeHtml(best.heading)} · </span>` : ""}${highlight(best.snippet, terms)}`
+        : highlight(d.description || "", terms);
+      const rest = (d.chunks ?? []).slice(1);
+      const more = rest.length
+        ? `<details class="mt-2 text-sm"><summary class="cursor-pointer select-none font-medium text-indigo-600 hover:underline dark:text-indigo-400">${rest.length} more matching passage${rest.length > 1 ? "s" : ""}</summary><ul class="mt-2 space-y-2 border-l-2 border-indigo-100 pl-3 text-gray-600 dark:border-indigo-500/30 dark:text-slate-400">${rest
+            .map((c) => `<li>${c.heading ? `<span class="font-semibold text-gray-700 dark:text-slate-300">${escapeHtml(c.heading)} · </span>` : ""}${highlight(c.snippet, terms)}</li>`)
+            .join("")}</ul></details>`
+        : "";
+      const score = typeof d.score === "number" ? `<span class="score-badge small-score score-outline-${Math.round(d.score)}">${d.score}</span>` : "";
+      const thumb = d.thumb
+        ? `<img src="${escapeHtml(d.thumb)}" alt="" loading="lazy" decoding="async" class="h-full w-full object-cover transition duration-300 group-hover:scale-105 motion-reduce:transition-none">`
+        : `<span class="grid h-full w-full place-items-center text-gray-300 dark:text-slate-600"><svg class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A1.5 1.5 0 0021.75 19.5V4.5A1.5 1.5 0 0020.25 3H3.75A1.5 1.5 0 002.25 4.5v15A1.5 1.5 0 003.75 21z"/></svg></span>`;
+      return `<li><article class="group flex gap-3 rounded-2xl border border-gray-200 bg-white p-3 shadow-sm transition hover:border-indigo-300 hover:shadow-md sm:gap-4 sm:p-4 dark:border-slate-700 dark:bg-slate-800 dark:hover:border-indigo-500/50 motion-reduce:transition-none">
+        <a href="${url}" tabindex="-1" aria-hidden="true" class="relative block aspect-[16/10] w-24 shrink-0 self-start overflow-hidden rounded-xl bg-gray-100 sm:w-44 dark:bg-slate-700">${thumb}${score}</a>
+        <div class="min-w-0 flex-1">
+          <div class="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-gray-500 dark:text-slate-400">${cat ? `<span class="rounded bg-gray-100 px-1.5 py-0.5 font-semibold uppercase tracking-wide text-gray-600 dark:bg-slate-700 dark:text-slate-300">${escapeHtml(cat)}</span>` : ""}${date ? `<time datetime="${date.toISOString()}">${date.toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" })}</time>` : ""}</div>
+          <h2 class="mt-1 text-base font-semibold leading-snug text-gray-900 sm:text-lg dark:text-slate-100"><a href="${url}" class="hover:text-indigo-600 focus-visible:underline focus-visible:outline-none dark:hover:text-indigo-400">${highlight(d.title, terms)}</a></h2>
+          <p class="mt-1.5 line-clamp-3 text-sm leading-relaxed text-gray-600 dark:text-slate-400">${passage}</p>
+          ${more}
+        </div>
+      </article></li>`;
+    }
+
+    function skeleton() {
+      resultsEl.innerHTML = Array.from(
+        { length: 3 },
+        () =>
+          `<li class="flex gap-4 rounded-2xl border border-gray-200 bg-white p-4 dark:border-slate-700 dark:bg-slate-800" aria-hidden="true"><div class="aspect-[16/10] w-24 shrink-0 animate-pulse rounded-xl bg-gray-200 sm:w-44 dark:bg-slate-700 motion-reduce:animate-none"></div><div class="flex-1 space-y-2 py-1"><div class="h-3 w-24 animate-pulse rounded bg-gray-200 dark:bg-slate-700 motion-reduce:animate-none"></div><div class="h-4 w-3/4 animate-pulse rounded bg-gray-200 dark:bg-slate-700 motion-reduce:animate-none"></div><div class="h-3 w-full animate-pulse rounded bg-gray-200 dark:bg-slate-700 motion-reduce:animate-none"></div><div class="h-3 w-5/6 animate-pulse rounded bg-gray-200 dark:bg-slate-700 motion-reduce:animate-none"></div></div></li>`,
+      ).join("");
+    }
+
+    function render() {
+      const q = current.q;
+      introEl.hidden = Boolean(q);
+      filtersEl.hidden = !q || !current.results.length;
+      clearBtn.hidden = !selects.some((s) => s.dataset.filter !== "sort" && s.value);
+      titleEl.textContent = q ? `Results for “${q}”` : "Search PlayTested";
+      if (!q) {
+        countEl.textContent = "Search titles, games, platforms and the full text of every review.";
+        resultsEl.innerHTML = "";
+        moreBtn.hidden = true;
+        return;
+      }
+      const list = filtered();
+      if (current.loading && !current.results.length) {
+        countEl.textContent = "Searching…";
+        skeleton();
+        moreBtn.hidden = true;
+        return;
+      }
+      const total = current.results.length;
+      countEl.textContent =
+        (list.length === total ? `${total} result${total === 1 ? "" : "s"}` : `${list.length} of ${total} results match your filters`) +
+        (current.loading ? " · searching full reviews…" : "");
+      if (!list.length) {
+        resultsEl.innerHTML = total
+          ? `<li class="rounded-2xl border border-dashed border-gray-300 p-8 text-center text-gray-600 dark:border-slate-600 dark:text-slate-400">No results match these filters. <button type="button" data-clear class="font-semibold text-indigo-600 hover:underline dark:text-indigo-400">Clear filters</button></li>`
+          : current.loading
+            ? ""
+            : `<li class="rounded-2xl border border-dashed border-gray-300 p-8 text-center text-gray-600 dark:border-slate-600 dark:text-slate-400"><p class="font-semibold text-gray-800 dark:text-slate-200">No results for “${escapeHtml(q)}”.</p><p class="mt-1 text-sm">Check the spelling, try a game's name or a genre — or <button type="button" data-ask class="font-semibold text-indigo-600 hover:underline dark:text-indigo-400">ask the AI</button>.</p></li>`;
+        moreBtn.hidden = true;
+        return;
+      }
+      resultsEl.innerHTML = list.slice(0, shown).map((d) => card(d, current.terms)).join("");
+      moreBtn.hidden = list.length <= shown;
+    }
+
+    // --- searching --------------------------------------------------------
+
+    /**
+     * `auto`: also ask the AI when the query is clearly a question (submitted searches only).
+     * `typing`: fired by the typing pause — leave the input and suggestions alone.
+     */
+    async function runSearch(raw: string, opts: { auto?: boolean; typing?: boolean } = {}) {
+      const q = raw.replace(/\s+/g, " ").trim().slice(0, 200);
+      if (!opts.typing) hideSuggest();
+      clearTimeout(debounce);
+      const wantsAnswer = Boolean(opts.auto && isQuestion(q));
+      if (q === current.q && (current.loading || current.results.length)) {
+        if (wantsAnswer) askAi(q);
+        return;
+      }
+      searchCtl?.abort();
+      const ctl = (searchCtl = new AbortController());
+      current = { q, results: [], terms: termsOf(q), loading: Boolean(q) };
+      shown = PAGE;
+      noticeEl.innerHTML = "";
+      if (!opts.typing && input.value.trim() !== q) input.value = q;
+      document.title = q ? `${q} – Search | PlayTested.Net` : "Search | PlayTested.Net";
+      syncUrl();
+      if (answer.q && answer.q !== q) {
+        // A different search: the old answer no longer applies.
+        answerCtl?.abort();
+        answerCtl = null;
+        answer = { q: "", text: "", refs: {}, done: false };
+        answerEl.hidden = true;
+      }
+      if (!q) return render();
+      if (wantsAnswer) askAi(q); // runs alongside the search below
+
+      // 1. Instant matches from the static index, shown while the full search runs.
+      const idx = await loadIndex().catch(() => null);
+      if (ctl.signal.aborted) return;
+      const quickDocs = idx ? quick(idx, q, 30) : [];
+      current.results = quickDocs;
+      rebuildFilters();
+      render();
+
+      // 2. Full-text hybrid search over whole reviews.
+      try {
+        let full = cache.get(q.toLowerCase());
+        if (!full) {
+          const data = await getJson<{ results: Doc[] }>(`/api/search?q=${encodeURIComponent(q)}&limit=30`, ctl.signal);
+          full = data.results ?? [];
+          cache.set(q.toLowerCase(), full);
+        }
+        if (ctl.signal.aborted) return;
+        const seen = new Set(full.map((d) => d.slug));
+        current.results = [...full, ...quickDocs.filter((d) => !seen.has(d.slug))];
+      } catch (e) {
+        if (isAbort(e) || ctl.signal.aborted) return;
+        noticeEl.innerHTML = noticeHtml(e);
+        if (quickDocs.length) {
+          noticeEl.insertAdjacentHTML("beforeend", `<p class="mt-2 text-xs text-gray-500 dark:text-slate-400">Showing quick matches from titles, games and tags.</p>`);
+        }
+      }
+      current.loading = false;
+      rebuildFilters();
+      render();
+    }
+
+    // --- AI answer --------------------------------------------------------
+
+    async function askAi(raw: string) {
+      const q = raw.replace(/\s+/g, " ").trim().slice(0, 300);
+      if (q.length < 3) {
+        input.focus();
+        return;
+      }
+      answerEl.hidden = false;
+      if (answer.q === q && (answerCtl || answer.done)) {
+        answerEl.scrollIntoView({ block: "nearest" });
+        return;
+      }
+      answerCtl?.abort();
+      const ctl = (answerCtl = new AbortController());
+      answer = { q, text: "", refs: {}, done: false };
+      answerBody.innerHTML = `<div class="flex items-center gap-2 text-sm text-indigo-800/80 dark:text-indigo-200/80">${TYPING_DOTS}<span>Reading our reviews…</span></div>`;
+      answerSources.innerHTML = "";
+      answerFoot.hidden = true;
+      answerCopy.hidden = true;
+      answerStop.hidden = false;
+      try {
+        const r = await streamAi(
+          "/api/answer",
+          { q },
+          {
+            signal: ctl.signal,
+            onText: perFrame((t, refs) => {
+              if (answerCtl === ctl) answerBody.innerHTML = renderMarkdown(t, { refs, caret: true });
+            }),
+          },
+        );
+        if (answerCtl !== ctl) return;
+        if (!r.text.trim()) {
+          answerBody.innerHTML = `<p class="text-sm text-gray-500 dark:text-slate-400">Stopped.</p>`;
+        } else {
+          answer = { q, text: r.text, refs: r.refs, done: true };
+          answerBody.innerHTML =
+            renderMarkdown(r.text, { refs: r.refs }) + (r.stopped ? `<p class="mt-2 text-xs italic text-gray-500 dark:text-slate-400">Stopped.</p>` : "");
+          answerSources.innerHTML = sourceChips(citedRefs(r.text, r.refs));
+          answerCopy.hidden = false;
+          answerFoot.hidden = false;
+        }
+      } catch (e) {
+        if (answerCtl !== ctl) return;
+        answerBody.innerHTML = noticeHtml(e);
+      } finally {
+        if (answerCtl === ctl) {
+          answerCtl = null;
+          answerStop.hidden = true;
+        }
+      }
+    }
+
+    // --- typeahead --------------------------------------------------------
+
+    const options = () => [...suggest.querySelectorAll<HTMLElement>("[role=option]")];
+    function hideSuggest() {
+      suggest.hidden = true;
+      input.setAttribute("aria-expanded", "false");
+      input.removeAttribute("aria-activedescendant");
+      active = -1;
+    }
+    function setActive(i: number) {
+      const opts = options();
+      if (!opts.length) return;
+      active = (i + opts.length) % opts.length;
+      opts.forEach((o, n) => {
+        o.setAttribute("aria-selected", String(n === active));
+        o.classList.toggle("bg-indigo-50", n === active);
+        o.classList.toggle("dark:bg-slate-700", n === active);
+      });
+      input.setAttribute("aria-activedescendant", opts[active].id);
+      opts[active].scrollIntoView({ block: "nearest" });
+    }
+
+    async function showSuggest() {
+      const q = input.value.trim();
+      if (q.length < 2) return hideSuggest();
+      const idx = await loadIndex().catch(() => null);
+      if (input.value.trim() !== q || document.activeElement !== input) return;
+      const terms = termsOf(q);
+      const docs = idx ? quick(idx, q, 6) : [];
+      const row = "flex w-full items-center gap-3 px-3 py-2 text-left";
+      suggest.innerHTML =
+        docs
+          .map((d, i) => {
+            const meta = [niceCategory(d.category), yearOf(d)].filter(Boolean).join(" · ");
+            return `<li role="option" id="sugg-${i}" aria-selected="false" data-href="/article/${encodeURIComponent(d.slug)}/" class="cursor-pointer [&_mark]:bg-transparent [&_mark]:font-semibold [&_mark]:text-indigo-700 dark:[&_mark]:text-indigo-300"><div class="${row}">${
+              d.thumb ? `<img src="${escapeHtml(d.thumb)}" alt="" loading="lazy" class="h-9 w-14 shrink-0 rounded object-cover">` : `<span class="h-9 w-14 shrink-0 rounded bg-gray-100 dark:bg-slate-700"></span>`
+            }<span class="min-w-0 flex-1"><span class="block truncate text-sm font-medium text-gray-900 dark:text-slate-100">${highlight(d.title, terms)}</span><span class="block truncate text-xs text-gray-500 dark:text-slate-400">${escapeHtml(meta)}</span></span>${
+              typeof d.score === "number" ? `<span class="shrink-0 rounded-full bg-indigo-600 px-2 py-0.5 text-xs font-bold text-white">${d.score}</span>` : ""
+            }</div></li>`;
+          })
+          .join("") +
+        `<li role="option" id="sugg-search" aria-selected="false" data-action="search" class="cursor-pointer border-t border-gray-100 dark:border-slate-700"><div class="${row} text-sm text-gray-700 dark:text-slate-300"><svg class="h-4 w-4 shrink-0 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35m1.1-5.65a7.5 7.5 0 11-15.001 0 7.5 7.5 0 0115.001 0z"/></svg><span class="truncate">Search full reviews for “${escapeHtml(q)}”</span><kbd class="ml-auto hidden rounded border border-gray-300 px-1.5 text-[10px] text-gray-400 sm:inline dark:border-slate-600">Enter</kbd></div></li>` +
+        `<li role="option" id="sugg-ask" aria-selected="false" data-action="ask" class="cursor-pointer"><div class="${row} text-sm font-medium text-indigo-700 dark:text-indigo-300"><svg class="h-4 w-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z"/></svg><span class="truncate">Ask AI: “${escapeHtml(q)}”</span></div></li>`;
+      suggest.hidden = false;
+      input.setAttribute("aria-expanded", "true");
+      active = -1;
+    }
+
+    function choose(opt: HTMLElement | undefined) {
+      if (!opt) return runSearch(input.value, { auto: true });
+      const href = opt.dataset.href;
+      hideSuggest();
+      if (href) navigate(href);
+      else if (opt.dataset.action === "ask") {
+        const q = input.value;
+        runSearch(q);
+        askAi(q);
+      } else runSearch(input.value, { auto: true });
+    }
+
+    // --- events -----------------------------------------------------------
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      choose(active >= 0 ? options()[active] : undefined);
+    });
+    input.addEventListener("focus", () => {
+      loadIndex().catch(() => undefined);
+      if (input.value.trim() !== current.q) showSuggest();
+    });
+    input.addEventListener("input", () => {
+      showSuggest();
+      clearTimeout(debounce);
+      const q = input.value.trim();
+      // Typing paused: refresh the full results too (the AI answer still waits for Enter or "Ask AI").
+      if (q.length >= 3) debounce = window.setTimeout(() => document.activeElement === input && runSearch(q, { typing: true }), 900);
+    });
+    input.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+        if (suggest.hidden) showSuggest();
+        else setActive(active + (e.key === "ArrowDown" ? 1 : -1));
+        e.preventDefault();
+      } else if (e.key === "Escape" && !suggest.hidden) {
+        hideSuggest();
+        e.preventDefault();
+      }
+    });
+    input.addEventListener("blur", () => setTimeout(hideSuggest, 150));
+    suggest.addEventListener("mousedown", (e) => e.preventDefault()); // keep focus in the input
+    suggest.addEventListener("click", (e) => choose((e.target as HTMLElement).closest<HTMLElement>("[role=option]") ?? undefined));
+    askBtn.addEventListener("click", () => {
+      const q = input.value.trim() || current.q;
+      if (q !== current.q) runSearch(q);
+      askAi(q);
+    });
+    selects.forEach((s) =>
+      s.addEventListener("change", () => {
+        shown = PAGE;
+        syncUrl();
+        render();
+      }),
+    );
+    const clearFilters = () => {
+      selects.forEach((s) => (s.value = s.dataset.filter === "sort" ? "relevance" : ""));
+      shown = PAGE;
+      syncUrl();
+      render();
+    };
+    clearBtn.addEventListener("click", clearFilters);
+    resultsEl.addEventListener("click", (e) => {
+      const t = e.target as HTMLElement;
+      if (t.closest("[data-clear]")) clearFilters();
+      if (t.closest("[data-ask]")) askAi(current.q);
+    });
+    moreBtn.addEventListener("click", () => {
+      shown += PAGE;
+      render();
+    });
+    introEl.addEventListener("click", (e) => {
+      const q = (e.target as HTMLElement).closest<HTMLElement>("[data-q]")?.dataset.q;
+      if (q) runSearch(q, { auto: true });
+    });
+    answerStop.addEventListener("click", () => answerCtl?.abort());
+    $<HTMLButtonElement>("ai-answer-close").addEventListener("click", () => {
+      answerCtl?.abort();
+      answerEl.hidden = true;
+    });
+    answerCopy.addEventListener("click", async () => {
+      const ok = await copyText(toPlainText(answer.text, answer.refs));
+      answerCopy.textContent = ok ? "Copied" : "Couldn't copy";
+      setTimeout(() => (answerCopy.textContent = "Copy"), 1600);
+    });
+    $<HTMLButtonElement>("ai-answer-followup").addEventListener("click", () => {
+      document.dispatchEvent(
+        new CustomEvent("playtested:chat-toggle", {
+          detail: {
+            mode: "center",
+            seed: [
+              { role: "user", content: answer.q },
+              { role: "assistant", content: answer.text, refs: answer.refs },
+            ],
+          },
+        }),
+      );
+    });
+    // Leaving the page: stop work nobody will see (and AI tokens nobody reads).
+    document.addEventListener(
+      "astro:before-swap",
+      () => {
+        searchCtl?.abort();
+        answerCtl?.abort();
+        clearTimeout(debounce);
+      },
+      { once: true },
+    );
+
+    // --- start --------------------------------------------------------------
+
+    const initial = (params.get("q") || "").trim();
+    if (initial) runSearch(initial, { auto: true });
+    else {
+      render();
+      if (matchMedia("(pointer: fine)").matches) input.focus({ preventScroll: true });
+    }
+  }
+
+  function init() {
+    const app = document.querySelector<HTMLElement>("[data-search-app]");
+    if (app && !app.dataset.ready) setup(app);
+  }
+  if (!(window as any)._ptSearchBooted) {
+    (window as any)._ptSearchBooted = true;
+    document.addEventListener("astro:page-load", init);
+  }
+  init();
+</script>

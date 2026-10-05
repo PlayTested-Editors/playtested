@@ -5,24 +5,16 @@ import Footer from "../../components/Footer.astro";
 import GameSelector from "../../components/GameSelector.astro";
 ---
 
-<BlogLayout title="AI Game Comparator">
+<BlogLayout title="AI Game Comparator" description="Compare two to four games with AI, alongside PlayTested's own review scores.">
   <Header />
 
-  <!-- Feature 2: Game Comparison -->
   <section id="comparison" class="mb-16">
     <div
-      class="bg-gradient-to-br mt-10 from-purple-50 to-pink-50 dark:from-slate-800 dark:to-slate-900 rounded-2xl p-8 border border-purple-100 dark:border-slate-700 shadow-lg"
+      class="mt-10 rounded-2xl border border-purple-100 bg-gradient-to-br from-purple-50 to-pink-50 p-5 shadow-lg sm:p-8 dark:border-slate-700 dark:from-slate-800 dark:to-slate-900"
     >
-      <div
-        class="flex flex-col sm:flex-row items-center sm:items-start space-y-4 sm:space-y-0 sm:space-x-4 mb-6 text-center sm:text-left"
-      >
-        <div class="bg-purple-500 rounded-full p-3 shrink-0">
-          <svg
-            class="w-6 h-6 text-white"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
+      <div class="mb-6 flex flex-col items-center space-y-4 text-center sm:flex-row sm:items-start sm:space-x-4 sm:space-y-0 sm:text-left">
+        <div class="shrink-0 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 p-3 shadow-md">
+          <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
             <path
               stroke-linecap="round"
               stroke-linejoin="round"
@@ -32,87 +24,41 @@ import GameSelector from "../../components/GameSelector.astro";
           </svg>
         </div>
         <div>
-          <h2
-            class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100"
-          >
-            AI Game Comparison
-          </h2>
-          <p class="text-gray-600 dark:text-gray-300 mt-1 text-sm sm:text-base">
-            Can't decide between different games? Let AI help you choose
-          </p>
+          <h1 class="text-2xl font-bold text-gray-900 sm:text-3xl dark:text-gray-100">AI Game Comparison</h1>
+          <p class="mt-1 text-sm text-gray-600 sm:text-base dark:text-gray-300">Can't decide between games? Let AI help you choose.</p>
         </div>
       </div>
 
       <div class="mb-4 space-y-4">
-        <div
-          class="bg-white/50 dark:bg-slate-800/50 rounded-xl p-4 sm:p-6 backdrop-blur-sm border border-purple-100 dark:border-slate-700"
-        >
-          <div class="mb-4">
-            <h3
-              class="text-lg font-semibold mb-2 text-gray-800 dark:text-gray-200"
-            >
-              Quick Comparison:
-            </h3>
-            <ul class="text-sm text-gray-600 dark:text-gray-400 space-y-1">
-              <li>
-                ⚡ <strong>Brief Analysis:</strong> Get a concise 1-2 paragraph comparison
-              </li>
-              <li>
-                🎮 <strong>Key Differences:</strong> Gameplay, story, and vibe at
-                a glance
-              </li>
-              <li>
-                💡 <strong>Quick Decision:</strong> Helps you choose faster
-              </li>
-            </ul>
-          </div>
+        <div class="rounded-xl border border-purple-100 bg-white/50 p-4 backdrop-blur-sm sm:p-6 dark:border-slate-700 dark:bg-slate-800/50">
+          <h2 class="mb-2 text-lg font-semibold text-gray-800 dark:text-gray-200">Quick comparison</h2>
+          <ul class="space-y-1 text-sm text-gray-600 dark:text-gray-400">
+            <li>⚡ <strong>Brief analysis:</strong> a concise comparison in a paragraph or two</li>
+            <li>🎮 <strong>Key differences:</strong> gameplay, story and vibe at a glance</li>
+            <li>📝 <strong>Our scores:</strong> see PlayTested's verdict for every game we've reviewed</li>
+          </ul>
         </div>
 
-        <GameSelector
-          maxSelection={5}
-          buttonText="⚔️ Compare Games"
-          id="comparator"
-        />
+        <GameSelector maxSelection={4} minSelection={2} buttonText="⚔️ Compare Games" id="comparator" />
       </div>
     </div>
   </section>
 
-  <!-- About Section -->
-  <section class="text-center">
-    <div
-      class="bg-gray-50 dark:bg-slate-800 rounded-2xl p-8 border border-gray-200 dark:border-slate-700"
-    >
-      <h3 class="text-2xl font-bold mb-4 text-gray-900 dark:text-gray-100">
-        Powered by Advanced AI
-      </h3>
-      <p class="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-        Our AI assistant leverages deep gaming knowledge and natural language
-        processing to understand what makes games special and why you might love
-        them. Every recommendation comes with detailed reasoning and valuable
-        insights.
+  <section class="mb-12 text-center">
+    <div class="rounded-2xl border border-gray-200 bg-gray-50 p-6 sm:p-8 dark:border-slate-700 dark:bg-slate-800">
+      <h2 class="mb-4 text-2xl font-bold text-gray-900 dark:text-gray-100">Powered by AI, grounded in our reviews</h2>
+      <p class="mx-auto max-w-2xl text-gray-600 dark:text-gray-400">
+        The comparison uses our own verdicts where we have them, so you get the AI's overview and PlayTested's scores side by side.
+        Looking for something new instead? <a href="/ai/recommend/" class="font-semibold text-indigo-600 hover:underline dark:text-indigo-400">Get AI recommendations</a>.
       </p>
-      <div
-        class="mt-6 flex flex-wrap justify-center gap-4 text-sm text-gray-500 dark:text-gray-400"
-      >
-        <div class="flex items-center space-x-2">
-          <span class="w-2 h-2 bg-green-500 rounded-full"></span>
-          <span>RAWG API Integration</span>
-        </div>
-        <div class="flex items-center space-x-2">
-          <span class="w-2 h-2 bg-blue-500 rounded-full"></span>
-          <span>OpenRouter AI</span>
-        </div>
-        <div class="flex items-center space-x-2">
-          <span class="w-2 h-2 bg-red-500 rounded-full"></span>
-          <span>Google Gemini Lite</span>
-        </div>
-        <div class="flex items-center space-x-2">
-          <span class="w-2 h-2 bg-purple-500 rounded-full"></span>
-          <span>Real-time Analysis</span>
-        </div>
+      <div class="mt-6 flex flex-wrap justify-center gap-4 text-sm text-gray-500 dark:text-gray-400">
+        <div class="flex items-center space-x-2"><span class="h-2 w-2 rounded-full bg-green-500"></span><span>RAWG game data</span></div>
+        <div class="flex items-center space-x-2"><span class="h-2 w-2 rounded-full bg-indigo-500"></span><span>PlayTested reviews</span></div>
+        <div class="flex items-center space-x-2"><span class="h-2 w-2 rounded-full bg-red-500"></span><span>Google Gemini Flash Lite</span></div>
+        <div class="flex items-center space-x-2"><span class="h-2 w-2 rounded-full bg-purple-500"></span><span>OpenRouter</span></div>
       </div>
     </div>
   </section>
-</BlogLayout>
 
-<Footer />
+  <Footer />
+</BlogLayout>

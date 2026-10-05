@@ -11,6 +11,7 @@ import Footer from "./Footer.astro";
 import FeaturedCard from "./FeaturedCard.astro";
 import Carousel from "./Carousel.astro";
 import SocialShare from "./SocialShare.astro";
+import AskReview from "./AskReview.astro";
 import SiteOptions from "../site.config.mjs";
 
 export interface ArticleViewData {
@@ -247,6 +248,8 @@ const hasScore = typeof score !== "undefined" && score !== null;
       <div id="ai-summary-text" class="text-sm text-gray-700 dark:text-gray-300 leading-relaxed mt-3"></div>
     </div>
 
+    {mode !== "preview" && <AskReview slug={slug} title={title} />}
+
     {
       Array.isArray(gallery) && gallery.length > 0 && (
         <div class="w-full lg:float-right lg:max-w-[420px] lg:ml-8 mb-6 lg:mb-4">
@@ -343,9 +346,11 @@ const hasScore = typeof score !== "undefined" && score !== null;
           container.classList.remove("hidden");
           summaryText.innerHTML = formatText(data.summary);
         } catch (e) {
+          // Show the (visitor-friendly) reason inline instead of an alert; the button stays to retry.
           btn.innerHTML = originalContent;
           btn.disabled = false;
-          alert(e.message);
+          container.classList.remove("hidden");
+          summaryText.textContent = e && e.message ? e.message : "Couldn't load the summary right now. Please try again.";
         }
       };
     }

@@ -6,7 +6,6 @@
     "dev": "astro dev --host",
     "build": "node scripts/build.mjs",
     "build:dev": "node scripts/build.mjs --env dev",
-    "build:search": "node scripts/build-search-index.mjs",
     "preview": "astro preview",
     "db:migrate:dev": "wrangler d1 migrations apply DB --remote",
     "sync:d1": "node scripts/sync-d1.mjs",
