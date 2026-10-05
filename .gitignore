@@ -34,3 +34,4 @@ public/robots.txt
 
 # Claude Code agent worktrees
 .claude/worktrees/
+public/search-index.json
