@@ -26,7 +26,8 @@ const { showTitle = true, homeFeatured = [] } = Astro.props;
   })();
 </script>
 
-<header class="mb-4 relative z-50">
+<!-- site-header: its own view-transition layer, so it holds still between pages -->
+<header class="mb-4 relative z-50 site-header">
   <div
     class="relative px-4 mt-2 flex items-center justify-center sm:justify-start lg:justify-between lg:px-0"
   >
@@ -98,7 +99,7 @@ const { showTitle = true, homeFeatured = [] } = Astro.props;
       <button
         id="theme-toggle"
         aria-label="Toggle theme"
-        class="p-2 rounded-md text-gray-600 dark:text-gray-300 bg-gray-100 dark:bg-slate-700 hover:bg-gray-200 dark:hover:bg-slate-600 transition-colors"
+        class="p-2 rounded-md text-gray-600 dark:text-gray-300 bg-gray-100 dark:bg-slate-700 hover:bg-gray-200 dark:hover:bg-slate-600 transition motion-safe:active:scale-90"
       >
         <!-- One SVG. We swap the <path> d attribute -->
         <svg
@@ -246,7 +247,38 @@ const { showTitle = true, homeFeatured = [] } = Astro.props;
         syncAria();
       };
 
-      const toggle = () => set(get() === "dark" ? "light" : "dark");
+      // With motion allowed, the new theme grows out of the toggle button as a
+      // circle (a view transition; see "Theme toggle" in global.css).
+      const toggle = (e) => {
+        const next = get() === "dark" ? "light" : "dark";
+        const root = document.documentElement;
+        const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        if (!document.startViewTransition || reduce) return set(next);
+
+        const rect = e?.currentTarget?.getBoundingClientRect?.();
+        const x = rect ? rect.left + rect.width / 2 : window.innerWidth - 40;
+        const y = rect ? rect.top + rect.height / 2 : 40;
+        root.style.setProperty("--theme-x", `${x}px`);
+        root.style.setProperty("--theme-y", `${y}px`);
+        root.style.setProperty(
+          "--theme-r",
+          `${Math.hypot(Math.max(x, window.innerWidth - x), Math.max(y, window.innerHeight - y))}px`,
+        );
+        root.classList.add("theme-switching");
+        const transition = document.startViewTransition(() => {
+          set(next);
+          popIcon();
+        });
+        transition.finished.finally(() => root.classList.remove("theme-switching"));
+      };
+
+      const popIcon = () => {
+        const icon = document.getElementById("theme-icon");
+        if (!icon) return;
+        icon.classList.remove("theme-icon-pop");
+        void icon.getBoundingClientRect(); // restart the animation
+        icon.classList.add("theme-icon-pop");
+      };
 
       const syncIcon = () => {
         const isDark = get() === "dark";
@@ -292,7 +324,7 @@ const { showTitle = true, homeFeatured = [] } = Astro.props;
       const newBtn = btn?.cloneNode(true);
       if (btn && newBtn) {
         btn.parentNode.replaceChild(newBtn, btn);
-        newBtn.addEventListener("click", () => Theme.toggle());
+        newBtn.addEventListener("click", (e) => Theme.toggle(e));
       }
     }
 

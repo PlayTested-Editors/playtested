@@ -1,12 +1,19 @@
 ---
+import { vtName } from "../lib/transitions";
+
 export interface Props {
   images: string[];
   caption?: string;
+  /** Shared-element name for the main image (it is the article hero). */
+  heroName?: string;
+  /** Above the fold: load the first image eagerly at high priority. */
+  priority?: boolean;
 }
 
-const { images, caption } = Astro.props as Props;
+const { images, caption, heroName, priority = false } = Astro.props as Props;
 const id = `carousel-${Math.random().toString(36).substring(2, 9)}`;
 const imgsJSON = JSON.stringify(images);
+const markLoaded = "this.classList.add('is-loaded')";
 ---
 
 {images.length > 0 && (
@@ -15,23 +22,29 @@ const imgsJSON = JSON.stringify(images);
     data-current="0"
     class="w-full max-w-[900px] mx-auto group relative"
   >
-    <!-- Main Image with fixed aspect ratio -->
-    <!-- Main Image with fixed aspect ratio -->
-    <div class="relative rounded-lg w-full group">
+    <!-- Main Image: 16:9 box until it loads (most screenshots are 16:9), then its own ratio -->
+    <div class="relative rounded-lg w-full group overflow-hidden img-skeleton touch-pan-y" data-carousel-stage>
       <img
         src={images[0]}
         alt=""
-        class="main-image w-full h-auto max-h-[900px] object-contain rounded-lg opacity-0 transition-opacity duration-500 ease-in-out cursor-zoom-in"
-        onload="this.classList.add('opacity-100')"
+        width="1600"
+        height="900"
+        loading={priority ? "eager" : "lazy"}
+        fetchpriority={priority ? "high" : "auto"}
+        decoding="async"
+        class:list={["main-image gallery-main img-fade w-full h-auto max-h-[900px] object-contain rounded-lg cursor-zoom-in", heroName && "vt-morph"]}
+        style={heroName ? `view-transition-name: ${vtName(heroName)}` : undefined}
+        onload={markLoaded}
+        onerror={markLoaded}
       />
-      
+
       <!-- Navigation Arrows (Centered on Image) -->
-      <button id={`${id}-prev`} class="absolute top-1/2 left-2 -translate-y-1/2 p-2 bg-black/40 hover:bg-black/60 text-white rounded-full transition-colors backdrop-blur-sm shadow-sm opacity-100 z-20" aria-label="Previous image">
+      <button id={`${id}-prev`} class="absolute top-1/2 left-2 -translate-y-1/2 p-2 bg-black/40 hover:bg-black/60 text-white rounded-full transition backdrop-blur-sm shadow-sm opacity-100 z-20 motion-safe:active:scale-90" aria-label="Previous image">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
         </svg>
       </button>
-      <button id={`${id}-next`} class="absolute top-1/2 right-2 -translate-y-1/2 p-2 bg-black/40 hover:bg-black/60 text-white rounded-full transition-colors backdrop-blur-sm shadow-sm opacity-100 z-20" aria-label="Next image">
+      <button id={`${id}-next`} class="absolute top-1/2 right-2 -translate-y-1/2 p-2 bg-black/40 hover:bg-black/60 text-white rounded-full transition backdrop-blur-sm shadow-sm opacity-100 z-20 motion-safe:active:scale-90" aria-label="Next image">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
         </svg>
@@ -44,9 +57,13 @@ const imgsJSON = JSON.stringify(images);
         <img
           src={src}
           alt=""
+          width="96"
+          height="96"
+          loading="lazy"
+          decoding="async"
           data-index={i}
           data-carousel-id={id}
-          class="thumbnail w-16 h-16 md:w-24 md:h-24 shrink-0 object-cover rounded cursor-pointer opacity-50 border border-transparent hover:opacity-75 transition-opacity duration-200"
+          class="thumbnail w-16 h-16 md:w-24 md:h-24 shrink-0 object-cover rounded cursor-pointer opacity-50 border border-transparent bg-gray-300 dark:bg-slate-700 hover:opacity-75 transition duration-200 motion-safe:active:scale-95"
         />
       ))}
     </div>
@@ -61,24 +78,24 @@ const imgsJSON = JSON.stringify(images);
     <!-- Lightbox Modal -->
     <div
       id={`${id}-lightbox`}
-      class="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 backdrop-blur-sm hidden transition-opacity duration-300 opacity-0 cursor-zoom-out"
+      class="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 backdrop-blur-sm hidden transition-opacity duration-300 opacity-0 cursor-zoom-out touch-pan-y"
     >
       <!-- Lightbox Prev Button -->
-      <button id={`${id}-lb-prev`} class="absolute left-4 top-1/2 -translate-y-1/2 p-3 bg-white/10 hover:bg-white/20 text-white rounded-full transition-colors backdrop-blur-sm z-[110] cursor-pointer">
+      <button id={`${id}-lb-prev`} class="absolute left-4 top-1/2 -translate-y-1/2 p-3 bg-white/10 hover:bg-white/20 text-white rounded-full transition backdrop-blur-sm z-[110] cursor-pointer motion-safe:active:scale-90" aria-label="Previous image">
          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
          </svg>
       </button>
-      
+
       <img
         id={`${id}-lightbox-img`}
         src=""
         alt=""
-        class="max-w-[95vw] max-h-[95vh] object-contain shadow-2xl rounded-lg"
+        class="max-w-[95vw] max-h-[95vh] object-contain shadow-2xl rounded-lg transition-transform duration-300 ease-out scale-95"
       />
-      
+
       <!-- Lightbox Next Button -->
-      <button id={`${id}-lb-next`} class="absolute right-4 top-1/2 -translate-y-1/2 p-3 bg-white/10 hover:bg-white/20 text-white rounded-full transition-colors backdrop-blur-sm z-[110] cursor-pointer">
+      <button id={`${id}-lb-next`} class="absolute right-4 top-1/2 -translate-y-1/2 p-3 bg-white/10 hover:bg-white/20 text-white rounded-full transition backdrop-blur-sm z-[110] cursor-pointer motion-safe:active:scale-90" aria-label="Next image">
          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
          </svg>
@@ -88,114 +105,152 @@ const imgsJSON = JSON.stringify(images);
     <script define:vars={{ id, imgsJSON }}>
       function initCarousel() {
         const carousel = document.getElementById(id);
-        if (carousel) {
-          const mainImg = carousel.querySelector('.main-image');
-          const lightbox = document.getElementById(`${id}-lightbox`);
-          const lightboxImg = document.getElementById(`${id}-lightbox-img`);
-          const prevBtn = document.getElementById(`${id}-prev`);
-          const nextBtn = document.getElementById(`${id}-next`);
-          
-          // Lightbox buttons
-          const lbPrev = document.getElementById(`${id}-lb-prev`);
-          const lbNext = document.getElementById(`${id}-lb-next`);
-          
-          const thumbnails = carousel.querySelectorAll('.thumbnail');
-          
-          let currentIndex = 0;
-          const images = JSON.parse(imgsJSON);
+        // Bind once per rendered carousel (this runs on load and on every page-load).
+        if (!carousel || carousel.dataset.ready) return;
+        carousel.dataset.ready = "1";
 
-          const updateImage = (index) => {
-             // Fade out
-             mainImg.classList.remove('opacity-100');
-             mainImg.classList.add('opacity-0');
-             
-             // Wait for fade out, then swap
-             setTimeout(() => {
-                 currentIndex = index;
-                 mainImg.src = images[index];
-                 // Update Lightbox image locally if it's open
-                 if (lightbox && !lightbox.classList.contains('hidden')) {
-                    lightboxImg.src = images[index];
-                 }
+        const stage = carousel.querySelector('[data-carousel-stage]');
+        const mainImg = carousel.querySelector('.main-image');
+        const lightbox = document.getElementById(`${id}-lightbox`);
+        const lightboxImg = document.getElementById(`${id}-lightbox-img`);
+        const prevBtn = document.getElementById(`${id}-prev`);
+        const nextBtn = document.getElementById(`${id}-next`);
 
-                 carousel.dataset.current = index;
-                 
-                 // Update active thumbnail style
-                 thumbnails.forEach((t, i) => {
-                     if (i === index) {
-                         t.classList.remove('opacity-50', 'border-transparent');
-                         t.classList.add('opacity-100', 'border-white', 'ring-2', 'ring-blue-500');
-                     } else {
-                         t.classList.add('opacity-50', 'border-transparent');
-                         t.classList.remove('opacity-100', 'border-white', 'ring-2', 'ring-blue-500');
-                     }
-                 });
-             }, 300); // match duration-300? Actually duration-500 in css
-             
-             // Fade In (on load)
-             mainImg.onload = () => {
-                 mainImg.classList.remove('opacity-0');
-                 mainImg.classList.add('opacity-100');
-             }
-          };
-          
-          // Initial highlight
-          updateImage(0);
+        // Lightbox buttons
+        const lbPrev = document.getElementById(`${id}-lb-prev`);
+        const lbNext = document.getElementById(`${id}-lb-next`);
 
-          if (mainImg && lightbox && lightboxImg) {
-            // Lightbox logic
-            const openLightbox = () => {
-               lightboxImg.src = mainImg.src;
-               lightbox.classList.remove('hidden');
-               requestAnimationFrame(() => {
-                  lightbox.classList.remove('opacity-0');
-                  lightbox.classList.add('opacity-100');
-               });
-            };
-            
-            mainImg.onclick = openLightbox;
-            
-            lightbox.onclick = (e) => {
-                if (e.target === lightbox || e.target === lightboxImg) {
-                    lightbox.classList.remove('opacity-100');
-                    lightbox.classList.add('opacity-0');
-                    setTimeout(() => lightbox.classList.add('hidden'), 300); 
-                }
-            };
-            
-            const goPrev = (e) => {
-                e.stopPropagation();
-                let newIndex = currentIndex - 1;
-                if(newIndex < 0) newIndex = images.length - 1;
-                updateImage(newIndex);
-            };
-            
-            const goNext = (e) => {
-                e.stopPropagation();
-                let newIndex = currentIndex + 1;
-                if(newIndex >= images.length) newIndex = 0;
-                updateImage(newIndex);
-            };
-            
-            // Main Arrows
-            if(prevBtn) prevBtn.onclick = goPrev;
-            if(nextBtn) nextBtn.onclick = goNext;
-            
-            // Lightbox Arrows
-            if(lbPrev) lbPrev.onclick = goPrev;
-            if(lbNext) lbNext.onclick = goNext;
-            
-            // Thumbnails
-            thumbnails.forEach((thumb, i) => {
-                thumb.onclick = () => updateImage(i);
-            })
+        const thumbnails = carousel.querySelectorAll('.thumbnail');
+        if (!mainImg || !lightbox || !lightboxImg) return;
+
+        const images = JSON.parse(imgsJSON);
+        const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)');
+        let currentIndex = 0;
+        let swapToken = 0;
+
+        const highlight = (index) => {
+          thumbnails.forEach((t, i) => {
+            const active = i === index;
+            t.classList.toggle('opacity-50', !active);
+            t.classList.toggle('border-transparent', !active);
+            t.classList.toggle('opacity-100', active);
+            t.classList.toggle('border-white', active);
+            t.classList.toggle('ring-2', active);
+            t.classList.toggle('ring-blue-500', active);
+          });
+        };
+
+        // Slide the current image out, swap in the next once it has decoded
+        // (so it never flashes half-loaded), then slide it in from the other side.
+        const show = (index, dir) => {
+          if (index === currentIndex) return;
+          const token = ++swapToken;
+          const src = images[index];
+          currentIndex = index;
+          carousel.dataset.current = index;
+          highlight(index);
+          if (!lightbox.classList.contains('hidden')) lightboxImg.src = src;
+
+          const next = new Image();
+          next.src = src;
+          const decoded = (next.decode ? next.decode() : Promise.resolve()).catch(() => {});
+
+          if (reduceMotion.matches) {
+            decoded.then(() => { if (token === swapToken) mainImg.src = src; });
+            return;
           }
-        }
+          mainImg.style.setProperty('--slide-dir', dir);
+          mainImg.classList.remove('is-entering');
+          mainImg.classList.add('is-leaving');
+          Promise.all([decoded, new Promise((r) => setTimeout(r, 180))]).then(() => {
+            if (token !== swapToken) return;
+            mainImg.src = src;
+            mainImg.classList.replace('is-leaving', 'is-entering');
+            mainImg.getBoundingClientRect(); // commit the start position before sliding in
+            mainImg.classList.remove('is-entering');
+          });
+        };
+
+        const goPrev = (e) => {
+          e?.stopPropagation();
+          show(currentIndex - 1 < 0 ? images.length - 1 : currentIndex - 1, -1);
+        };
+
+        const goNext = (e) => {
+          e?.stopPropagation();
+          show(currentIndex + 1 >= images.length ? 0 : currentIndex + 1, 1);
+        };
+
+        // Initial highlight (the main image is already showing images[0])
+        highlight(0);
+
+        // Lightbox logic
+        const openLightbox = () => {
+          lightboxImg.src = mainImg.src;
+          lightbox.classList.remove('hidden');
+          lightbox.getBoundingClientRect(); // start the fade from the hidden state
+          lightbox.classList.replace('opacity-0', 'opacity-100');
+          lightboxImg.classList.replace('scale-95', 'scale-100');
+        };
+
+        const closeLightbox = () => {
+          lightbox.classList.replace('opacity-100', 'opacity-0');
+          lightboxImg.classList.replace('scale-100', 'scale-95');
+          setTimeout(() => lightbox.classList.add('hidden'), 300);
+        };
+
+        mainImg.addEventListener('click', openLightbox);
+
+        lightbox.addEventListener('click', (e) => {
+          if (e.target === lightbox || e.target === lightboxImg) closeLightbox();
+        });
+
+        // Main Arrows
+        prevBtn?.addEventListener('click', goPrev);
+        nextBtn?.addEventListener('click', goNext);
+
+        // Lightbox Arrows
+        lbPrev?.addEventListener('click', goPrev);
+        lbNext?.addEventListener('click', goNext);
+
+        // Thumbnails
+        thumbnails.forEach((thumb, i) => {
+          thumb.addEventListener('click', () => show(i, i > currentIndex ? 1 : -1));
+        });
+
+        // Swipe left/right on the image or the lightbox
+        let touchX = null;
+        let touchY = 0;
+        const onTouchStart = (e) => {
+          touchX = e.touches[0].clientX;
+          touchY = e.touches[0].clientY;
+        };
+        const onTouchEnd = (e) => {
+          if (touchX === null) return;
+          const dx = e.changedTouches[0].clientX - touchX;
+          const dy = e.changedTouches[0].clientY - touchY;
+          touchX = null;
+          if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy) * 1.5) (dx < 0 ? goNext : goPrev)();
+        };
+        [stage, lightbox].forEach((el) => {
+          el?.addEventListener('touchstart', onTouchStart, { passive: true });
+          el?.addEventListener('touchend', onTouchEnd, { passive: true });
+        });
+
+        // Arrow keys / Escape while the lightbox is open
+        const onKey = (e) => {
+          if (!carousel.isConnected) return document.removeEventListener('keydown', onKey);
+          if (lightbox.classList.contains('hidden')) return;
+          if (e.key === 'ArrowLeft') goPrev();
+          else if (e.key === 'ArrowRight') goNext();
+          else if (e.key === 'Escape') closeLightbox();
+        };
+        document.addEventListener('keydown', onKey);
       }
-      
+
       // Run immediately
       initCarousel();
-      
+
       // Run on navigation
       document.addEventListener('astro:page-load', initCarousel);
     </script>

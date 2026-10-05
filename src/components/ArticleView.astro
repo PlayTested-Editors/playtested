@@ -141,7 +141,7 @@ const hasScore = typeof score !== "undefined" && score !== null;
           )
         }
         <h1
-          class="text-lg sm:text-xl lg:text-2xl xl:text-4xl font-semibold tracking-tight text-gray-900 dark:text-slate-100 leading-snug"
+          class="text-lg sm:text-xl lg:text-2xl xl:text-4xl font-semibold tracking-tight text-gray-900 dark:text-slate-100 leading-snug vt-morph"
           transition:name={`title-${slug}`}
         >
           {
@@ -186,7 +186,7 @@ const hasScore = typeof score !== "undefined" && score !== null;
           {tags.map((tag) => (
             <a
               href={`/tag/${tag.toLowerCase().replace(/\s+/g, "-")}`}
-              class="inline-block bg-gray-100 text-gray-600 dark:bg-slate-700 dark:text-slate-300 px-1.5 py-0.5 sm:px-4 sm:py-1 rounded hover:bg-gray-200 dark:hover:bg-slate-600 no-underline hover:underline text-[10px] sm:text-xs transition-colors"
+              class="inline-block bg-gray-100 text-gray-600 dark:bg-slate-700 dark:text-slate-300 px-1.5 py-0.5 sm:px-4 sm:py-1 rounded hover:bg-gray-200 dark:hover:bg-slate-600 no-underline hover:underline text-[10px] sm:text-xs transition motion-safe:active:scale-95"
             >
               {tag}
             </a>
@@ -205,7 +205,7 @@ const hasScore = typeof score !== "undefined" && score !== null;
         <img
           src={large}
           alt={title}
-          class="w-full h-auto rounded-lg shadow-md"
+          class="w-full h-auto rounded-lg shadow-md aspect-[auto_16/9] vt-morph"
           loading="eager"
           fetchpriority="high"
           decoding="async"
@@ -221,7 +221,7 @@ const hasScore = typeof score !== "undefined" && score !== null;
     {/* AI Summary Section moved inside prose for alignment */}
     <button
       id="ai-summary-btn"
-      class="mb-6 mt-4 py-2 px-4 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-medium rounded-lg shadow-md hover:shadow-lg transition-all flex items-center gap-2 text-sm no-underline"
+      class="mb-6 mt-4 py-2 px-4 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-medium rounded-lg shadow-md hover:shadow-lg transition-all flex items-center gap-2 text-sm no-underline motion-safe:active:scale-[0.97]"
       data-slug={slug}
       disabled={mode === "preview"}
     >
@@ -250,7 +250,7 @@ const hasScore = typeof score !== "undefined" && score !== null;
     {
       Array.isArray(gallery) && gallery.length > 0 && (
         <div class="w-full lg:float-right lg:max-w-[420px] lg:ml-8 mb-6 lg:mb-4">
-          <Carousel images={gallery} />
+          <Carousel images={gallery} heroName={large ? undefined : `hero-${slug}`} priority />
         </div>
       )
     }
@@ -293,7 +293,7 @@ const hasScore = typeof score !== "undefined" && score !== null;
     <>
       <hr class="border-t border-gray-200 dark:border-gray-700 my-12" />
       <section>
-        <h2 class="text-2xl font-semibold mb-8 text-center text-gray-800 dark:text-slate-200">{SiteOptions.labels.youMightAlsoLike}</h2>
+        <h2 class="text-2xl font-semibold mb-8 text-center text-gray-800 dark:text-slate-200" data-reveal>{SiteOptions.labels.youMightAlsoLike}</h2>
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
           {similar.map((p) => (
             <FeaturedCard post={p as any} />

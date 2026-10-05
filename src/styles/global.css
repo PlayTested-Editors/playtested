@@ -9,7 +9,7 @@ code>span.line {
 
 
 .btn-tag {
-  @apply px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-slate-700 hover:bg-gray-200 dark:hover:bg-slate-600 rounded-md transition;
+  @apply px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-slate-700 hover:bg-gray-200 dark:hover:bg-slate-600 rounded-md transition motion-safe:active:scale-95;
 }
 
 .gallery {
@@ -66,7 +66,7 @@ code>span.line {
   justify-content: center;
   min-width: 3rem;
   text-align: center;
-  transition: transform 0.2s ease, border 0.3s ease;
+  transition: transform 0.35s var(--ease-spring), border 0.3s ease;
   text-shadow: 0 0 2px black;
   /* Optional black outline for legibility */
 }
@@ -123,9 +123,11 @@ code>span.line {
   right: 0.4rem;
 }
 
-/* Hover animation on card (if desired) */
-.group:hover .score-badge {
-  transform: scale(1.05);
+/* Hover animation on card: a springy pop */
+@media (prefers-reduced-motion: no-preference) {
+  .group:hover .score-badge {
+    transform: scale(1.12) rotate(-3deg);
+  }
 }
 
 /* Default (large screens and up) */
@@ -251,4 +253,341 @@ code>span.line {
   display: block;
   object-fit: contain;
   border-radius: 0.5rem;
+}
+
+/* ==========================================================================
+   Motion
+   Loading states, hover/press feedback, scroll reveal and page transitions.
+   Movement is gated on prefers-reduced-motion, and the catch-all at the end
+   makes anything left over instant. Runtime: src/scripts/motion.ts.
+   ========================================================================== */
+
+:root {
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Image placeholder: a soft shimmer until the <img> inside has loaded. */
+.img-skeleton {
+  position: relative;
+  isolation: isolate;
+  background-color: rgb(209 213 219 / 0.7); /* gray-300 */
+}
+
+.dark .img-skeleton {
+  background-color: rgb(51 65 85 / 0.7); /* slate-700 */
+}
+
+.img-skeleton::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: linear-gradient(100deg, transparent 20%, rgb(255 255 255 / 0.35) 50%, transparent 80%);
+  transform: translateX(-100%);
+}
+
+.dark .img-skeleton::before {
+  background: linear-gradient(100deg, transparent 20%, rgb(255 255 255 / 0.06) 50%, transparent 80%);
+}
+
+.img-skeleton > img {
+  position: relative;
+  z-index: 1;
+}
+
+.img-skeleton:has(img.is-loaded) {
+  background-color: transparent;
+}
+
+.img-skeleton:has(img.is-loaded)::before {
+  content: none;
+}
+
+@keyframes skeleton-shimmer {
+  to {
+    transform: translateX(100%);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .img-skeleton::before {
+    animation: skeleton-shimmer 1.6s ease-in-out infinite;
+  }
+}
+
+/* Fade images in once loaded instead of popping in. `is-loaded` comes from an
+   inline onload/onerror on the <img>; BlogLayout's <noscript> opts out. The
+   transform/scale entries keep Tailwind's hover zoom animated. */
+.img-fade {
+  opacity: 0;
+  transition: opacity 0.4s ease, transform 0.3s ease, scale 0.3s ease;
+}
+
+.img-fade.is-loaded {
+  opacity: 1;
+}
+
+/* Article gallery (Carousel.astro): the main image slides out, the next one in. */
+.gallery-main {
+  transition: opacity 0.25s ease, transform 0.35s var(--ease-out-expo);
+}
+
+.gallery-main.is-leaving {
+  opacity: 0;
+  transform: translateX(calc(var(--slide-dir, 1) * -32px));
+  transition-duration: 0.18s;
+}
+
+.gallery-main.is-entering {
+  opacity: 0;
+  transform: translateX(calc(var(--slide-dir, 1) * 32px));
+  transition: none;
+}
+
+/* Featured cards lift with a faint cyan glow; list thumbnails glow and nudge.
+   Keyboard focus gets the same treatment (but not a lingering click focus). */
+.card-lift {
+  transition: translate 0.35s var(--ease-out-expo), box-shadow 0.35s ease;
+}
+
+.card-lift:hover,
+.card-lift:has(:focus-visible) {
+  box-shadow:
+    0 18px 32px -18px rgb(15 23 42 / 0.45),
+    0 0 0 1px rgb(6 182 212 / 0.25),
+    0 8px 28px -12px rgb(6 182 212 / 0.35);
+}
+
+.thumb-glow {
+  transition: translate 0.3s var(--ease-out-expo), box-shadow 0.3s ease;
+}
+
+.thumb-glow:hover,
+.thumb-glow:focus-visible {
+  box-shadow: 0 10px 22px -10px rgb(6 182 212 / 0.6);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .card-lift:hover,
+  .card-lift:has(:focus-visible) {
+    translate: 0 -4px;
+  }
+
+  .thumb-glow:hover,
+  .thumb-glow:focus-visible {
+    translate: 0 -2px;
+  }
+}
+
+/* Clips sideways only, so a lifted card's glow isn't cut off top and bottom.
+   Browsers without `overflow: clip` keep the plain `hidden` (an @supports block,
+   because the minifier would merge two plain declarations into one). */
+.clip-x {
+  overflow: hidden;
+}
+
+@supports (overflow: clip) {
+  .clip-x {
+    overflow: clip visible;
+  }
+}
+
+/* Score badges pop in with their card on reveal, and the article badge on load. */
+@keyframes badge-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+  60% {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .is-revealed .score-badge {
+    animation: badge-pop 0.5s var(--ease-spring) calc(var(--reveal-delay, 0ms) + 0.2s) both;
+  }
+
+  .article-score-badge {
+    animation: badge-pop 0.6s var(--ease-spring) 0.15s both;
+  }
+}
+
+/* Scroll reveal: motion.ts only marks elements that start below the fold. */
+.reveal-pending {
+  opacity: 0;
+  transform: translateY(18px);
+}
+
+.reveal-pending.is-revealed {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity 0.5s ease var(--reveal-delay, 0ms),
+    transform 0.6s var(--ease-out-expo) var(--reveal-delay, 0ms);
+}
+
+/* Page transitions (<ClientRouter />): the page fades through with a slight
+   slide (reversed on Back) while the header holds still on its own layer.
+   motion.ts drops the header's name when it is scrolled out of view. */
+.site-header {
+  view-transition-name: site-header;
+}
+
+/* Shared elements: card thumbnail -> article hero, card title -> article title. */
+.vt-morph {
+  view-transition-class: vt-morph;
+}
+
+/* The clicked card's thumbnail drops its hover zoom so the morph starts from
+   exactly what is on screen. */
+.vt-source [data-vt-hero] {
+  scale: none !important;
+  transition: none !important;
+}
+
+@keyframes vt-page-out {
+  to {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.995);
+  }
+}
+
+@keyframes vt-page-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.995);
+  }
+}
+
+@keyframes vt-page-out-back {
+  to {
+    opacity: 0;
+    transform: translateY(8px) scale(0.995);
+  }
+}
+
+@keyframes vt-page-in-back {
+  from {
+    opacity: 0;
+    transform: translateY(-12px) scale(0.995);
+  }
+}
+
+@keyframes vt-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes vt-fade-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  ::view-transition-old(root) {
+    animation: vt-page-out 0.18s cubic-bezier(0.4, 0, 1, 1) both;
+  }
+
+  ::view-transition-new(root) {
+    animation: vt-page-in 0.38s var(--ease-out-expo) 0.08s both;
+  }
+
+  [data-astro-transition="back"]::view-transition-old(root) {
+    animation-name: vt-page-out-back;
+  }
+
+  [data-astro-transition="back"]::view-transition-new(root) {
+    animation-name: vt-page-in-back;
+  }
+
+  /* Separate rules: browsers without view-transition-class drop these alone. */
+  ::view-transition-group(.vt-morph) {
+    animation-duration: 0.45s;
+    animation-timing-function: var(--ease-out-expo);
+  }
+
+  ::view-transition-old(.vt-morph) {
+    animation: vt-fade-out 0.3s ease both;
+    mix-blend-mode: plus-lighter;
+  }
+
+  ::view-transition-new(.vt-morph) {
+    animation: vt-fade-in 0.3s ease both;
+    mix-blend-mode: plus-lighter;
+  }
+}
+
+/* Theme toggle (Header.astro): the new theme grows out of the toggle button.
+   Only used when motion is allowed; otherwise the theme switches instantly. */
+html.theme-switching,
+html.theme-switching * {
+  transition: none !important;
+}
+
+html.theme-switching * {
+  view-transition-name: none !important;
+}
+
+html.theme-switching::view-transition-old(root) {
+  animation: none;
+}
+
+html.theme-switching::view-transition-new(root) {
+  animation: theme-reveal 0.55s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+@keyframes theme-reveal {
+  from {
+    clip-path: circle(0 at var(--theme-x, 50%) var(--theme-y, 0));
+  }
+  to {
+    clip-path: circle(var(--theme-r, 150vmax) at var(--theme-x, 50%) var(--theme-y, 0));
+  }
+}
+
+@keyframes theme-icon-pop {
+  from {
+    opacity: 0;
+    transform: rotate(-90deg) scale(0.5);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .theme-icon-pop {
+    animation: theme-icon-pop 0.5s var(--ease-spring);
+  }
+}
+
+/* Reduced motion: everything that still transitions or animates does so
+   instantly, and page transitions become a plain swap. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0s !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0s !important;
+    scroll-behavior: auto !important;
+  }
+
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}
+
+@media print {
+  .reveal-pending,
+  .img-fade {
+    opacity: 1 !important;
+    transform: none !important;
+  }
 }

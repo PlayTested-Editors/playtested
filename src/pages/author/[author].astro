@@ -63,8 +63,8 @@ const { author, posts } = Astro.props
     {
       posts.length > 0 ? (
         <ul class="space-y-4">
-          {posts.map((post) => (
-            <PostCard post={post} showCategory={true} />
+          {posts.map((post, i) => (
+            <PostCard post={post} showCategory={true} priority={i < 2} />
           ))}
         </ul>
       ) : (

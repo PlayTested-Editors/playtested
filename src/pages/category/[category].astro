@@ -59,14 +59,14 @@ const isGrid = ["review", "reviews"].includes(category);
 
   {isGrid ? (
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-x-6 gap-y-6">
-      {paginated.map(post => (
-        <PostCard post={post} />
+      {paginated.map((post, i) => (
+        <PostCard post={post} priority={i < 2} />
       ))}
     </div>
   ) : (
     <ul class="space-y-4">
-      {paginated.map(post => (
-        <li><PostCard post={post} /></li>
+      {paginated.map((post, i) => (
+        <li><PostCard post={post} priority={i < 2} /></li>
       ))}
     </ul>
   )}

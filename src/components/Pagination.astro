@@ -31,7 +31,7 @@ const visiblePages = Array.from({ length: page.lastPage }, (_, i) => i + 1).filt
 <nav class="flex justify-center items-center space-x-2 flex-wrap mt-12" aria-label="Pagination Navigation">
   {SiteOptions.pagination.showPrevNext &&
     (page.url.prev ? (
-      <a href={page.url.prev} class="px-4 py-2 text-sm font-medium" aria-label="Go to previous page">
+      <a href={page.url.prev} class="px-4 py-2 text-sm font-medium rounded-md hover:bg-gray-100 dark:hover:bg-slate-700 transition motion-safe:active:scale-95" aria-label="Go to previous page">
         ← {SiteOptions.pagination.prevText}
       </a>
     ) : (
@@ -58,7 +58,7 @@ const visiblePages = Array.from({ length: page.lastPage }, (_, i) => i + 1).filt
             {num}
           </span>
         ) : (
-          <a href={url} class="px-3 py-2 text-sm font-medium hover:bg-gray-100 rounded-md">
+          <a href={url} class="px-3 py-2 text-sm font-medium hover:bg-gray-100 dark:hover:bg-slate-700 rounded-md transition motion-safe:active:scale-95">
             {num}
           </a>
         )}
@@ -68,7 +68,7 @@ const visiblePages = Array.from({ length: page.lastPage }, (_, i) => i + 1).filt
 
   {SiteOptions.pagination.showPrevNext &&
     (page.url.next ? (
-      <a href={page.url.next} class="px-4 py-2 text-sm font-medium" aria-label="Go to next page">
+      <a href={page.url.next} class="px-4 py-2 text-sm font-medium rounded-md hover:bg-gray-100 dark:hover:bg-slate-700 transition motion-safe:active:scale-95" aria-label="Go to next page">
         {SiteOptions.pagination.nextText} →
       </a>
     ) : (
