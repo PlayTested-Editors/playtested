@@ -1,274 +1,357 @@
 ---
-// GameSelector.astro
+/**
+ * Game picker + results for the AI recommender and comparator. Games come from
+ * RAWG (/api/rawg-search); results link to our own reviews when we have one
+ * ("We reviewed this — 8.5/10 →"). `?games=A|B` preselects games by name.
+ */
 export interface Props {
   maxSelection: number;
+  /** Fewest games before the button enables (recommender 1, comparator 2). */
+  minSelection?: number;
   buttonText: string;
   id: string; // 'recommender' or 'comparator'
 }
 const { maxSelection, buttonText, id } = Astro.props;
+const minSelection = Astro.props.minSelection ?? (id === "comparator" ? 2 : 1);
+const isCompare = id === "comparator";
 ---
 
 <div
-  class="bg-white dark:bg-slate-800 text-gray-900 dark:text-gray-100 border border-gray-200 dark:border-slate-700 p-6 rounded-lg"
+  data-game-selector
+  data-mode={isCompare ? "compare" : "recommend"}
+  data-max={maxSelection}
+  data-min={minSelection}
   id={`game-selector-${id}`}
+  class="rounded-2xl border border-gray-200 bg-white p-4 text-gray-900 sm:p-6 dark:border-slate-700 dark:bg-slate-800 dark:text-gray-100"
 >
-  <h3 class="text-lg font-bold mb-4">Game Search & Selection</h3>
-
-  <input
-    id={`game-search-input-${id}`}
-    type="text"
-    placeholder="Search for games..."
-    class="w-full bg-gray-50 dark:bg-slate-700 border border-gray-300 dark:border-slate-600 px-4 py-2 rounded mb-4 placeholder-gray-500 dark:placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
-  />
-
-  <div
-    id={`search-status-${id}`}
-    class="text-sm text-gray-500 dark:text-gray-400 mb-2"
-  >
+  <label for={`game-search-input-${id}`} class="mb-2 block text-sm font-semibold text-gray-800 dark:text-slate-200">
+    {isCompare ? `Pick ${minSelection}–${maxSelection} games to compare` : `Pick up to ${maxSelection} games you love`}
+  </label>
+  <div class="relative">
+    <svg class="pointer-events-none absolute left-3.5 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35m1.1-5.65a7.5 7.5 0 11-15.001 0 7.5 7.5 0 0115.001 0z"></path>
+    </svg>
+    <input
+      id={`game-search-input-${id}`}
+      data-gs-input
+      type="search"
+      autocomplete="off"
+      spellcheck="false"
+      placeholder="Search for a game…"
+      aria-controls={`game-results-${id}`}
+      class="h-11 w-full rounded-xl border border-gray-300 bg-gray-50 pl-11 pr-10 text-gray-900 placeholder-gray-500 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 dark:placeholder-slate-400"
+    />
+    <span data-gs-spinner hidden class="absolute right-3.5 top-1/2 -translate-y-1/2" aria-hidden="true">
+      <svg class="h-4 w-4 animate-spin text-indigo-500 motion-reduce:animate-none" viewBox="0 0 24 24" fill="none"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path></svg>
+    </span>
   </div>
-  <ul
-    id={`search-results-${id}`}
-    class="mb-6 space-y-2 max-h-60 overflow-y-auto"
-  >
-  </ul>
+  <div data-gs-status class="mt-2 text-sm text-gray-500 empty:hidden dark:text-slate-400" aria-live="polite"></div>
+  <ul data-gs-results id={`game-results-${id}`} aria-label="Search results" class="mt-2 max-h-72 space-y-1 overflow-y-auto empty:hidden"></ul>
 
-  <div class="mb-6">
-    <h4 class="font-bold mb-2">
-      Selected Games (<span id={`count-${id}`}>0</span>/{maxSelection}):
-    </h4>
-    <ul id={`selected-games-${id}`} class="space-y-2"></ul>
+  <div class="mt-5">
+    <div class="flex items-center justify-between gap-2">
+      <h4 class="text-sm font-semibold text-gray-800 dark:text-slate-200">
+        Your picks <span class="font-normal text-gray-500 dark:text-slate-400">(<span data-gs-count>0</span>/{maxSelection})</span>
+      </h4>
+      <button type="button" data-gs-clear hidden class="text-xs font-medium text-gray-500 hover:text-red-600 hover:underline dark:text-slate-400">Clear all</button>
+    </div>
+    <ul data-gs-selected class="mt-2 flex flex-wrap gap-2 empty:hidden" aria-label="Selected games"></ul>
+    <p data-gs-empty class="mt-2 text-sm text-gray-500 dark:text-slate-400">No games yet — search above and tap a result to add it.</p>
   </div>
 
   <button
-    id={`submit-btn-${id}`}
-    class="bg-blue-600 text-white px-6 py-3 rounded-lg disabled:opacity-40 font-bold w-full hover:bg-blue-700 transition-colors disabled:cursor-not-allowed"
+    type="button"
+    data-gs-submit
     disabled
+    class="mt-5 inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 font-semibold text-white shadow-md transition hover:from-indigo-700 hover:to-purple-700 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-indigo-400/40 disabled:cursor-not-allowed disabled:opacity-40"
   >
-    {buttonText}
+    <span data-gs-label class="inline-flex items-center gap-2">{buttonText}</span>
   </button>
+  <p data-gs-hint class="mt-2 text-center text-xs text-gray-500 dark:text-slate-400"></p>
 
-  <div id={`ai-response-${id}`} class="mt-8"></div>
+  <div data-gs-output class="mt-8 empty:hidden" aria-live="polite"></div>
 </div>
 
-<script define:vars={{ maxSelection, buttonText, id }}>
-  // Re-run on every page load for View Transitions compatibility
-  document.addEventListener("astro:page-load", () => {
-    const inputEl = document.getElementById(`game-search-input-${id}`);
-    const statusEl = document.getElementById(`search-status-${id}`);
-    const resultsEl = document.getElementById(`search-results-${id}`);
-    const selectedEl = document.getElementById(`selected-games-${id}`);
-    const countEl = document.getElementById(`count-${id}`);
-    const submitBtn = document.getElementById(`submit-btn-${id}`);
-    const aiResponseEl = document.getElementById(`ai-response-${id}`);
+<script>
+  import { AiError, escapeHtml, getJson, isAbort, noticeHtml, postJson, prefersReducedMotion, renderMarkdown, safeHref } from "../lib/ai-client";
 
-    if (
-      !inputEl ||
-      !statusEl ||
-      !resultsEl ||
-      !selectedEl ||
-      !countEl ||
-      !submitBtn ||
-      !aiResponseEl
-    ) {
-      // Elements not on this page, skip
-      return;
-    }
+  type Game = { id: string; name: string; image: string | null; year: string };
+  type RawgGame = { id: number; name: string; released?: string | null; background_image?: string | null; parent_platforms?: { platform: { name: string } }[] };
+  type Review = { title: string; url: string; score: number | null } | null;
+  type Recommended = { name: string; title: string; released: string; image: string | null; url: string | null; review: Review };
 
-    let selected = [];
-    let searchTimeout;
+  const SPINNER = `<svg class="h-4 w-4 animate-spin motion-reduce:animate-none" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path></svg>`;
+  const PULSE = "animate-pulse rounded bg-gray-200 dark:bg-slate-700 motion-reduce:animate-none";
 
-    async function searchGames(query) {
-      if (!query || query.length < 2) {
-        statusEl.textContent = "";
-        resultsEl.innerHTML = "";
-        return;
-      }
+  const yearOf = (d?: string | null) => (d && /^\d{4}/.test(d) ? d.slice(0, 4) : "");
+  /** Same game — also matches a name-only pick from ?games= against its RAWG result. */
+  const sameGame = (a: Game, b: Game) => a.id === b.id || a.name.toLowerCase() === b.name.toLowerCase();
+  const EXTERNAL = `<svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7M9 7h8v8"/></svg>`;
 
-      statusEl.textContent = "Searching...";
-      resultsEl.innerHTML = `<li class="p-2 italic text-gray-500 dark:text-gray-400">Loading...</li>`;
+  /** "We reviewed this — 8.5/10 →" (or a quiet note when we haven't). */
+  function reviewLink(r: Review, compact = false): string {
+    const href = r ? safeHref(r.url) : null;
+    if (!r || !href) return `<span class="text-xs text-gray-500 dark:text-slate-400">Not reviewed on PlayTested yet</span>`;
+    const score = typeof r.score === "number" ? ` — ${r.score}/10` : "";
+    return `<a href="${escapeHtml(href)}" title="${escapeHtml(r.title)}" class="inline-flex items-center gap-1.5 rounded-lg bg-indigo-600 px-3 py-1.5 ${compact ? "text-xs" : "text-sm"} font-semibold text-white shadow-sm transition-colors hover:bg-indigo-700">We reviewed this${score} <span aria-hidden="true">→</span></a>`;
+  }
 
-      try {
-        const res = await fetch(
-          `/api/rawg-search?query=${encodeURIComponent(query)}`,
-        );
-        const data = await res.json();
-        resultsEl.innerHTML = "";
-        if (data.error) {
-          statusEl.textContent = `Error: ${data.error}`;
-          return;
-        }
-        if (!data.results.length) {
-          statusEl.textContent = "No games found";
-          return;
-        }
-        statusEl.textContent = `Found ${data.results.length} games`;
-        data.results.forEach((game) => {
-          const li = document.createElement("li");
-          li.className =
-            "flex items-center p-3 border border-gray-200 dark:border-slate-700 rounded cursor-pointer hover:bg-gray-100 dark:hover:bg-slate-700";
-          const thumb = game.background_image || "";
-          const year = game.released
-            ? new Date(game.released).getFullYear()
-            : "Unknown";
-          li.innerHTML = `
-          <img src="${thumb}" alt="${game.name}" class="w-12 h-12 object-cover rounded mr-3" />
-          <div>
-            <div class="font-medium text-gray-900 dark:text-gray-100">${game.name}</div>
-            <div class="text-sm text-gray-500 dark:text-gray-400">${year}</div>
-          </div>
-        `;
-          li.addEventListener("click", () => addGame(game));
-          resultsEl.appendChild(li);
-        });
-      } catch (e) {
-        statusEl.textContent = "Network error";
-        console.error(e);
-      }
-    }
+  function thumb(src: string | null, cls: string): string {
+    return src
+      ? `<img src="${escapeHtml(src)}" alt="" loading="lazy" decoding="async" class="${cls} object-cover">`
+      : `<span class="${cls} grid place-items-center bg-gray-100 text-gray-300 dark:bg-slate-700 dark:text-slate-500"><svg class="h-1/2 w-1/2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A1.5 1.5 0 0021.75 19.5V4.5A1.5 1.5 0 0020.25 3H3.75A1.5 1.5 0 002.25 4.5v15A1.5 1.5 0 003.75 21z"/></svg></span>`;
+  }
 
-    function addGame(game) {
-      inputEl.value = "";
-      resultsEl.innerHTML = "";
-      statusEl.textContent = "";
-      inputEl.focus();
-      if (
-        selected.find((g) => g.id === game.id) ||
-        selected.length >= maxSelection
-      )
-        return;
-      selected.push({ id: game.id, name: game.name });
-      updateSelectionUI();
-    }
-
-    function removeGame(idx) {
-      selected.splice(idx, 1);
-      updateSelectionUI();
-    }
-
-    function updateSelectionUI() {
-      selectedEl.innerHTML = "";
-      selected.forEach((g, i) => {
-        const li = document.createElement("li");
-        li.className =
-          "flex justify-between p-2 bg-blue-50 dark:bg-slate-700 rounded";
-        li.innerHTML = `<span class="truncate pr-2">${g.name}</span><button class="text-red-500 dark:text-red-400 shrink-0">Remove</button>`;
-        li.querySelector("button").addEventListener("click", () =>
-          removeGame(i),
-        );
-        selectedEl.appendChild(li);
-      });
-      countEl.textContent = selected.length;
-      submitBtn.disabled =
-        selected.length < 2 || selected.length > maxSelection;
-      aiResponseEl.innerHTML = "";
-    }
-
-    async function handleSubmit() {
-      submitBtn.disabled = true;
-      submitBtn.textContent = "🤖 Thinking...";
-      aiResponseEl.innerHTML = `
-      <div class="p-4 bg-gray-50 dark:bg-slate-700 rounded border-l-4 border-blue-400 text-gray-800 dark:text-gray-200">
-        Loading AI response...
-      </div>
-    `;
-
-      const endpoint = id === "comparator" ? "/api/compare" : "/api/recommend";
-      const gameNames = selected.map((g) => g.name);
-
-      if (!navigator.onLine) {
-        aiResponseEl.innerHTML = `
-        <div class="p-4 bg-yellow-50 dark:bg-yellow-900 rounded border-l-4 border-yellow-400 text-yellow-800 dark:text-yellow-200">
-          You’re offline — showing mock response.
-        </div>
-        <div class="mt-4 p-4 bg-slate-100 dark:bg-slate-800 border dark:border-slate-700 rounded text-sm text-gray-900 dark:text-gray-100 whitespace-pre-line">
-          Comparing: ${gameNames.join(", ")}
-
-(Offline mock mode active)
-        </div>
-      `;
-        submitBtn.textContent = buttonText;
-        return;
-      }
-
-      try {
-        const res = await fetch(endpoint, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ gameNames }),
-        });
-        const json = await res.json();
-        if (json.error) throw new Error(json.error);
-
-        // Show recommendation result
-        if (json.recommended && json.explanation) {
-          const recBlocks = json.recommended
-            .map(
-              (g, i) => `
-          <div class="flex items-start gap-4 mb-4">
-            <img src="${g.image}" alt="${g.name}" class="w-16 h-16 rounded object-cover border dark:border-slate-600">
-            <div>
-<div class="text-sm text-gray-700 dark:text-gray-300">
-  <strong class="block text-base text-blue-700 dark:text-blue-300 mb-1">${g.name}</strong>
-  ${json.explanation.split("\n\n")[i]}
-</div>              <a href="${g.url}" target="_blank" class="text-sm text-blue-500 dark:text-blue-400 underline">More info</a>
-            </div>
-          </div>
-        `,
-            )
-            .join("");
-
-          aiResponseEl.innerHTML = `<div class="mt-6 ai-response bg-slate-100 dark:bg-slate-800 border dark:border-slate-700 p-6 rounded text-sm text-gray-900 dark:text-gray-100 leading-relaxed">${recBlocks}</div>`;
-          return;
-        }
-
-        // Otherwise show compare response
-        const cleanText = json.result
-          .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>") // convert **bold** to <strong>
-          .replace(/\*(.*?)\*/g, "<em>$1</em>") // convert *italic* to <em>
-          .replace(
-            /^## (.*)/gm,
-            "<h3 class='font-bold text-lg mt-4 mb-2'>$1</h3>",
-          ) // convert headings
-          .replace(/^### (.*)/gm, "<h4 class='font-bold mt-3 mb-1'>$1</h4>") // convert h3
-          .split("\n\n")
-          .map((p) =>
-            p.trim() ? `<p class="mb-4">${p.replace(/\n/g, "<br>")}</p>` : "",
-          )
-          .join("");
-
-        aiResponseEl.innerHTML = `
-  <div class="mt-6 ai-response">
-    <div class="bg-slate-100 dark:bg-slate-800 border dark:border-slate-700 p-6 rounded text-sm text-gray-900 dark:text-gray-100 leading-relaxed">
-      ${cleanText}
-    </div>
-  </div>
-`;
-      } catch (e) {
-        aiResponseEl.innerHTML = `
-        <div class="p-4 bg-red-50 dark:bg-red-900 rounded border-l-4 border-red-400 text-red-800 dark:text-red-200">
-          ${e.message}
-        </div>
-      `;
-      } finally {
-        submitBtn.textContent = buttonText;
-        submitBtn.disabled =
-          selected.length < 2 || selected.length > maxSelection;
-      }
-    }
-
-    inputEl.addEventListener("input", () => {
-      clearTimeout(searchTimeout);
-      searchTimeout = setTimeout(() => searchGames(inputEl.value.trim()), 300);
+  /** Pair each recommendation with the paragraph that talks about it (fall back to order). */
+  function paragraphsFor(text: string, recs: Recommended[]): string[] {
+    const parts = String(text || "").split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean);
+    return recs.map((g, i) => {
+      const key = g.name.toLowerCase().split(":")[0].trim();
+      return parts.find((p) => key && p.toLowerCase().includes(key)) ?? parts[i] ?? "";
     });
+  }
 
-    inputEl.addEventListener("keydown", (e) => {
+  function setup(root: HTMLElement) {
+    root.dataset.ready = "1";
+    const mode = root.dataset.mode === "compare" ? "compare" : "recommend";
+    const max = Number(root.dataset.max) || 5;
+    const min = Number(root.dataset.min) || 1;
+    const q = <T extends HTMLElement>(sel: string) => root.querySelector(sel) as T;
+    const input = q<HTMLInputElement>("[data-gs-input]");
+    const spinner = q<HTMLElement>("[data-gs-spinner]");
+    const status = q<HTMLElement>("[data-gs-status]");
+    const results = q<HTMLUListElement>("[data-gs-results]");
+    const selectedEl = q<HTMLUListElement>("[data-gs-selected]");
+    const emptyEl = q<HTMLElement>("[data-gs-empty]");
+    const countEl = q<HTMLElement>("[data-gs-count]");
+    const clearBtn = q<HTMLButtonElement>("[data-gs-clear]");
+    const submit = q<HTMLButtonElement>("[data-gs-submit]");
+    const label = q<HTMLElement>("[data-gs-label]");
+    const hint = q<HTMLElement>("[data-gs-hint]");
+    const output = q<HTMLElement>("[data-gs-output]");
+    const buttonText = label.textContent || "";
+
+    let selected: Game[] = [];
+    const found = new Map<string, Game>();
+    let searchCtl: AbortController | null = null;
+    let timer = 0;
+    let busy = false;
+
+    // e.g. /ai/compare/?games=Hades|Celeste from the recommender's "Compare these picks".
+    const pre = new URLSearchParams(location.search).get("games");
+    if (pre) {
+      selected = [...new Set(pre.split("|").map((n) => n.trim().slice(0, 100)).filter(Boolean))]
+        .slice(0, max)
+        .map((name) => ({ id: `name:${name.toLowerCase()}`, name, image: null, year: "" }));
+    }
+
+    function update() {
+      countEl.textContent = String(selected.length);
+      emptyEl.hidden = selected.length > 0;
+      clearBtn.hidden = selected.length === 0;
+      selectedEl.innerHTML = selected
+        .map(
+          (g, i) =>
+            `<li class="flex max-w-full items-center gap-2 rounded-full bg-indigo-50 py-1 pl-1 pr-1.5 text-sm dark:bg-slate-700">${thumb(g.image, "h-7 w-7 shrink-0 rounded-full")}<span class="max-w-[14rem] truncate font-medium">${escapeHtml(g.name)}</span>${g.year ? `<span class="text-xs text-gray-500 dark:text-slate-400">${g.year}</span>` : ""}<button type="button" data-remove="${i}" aria-label="Remove ${escapeHtml(g.name)}" class="grid h-6 w-6 place-items-center rounded-full text-gray-500 hover:bg-white hover:text-red-600 dark:text-slate-400 dark:hover:bg-slate-600"><svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg></button></li>`,
+        )
+        .join("");
+      submit.disabled = busy || selected.length < min;
+      const need = min - selected.length;
+      const games = (n: number) => `${n} game${n === 1 ? "" : "s"}`;
+      const purpose = mode === "compare" ? " to compare" : "";
+      hint.textContent = busy
+        ? ""
+        : need > 0
+          ? selected.length
+            ? `Pick ${games(need).replace("game", "more game")}${purpose}.`
+            : `Pick at least ${games(min)}${purpose}.`
+          : selected.length >= max
+            ? `That's the maximum of ${max}.`
+            : "";
+      results.querySelectorAll<HTMLButtonElement>("[data-add]").forEach((b) => {
+        const g = found.get(b.dataset.add || "");
+        const on = Boolean(g && selected.some((s) => sameGame(s, g)));
+        b.setAttribute("aria-pressed", String(on));
+        b.querySelector("[data-added]")?.classList.toggle("hidden", !on);
+      });
+    }
+
+    async function search(term: string) {
+      clearTimeout(timer);
+      searchCtl?.abort();
+      if (term.length < 2) {
+        results.innerHTML = "";
+        status.innerHTML = "";
+        spinner.hidden = true;
+        return;
+      }
+      const ctl = (searchCtl = new AbortController());
+      spinner.hidden = false;
+      try {
+        const data = await getJson<{ results?: RawgGame[] }>(`/api/rawg-search?query=${encodeURIComponent(term)}`, ctl.signal);
+        if (ctl.signal.aborted) return;
+        const games = (data.results ?? []).slice(0, 8);
+        status.textContent = games.length ? "" : `No games found for “${term}”. Try a shorter or different name.`;
+        results.innerHTML = games
+          .map((r) => {
+            const g: Game = { id: String(r.id), name: r.name, image: r.background_image || null, year: yearOf(r.released) };
+            found.set(g.id, g);
+            const platforms = (r.parent_platforms ?? []).map((p) => p.platform.name).slice(0, 4).join(" · ");
+            return `<li><button type="button" data-add="${escapeHtml(g.id)}" aria-pressed="false" class="flex w-full items-center gap-3 rounded-xl border border-transparent p-2 text-left transition-colors hover:border-gray-200 hover:bg-gray-50 focus-visible:border-indigo-400 focus-visible:outline-none dark:hover:border-slate-600 dark:hover:bg-slate-700/60">${thumb(g.image, "h-12 w-16 shrink-0 rounded-lg")}<span class="min-w-0 flex-1"><span class="block truncate font-medium">${escapeHtml(g.name)}</span><span class="block truncate text-xs text-gray-500 dark:text-slate-400">${[g.year, platforms].filter(Boolean).map(escapeHtml).join(" · ")}</span></span><span data-added class="hidden shrink-0 rounded-full bg-indigo-100 px-2 py-0.5 text-xs font-semibold text-indigo-700 dark:bg-indigo-500/20 dark:text-indigo-300">Added</span></button></li>`;
+          })
+          .join("");
+        update();
+      } catch (e) {
+        if (isAbort(e)) return;
+        results.innerHTML = "";
+        status.innerHTML = noticeHtml(e);
+      } finally {
+        if (searchCtl === ctl) spinner.hidden = true;
+      }
+    }
+
+    function toggleGame(id: string) {
+      const g = found.get(id);
+      if (!g) return;
+      const i = selected.findIndex((s) => sameGame(s, g));
+      if (i >= 0 && selected[i].id !== g.id) selected[i] = g; // name-only pick: fill in RAWG details
+      else if (i >= 0) selected.splice(i, 1);
+      else if (selected.length >= max) {
+        status.textContent = `You can pick up to ${max} games — remove one first.`;
+        return;
+      } else selected.push(g);
+      status.textContent = "";
+      update();
+    }
+
+    function loading(): string {
+      if (mode === "compare") {
+        return `<div class="rounded-2xl border border-gray-200 bg-gray-50 p-5 dark:border-slate-700 dark:bg-slate-900/40" aria-busy="true"><div class="mb-4 flex items-center gap-2 text-sm font-medium text-indigo-700 dark:text-indigo-300">${SPINNER}<span>Comparing your games…</span></div><div class="space-y-2"><div class="h-3 w-full ${PULSE}"></div><div class="h-3 w-11/12 ${PULSE}"></div><div class="h-3 w-4/5 ${PULSE}"></div><div class="h-3 w-2/3 ${PULSE}"></div></div></div>`;
+      }
+      return `<div aria-busy="true"><div class="mb-4 flex items-center gap-2 text-sm font-medium text-indigo-700 dark:text-indigo-300">${SPINNER}<span>Finding games you'll love…</span></div><div class="grid gap-4 md:grid-cols-3">${Array.from(
+        { length: 3 },
+        () =>
+          `<div class="overflow-hidden rounded-2xl border border-gray-200 dark:border-slate-700"><div class="aspect-video ${PULSE} rounded-none"></div><div class="space-y-2 p-4"><div class="h-4 w-2/3 ${PULSE}"></div><div class="h-3 w-full ${PULSE}"></div><div class="h-3 w-5/6 ${PULSE}"></div></div></div>`,
+      ).join("")}</div></div>`;
+    }
+
+    function renderRecommend(data: { recommended?: Recommended[]; explanation?: string }): string {
+      const recs = data.recommended ?? [];
+      if (!recs.length) return noticeHtml(new AiError("No picks came back this time — please try again."));
+      const paras = paragraphsFor(data.explanation ?? "", recs);
+      const cards = recs
+        .map((g, i) => {
+          const rawg = safeHref(g.url);
+          const score = typeof g.review?.score === "number" ? `<span class="score-badge score-outline-${Math.round(g.review.score)}">${g.review.score}</span>` : "";
+          const year = yearOf(g.released);
+          return `<article class="flex flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-900/40">
+            <div class="relative aspect-video">${thumb(g.image, "h-full w-full")}${score}</div>
+            <div class="flex flex-1 flex-col p-4">
+              <p class="text-xs font-semibold uppercase tracking-wide text-indigo-600 dark:text-indigo-400">Pick #${i + 1}</p>
+              <h4 class="mt-0.5 text-lg font-bold leading-snug text-gray-900 dark:text-slate-100">${escapeHtml(g.name)}</h4>
+              ${year ? `<p class="text-xs text-gray-500 dark:text-slate-400">Released ${year}</p>` : ""}
+              <div class="mt-3 text-sm leading-relaxed text-gray-700 dark:text-slate-300">${renderMarkdown(paras[i])}</div>
+              <div class="mt-auto flex flex-wrap items-center gap-x-3 gap-y-2 pt-4">${reviewLink(g.review)}${rawg ? `<a href="${escapeHtml(rawg)}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-sm font-medium text-gray-600 hover:text-indigo-600 dark:text-slate-400 dark:hover:text-indigo-400">More on RAWG ${EXTERNAL}</a>` : ""}</div>
+            </div>
+          </article>`;
+        })
+        .join("");
+      const names = recs.map((g) => g.name).join("|");
+      return `<h3 class="mb-4 text-xl font-bold text-gray-900 dark:text-slate-100">Your next favorites</h3><div class="grid gap-4 md:grid-cols-3">${cards}</div>
+        <div class="mt-5 flex flex-wrap items-center gap-3 text-sm">${recs.length >= 2 ? `<a href="/ai/compare/?games=${encodeURIComponent(names)}" class="font-semibold text-indigo-600 hover:underline dark:text-indigo-400">Compare these picks →</a>` : ""}<button type="button" data-again class="font-medium text-gray-600 hover:underline dark:text-slate-400">Get different picks</button></div>`;
+    }
+
+    /** `games` is the selection as sent; `reviews` comes back in the same order. */
+    function renderCompare(data: { result?: string; reviews?: Review[] }, games: Game[]): string {
+      const reviews = data.reviews ?? [];
+      const cards = games
+        .slice(0, 4)
+        .map(
+          (g, i) =>
+            `<div class="flex items-center gap-3 rounded-xl border border-gray-200 bg-white p-3 dark:border-slate-700 dark:bg-slate-900/40">${thumb(g.image, "h-12 w-12 shrink-0 rounded-lg")}<div class="min-w-0 flex-1"><p class="truncate text-sm font-semibold text-gray-900 dark:text-slate-100">${escapeHtml(g.name)}</p><div class="mt-1">${reviewLink(reviews[i] ?? null, true)}</div></div></div>`,
+        )
+        .join("");
+      return `<h3 class="mb-3 text-xl font-bold text-gray-900 dark:text-slate-100">How they stack up</h3><div class="grid gap-3 sm:grid-cols-2">${cards}</div>
+        <div class="mt-4 rounded-2xl border border-gray-200 bg-white p-5 text-sm leading-relaxed text-gray-800 shadow-sm dark:border-slate-700 dark:bg-slate-900/40 dark:text-slate-200">${renderMarkdown(data.result || "No comparison came back this time.")}</div>
+        <p class="mt-2 text-xs text-gray-500 dark:text-slate-400">AI can make mistakes — our reviews have the full verdicts.</p>`;
+    }
+
+    async function run() {
+      if (busy || selected.length < min) return;
+      busy = true;
+      update();
+      label.innerHTML = `${SPINNER}<span>${mode === "compare" ? "Comparing…" : "Thinking…"}</span>`;
+      output.innerHTML = loading();
+      output.scrollIntoView({ block: "nearest", behavior: prefersReducedMotion() ? "auto" : "smooth" });
+      try {
+        const games = [...selected];
+        const names = games.map((g) => g.name);
+        if (mode === "compare") output.innerHTML = renderCompare(await postJson("/api/compare", { gameNames: names }), games);
+        else output.innerHTML = renderRecommend(await postJson("/api/recommend", { gameNames: names }));
+      } catch (e) {
+        output.innerHTML = `${noticeHtml(e)}<button type="button" data-again class="mt-3 text-sm font-semibold text-indigo-600 hover:underline dark:text-indigo-400">Try again</button>`;
+      } finally {
+        busy = false;
+        label.textContent = buttonText;
+        update();
+      }
+    }
+
+    input.addEventListener("input", () => {
+      clearTimeout(timer);
+      timer = window.setTimeout(() => search(input.value.trim()), 350);
+    });
+    input.addEventListener("keydown", (e) => {
       if (e.key === "Enter") {
         e.preventDefault();
-        searchGames(inputEl.value.trim());
+        search(input.value.trim());
+      } else if (e.key === "ArrowDown") {
+        const first = results.querySelector<HTMLButtonElement>("[data-add]");
+        if (first) {
+          e.preventDefault();
+          first.focus();
+        }
       }
     });
+    results.addEventListener("keydown", (e) => {
+      if (e.key !== "ArrowDown" && e.key !== "ArrowUp") return;
+      const btns = [...results.querySelectorAll<HTMLButtonElement>("[data-add]")];
+      const i = btns.indexOf(document.activeElement as HTMLButtonElement);
+      if (i < 0) return;
+      e.preventDefault();
+      if (e.key === "ArrowUp" && i === 0) input.focus();
+      else btns[Math.min(Math.max(i + (e.key === "ArrowDown" ? 1 : -1), 0), btns.length - 1)].focus();
+    });
+    results.addEventListener("click", (e) => {
+      const id = (e.target as HTMLElement).closest<HTMLElement>("[data-add]")?.dataset.add;
+      if (id) toggleGame(id);
+    });
+    selectedEl.addEventListener("click", (e) => {
+      const i = (e.target as HTMLElement).closest<HTMLElement>("[data-remove]")?.dataset.remove;
+      if (i === undefined) return;
+      selected.splice(Number(i), 1);
+      update();
+      input.focus();
+    });
+    clearBtn.addEventListener("click", () => {
+      selected = [];
+      update();
+      input.focus();
+    });
+    submit.addEventListener("click", run);
+    output.addEventListener("click", (e) => {
+      if ((e.target as HTMLElement).closest("[data-again]")) run();
+    });
+    document.addEventListener("astro:before-swap", () => searchCtl?.abort(), { once: true });
+    update();
+  }
 
-    submitBtn.addEventListener("click", handleSubmit);
-    updateSelectionUI();
-  }); // Close astro:page-load listener
+  function init() {
+    document.querySelectorAll<HTMLElement>("[data-game-selector]:not([data-ready])").forEach(setup);
+  }
+  if (!(window as any)._ptGameSelectorBooted) {
+    (window as any)._ptGameSelectorBooted = true;
+    document.addEventListener("astro:page-load", init);
+  }
+  init();
 </script>

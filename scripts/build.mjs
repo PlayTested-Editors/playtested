@@ -3,7 +3,8 @@
  * Site build. Usage: node scripts/build.mjs [--env dev|production]
  *
  * Writes per-environment files into public/ (gitignored), then builds the
- * search index and the Astro site into dist/.
+ * Astro site into dist/ (the search page's index is the prerendered
+ * /search-index.json route).
  *  - public/build-info.json  which commit/time this deployment was built from
  *    (the Worker reads it to know whether a studio publish is live yet)
  *  - public/robots.txt       dev is never indexed
@@ -37,5 +38,4 @@ fs.writeFileSync(
 );
 
 console.log(`Building PlayTested (${siteEnv}) at ${commit ? commit.slice(0, 7) : "unknown commit"}…`);
-execSync("node scripts/build-search-index.mjs", { stdio: "inherit" });
 execSync("npx astro build", { stdio: "inherit", env: process.env });

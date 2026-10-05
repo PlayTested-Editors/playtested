@@ -273,11 +273,14 @@ export interface SearchDoc {
   chunks: ChunkHit[];
 }
 
-/** Reciprocal-rank fusion of keyword + semantic hits, grouped per article. */
+/**
+ * Reciprocal-rank fusion of keyword + semantic hits, grouped per article.
+ * `chunks` is how many of each article's best passages to return (default 3).
+ */
 export async function hybridSearch(
   env: Env,
   q: string,
-  opts: { limit?: number; slug?: string; semantic?: boolean } = {},
+  opts: { limit?: number; slug?: string; semantic?: boolean; chunks?: number } = {},
 ): Promise<SearchDoc[]> {
   const limit = opts.limit ?? 10;
   const [kw, sem] = await Promise.all([
@@ -328,10 +331,12 @@ export async function hybridSearch(
       thumb: string | null;
     }>();
   const meta = new Map(docs.results.map((d) => [d.slug, d]));
+  const t = now();
   return ranked
     .map(([slug, d]) => {
       const m = meta.get(slug);
-      if (!m) return null;
+      // Scheduled posts are indexed ahead of time but stay hidden until their date.
+      if (!m || (m.pub_date && m.pub_date > t)) return null;
       return {
         slug,
         title: m.title,
@@ -344,7 +349,7 @@ export async function hybridSearch(
         thumb: m.thumb,
         url: `/article/${slug}/`,
         relevance: Math.round(d.score * 10000) / 10000,
-        chunks: d.chunks.slice(0, 3).map((c) => c.hit),
+        chunks: d.chunks.slice(0, opts.chunks ?? 3).map((c) => c.hit),
       } satisfies SearchDoc;
     })
     .filter(Boolean) as SearchDoc[];

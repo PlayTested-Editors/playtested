@@ -1,538 +1,532 @@
-<div
-    id="chat-widget"
-    class="fixed bottom-6 right-6 z-50 flex flex-col items-end"
-    aria-hidden="true"
->
-    <!-- Backdrop for Center Mode -->
+---
+/**
+ * Site-wide AI chat: a bubble in the corner that opens a panel (or a centred,
+ * larger panel when opened from the nav). It is persisted across view-transition
+ * navigations, so an answer keeps streaming while the visitor changes pages;
+ * the conversation itself lives in sessionStorage. Nothing here calls the API
+ * until the visitor sends a message.
+ *
+ * Other scripts can open it with `window._playtestedToggleChat("center")`, or
+ * dispatch `playtested:chat-toggle` with `{ mode, prompt, ask, seed }`.
+ */
+const iconBtn =
+  "grid h-8 w-8 place-items-center rounded-lg text-white/85 hover:bg-white/15 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 transition-colors";
+---
+
+<div id="chat-widget" transition:persist="chat-widget" class="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50">
+  <div
+    id="chat-backdrop"
+    class="fixed inset-0 z-40 bg-slate-950/50 opacity-0 transition-opacity duration-200 motion-reduce:transition-none"
+    hidden
+  >
+  </div>
+
+  <section
+    id="chat-window"
+    role="dialog"
+    aria-labelledby="chat-title"
+    hidden
+    class="fixed z-50 flex flex-col overflow-hidden rounded-2xl border border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-900 shadow-2xl shadow-slate-900/20 opacity-0 scale-95 transition duration-200 ease-out motion-reduce:transition-none"
+  >
+    <header class="flex shrink-0 items-center gap-3 bg-gradient-to-r from-indigo-600 to-purple-600 px-4 py-3 text-white">
+      <span class="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-white/15 ring-1 ring-white/25" aria-hidden="true">
+        <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456z"></path>
+        </svg>
+      </span>
+      <div class="min-w-0 flex-1">
+        <p id="chat-title" class="text-sm font-semibold leading-tight">PlayTested AI</p>
+        <p class="truncate text-xs text-indigo-100">Answers from our reviews</p>
+      </div>
+      <button type="button" data-chat="reset" class={iconBtn} aria-label="Start a new chat" title="New chat">
+        <svg class="h-[18px] w-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zM18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"></path>
+        </svg>
+      </button>
+      <button type="button" data-chat="expand" class={`${iconBtn} max-sm:hidden`} aria-label="Expand chat" title="Expand">
+        <svg class="h-[18px] w-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+          <path data-icon="expand" stroke-linecap="round" stroke-linejoin="round" d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15"></path>
+          <path data-icon="collapse" class="hidden" stroke-linecap="round" stroke-linejoin="round" d="M9 9V4.5M9 9H4.5M9 9L3.75 3.75M9 15v4.5M9 15H4.5M9 15l-5.25 5.25M15 9h4.5M15 9V4.5M15 9l5.25-5.25M15 15h4.5M15 15v4.5m0-4.5l5.25 5.25"></path>
+        </svg>
+      </button>
+      <button type="button" data-chat="close" class={iconBtn} aria-label="Close chat" title="Close">
+        <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+    </header>
+
     <div
-        id="chat-backdrop"
-        class="fixed inset-0 bg-black/50 z-40 hidden transition-opacity duration-300 opacity-0"
-        onclick="document.getElementById('chat-toggle').click();"
+      id="chat-messages"
+      role="log"
+      aria-live="polite"
+      aria-label="Conversation"
+      class="flex-1 space-y-4 overflow-y-auto overscroll-contain bg-gray-50 px-3 py-4 sm:px-4 dark:bg-slate-950/40"
     >
     </div>
 
-    <!-- Chat Window -->
-    <div
-        id="chat-window"
-        class="hidden mb-4 w-80 sm:w-96 bg-white dark:bg-slate-800 rounded-lg shadow-xl border border-gray-200 dark:border-slate-700 overflow-hidden transition-all duration-300 transform scale-90 opacity-0 origin-bottom-right flex flex-col h-[500px] pointer-events-none"
-    >
-        <!-- Header -->
-        <div
-            class="bg-blue-600 p-4 text-white flex justify-between items-center shrink-0"
+    <form id="chat-form" class="shrink-0 border-t border-gray-200 bg-white p-3 dark:border-slate-700 dark:bg-slate-900">
+      <div
+        class="flex items-end gap-2 rounded-xl border border-gray-300 bg-gray-50 py-1.5 pl-3 pr-1.5 transition-colors focus-within:border-indigo-500 focus-within:ring-2 focus-within:ring-indigo-500/25 dark:border-slate-600 dark:bg-slate-800"
+      >
+        <label for="chat-input" class="sr-only">Ask about our reviews</label>
+        <textarea
+          id="chat-input"
+          rows="1"
+          maxlength="1000"
+          placeholder="Ask about any game we've reviewed…"
+          class="block max-h-32 min-h-[1.75rem] flex-1 resize-none bg-transparent py-1 text-sm text-gray-900 placeholder-gray-400 focus:outline-none dark:text-slate-100 dark:placeholder-slate-500"
+        ></textarea>
+        <button
+          id="chat-send"
+          type="submit"
+          aria-label="Send"
+          title="Send (Enter)"
+          disabled
+          class="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-indigo-600 text-white transition-colors hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 disabled:cursor-not-allowed disabled:opacity-40"
         >
-            <h3 class="font-bold">Chat with AI</h3>
-            <span class="text-xs bg-blue-500 px-2 py-1 rounded">Beta</span>
-            <!-- Close button for Center Mode (Optional, generic close works via toggle) -->
-        </div>
+          <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5"></path>
+          </svg>
+        </button>
+        <button
+          id="chat-stop"
+          type="button"
+          aria-label="Stop generating"
+          title="Stop generating"
+          hidden
+          class="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-slate-800 text-white transition-colors hover:bg-slate-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 dark:bg-slate-600 dark:hover:bg-slate-500"
+        >
+          <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="5" y="5" width="14" height="14" rx="2"></rect></svg>
+        </button>
+      </div>
+      <p class="mt-1.5 px-1 text-[11px] text-gray-400 dark:text-slate-500">AI can make mistakes — the linked reviews have the full story.</p>
+    </form>
+  </section>
 
-        <!-- Messages Area -->
-        <div
-            id="chat-messages"
-            class="flex-1 p-4 overflow-y-auto space-y-4 bg-gray-50 dark:bg-slate-900 scroll-smooth"
-        >
-            <!-- Welcome Message -->
-            <div class="flex gap-2">
-                <div
-                    class="w-8 h-8 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center shrink-0"
-                >
-                    🤖
-                </div>
-                <div
-                    id="welcome-message-container"
-                    class="bg-white dark:bg-slate-800 p-3 rounded-lg rounded-tl-none shadow-sm border border-gray-100 dark:border-slate-700 text-sm max-w-[80%]"
-                >
-                    <!-- Injected via JS to prevent SEO indexing -->
-                </div>
-            </div>
-        </div>
-
-        <!-- Input Area -->
-        <div
-            class="p-4 bg-white dark:bg-slate-800 border-t border-gray-200 dark:border-slate-700 shrink-0"
-        >
-            <form id="chat-form" class="flex gap-2">
-                <input
-                    type="text"
-                    id="chat-input"
-                    placeholder="Ask a question..."
-                    class="flex-1 px-3 py-2 bg-gray-100 dark:bg-slate-900 border border-gray-300 dark:border-slate-700 rounded-md text-sm focus:outline-none focus:border-blue-500 text-gray-900 dark:text-gray-100"
-                    autocomplete="off"
-                />
-                <button
-                    type="submit"
-                    class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded-md transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="h-5 w-5"
-                        viewBox="0 0 20 20"
-                        fill="currentColor"
-                    >
-                        <path
-                            d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"
-                        ></path>
-                    </svg>
-                </button>
-            </form>
-        </div>
-    </div>
-
-    <!-- Toggle Button -->
-    <button
-        id="chat-toggle"
-        class="bg-blue-600 hover:bg-blue-700 text-white w-14 h-14 rounded-full shadow-lg flex items-center justify-center transition-transform hover:scale-105 active:scale-95"
-    >
-        <!-- Chat Icon -->
-        <svg
-            id="icon-chat"
-            xmlns="http://www.w3.org/2000/svg"
-            class="h-8 w-8"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-        >
-            <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"
-            ></path>
-        </svg>
-        <!-- Close Icon -->
-        <svg
-            id="icon-close"
-            xmlns="http://www.w3.org/2000/svg"
-            class="h-8 w-8 hidden"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-        >
-            <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M6 18L18 6M6 6l12 12"></path>
-        </svg>
-    </button>
+  <button
+    id="chat-toggle"
+    type="button"
+    aria-controls="chat-window"
+    aria-expanded="false"
+    aria-label="Open AI chat"
+    title="Ask PlayTested AI"
+    class="relative z-50 grid h-14 w-14 place-items-center rounded-full bg-gradient-to-br from-indigo-600 to-purple-600 text-white shadow-lg shadow-indigo-600/30 transition hover:scale-105 active:scale-95 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-indigo-400/50 motion-reduce:transition-none"
+  >
+    <svg data-icon="open" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path>
+    </svg>
+    <svg data-icon="close" class="hidden h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+    </svg>
+  </button>
 </div>
 
 <script>
-    import { marked } from "marked";
+  import {
+    citedRefs,
+    copyText,
+    escapeHtml,
+    noticeHtml,
+    perFrame,
+    prefersReducedMotion,
+    renderMarkdown,
+    sourceChips,
+    streamAi,
+    toPlainText,
+    TYPING_DOTS,
+    type Refs,
+  } from "../lib/ai-client";
 
-    // Re-initialize on every page load (works with View Transitions)
-    document.addEventListener("astro:page-load", () => {
-        const toggleBtn = document.getElementById("chat-toggle");
-        const chatWindow = document.getElementById("chat-window");
-        const backdrop = document.getElementById("chat-backdrop");
-        const iconChat = document.getElementById("icon-chat");
-        const iconClose = document.getElementById("icon-close");
-        const chatForm = document.getElementById("chat-form");
-        const chatInput = document.getElementById(
-            "chat-input",
-        ) as HTMLInputElement;
-        const messagesContainer = document.getElementById("chat-messages");
-        const greetingTemplate = document.getElementById(
-            "ai-chat-greeting",
-        ) as HTMLTemplateElement;
-        const welcomeContainer = document.getElementById(
-            "welcome-message-container",
-        );
+  type Mode = "widget" | "center";
+  type Msg = { role: "user" | "assistant"; content: string; refs?: Refs; stopped?: boolean };
+  type Detail = { mode?: Mode; prompt?: string; ask?: string; seed?: Msg[] };
 
-        if (welcomeContainer && greetingTemplate) {
-            welcomeContainer.textContent =
-                greetingTemplate.content.textContent?.trim() || "";
-        }
+  const KEY = "pt-chat";
+  const MAX_STORED = 30;
+  const GENERAL_STARTERS = [
+    "What are the best games you've reviewed lately?",
+    "Recommend a great co-op game",
+    "Which mobile games are worth playing?",
+    "What's a good game like Elden Ring?",
+  ];
+  const WIDGET_POS = [
+    "right-4", "bottom-20", "sm:right-6", "sm:bottom-24", "w-[calc(100vw-2rem)]", "sm:w-[400px]",
+    "h-[min(620px,calc(100dvh-6.5rem))]", "origin-bottom-right",
+  ];
+  const CENTER_POS = [
+    "left-1/2", "top-1/2", "-translate-x-1/2", "-translate-y-1/2", "w-[calc(100vw-2rem)]", "max-w-2xl",
+    "h-[min(760px,calc(100dvh-3rem))]", "origin-center",
+  ];
 
-        let isOpen = false;
-        let displayMode: "widget" | "center" = "widget";
+  const ICON_COPY = `<svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 012-2h8"/></svg>`;
+  const ICON_RETRY = `<svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99"/></svg>`;
+  const AVATAR = `<span class="mt-0.5 grid h-7 w-7 shrink-0 place-items-center rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 text-white" aria-hidden="true"><svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z"/></svg></span>`;
+  const BUBBLE =
+    "rounded-2xl rounded-tl-md border border-gray-200 bg-white px-3.5 py-2.5 text-sm leading-relaxed text-gray-800 shadow-sm break-words dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200";
+  const ACTION =
+    "inline-flex items-center gap-1 rounded-md px-1.5 py-1 text-xs text-gray-500 hover:bg-gray-200/70 hover:text-gray-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 dark:text-slate-400 dark:hover:bg-slate-700 dark:hover:text-slate-200";
 
-        const WIDGET_CLASSES = [
-            "mb-4",
-            "w-80",
-            "sm:w-96",
-            "origin-bottom-right",
-            "h-[500px]",
-            "mr-0",
-            "bottom-6",
-            "right-6",
-        ];
-        const CENTER_CLASSES = [
-            "fixed",
-            "top-1/2",
-            "left-1/2",
-            "-translate-x-1/2",
-            "-translate-y-1/2",
-            "w-[90vw]",
-            "max-w-2xl",
-            "h-[70vh]",
-            "origin-center",
-            "shadow-2xl",
-            "z-[100]",
-            "m-0",
-        ];
-
-        // Load UI State
-        const storedUIState = sessionStorage.getItem("chatUIState");
-        if (storedUIState) {
-            try {
-                const ui = JSON.parse(storedUIState);
-                isOpen = ui.isOpen;
-                displayMode = ui.mode;
-            } catch (e) {}
-        }
-
-        // Load history
-        const storedHistory = sessionStorage.getItem("chatHistory");
-        const chatHistory: Array<{ role: string; content: string }> =
-            storedHistory ? JSON.parse(storedHistory) : [];
-
-        // Apply Initial UI State immediately
-        if (displayMode === "center") {
-            chatWindow?.classList.remove(...WIDGET_CLASSES);
-            chatWindow?.classList.add(...CENTER_CLASSES);
-        } else {
-            // Default classes are for widget, strictly ensure no center classes
-            chatWindow?.classList.remove(...CENTER_CLASSES);
-            chatWindow?.classList.add(...WIDGET_CLASSES);
-        }
-
-        if (isOpen) {
-            chatWindow?.classList.remove(
-                "hidden",
-                "pointer-events-none",
-                "scale-90",
-                "opacity-0",
-            );
-            chatWindow?.classList.add(
-                "scale-100",
-                "opacity-100",
-                "pointer-events-auto",
-            );
-            // Handle Backdrop
-            if (displayMode === "center") {
-                backdrop?.classList.remove("hidden", "opacity-0");
-            }
-            iconChat?.classList.add("hidden");
-            iconClose?.classList.remove("hidden");
-        }
-
-        // Helper: Toggle Window
-        const toggleChat = (forceMode?: "widget" | "center") => {
-            // Determine new state
-            if (forceMode) {
-                // If forceMode is provided, we ALWAYS open in that mode.
-                displayMode = forceMode;
-                isOpen = true;
-            } else {
-                // Regular toggle (FAB click)
-                if (isOpen) {
-                    isOpen = false;
-                } else {
-                    displayMode = "widget";
-                    isOpen = true;
-                }
-            }
-
-            // Save UI State
-            sessionStorage.setItem(
-                "chatUIState",
-                JSON.stringify({ isOpen, mode: displayMode }),
-            );
-
-            // Apply Classes based on Mode
-            if (displayMode === "center") {
-                chatWindow?.classList.remove(...WIDGET_CLASSES);
-                chatWindow?.classList.add(...CENTER_CLASSES);
-            } else {
-                chatWindow?.classList.remove(...CENTER_CLASSES);
-                chatWindow?.classList.add(...WIDGET_CLASSES);
-            }
-
-            if (isOpen) {
-                chatWindow?.classList.remove("hidden", "pointer-events-none");
-
-                // Show Backdrop if center
-                if (displayMode === "center") {
-                    backdrop?.classList.remove("hidden");
-                    requestAnimationFrame(() =>
-                        backdrop?.classList.remove("opacity-0"),
-                    );
-                } else {
-                    backdrop?.classList.add("opacity-0");
-                    setTimeout(() => backdrop?.classList.add("hidden"), 300);
-                }
-
-                setTimeout(() => {
-                    chatWindow?.classList.remove("scale-90", "opacity-0");
-                    chatWindow?.classList.add(
-                        "scale-100",
-                        "opacity-100",
-                        "pointer-events-auto",
-                    );
-                }, 10);
-                iconChat?.classList.add("hidden");
-                iconClose?.classList.remove("hidden");
-                chatInput?.focus();
-            } else {
-                chatWindow?.classList.remove(
-                    "scale-100",
-                    "opacity-100",
-                    "pointer-events-auto",
-                );
-                chatWindow?.classList.add(
-                    "scale-90",
-                    "opacity-0",
-                    "pointer-events-none",
-                );
-
-                // Hide backdrop
-                backdrop?.classList.add("opacity-0");
-
-                setTimeout(() => {
-                    chatWindow?.classList.add("hidden");
-                    backdrop?.classList.add("hidden");
-                }, 300);
-
-                iconChat?.classList.remove("hidden");
-                iconClose?.classList.add("hidden");
-            }
+  function load(): { open: boolean; mode: Mode; messages: Msg[] } {
+    try {
+      const s = JSON.parse(sessionStorage.getItem(KEY) || "null");
+      if (s && Array.isArray(s.messages)) {
+        return {
+          open: Boolean(s.open),
+          mode: s.mode === "center" ? "center" : "widget",
+          messages: s.messages.filter((m: Msg) => m && (m.role === "user" || m.role === "assistant") && typeof m.content === "string"),
         };
-
-        toggleBtn?.addEventListener("click", () => toggleChat()); // FAB click -> toggle default
-
-        // Expose toggle globally for the singleton listener
-        (window as any)._playtestedToggleChat = toggleChat;
-
-        // Helper: Format Refs [1] -> [1](url)
-        const formatRefs = (text: string, refMap: Record<string, string>) => {
-            return text.replace(/\[(\d+)\]/g, (match, id) => {
-                const val = refMap[match] || refMap[id] || refMap[`[${id}]`];
-                if (!val) return match;
-
-                const [url, title] = val.split("::");
-                const label = title ? title : "Link to Review";
-                return `[${label}](${url})`;
-            });
-        };
-
-        // Helper: Append Message to UI
-        const appendMessage = (
-            role: "user" | "assistant",
-            text: string,
-            refMap = {},
-        ) => {
-            const msgDiv = document.createElement("div");
-            msgDiv.className =
-                "flex gap-2 " + (role === "user" ? "flex-row-reverse" : "");
-
-            // Icon
-            const icon = document.createElement("div");
-            icon.className = `w-8 h-8 rounded-full flex items-center justify-center shrink-0 ${
-                role === "user"
-                    ? "bg-blue-600 text-white"
-                    : "bg-blue-100 dark:bg-blue-900"
-            }`;
-            icon.innerText = role === "user" ? "👤" : "🤖";
-
-            // Content
-            const contentBubble = document.createElement("div");
-            contentBubble.className = `p-3 rounded-lg shadow-sm border text-sm max-w-[80%] prose dark:prose-invert prose-sm ${
-                role === "user"
-                    ? "bg-blue-600 text-white rounded-tr-none border-blue-600"
-                    : "bg-white dark:bg-slate-800 rounded-tl-none border-gray-100 dark:border-slate-700"
-            }`;
-
-            // Append to DOM immediately to preserve order
-            msgDiv.appendChild(icon);
-            msgDiv.appendChild(contentBubble);
-            messagesContainer?.appendChild(msgDiv);
-            messagesContainer?.scrollTo({
-                top: messagesContainer.scrollHeight,
-                behavior: "smooth",
-            });
-
-            // Render content asynchronously
-            (async () => {
-                if (role === "assistant" && !text) {
-                    contentBubble.innerHTML = `<span class="animate-pulse">...</span>`;
-                } else {
-                    const formattedText = formatRefs(text, refMap);
-                    const html = await marked.parse(formattedText);
-                    contentBubble.innerHTML = html;
-                }
-            })();
-
-            return { msgDiv, contentBubble };
-        };
-
-        // Render History
-        chatHistory.forEach((msg) =>
-            appendMessage(msg.role as "user" | "assistant", msg.content),
-        );
-
-        // Submit Handler
-        chatForm?.addEventListener("submit", async (e) => {
-            e.preventDefault();
-            const message = chatInput.value.trim();
-            if (!message) return;
-
-            // Clear input
-            chatInput.value = "";
-            chatInput.disabled = true;
-
-            // 1. Show User Message
-            appendMessage("user", message);
-            chatHistory.push({ role: "user", content: message });
-            sessionStorage.setItem("chatHistory", JSON.stringify(chatHistory));
-
-            // 2. Prepare Assistant Bubble
-            const { contentBubble } = appendMessage("assistant", "");
-
-            try {
-                // 3. Make Request
-                const res = await fetch("/api/chat", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ messages: chatHistory }),
-                });
-
-                if (!res.ok) {
-                    throw new Error(`Server error: ${res.status}`);
-                }
-
-                if (!res.body) throw new Error("No response body");
-
-                // 4. Stream Reader Logic
-                const reader = res.body.getReader();
-                const decoder = new TextDecoder();
-
-                let buffer = "";
-                let accumulatedText = "";
-                let referencesMap: Record<string, string> = {};
-                let refsParsed = false;
-
-                while (true) {
-                    const { done, value } = await reader.read();
-
-                    if (value) {
-                        const chunk = decoder.decode(value, { stream: true });
-                        buffer += chunk;
-                    }
-
-                    // STEP A: Check for References Block (Start of stream)
-                    if (!refsParsed) {
-                        const startTag = "<!--REFS:";
-                        const endTag = ":REFS-->";
-                        const startIndex = buffer.indexOf(startTag);
-                        const endIndex = buffer.indexOf(endTag);
-
-                        if (startIndex !== -1 && endIndex !== -1) {
-                            // Extract JSON part
-                            const jsonStr = buffer.substring(
-                                startIndex + startTag.length,
-                                endIndex,
-                            );
-                            try {
-                                referencesMap = JSON.parse(jsonStr);
-                            } catch (err) {
-                                console.error("Failed to parse refs:", err);
-                            }
-                            // Remove the entire block including newline if present
-                            // We construct "remaining" buffer starting after the endTag
-                            let remaining = buffer.substring(
-                                endIndex + endTag.length,
-                            );
-                            if (remaining.startsWith("\n"))
-                                remaining = remaining.substring(1);
-
-                            buffer = remaining;
-                            refsParsed = true;
-                        } else if (
-                            buffer.length > 2000 &&
-                            !buffer.includes(startTag)
-                        ) {
-                            // Safety: If buffer gets huge and no start tag, assume no refs sent (or using legacy model)
-                            refsParsed = true;
-                        }
-                    }
-
-                    // STEP B: Process SSE Lines only if we have passed key checks or if data is waiting
-                    // We only process if we have parsed refs OR if we are sure there are no refs
-                    if (refsParsed) {
-                        const lines = buffer.split("\n");
-                        // Save the last partial line back to buffer, UNLESS we are done
-                        if (!done) {
-                            buffer = lines.pop() || "";
-                        } else {
-                            buffer = ""; // Done, so process everything
-                        }
-
-                        for (const line of lines) {
-                            const trim = line.trim();
-                            if (
-                                trim.startsWith("data: ") &&
-                                trim !== "data: [DONE]"
-                            ) {
-                                try {
-                                    const json = JSON.parse(trim.substring(6)); // skip "data: "
-                                    const content =
-                                        json.choices?.[0]?.delta?.content || "";
-                                    accumulatedText += content;
-
-                                    // Render Update
-                                    const linkedText = formatRefs(
-                                        accumulatedText,
-                                        referencesMap,
-                                    );
-                                    contentBubble.innerHTML =
-                                        await marked.parse(linkedText);
-                                    messagesContainer?.scrollTo({
-                                        top: messagesContainer.scrollHeight,
-                                        behavior: "smooth",
-                                    });
-                                } catch (e) {
-                                    // console.warn("JSON parse error for SSE line", e);
-                                }
-                            }
-                        }
-                    }
-
-                    if (done) break;
-                }
-
-                // finalize
-                chatHistory.push({
-                    role: "assistant",
-                    content: accumulatedText,
-                });
-                sessionStorage.setItem(
-                    "chatHistory",
-                    JSON.stringify(chatHistory),
-                );
-            } catch (err) {
-                console.error(err);
-                contentBubble.innerHTML = `<span class="text-red-500">Error: ${(err as Error).message}. Please try again.</span>`;
-            } finally {
-                chatInput.disabled = false;
-                chatInput.focus();
-            }
-        });
-    });
-
-    // Singleton Global Listener (runs once per session)
-    if (
-        typeof window !== "undefined" &&
-        !(window as any)._chatListenerInstalled
-    ) {
-        document.addEventListener("playtested:chat-toggle", ((
-            e: CustomEvent,
-        ) => {
-            const mode = e.detail?.mode || "widget";
-            const toggleFn = (window as any)._playtestedToggleChat;
-            if (typeof toggleFn === "function") {
-                toggleFn(mode);
-            }
-        }) as EventListener);
-        (window as any)._chatListenerInstalled = true;
+      }
+    } catch {
+      // Storage blocked or corrupt: start fresh.
     }
+    return { open: false, mode: "widget", messages: [] };
+  }
+
+  function setup(root: HTMLElement) {
+    root.dataset.ready = "1";
+    const $ = <T extends HTMLElement>(sel: string) => root.querySelector(sel) as T;
+    const win = $<HTMLElement>("#chat-window");
+    const backdrop = $<HTMLElement>("#chat-backdrop");
+    const list = $<HTMLElement>("#chat-messages");
+    const form = $<HTMLFormElement>("#chat-form");
+    const input = $<HTMLTextAreaElement>("#chat-input");
+    const send = $<HTMLButtonElement>("#chat-send");
+    const stop = $<HTMLButtonElement>("#chat-stop");
+    const toggle = $<HTMLButtonElement>("#chat-toggle");
+    const expand = $<HTMLButtonElement>("[data-chat=expand]");
+
+    const state = load();
+    let controller: AbortController | null = null;
+    let hideTimer = 0;
+    let epoch = 0; // bumped by "New chat" so an answer still streaming is discarded
+
+    const save = () => {
+      try {
+        sessionStorage.setItem(KEY, JSON.stringify({ ...state, messages: state.messages.slice(-MAX_STORED) }));
+      } catch {
+        // Quota or privacy mode: the chat still works for this page.
+      }
+    };
+    const scrollDown = (force = false) => {
+      const near = list.scrollHeight - list.scrollTop - list.clientHeight < 120;
+      if (force || near) list.scrollTo({ top: list.scrollHeight, behavior: prefersReducedMotion() || !force ? "auto" : "smooth" });
+    };
+
+    // --- open / close ----------------------------------------------------
+
+    const applyMode = () => {
+      const center = state.mode === "center";
+      win.classList.remove(...(center ? WIDGET_POS : CENTER_POS));
+      win.classList.add(...(center ? CENTER_POS : WIDGET_POS));
+      win.setAttribute("aria-modal", String(center));
+      expand.setAttribute("aria-label", center ? "Shrink chat" : "Expand chat");
+      expand.title = center ? "Shrink" : "Expand";
+      expand.querySelector("[data-icon=expand]")?.classList.toggle("hidden", center);
+      expand.querySelector("[data-icon=collapse]")?.classList.toggle("hidden", !center);
+      backdrop.hidden = !(center && state.open);
+      requestAnimationFrame(() => backdrop.classList.toggle("opacity-0", !(center && state.open)));
+      // The centred panel has its own close button; the bubble would cover its send button on phones.
+      toggle.hidden = center && state.open;
+    };
+
+    const setVisible = (on: boolean) => {
+      win.classList.toggle("opacity-0", !on);
+      win.classList.toggle("scale-95", !on);
+      win.classList.toggle("opacity-100", on);
+      win.classList.toggle("scale-100", on);
+      toggle.hidden = on && state.mode === "center";
+      toggle.setAttribute("aria-expanded", String(on));
+      toggle.setAttribute("aria-label", on ? "Close AI chat" : "Open AI chat");
+      toggle.querySelector("[data-icon=open]")?.classList.toggle("hidden", on);
+      toggle.querySelector("[data-icon=close]")?.classList.toggle("hidden", !on);
+    };
+
+    const ensureRendered = () => {
+      if (!list.childElementCount) renderAll();
+    };
+
+    const open = (mode?: Mode, opts: { focus?: boolean; animate?: boolean } = {}) => {
+      if (mode) state.mode = mode;
+      clearTimeout(hideTimer);
+      const wasOpen = state.open && !win.hidden;
+      state.open = true;
+      applyMode();
+      win.hidden = false;
+      ensureRendered();
+      if (opts.animate === false || wasOpen) setVisible(true);
+      else requestAnimationFrame(() => requestAnimationFrame(() => setVisible(true)));
+      save();
+      scrollDown(true);
+      if (opts.focus !== false) setTimeout(() => input.focus({ preventScroll: true }), 30);
+    };
+
+    const close = () => {
+      if (!state.open) return;
+      const hadFocus = win.contains(document.activeElement);
+      state.open = false;
+      setVisible(false);
+      backdrop.classList.add("opacity-0");
+      hideTimer = window.setTimeout(
+        () => {
+          win.hidden = true;
+          backdrop.hidden = true;
+        },
+        prefersReducedMotion() ? 0 : 200,
+      );
+      save();
+      if (hadFocus) toggle.focus({ preventScroll: true });
+    };
+
+    // --- rendering -------------------------------------------------------
+
+    const userRow = (text: string) => {
+      const row = document.createElement("div");
+      row.className = "flex justify-end";
+      row.innerHTML = `<div class="max-w-[85%] whitespace-pre-wrap break-words rounded-2xl rounded-br-md bg-indigo-600 px-3.5 py-2 text-sm text-white shadow-sm">${escapeHtml(text)}</div>`;
+      list.appendChild(row);
+      return row;
+    };
+
+    /** An assistant message; returns controls to stream into it. */
+    const assistantRow = () => {
+      const row = document.createElement("div");
+      row.className = "flex gap-2.5";
+      row.innerHTML = `${AVATAR}<div class="min-w-0 max-w-[88%] flex-1"><div data-body class="${BUBBLE}" aria-busy="true">${TYPING_DOTS}</div><div data-sources class="mt-2 flex flex-wrap gap-1.5 empty:hidden"></div><div data-actions class="mt-1 flex flex-wrap items-center gap-1 empty:hidden"></div></div>`;
+      list.appendChild(row);
+      const body = row.querySelector("[data-body]") as HTMLElement;
+      const sources = row.querySelector("[data-sources]") as HTMLElement;
+      const actions = row.querySelector("[data-actions]") as HTMLElement;
+      let finished = false;
+
+      return {
+        row,
+        stream(text: string, refs: Refs) {
+          if (finished) return;
+          body.innerHTML = renderMarkdown(text, { refs, caret: true });
+          scrollDown();
+        },
+        finish(msg: Msg) {
+          finished = true;
+          body.removeAttribute("aria-busy");
+          body.innerHTML = renderMarkdown(msg.content, { refs: msg.refs }) || '<p class="text-gray-500">(no answer)</p>';
+          sources.innerHTML = sourceChips(citedRefs(msg.content, msg.refs ?? {}));
+          actions.innerHTML = `<button type="button" data-copy class="${ACTION}">${ICON_COPY}<span>Copy</span></button>${msg.stopped ? '<span class="px-1.5 text-xs italic text-gray-400 dark:text-slate-500">Stopped</span>' : ""}`;
+          actions.querySelector("[data-copy]")?.addEventListener("click", async (e) => {
+            const btn = e.currentTarget as HTMLButtonElement;
+            const ok = await copyText(toPlainText(msg.content, msg.refs));
+            btn.querySelector("span")!.textContent = ok ? "Copied" : "Couldn't copy";
+            setTimeout(() => (btn.querySelector("span")!.textContent = "Copy"), 1600);
+          });
+          scrollDown();
+        },
+        fail(err: unknown, retry: () => void) {
+          finished = true;
+          body.removeAttribute("aria-busy");
+          body.className = "";
+          body.innerHTML = noticeHtml(err);
+          actions.innerHTML = `<button type="button" data-retry class="${ACTION}">${ICON_RETRY}<span>Try again</span></button>`;
+          actions.querySelector("[data-retry]")?.addEventListener("click", retry);
+          scrollDown(true);
+        },
+      };
+    };
+
+    const starters = (): string[] => {
+      const game = (document.querySelector("[data-ask-review]") as HTMLElement | null)?.dataset.game;
+      return game ? [`Is ${game} worth playing?`, `What games are similar to ${game}?`, ...GENERAL_STARTERS.slice(0, 2)] : GENERAL_STARTERS;
+    };
+
+    const renderWelcome = () => {
+      const row = document.createElement("div");
+      row.dataset.welcome = "";
+      row.className = "flex gap-2.5";
+      row.innerHTML = `${AVATAR}<div class="min-w-0 flex-1"><div class="${BUBBLE}"><p>Hi! I'm PlayTested's AI guide. Ask me about any game we've reviewed — scores, verdicts, or what to play next.</p></div><div class="mt-2.5 flex flex-wrap gap-1.5" role="group" aria-label="Suggested questions">${starters()
+        .map(
+          (s) =>
+            `<button type="button" data-starter class="rounded-full border border-indigo-200 bg-white px-3 py-1.5 text-left text-xs font-medium text-indigo-700 transition-colors hover:border-indigo-300 hover:bg-indigo-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 dark:border-indigo-500/30 dark:bg-slate-800 dark:text-indigo-300 dark:hover:bg-indigo-500/10">${escapeHtml(s)}</button>`,
+        )
+        .join("")}</div></div>`;
+      row.querySelectorAll<HTMLButtonElement>("[data-starter]").forEach((b) => b.addEventListener("click", () => ask(b.textContent || "")));
+      list.appendChild(row);
+    };
+
+    function renderAll() {
+      list.innerHTML = "";
+      if (!state.messages.length) renderWelcome();
+      for (const m of state.messages) {
+        if (m.role === "user") userRow(m.content);
+        else assistantRow().finish(m);
+      }
+    }
+
+    // --- sending ---------------------------------------------------------
+
+    const setBusy = (busy: boolean) => {
+      send.hidden = busy;
+      stop.hidden = !busy;
+      send.disabled = busy || !input.value.trim();
+      list.setAttribute("aria-busy", String(busy));
+    };
+
+    const autosize = () => {
+      input.style.height = "auto";
+      input.style.height = `${Math.min(input.scrollHeight, 128)}px`;
+      send.disabled = Boolean(controller) || !input.value.trim();
+    };
+
+    /** What the API sees: recent turns, with citation markers swapped for titles. */
+    const history = () =>
+      state.messages
+        .filter((m) => m.content.trim())
+        .slice(-8)
+        .map((m) => ({ role: m.role, content: m.role === "assistant" ? toPlainText(m.content, m.refs) : m.content }));
+
+    async function ask(question: string, opts: { retry?: boolean } = {}) {
+      const q = question.trim().slice(0, 1000);
+      if (!q || controller) return;
+      if (!state.open) open(undefined, { focus: false });
+      ensureRendered();
+      list.querySelector("[data-welcome]")?.remove();
+      const turn: Msg = { role: "user", content: q };
+      state.messages.push(turn);
+      save();
+      if (!opts.retry) userRow(q);
+      input.value = "";
+      autosize();
+
+      const view = assistantRow();
+      scrollDown(true);
+      const mine = epoch;
+      controller = new AbortController();
+      setBusy(true);
+      const pageTitle = (document.querySelector("[data-ask-review]") as HTMLElement | null)?.dataset.title;
+      try {
+        const r = await streamAi(
+          "/api/chat",
+          { messages: history(), ...(pageTitle ? { page: { title: pageTitle } } : {}) },
+          { signal: controller.signal, onText: perFrame((t, refs) => view.stream(t, refs)) },
+        );
+        if (mine !== epoch) return; // "New chat" was pressed meanwhile
+        if (!r.text.trim()) {
+          view.row.remove(); // stopped before anything arrived
+        } else {
+          const msg: Msg = { role: "assistant", content: r.text, refs: r.refs, ...(r.stopped ? { stopped: true } : {}) };
+          state.messages.push(msg);
+          save();
+          view.finish(msg);
+        }
+      } catch (err) {
+        if (mine !== epoch) return;
+        // Only answered turns are kept; "Try again" sends the question afresh.
+        const i = state.messages.lastIndexOf(turn);
+        if (i >= 0) state.messages.splice(i, 1);
+        save();
+        view.fail(err, () => {
+          view.row.remove();
+          ask(q, { retry: true });
+        });
+      } finally {
+        controller = null;
+        setBusy(false);
+        if (state.open && win.contains(document.activeElement)) input.focus({ preventScroll: true });
+      }
+    }
+
+    // --- events ----------------------------------------------------------
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      ask(input.value);
+    });
+    input.addEventListener("input", autosize);
+    input.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" && !e.shiftKey && !e.isComposing) {
+        e.preventDefault();
+        ask(input.value);
+      }
+    });
+    stop.addEventListener("click", () => controller?.abort());
+    toggle.addEventListener("click", () => (state.open ? close() : open("widget")));
+    backdrop.addEventListener("click", close);
+    root.querySelector("[data-chat=close]")?.addEventListener("click", close);
+    expand.addEventListener("click", () => open(state.mode === "center" ? "widget" : "center"));
+    root.querySelector("[data-chat=reset]")?.addEventListener("click", () => {
+      epoch++;
+      controller?.abort();
+      state.messages = [];
+      save();
+      renderAll();
+      input.focus();
+    });
+    // Starter prompts follow the page (e.g. "Is <game> worth playing?" on a review).
+    document.addEventListener("astro:page-load", () => {
+      if (!state.messages.length && !controller && list.childElementCount) renderAll();
+    });
+    win.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        e.stopPropagation();
+        close();
+        return;
+      }
+      // Keep keyboard focus inside the centred (modal) panel.
+      if (e.key === "Tab" && state.mode === "center") {
+        const f = [...win.querySelectorAll<HTMLElement>("button:not([disabled]):not([hidden]), textarea, a[href]")].filter((el) => el.offsetParent !== null);
+        if (!f.length) return;
+        const first = f[0];
+        const last = f[f.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
+    });
+    window.addEventListener("pagehide", save);
+
+    // Public hooks for the nav, about page, search page and AskReview.
+    const handle = (d: Detail = {}) => {
+      ensureRendered();
+      if (d.seed?.length && !controller) {
+        list.querySelector("[data-welcome]")?.remove();
+        for (const m of d.seed) {
+          if (!m || !m.content) continue;
+          state.messages.push(m);
+          if (m.role === "user") userRow(m.content);
+          else assistantRow().finish(m);
+        }
+        save();
+      }
+      open(d.mode ?? "center", { focus: !d.ask });
+      if (d.prompt) {
+        input.value = d.prompt;
+        autosize();
+      }
+      if (d.ask) ask(d.ask);
+    };
+    (window as any)._playtestedToggleChat = (mode?: Mode) => (mode ? open(mode) : state.open ? close() : open("widget"));
+    (window as any)._playtestedChat = handle;
+
+    applyMode();
+    if (state.open) open(undefined, { focus: false, animate: false });
+  }
+
+  function init() {
+    const root = document.getElementById("chat-widget");
+    if (root && !root.dataset.ready) setup(root);
+  }
+
+  // The widget element survives navigations (transition:persist), so this
+  // only does work on a full page load; the guard covers pages without it.
+  if (!(window as any)._ptChatBooted) {
+    (window as any)._ptChatBooted = true;
+    document.addEventListener("astro:page-load", init);
+    document.addEventListener("playtested:chat-toggle", ((e: CustomEvent<Detail>) => {
+      init();
+      (window as any)._playtestedChat?.(e.detail ?? {});
+    }) as EventListener);
+  }
+  init();
 </script>

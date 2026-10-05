@@ -1,0 +1,192 @@
+---
+/**
+ * "Ask this review": a compact Q&A box on article pages. Answers stream from
+ * /api/ask-review, grounded only in this article's own text, and list the
+ * sections they drew on (click to jump there). Nothing is requested until the
+ * visitor asks. The chat widget also reads data-title/data-game from here to
+ * make its starter prompts and answers aware of the page.
+ */
+import { shortTitle } from "../lib/titles";
+
+export interface Props {
+  slug: string;
+  title: string;
+}
+const { slug, title } = Astro.props;
+const game = shortTitle(title);
+const suggestions = ["Is it worth it?", "What are the biggest flaws?", "Who would enjoy this?", "What's the verdict?"];
+---
+
+<section
+  data-ask-review
+  data-slug={slug}
+  data-title={title}
+  data-game={game}
+  data-nosnippet
+  aria-labelledby="ask-review-title"
+  class="not-prose mb-6 mt-2 rounded-2xl border border-indigo-100 bg-gradient-to-br from-indigo-50/90 to-purple-50/70 p-4 sm:p-5 dark:border-slate-700 dark:from-slate-800/80 dark:to-slate-800/40"
+>
+  <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
+    <span class="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 text-white" aria-hidden="true">
+      <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z"></path>
+      </svg>
+    </span>
+    <p id="ask-review-title" class="text-base font-semibold text-gray-900 dark:text-slate-100">Ask this review</p>
+    <span class="text-xs text-gray-500 dark:text-slate-400">AI answers drawn only from this article</span>
+  </div>
+
+  <form data-ask-form class="mt-3 flex gap-2" autocomplete="off">
+    <label for={`ask-review-input-${slug}`} class="sr-only">Your question about this review</label>
+    <input
+      id={`ask-review-input-${slug}`}
+      data-ask-input
+      type="text"
+      maxlength="300"
+      enterkeyhint="send"
+      placeholder={`Ask anything about ${game}…`}
+      class="h-10 min-w-0 flex-1 rounded-xl border border-gray-300 bg-white px-3.5 text-sm text-gray-900 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100 dark:placeholder-slate-500"
+    />
+    <button
+      type="submit"
+      data-ask-submit
+      class="h-10 shrink-0 rounded-xl bg-indigo-600 px-4 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-indigo-400/40 disabled:cursor-not-allowed disabled:opacity-50"
+    >
+      Ask
+    </button>
+    <button
+      type="button"
+      data-ask-stop
+      hidden
+      class="h-10 shrink-0 rounded-xl bg-slate-800 px-4 text-sm font-semibold text-white transition-colors hover:bg-slate-700 dark:bg-slate-600 dark:hover:bg-slate-500"
+    >
+      Stop
+    </button>
+  </form>
+
+  <div class="mt-2.5 flex flex-wrap gap-1.5" role="group" aria-label="Suggested questions">
+    {
+      suggestions.map((s) => (
+        <button
+          type="button"
+          data-ask-q={s}
+          class="rounded-full border border-indigo-200 bg-white/80 px-3 py-1 text-xs font-medium text-indigo-700 transition-colors hover:border-indigo-300 hover:bg-white dark:border-indigo-500/30 dark:bg-slate-900/50 dark:text-indigo-300 dark:hover:bg-slate-900"
+        >
+          {s}
+        </button>
+      ))
+    }
+  </div>
+
+  <div data-ask-thread class="mt-3 space-y-3 empty:hidden" aria-live="polite"></div>
+</section>
+
+<script>
+  import { escapeHtml, noticeHtml, perFrame, renderMarkdown, streamAi, TYPING_DOTS, type Refs } from "../lib/ai-client";
+
+  const norm = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
+
+  /** The article heading a passage came from, so the answer can link to it. */
+  function findHeading(text: string): HTMLElement | null {
+    const want = norm(text);
+    if (!want) return null;
+    const heads = [...document.querySelectorAll<HTMLElement>(".prose h2, .prose h3, .prose h4")];
+    return heads.find((h) => norm(h.textContent || "") === want) ?? heads.find((h) => norm(h.textContent || "").startsWith(want)) ?? null;
+  }
+
+  function sectionChips(refs: Refs): string {
+    const headings = [...new Set(Object.values(refs).map((r) => (r.heading || "").trim()).filter(Boolean))].slice(0, 4);
+    if (!headings.length) return "";
+    const chip =
+      "inline-flex max-w-full items-center rounded-full border border-gray-200 bg-white px-2 py-0.5 text-xs font-medium text-gray-700 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-300";
+    return `<span class="text-xs text-gray-500 dark:text-slate-400">Based on:</span>${headings
+      .map((h) =>
+        findHeading(h)
+          ? `<button type="button" data-jump="${escapeHtml(h)}" class="${chip} hover:border-indigo-300 hover:text-indigo-700 dark:hover:text-indigo-300"><span class="truncate">§ ${escapeHtml(h)}</span></button>`
+          : `<span class="${chip}"><span class="truncate">§ ${escapeHtml(h)}</span></span>`,
+      )
+      .join("")}`;
+  }
+
+  function setup(box: HTMLElement) {
+    box.dataset.ready = "1";
+    const slug = box.dataset.slug || "";
+    const form = box.querySelector("[data-ask-form]") as HTMLFormElement;
+    const input = box.querySelector("[data-ask-input]") as HTMLInputElement;
+    const submit = box.querySelector("[data-ask-submit]") as HTMLButtonElement;
+    const stop = box.querySelector("[data-ask-stop]") as HTMLButtonElement;
+    const thread = box.querySelector("[data-ask-thread]") as HTMLElement;
+    let ctl: AbortController | null = null;
+
+    const setBusy = (busy: boolean) => {
+      submit.hidden = busy;
+      stop.hidden = !busy;
+      box.querySelectorAll<HTMLButtonElement>("[data-ask-q]").forEach((b) => (b.disabled = busy));
+    };
+
+    async function ask(raw: string) {
+      const question = raw.replace(/\s+/g, " ").trim().slice(0, 300);
+      if (ctl) return;
+      if (question.length < 3) {
+        input.focus();
+        return;
+      }
+      input.value = "";
+      const item = document.createElement("div");
+      item.className = "rounded-xl border border-white/70 bg-white/90 p-3 shadow-sm dark:border-slate-700 dark:bg-slate-900/60";
+      item.innerHTML = `<p class="text-sm font-semibold text-gray-900 dark:text-slate-100">${escapeHtml(question)}</p><div data-a class="mt-1.5 text-sm leading-relaxed text-gray-700 dark:text-slate-300" aria-busy="true"><span class="text-indigo-500">${TYPING_DOTS}</span></div><div data-from class="mt-2 flex flex-wrap items-center gap-1.5 empty:hidden"></div>`;
+      thread.insertBefore(item, thread.firstChild); // newest first
+      while (thread.childElementCount > 5) thread.lastElementChild?.remove();
+      const a = item.querySelector("[data-a]") as HTMLElement;
+      const from = item.querySelector("[data-from]") as HTMLElement;
+
+      const mine = (ctl = new AbortController());
+      setBusy(true);
+      try {
+        const r = await streamAi(
+          "/api/ask-review",
+          { slug, question },
+          { signal: mine.signal, onText: perFrame((t) => ctl === mine && (a.innerHTML = renderMarkdown(t, { citations: "strip", caret: true }))) },
+        );
+        a.innerHTML = r.text.trim()
+          ? renderMarkdown(r.text, { citations: "strip" }) + (r.stopped ? `<p class="mt-1 text-xs italic text-gray-500 dark:text-slate-400">Stopped.</p>` : "")
+          : `<p class="text-xs italic text-gray-500 dark:text-slate-400">Stopped.</p>`;
+        if (r.text.trim()) from.innerHTML = sectionChips(r.refs);
+      } catch (e) {
+        a.innerHTML = noticeHtml(e);
+      } finally {
+        a.removeAttribute("aria-busy");
+        ctl = null;
+        setBusy(false);
+      }
+    }
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      ask(input.value);
+    });
+    stop.addEventListener("click", () => ctl?.abort());
+    box.addEventListener("click", (e) => {
+      const t = e.target as HTMLElement;
+      const q = t.closest<HTMLElement>("[data-ask-q]")?.dataset.askQ;
+      if (q) ask(q);
+      const jump = t.closest<HTMLElement>("[data-jump]")?.dataset.jump;
+      const h = jump ? findHeading(jump) : null;
+      if (h) {
+        h.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
+        h.classList.add("ring-2", "ring-indigo-400", "rounded");
+        setTimeout(() => h.classList.remove("ring-2", "ring-indigo-400", "rounded"), 1800);
+      }
+    });
+    document.addEventListener("astro:before-swap", () => ctl?.abort(), { once: true });
+  }
+
+  function init() {
+    document.querySelectorAll<HTMLElement>("[data-ask-review]:not([data-ready])").forEach(setup);
+  }
+  if (!(window as any)._ptAskReviewBooted) {
+    (window as any)._ptAskReviewBooted = true;
+    document.addEventListener("astro:page-load", init);
+  }
+  init();
+</script>
