@@ -14,7 +14,7 @@ import { clientIp, json, now, parseJson, utcDay } from "./util";
 
 export type Level = 0 | 1 | 2;
 export type DegradeMode = "auto" | "normal" | "conserve" | "essential";
-export type Feature = "chat" | "summary" | "search" | "recommend" | "compare" | "askReview" | "liveFallback";
+export type Feature = "chat" | "summary" | "search" | "recommend" | "compare" | "askReview" | "comments" | "liveFallback";
 
 export interface UsageSnapshot {
   day: string;
@@ -52,6 +52,7 @@ export const DEFAULT_GUARDS: GuardSettings = {
     recommend: true,
     compare: true,
     askReview: true,
+    comments: true,
     liveFallback: true,
   },
   caps: {
@@ -61,6 +62,7 @@ export const DEFAULT_GUARDS: GuardSettings = {
     recommend: 200,
     compare: 200,
     askReview: 400,
+    comments: 8000,
     liveFallback: 0,
   },
 };
@@ -74,6 +76,7 @@ const OFF_AT: Record<Feature, Level> = {
   summary: 2,
   search: 2,
   askReview: 2,
+  comments: 2,
 };
 
 const LIMITER: Record<Feature, "RL_AI" | "RL_SEARCH" | null> = {
@@ -83,6 +86,7 @@ const LIMITER: Record<Feature, "RL_AI" | "RL_SEARCH" | null> = {
   compare: "RL_AI",
   askReview: "RL_AI",
   search: "RL_SEARCH",
+  comments: "RL_SEARCH",
   liveFallback: null,
 };
 

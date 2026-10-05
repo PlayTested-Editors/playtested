@@ -718,6 +718,53 @@ route("GET", "/activity", "editor", async (c) => {
   return json({ activity: rows.results });
 });
 
+route("GET", "/comments", "editor", async (c) => {
+  const p = c.url.searchParams;
+  const status = p.get("status");
+  const where = status ? "WHERE m.status = ?" : "WHERE m.status != 'deleted'";
+  const args = status ? [status] : [];
+  const page = Math.max(Number(p.get("page")) || 1, 1);
+  const [rows, counts] = await c.env.DB.batch([
+    c.env.DB.prepare(
+      `SELECT m.id, m.slug, m.parent_id, m.body, m.status, m.created_at, m.edited_at, m.commenter_id,
+         c.name, c.email, c.avatar, c.status AS commenter_status, a.title AS article_title
+       FROM comments m JOIN commenters c ON c.id = m.commenter_id LEFT JOIN articles a ON a.slug = m.slug
+       ${where} ORDER BY m.created_at DESC LIMIT 50 OFFSET ?`,
+    ).bind(...args, (page - 1) * 50),
+    c.env.DB.prepare("SELECT status, COUNT(*) AS n FROM comments GROUP BY status"),
+  ]);
+  return json({
+    comments: rows.results,
+    counts: Object.fromEntries((counts.results as { status: string; n: number }[]).map((r) => [r.status, r.n])),
+    page,
+  });
+});
+
+route("PATCH", "/comments/:id", "editor", async (c, m) => {
+  const { status } = await body<{ status?: string }>(c.request);
+  if (!status || !["visible", "hidden", "deleted"].includes(status)) return error(400, "Unknown status.");
+  await c.env.DB.prepare("UPDATE comments SET status = ?, moderated_by = ?, moderated_at = ? WHERE id = ?")
+    .bind(status, c.user!.id, now(), m[1])
+    .run();
+  await audit(c.env.DB, c.user!.id, "comment.moderate", m[1], { status });
+  return json({ ok: true });
+});
+
+route("PATCH", "/commenters/:id", "chief", async (c, m) => {
+  const { status } = await body<{ status?: string }>(c.request);
+  if (status !== "banned" && status !== "active") return error(400, "Unknown status.");
+  await c.env.DB.prepare("UPDATE commenters SET status = ? WHERE id = ?").bind(status, m[1]).run();
+  if (status === "banned") {
+    // Hide everything they've posted and sign them out.
+    await c.env.DB.batch([
+      c.env.DB.prepare("UPDATE comments SET status = 'hidden', moderated_by = ?, moderated_at = ? WHERE commenter_id = ? AND status IN ('visible', 'pending')").bind(c.user!.id, now(), m[1]),
+      c.env.DB.prepare("DELETE FROM reader_sessions WHERE commenter_id = ?").bind(m[1]),
+    ]);
+  }
+  await audit(c.env.DB, c.user!.id, `commenter.${status === "banned" ? "ban" : "unban"}`, m[1]);
+  return json({ ok: true });
+});
+
 route("GET", "/index", "editor", async (c) => {
   const [docs, pending] = await c.env.DB.batch([
     c.env.DB.prepare("SELECT COUNT(*) AS n, COALESCE(SUM(chunk_count), 0) AS chunks, MAX(indexed_at) AS last FROM search_docs"),

@@ -1,0 +1,301 @@
+---
+/**
+ * Reader comments. Static markup; comments load only when the reader scrolls
+ * near this section (one Worker call), so most article views cost nothing.
+ * Older GitHub (Giscus) discussions stay available behind a button.
+ */
+interface Props {
+  slug: string;
+}
+const { slug } = Astro.props;
+---
+
+<section id="comments" class="not-prose mt-12 scroll-mt-24" data-comments data-slug={slug}>
+  <div class="mb-5 flex items-baseline justify-between gap-4">
+    <h2 class="text-2xl font-bold text-gray-900 dark:text-slate-100">
+      Comments <span data-count class="text-base font-medium text-gray-400"></span>
+    </h2>
+    <span data-who class="text-xs text-gray-500 dark:text-slate-400"></span>
+  </div>
+
+  <div data-composer class="mb-6"></div>
+
+  <div data-list class="space-y-5" aria-live="polite">
+    <div class="space-y-3" data-skeleton>
+      {[1, 2].map(() => (
+        <div class="flex gap-3">
+          <div class="h-9 w-9 shrink-0 animate-pulse rounded-full bg-gray-200 dark:bg-slate-700" />
+          <div class="flex-1 space-y-2">
+            <div class="h-3 w-32 animate-pulse rounded bg-gray-200 dark:bg-slate-700" />
+            <div class="h-3 w-full animate-pulse rounded bg-gray-200 dark:bg-slate-700" />
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <div class="mt-8 border-t border-gray-200 pt-5 dark:border-slate-700">
+    <button
+      type="button"
+      data-legacy
+      class="text-sm font-medium text-gray-500 underline-offset-4 transition hover:text-indigo-600 hover:underline dark:text-slate-400 dark:hover:text-indigo-400"
+    >
+      Show older comments from GitHub
+    </button>
+    <div data-giscus class="mt-4"></div>
+  </div>
+</section>
+
+<script>
+  type C = {
+    id: string;
+    parentId: string | null;
+    body: string;
+    status: string;
+    createdAt: number;
+    editedAt: number | null;
+    author: { name: string; avatar: string | null };
+    mine: boolean;
+  };
+
+  const esc = (s: string) =>
+    s.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]!);
+  const fmt = (s: string) =>
+    esc(s)
+      .replace(/https?:\/\/[^\s<]+/g, (u) => `<a href="${u}" rel="nofollow ugc noopener" target="_blank" class="text-indigo-600 underline underline-offset-2 dark:text-indigo-400">${u}</a>`)
+      .replace(/\n/g, "<br>");
+  const ago = (t: number) => {
+    const s = (Date.now() - t) / 1000;
+    if (s < 60) return "just now";
+    if (s < 3600) return `${Math.round(s / 60)} min ago`;
+    if (s < 86400) return `${Math.round(s / 3600)} h ago`;
+    if (s < 86400 * 30) return `${Math.round(s / 86400)} d ago`;
+    return new Date(t).toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" });
+  };
+  const avatar = (a: C["author"]) =>
+    a.avatar
+      ? `<img src="${esc(a.avatar)}" alt="" referrerpolicy="no-referrer" loading="lazy" class="h-9 w-9 shrink-0 rounded-full object-cover" />`
+      : `<div class="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-gradient-to-br from-indigo-500 to-fuchsia-500 text-sm font-bold text-white">${esc(a.name[0]?.toUpperCase() ?? "?")}</div>`;
+
+  function init() {
+    const found = document.querySelector<HTMLElement>("[data-comments]");
+    if (!found || found.dataset.ready) return;
+    const root: HTMLElement = found;
+    root.dataset.ready = "1";
+    const slug = root.dataset.slug!;
+    const list = root.querySelector<HTMLElement>("[data-list]")!;
+    const composer = root.querySelector<HTMLElement>("[data-composer]")!;
+    const countEl = root.querySelector<HTMLElement>("[data-count]")!;
+    const whoEl = root.querySelector<HTMLElement>("[data-who]")!;
+    let comments: C[] = [];
+    let me: { name: string; avatar: string | null } | null = null;
+    let replyTo: string | null = null;
+
+    const message = (text: string) => {
+      list.innerHTML = `<p class="rounded-lg bg-gray-50 px-4 py-3 text-sm text-gray-600 dark:bg-slate-800/60 dark:text-slate-300">${esc(text)}</p>`;
+    };
+
+    function item(c: C, isReply: boolean) {
+      const deleted = c.status === "deleted";
+      const actions = deleted
+        ? ""
+        : [
+            me && !isReply ? `<button data-act="reply" data-id="${c.id}" class="hover:text-indigo-600">Reply</button>` : "",
+            c.mine && Date.now() - c.createdAt < 30 * 60_000 ? `<button data-act="edit" data-id="${c.id}" class="hover:text-indigo-600">Edit</button>` : "",
+            c.mine ? `<button data-act="delete" data-id="${c.id}" class="hover:text-rose-600">Delete</button>` : "",
+          ].join("");
+      return `<article class="comment flex gap-3 ${isReply ? "mt-4" : ""}" data-cid="${c.id}">
+        ${avatar(c.author)}
+        <div class="min-w-0 flex-1">
+          <p class="text-sm"><span class="font-semibold text-gray-900 dark:text-slate-100">${esc(c.author.name)}</span>
+            <span class="ml-1 text-xs text-gray-500 dark:text-slate-400">${ago(c.createdAt)}${c.editedAt ? " · edited" : ""}</span>
+            ${c.status === "pending" ? `<span class="ml-1 rounded bg-amber-100 px-1.5 py-0.5 text-[11px] font-semibold text-amber-800 dark:bg-amber-500/15 dark:text-amber-300">Awaiting moderation</span>` : ""}</p>
+          <div class="comment-body mt-1 break-words text-[15px] leading-relaxed text-gray-700 dark:text-slate-300">${deleted ? `<em class="text-gray-400">This comment was deleted.</em>` : fmt(c.body)}</div>
+          <div class="mt-1.5 flex gap-4 text-xs font-medium text-gray-500 dark:text-slate-400">${actions}</div>
+          <div data-replies-for="${c.id}" class="${isReply ? "" : "border-l-2 border-gray-100 pl-4 dark:border-slate-700/70"}"></div>
+        </div>
+      </article>`;
+    }
+
+    function render() {
+      const top = comments.filter((c) => !c.parentId);
+      const visible = comments.filter((c) => c.status !== "deleted").length;
+      countEl.textContent = visible ? `(${visible})` : "";
+      if (!top.length) {
+        list.innerHTML = `<p class="text-sm text-gray-500 dark:text-slate-400">No comments yet${me ? " — start the conversation." : "."}</p>`;
+      } else {
+        list.innerHTML = top.map((c) => item(c, false)).join("");
+        for (const r of comments.filter((c) => c.parentId)) {
+          list.querySelector(`[data-replies-for="${r.parentId}"]`)?.insertAdjacentHTML("beforeend", item(r, true));
+        }
+      }
+      renderComposer();
+    }
+
+    function renderComposer(canSignIn = true) {
+      if (me) {
+        whoEl.innerHTML = `Signed in as ${esc(me.name)} · <button data-act="logout" class="underline underline-offset-2 hover:text-indigo-600">Sign out</button>`;
+        const target = replyTo ? comments.find((c) => c.id === replyTo) : null;
+        composer.innerHTML = `<form data-form class="rounded-xl bg-white p-3 shadow-sm ring-1 ring-gray-200 transition focus-within:ring-2 focus-within:ring-indigo-500 dark:bg-slate-800 dark:ring-slate-700">
+          ${target ? `<p class="mb-2 text-xs text-gray-500 dark:text-slate-400">Replying to <strong>${esc(target.author.name)}</strong> · <button type="button" data-act="cancel-reply" class="underline">cancel</button></p>` : ""}
+          <textarea name="body" rows="3" maxlength="3000" required placeholder="Share your thoughts on this review…" class="w-full resize-y border-0 bg-transparent p-1 text-[15px] text-gray-800 placeholder:text-gray-400 focus:outline-none focus:ring-0 dark:text-slate-200"></textarea>
+          <div class="flex items-center justify-between gap-3 pt-1">
+            <p data-form-msg class="text-xs text-gray-500 dark:text-slate-400">Be kind. Links may be held for review.</p>
+            <button class="rounded-lg bg-indigo-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-indigo-500 active:scale-[0.98] disabled:opacity-50">Post</button>
+          </div>
+        </form>`;
+      } else {
+        whoEl.textContent = "";
+        composer.innerHTML = canSignIn
+          ? `<a href="/api/comments/auth/google/start?return=${encodeURIComponent(location.pathname)}" class="inline-flex items-center gap-2 rounded-lg bg-white px-4 py-2.5 text-sm font-semibold text-gray-800 shadow-sm ring-1 ring-gray-300 transition hover:bg-gray-50 dark:bg-slate-800 dark:text-slate-100 dark:ring-slate-600 dark:hover:bg-slate-700">
+              <svg class="h-4 w-4" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.3-.4-3.5z"/><path fill="#FF3D00" d="m6.3 14.7 6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-7.9l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.3-.4-3.5z"/></svg>
+              Sign in with Google to comment</a>`
+          : `<p class="text-sm text-gray-500 dark:text-slate-400">Commenting opens soon.</p>`;
+      }
+    }
+
+    async function load() {
+      try {
+        const res = await fetch(`/api/comments?slug=${encodeURIComponent(slug)}`, { credentials: "same-origin" });
+        const data: any = await res.json().catch(() => ({}));
+        if (!res.ok) {
+          message(data.error || "Comments couldn't load right now.");
+          composer.innerHTML = "";
+          return;
+        }
+        comments = data.comments;
+        me = data.me;
+        render();
+        renderComposer(data.canSignIn && !data.banned);
+        if (location.hash === "#comments") root.scrollIntoView({ behavior: "smooth" });
+      } catch {
+        message("Comments couldn't load right now.");
+      }
+    }
+
+    root.addEventListener("submit", async (e) => {
+      const form = (e.target as HTMLElement).closest<HTMLFormElement>("[data-form]");
+      if (!form) return;
+      e.preventDefault();
+      const btn = form.querySelector("button:not([type])") as HTMLButtonElement;
+      const msg = form.querySelector<HTMLElement>("[data-form-msg]")!;
+      const body = (form.elements.namedItem("body") as HTMLTextAreaElement).value;
+      btn.disabled = true;
+      try {
+        const res = await fetch("/api/comments", {
+          method: "POST",
+          credentials: "same-origin",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ slug, body, parentId: replyTo }),
+        });
+        const data: any = await res.json().catch(() => ({}));
+        if (!res.ok) throw new Error(data.error || "Couldn't post your comment.");
+        comments.push(data.comment);
+        replyTo = null;
+        render();
+        root.querySelector(`[data-cid="${data.comment.id}"]`)?.classList.add("animate-[fadeIn_.4s_ease]");
+        const note = composer.querySelector<HTMLElement>("[data-form-msg]");
+        if (note) note.textContent = data.held ? "Thanks! Your comment contains links, so a moderator will approve it first." : "Posted ✓";
+      } catch (err) {
+        msg.textContent = (err as Error).message;
+        msg.className = "text-xs text-rose-600";
+        btn.disabled = false;
+      }
+    });
+
+    root.addEventListener("click", async (e) => {
+      const el = (e.target as HTMLElement).closest<HTMLElement>("[data-act]");
+      if (el) {
+        const id = el.dataset.id;
+        const act = el.dataset.act;
+        if (act === "reply") {
+          replyTo = id!;
+          renderComposer();
+          composer.scrollIntoView({ behavior: "smooth", block: "center" });
+          composer.querySelector("textarea")?.focus();
+        } else if (act === "cancel-reply") {
+          replyTo = null;
+          renderComposer();
+        } else if (act === "delete" && confirm("Delete your comment?")) {
+          const res = await fetch(`/api/comments/${id}`, { method: "DELETE", credentials: "same-origin" });
+          if (res.ok) {
+            const c = comments.find((x) => x.id === id);
+            if (c) c.status = "deleted";
+            render();
+          }
+        } else if (act === "edit") {
+          const c = comments.find((x) => x.id === id);
+          const next = c && prompt("Edit your comment", c.body);
+          if (c && next && next.trim() !== c.body) {
+            const res = await fetch(`/api/comments/${id}`, {
+              method: "PATCH",
+              credentials: "same-origin",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ body: next }),
+            });
+            if (res.ok) {
+              c.body = next.trim();
+              c.editedAt = Date.now();
+              render();
+            }
+          }
+        } else if (act === "logout") {
+          await fetch("/api/comments/auth/logout", { method: "POST", credentials: "same-origin" });
+          me = null;
+          render();
+        }
+        return;
+      }
+      const legacy = (e.target as HTMLElement).closest<HTMLButtonElement>("[data-legacy]");
+      if (legacy) {
+        legacy.remove();
+        const s = document.createElement("script");
+        Object.entries({
+          src: "https://giscus.app/client.js",
+          "data-repo": "PlayTested-Editors/playtested",
+          "data-repo-id": "R_kgDOPaOyuA",
+          "data-category": "comments",
+          "data-category-id": "DIC_kwDOPaOyuM4CuBy3",
+          "data-mapping": "pathname",
+          "data-strict": "0",
+          "data-reactions-enabled": "1",
+          "data-emit-metadata": "0",
+          "data-input-position": "bottom",
+          "data-theme": document.documentElement.classList.contains("dark") ? "dark_dimmed" : "light",
+          "data-lang": "en",
+          crossorigin: "anonymous",
+        }).forEach(([k, v]) => s.setAttribute(k, v));
+        s.async = true;
+        root.querySelector("[data-giscus]")!.appendChild(s);
+      }
+    });
+
+    // Load when the reader gets close — most views never reach the comments.
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((en) => en.isIntersecting)) {
+          io.disconnect();
+          load();
+        }
+      },
+      { rootMargin: "600px 0px" },
+    );
+    io.observe(root);
+  }
+
+  init();
+  document.addEventListener("astro:page-load", init);
+</script>
+
+<style>
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+</style>

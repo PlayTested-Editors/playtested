@@ -222,13 +222,26 @@ export function googleConfigured(env: Env): boolean {
   return Boolean(env.GOOGLE_CLIENT_ID && env.GOOGLE_CLIENT_SECRET);
 }
 
-export async function googleStart(env: Env, origin: string, inviteToken: string | null) {
+/** Where a Google sign-in returns to: the studio, or reader comments. */
+export interface GoogleFlow {
+  callbackPath: string;
+  cookiePath: string;
+}
+export const STUDIO_GOOGLE: GoogleFlow = { callbackPath: "/api/studio/auth/google/callback", cookiePath: "/api/studio/auth/" };
+
+export async function googleStart(
+  env: Env,
+  origin: string,
+  inviteToken: string | null,
+  flow: GoogleFlow = STUDIO_GOOGLE,
+  extra: Record<string, string> = {},
+) {
   const state = uid(16);
   const verifier = uid(32);
   const challenge = b64url(new Uint8Array(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(verifier))));
   const params = new URLSearchParams({
     client_id: env.GOOGLE_CLIENT_ID!,
-    redirect_uri: `${origin}/api/studio/auth/google/callback`,
+    redirect_uri: `${origin}${flow.callbackPath}`,
     response_type: "code",
     scope: "openid email profile",
     state,
@@ -236,10 +249,10 @@ export async function googleStart(env: Env, origin: string, inviteToken: string 
     code_challenge_method: "S256",
     prompt: "select_account",
   });
-  const payload = JSON.stringify({ state, verifier, invite: inviteToken });
+  const payload = JSON.stringify({ state, verifier, invite: inviteToken, extra });
   return {
     url: `https://accounts.google.com/o/oauth2/v2/auth?${params}`,
-    cookie: cookie("pt_oauth", payload, 600, "/api/studio/auth/"),
+    cookie: cookie("pt_oauth", payload, 600, flow.cookiePath),
   };
 }
 
@@ -247,11 +260,15 @@ export async function googleFinish(
   env: Env,
   request: Request,
   origin: string,
-): Promise<{ email: string; name: string; picture: string | null; invite: string | null } | { error: string }> {
+  flow: GoogleFlow = STUDIO_GOOGLE,
+): Promise<
+  | { sub: string; email: string; name: string; picture: string | null; invite: string | null; extra: Record<string, string> }
+  | { error: string }
+> {
   const url = new URL(request.url);
   const raw = readCookie(request, "pt_oauth");
   if (!raw) return { error: "Sign-in session expired. Please try again." };
-  let saved: { state: string; verifier: string; invite: string | null };
+  let saved: { state: string; verifier: string; invite: string | null; extra?: Record<string, string> };
   try {
     saved = JSON.parse(raw);
   } catch {
@@ -270,7 +287,7 @@ export async function googleFinish(
       code,
       client_id: env.GOOGLE_CLIENT_ID!,
       client_secret: env.GOOGLE_CLIENT_SECRET!,
-      redirect_uri: `${origin}/api/studio/auth/google/callback`,
+      redirect_uri: `${origin}${flow.callbackPath}`,
       grant_type: "authorization_code",
       code_verifier: saved.verifier,
     }),
@@ -284,8 +301,15 @@ export async function googleFinish(
     new TextDecoder().decode(
       Uint8Array.from(atob(token.id_token.split(".")[1].replace(/-/g, "+").replace(/_/g, "/")), (c) => c.charCodeAt(0)),
     ),
-  ) as { email?: string; email_verified?: boolean; name?: string; picture?: string; aud?: string };
+  ) as { sub?: string; email?: string; email_verified?: boolean; name?: string; picture?: string; aud?: string };
   if (claims.aud !== env.GOOGLE_CLIENT_ID) return { error: "Google sign-in was issued for a different app." };
   if (!claims.email || !claims.email_verified) return { error: "Your Google account email isn't verified." };
-  return { email: claims.email.toLowerCase(), name: claims.name || claims.email, picture: claims.picture ?? null, invite: saved.invite };
+  return {
+    sub: claims.sub || claims.email,
+    email: claims.email.toLowerCase(),
+    name: claims.name || claims.email,
+    picture: claims.picture ?? null,
+    invite: saved.invite,
+    extra: saved.extra ?? {},
+  };
 }

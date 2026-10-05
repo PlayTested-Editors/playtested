@@ -17,6 +17,7 @@ import { runScheduler } from "./lib/server/deploys";
 import { reindexPending } from "./lib/server/search";
 import { handleStudio } from "./lib/server/api/studio";
 import { publicRoutes } from "./lib/server/api/public";
+import { handleComments } from "./lib/server/comments";
 import { error } from "./lib/server/util";
 
 const ARTICLE_PATH = /^\/article\/([a-z0-9][a-z0-9-]*)\/?$/;
@@ -36,6 +37,7 @@ export function createExports(manifest: SSRManifest) {
     // 2. JSON APIs (studio + public live features), routed without Astro.
     if (path.startsWith("/api/")) {
       if (path.startsWith("/api/studio/")) return handleStudio(request, env, ctx);
+      if (path === "/api/comments" || path.startsWith("/api/comments/")) return handleComments(request, env);
       const r = publicRoutes[path.replace(/\/$/, "")];
       if (!r) return error(404, "Not found.");
       if (request.method !== r.method && !(request.method === "HEAD" && r.method === "GET")) return error(405, "Method not allowed.");
