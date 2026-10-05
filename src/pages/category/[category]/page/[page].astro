@@ -104,16 +104,16 @@ if (currentPage < 1 || currentPage > totalPages) {
     isGrid ?
     (
       <ul class="grid grid-cols-1 lg:grid-cols-2 gap-x-6 gap-y-6">
-        {paginated.map((post) => (
-          <PostCard post={post} />
+        {paginated.map((post, i) => (
+          <PostCard post={post} priority={i < 2} />
         ))}
       </ul>
     ) :
     (
       <ul class="space-y-4">
-        {paginated.map((post) => (
+        {paginated.map((post, i) => (
           <li>
-            <PostCard post={post} />
+            <PostCard post={post} priority={i < 2} />
           </li>
         ))}
       </ul>

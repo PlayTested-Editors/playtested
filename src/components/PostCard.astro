@@ -8,10 +8,12 @@ export interface Props {
   post: CollectionEntry<"article"> | CollectionEntry<"submissions">;
   showImage?: boolean;
   showCategory?: boolean;
+  /** First visible row: load the thumbnail eagerly at high priority. */
+  priority?: boolean;
 }
 
-const { post, showImage = true, showCategory = true } = Astro.props;
-const { title, pubDate, category, description, author, thumb, score } =
+const { post, showImage = true, showCategory = true, priority = false } = Astro.props;
+const { title, pubDate, category, description, author, thumb, score, large, gallery } =
   post.data;
 
 const formattedDate = new Intl.DateTimeFormat("en-US", {
@@ -19,24 +21,36 @@ const formattedDate = new Intl.DateTimeFormat("en-US", {
   month: "long",
   day: "numeric",
 }).format(pubDate);
+
+// Fades the thumbnail in once it has loaded (see .img-fade in global.css).
+const markLoaded = "this.classList.add('is-loaded')";
 ---
 
 <li
   class="flex flex-row gap-6 py-4 border-b border-gray-500 dark:border-gray-800 items-start"
+  data-reveal
+  data-vt-card
+  data-vt-slug={post.slug}
+  data-hero-src={large ?? gallery?.[0]}
 >
   {
     showImage && thumb && (
       <a
         href={`/article/${post.slug}/`}
-        class="block shrink-0 relative post-card-thumb group overflow-hidden rounded-md"
+        class="block shrink-0 relative post-card-thumb group overflow-hidden rounded-md img-skeleton thumb-glow"
       >
         <Image
           src={thumb}
           alt={title}
           width={224}
           height={128}
-          loading="eager"
-  class="w-20 h-26 sm:w-32 sm:h-20 lg:w-56 lg:h-32 object-cover transition-transform duration-300 group-hover:scale-105 border border-gray-800 dark:border-gray-700"
+          loading={priority ? "eager" : "lazy"}
+          fetchpriority={priority ? "high" : "auto"}
+          decoding="async"
+          onload={markLoaded}
+          onerror={markLoaded}
+          data-vt-hero
+  class="img-fade w-20 h-26 sm:w-32 sm:h-20 lg:w-56 lg:h-32 object-cover rounded-md transition-transform duration-300 group-hover:scale-105 border border-gray-800 dark:border-gray-700"
         />
 {typeof score === "number" && <ScoreBadge score={score} />}
       </a>
@@ -47,7 +61,8 @@ const formattedDate = new Intl.DateTimeFormat("en-US", {
     <div class="flex items-center justify-between gap-2">
 <a
   href={`/article/${post.slug}/`}
-  class="text-base sm:text-lg md:text-xl font-medium hover:underline flex-1 clamp-2-lines"
+  class="text-base sm:text-lg md:text-xl font-medium hover:underline hover:text-blue-600 dark:hover:text-blue-400 transition-colors flex-1 clamp-2-lines"
+  data-vt-title
 >
 
         {title}
@@ -78,12 +93,12 @@ const formattedDate = new Intl.DateTimeFormat("en-US", {
       <time datetime={post.data.pubDate.toISOString()}>
         {formattedDate}
       </time>
-      
+
       <span class="text-gray-400 mx-1">•</span>
-      
+
       <span>By</span>
-      <a 
-        href={`/author/${author.toLowerCase().replace(/\s+/g, '-')}/`} 
+      <a
+        href={`/author/${author.toLowerCase().replace(/\s+/g, '-')}/`}
         class="font-medium hover:underline hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
       >
         {author}
