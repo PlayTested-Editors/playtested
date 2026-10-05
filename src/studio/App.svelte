@@ -15,6 +15,7 @@
   import Team from "./views/Team.svelte";
   import Settings from "./views/Settings.svelte";
   import Activity from "./views/Activity.svelte";
+  import Comments from "./views/Comments.svelte";
 
   let failed = $state<string | null>(null);
 
@@ -84,6 +85,8 @@
           <Settings />
         {:else if view === "activity"}
           <Activity />
+        {:else if view === "comments"}
+          <Comments />
         {:else}
           <div class="p-12 text-center text-sm text-slate-500">Page not found. <a class="text-indigo-600" href="/studio/">Go to the dashboard</a></div>
         {/if}

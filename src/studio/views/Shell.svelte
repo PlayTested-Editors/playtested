@@ -9,6 +9,7 @@
 
   let { children }: { children: Snippet } = $props();
   let counts = $state<Record<string, number>>({});
+  let commentsHeld = $state(0);
   let mobileOpen = $state(false);
   // The editor gets the whole width (writing + live preview side by side).
   let focus = $derived(route.parts[0] === "articles" && Boolean(route.parts[1]) && route.parts[1] !== "new");
@@ -17,6 +18,10 @@
     try {
       const r = await api.get<{ counts: Record<string, number> }>("/articles?pageSize=1");
       counts = r.counts;
+      if (isEditorOrAbove()) {
+        const c = await api.get<{ counts: Record<string, number> }>("/comments?status=pending");
+        commentsHeld = c.counts.pending ?? 0;
+      }
     } catch {
       /* ignore */
     }
@@ -43,6 +48,7 @@
     { href: "/studio/media/", label: "Media", icon: "m2.25 15.75 5.16-5.16a2.25 2.25 0 0 1 3.18 0l5.16 5.16m-1.5-1.5 1.41-1.41a2.25 2.25 0 0 1 3.18 0l2.91 2.91M3.75 21h16.5A1.5 1.5 0 0 0 21.75 19.5V4.5A1.5 1.5 0 0 0 20.25 3H3.75A1.5 1.5 0 0 0 2.25 4.5v15A1.5 1.5 0 0 0 3.75 21Z", match: (p: string[]) => p[0] === "media" },
     ...(isEditorOrAbove()
       ? [
+          { href: "/studio/comments/", label: "Comments", badge: commentsHeld, icon: "M8.625 12a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 0 1-2.555-.337A5.972 5.972 0 0 1 5.41 20.97a5.969 5.969 0 0 1-.474-.065 4.48 4.48 0 0 0 .978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25Z", match: (p: string[]) => p[0] === "comments" },
           { href: "/studio/team/", label: "Team", icon: "M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z", match: (p: string[]) => p[0] === "team" },
           { href: "/studio/settings/", label: "Site & limits", icon: "M10.5 6h9.75M10.5 6a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-9.75 0h9.75", match: (p: string[]) => p[0] === "settings" },
           { href: "/studio/activity/", label: "Activity", icon: "M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z", match: (p: string[]) => p[0] === "activity" },

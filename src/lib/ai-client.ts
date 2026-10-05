@@ -105,6 +105,14 @@ function inline(text: string, opts: RenderOptions): string {
     });
     return parts.every(Boolean) ? parts.join(", ") : whole;
   });
+  // The model often repeats the name right after a citation ("[1] Elden Ring"),
+  // which renders as "Elden Ring Elden Ring". Drop the echo.
+  for (const r of Object.values(opts.refs ?? {})) {
+    const label = r.label || r.title;
+    if (!label || label.length < 2) continue;
+    const esc = escapeHtml(label).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    s = s.replace(new RegExp(`(>${esc}</a>)\\s*(?:\\*\\*|__)?${esc}(?:\\*\\*|__)?`, "gi"), "$1");
+  }
   s = s
     .replace(/\*\*(?=\S)([^*]+?)\*\*/g, "<strong>$1</strong>")
     .replace(/__(?=\S)([^_]+?)__/g, "<strong>$1</strong>")

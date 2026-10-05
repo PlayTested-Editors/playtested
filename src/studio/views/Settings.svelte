@@ -6,7 +6,7 @@
   import { isChief, session, toast, toastError } from "../state.svelte";
   import { deploys, refreshDeploys } from "../deploys.svelte";
 
-  type Feature = "chat" | "summary" | "search" | "recommend" | "compare" | "askReview" | "liveFallback";
+  type Feature = "chat" | "summary" | "search" | "recommend" | "compare" | "askReview" | "comments" | "liveFallback";
   interface Guards {
     settings: {
       mode: "auto" | "normal" | "conserve" | "essential";
@@ -38,6 +38,7 @@
     { key: "search", label: "Search", text: "Full-text + semantic search (and game lookup for the AI tools).", offAt: 2 },
     { key: "summary", label: "AI summary", text: "“See AI Summary” on articles (cached per article).", offAt: 2 },
     { key: "askReview", label: "Ask this review", text: "Questions about a single article.", offAt: 2 },
+    { key: "comments", label: "Comments", text: "Loading and posting reader comments (Google sign-in).", offAt: 2 },
     { key: "recommend", label: "Recommender", text: "/ai/recommend", offAt: 1 },
     { key: "compare", label: "Comparator", text: "/ai/compare", offAt: 1 },
   ];

@@ -42,6 +42,13 @@ The studio resizes images to 1920 px and encodes them to AVIF in the browser (We
 
 The team is invite-only (Team → Invite someone). People sign in with Google, or with a one-time link from the chief editor.
 
+### Comments
+
+- **Sign-in:** readers sign in with Google to comment. Reader accounts are separate from studio accounts and grant nothing in the studio.
+- **Loading:** the comments section loads only when a reader scrolls near it, so most article views cost no Worker request.
+- **Moderation:** comments with several links are held for review. Moderate in Studio → Comments: approve, hide, delete, or ban a commenter. Banning hides their comments and signs them out.
+- **Old threads:** older Giscus (GitHub Discussions) threads load behind "Show older comments from GitHub".
+
 ## Staying on the free plan
 
 The free plan allows 100,000 Worker requests per day, **shared by every Worker on the account**. Built pages don't count. The guards (`src/lib/server/guards.ts`) keep the live parts in check:
@@ -65,7 +72,7 @@ Worker secrets are set with `npx wrangler secret put NAME`, run in the project f
 | `GITHUB_TOKEN` | Worker | Publishing (commits) and triggering rebuilds. Fine-grained token: repo `PlayTested-Editors/playtested`, **Contents: read/write**, **Actions: read/write** |
 | `CLOUDFLARE_API_TOKEN` | GitHub → repo Settings → Secrets → Actions | Automatic deploys. "Edit Cloudflare Workers" template + **D1: Edit** + **Vectorize: Edit** |
 | `CF_ANALYTICS_TOKEN` | Worker | Watchdog. Custom token: **Account Analytics: Read** |
-| `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` | Worker | Google sign-in. Redirect URI: `<site>/api/studio/auth/google/callback` |
+| `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` | Worker | Google sign-in for the studio **and** reader comments. Authorized redirect URIs: `<site>/api/studio/auth/google/callback` and `<site>/api/comments/auth/google/callback` |
 | `STUDIO_OWNER_KEY` | Worker (+ your local `.dev.vars`) | Chief-editor sign-in before Google is configured |
 | `OPENROUTER_API_KEY`, `RAWG_API_KEY` | Worker | AI features, game data |
 | `ALERT_WEBHOOK_URL` | Worker (optional) | Usage alerts |

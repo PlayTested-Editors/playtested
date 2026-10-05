@@ -12,6 +12,7 @@ import FeaturedCard from "./FeaturedCard.astro";
 import Carousel from "./Carousel.astro";
 import SocialShare from "./SocialShare.astro";
 import AskReview from "./AskReview.astro";
+import CommentsSection from "./CommentsSection.astro";
 import SiteOptions from "../site.config.mjs";
 
 export interface ArticleViewData {
@@ -265,29 +266,7 @@ const hasScore = typeof score !== "undefined" && score !== null;
       <SocialShare title={title} description={description} thumb={thumb || large} score={score ?? undefined} author={author} url={pageUrl} />
     </div>
 
-    {
-      mode !== "preview" && (
-        <section id="comments" class="mt-12">
-          <script
-            src="https://giscus.app/client.js"
-            data-repo="PlayTested-Editors/playtested"
-            data-repo-id="R_kgDOPaOyuA"
-            data-category="comments"
-            data-category-id="DIC_kwDOPaOyuM4CuBy3"
-            data-mapping="pathname"
-            data-strict="0"
-            data-reactions-enabled="1"
-            data-emit-metadata="0"
-            data-input-position="bottom"
-            data-theme="preferred_color_scheme"
-            data-lang="en"
-            data-loading="lazy"
-            crossorigin="anonymous"
-            async
-          ></script>
-        </section>
-      )
-    }
+    {mode !== "preview" && <CommentsSection slug={slug} />}
   </div>
 </BlogLayout>
 

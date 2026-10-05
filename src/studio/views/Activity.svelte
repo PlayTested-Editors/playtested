@@ -33,6 +33,9 @@
     "guards.update": "changed site limits",
     "watchdog.level": "Usage watchdog changed the site mode",
     "deploy.manual": "started a rebuild",
+    "comment.moderate": "moderated a comment",
+    "commenter.ban": "banned a commenter",
+    "commenter.unban": "unbanned a commenter",
     "deploy.schedule": "Scheduler rebuilt the site for scheduled posts",
   };
 
