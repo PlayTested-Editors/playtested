@@ -4,8 +4,10 @@ import { Image } from "astro:assets";
 import SocialShare from "./SocialShare.astro";
 export interface Props {
   showTitle?: boolean;
+  /** Homepage only: featured posts for the share card. */
+  homeFeatured?: { data: { title: string; thumb?: string; score?: number | null } }[];
 }
-const { showTitle = true } = Astro.props;
+const { showTitle = true, homeFeatured = [] } = Astro.props;
 ---
 
 <!-- No-FOUC theme bootstrap -->
@@ -89,6 +91,7 @@ const { showTitle = true } = Astro.props;
             description={SiteOptions.siteSubTitle}
             variant="small"
             type="home"
+            featured={homeFeatured}
           />
         )
       }

@@ -5,7 +5,7 @@ on:
     branches:
       - main
       - master
-      - dev
+
     paths:
       - 'src/content/article/**'
       - 'src/content/submissions/**' # Now triggers on user submissions too

@@ -7,9 +7,15 @@ import ChatWidget from "../components/ChatWidget.astro";
 export interface Props {
   title: string
   description?: string
+  /** Canonical path when the request URL differs (live fallback, preview). */
+  canonicalPath?: string
+  noindex?: boolean
 }
 
-const { title = SiteOptions.siteTitle, description = SiteOptions.siteSubTitle } = Astro.props
+const { title = SiteOptions.siteTitle, description = SiteOptions.siteSubTitle, canonicalPath, noindex = false } = Astro.props
+const canonical = new URL(canonicalPath ?? Astro.url.pathname, Astro.site)
+// Analytics only on the production site, so dev/testing traffic stays out of GA.
+const isProduction = (import.meta.env.PUBLIC_SITE_ENV ?? "production") === "production"
 
 const isHome = Astro.url.pathname === "/";
 const pageTitle = isHome 
@@ -44,12 +50,13 @@ const schema = JSON.stringify({
     <meta charset="UTF-8" />
     <meta name="description" content={description} />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
+    <link rel="canonical" href={canonical} />
+    {(noindex || !isProduction) && <meta name="robots" content="noindex, nofollow" />}
 
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content={Astro.url} />
+    <meta property="og:url" content={canonical} />
     <meta property="og:site_name" content={SiteOptions.siteTitle} />
     
     <meta name="twitter:card" content="summary_large_image" />
@@ -76,15 +83,15 @@ const schema = JSON.stringify({
 
       document.addEventListener("astro:after-swap", () => setTheme(getTheme()));
     </script>
-    {SiteOptions.gTag && (
+    {isProduction && SiteOptions.gTag && (
       <script
         data-category="analytics"
         is:inline
-        type="text/partytown"
+        async
         src={`https://www.googletagmanager.com/gtag/js?id=${SiteOptions.gTag}`}
       ></script>
 
-      <script data-category="analytics" is:inline type="text/partytown" define:vars={{gTag: SiteOptions.gTag}}>
+      <script data-category="analytics" is:inline define:vars={{gTag: SiteOptions.gTag}}>
         window.dataLayer = window.dataLayer || [];
         function gtag() {
           dataLayer.push(arguments);
@@ -93,8 +100,8 @@ const schema = JSON.stringify({
 
         gtag("config", gTag);
       </script>
-      <script type="application/ld+json" set:html={schema}></script>
     )}
+    <script type="application/ld+json" set:html={schema}></script>
   </head>
 
   <body class="bg-gray-200 text-gray-900 dark:bg-slate-900 dark:text-slate-200 transition-colors duration-300 min-h-full">

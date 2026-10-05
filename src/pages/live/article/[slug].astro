@@ -1,0 +1,52 @@
+---
+/**
+ * Live fallback. The Worker sends /article/<slug>/ here only when no built
+ * page exists — i.e. the article was published moments ago and its build
+ * hasn't landed yet. Anything else gets the normal 404 page.
+ */
+export const prerender = false;
+
+import ArticleView from "../../../components/ArticleView.astro";
+import { liveOf, type ArticleRow } from "../../../lib/server/articles";
+import { featureOn, getGuards } from "../../../lib/server/guards";
+import { isBuilt } from "../../../lib/server/deploys";
+import { renderMarkdown } from "../../../lib/markdown";
+
+const env = Astro.locals.runtime.env;
+const slug = Astro.params.slug ?? "";
+
+async function notFound() {
+  const page = await env.ASSETS.fetch(new Request(new URL("/404", Astro.url)));
+  return new Response(page.ok ? page.body : "Not found", {
+    status: 404,
+    headers: { "Content-Type": "text/html; charset=utf-8", "Cache-Control": "no-store" },
+  });
+}
+
+const row = /^[a-z0-9][a-z0-9-]*$/.test(slug)
+  ? await env.DB.prepare("SELECT * FROM articles WHERE slug = ? AND live_json IS NOT NULL").bind(slug).first<ArticleRow>()
+  : null;
+const live = row ? liveOf(row) : null;
+const guards = await getGuards(env);
+const withinWindow = Boolean(row?.published_at) && Date.now() - row!.published_at! < guards.liveFallbackMinutes * 60_000;
+const ok =
+  live &&
+  featureOn(guards, "liveFallback") &&
+  Date.parse(live.pubDate) <= Date.now() &&
+  withinWindow &&
+  !(await isBuilt(env, row!));
+
+if (!ok) return notFound();
+
+const similar = (
+  await env.DB.prepare(
+    "SELECT slug, live_json FROM articles WHERE featured = 1 AND live_json IS NOT NULL AND slug != ? AND pub_date <= ? ORDER BY RANDOM() LIMIT 3",
+  )
+    .bind(slug, Date.now())
+    .all<{ slug: string; live_json: string }>()
+).results.map((r) => ({ slug: r.slug, data: JSON.parse(r.live_json) }));
+
+Astro.response.headers.set("Cache-Control", "no-store");
+---
+
+<ArticleView slug={slug} data={live!} html={renderMarkdown(live!.body)} similar={similar} mode="live" />

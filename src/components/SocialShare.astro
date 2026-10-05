@@ -10,6 +10,7 @@ interface Props {
     author?: string;
     type?: "article" | "home";
     variant?: "default" | "small";
+    featured?: { data: { title: string; thumb?: string; score?: number | null } }[];
 }
 
 const {
@@ -21,6 +22,7 @@ const {
     author,
     type = "article",
     variant = "default",
+    featured = [],
 } = Astro.props;
 
 // Generate a unique ID for the card to allow multiple instances
@@ -145,6 +147,7 @@ const shareLinks = [
         score={score}
         url={url}
         type={type}
+        featured={featured}
     />
 </div>
 

@@ -1,0 +1,43 @@
+---
+/**
+ * Studio preview: renders a draft with the real article template.
+ * POST (from the editor, as a form targeting the preview iframe) with a
+ * `payload` field holding the unsaved draft JSON, or GET ?id=<article> for the
+ * last saved draft. Signed-in studio users only.
+ */
+export const prerender = false;
+
+import ArticleView from "../../components/ArticleView.astro";
+import { getSessionUser } from "../../lib/server/auth";
+import { draftOf, getArticle, normaliseData, type ArticleData } from "../../lib/server/articles";
+import { renderMarkdown } from "../../lib/markdown";
+
+const env = Astro.locals.runtime.env;
+const user = await getSessionUser(env, Astro.request);
+if (!user) return new Response("Sign in to the studio to preview drafts.", { status: 401 });
+
+let data: ArticleData | null = null;
+if (Astro.request.method === "POST") {
+  const form = await Astro.request.formData();
+  try {
+    data = normaliseData(JSON.parse(String(form.get("payload") || "{}")));
+  } catch {
+    data = null;
+  }
+} else {
+  const id = Astro.url.searchParams.get("id");
+  const row = id ? await getArticle(env, id) : null;
+  data = row ? draftOf(row) : null;
+}
+if (!data) return new Response("Nothing to preview.", { status: 400 });
+
+Astro.response.headers.set("Cache-Control", "no-store");
+Astro.response.headers.set("X-Robots-Tag", "noindex");
+---
+
+<ArticleView
+  slug={data.slug || "preview"}
+  data={{ ...data, author: data.author || user.authorName || user.name, title: data.title || "Untitled article" }}
+  html={renderMarkdown(data.body || "*Start writing — your article body will appear here.*")}
+  mode="preview"
+/>

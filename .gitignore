@@ -28,3 +28,6 @@ pnpm-debug.log*
 sample-markup
 *.lock
 social.txt
+# generated per build (scripts/build.mjs)
+public/build-info.json
+public/robots.txt

@@ -1,6 +1,4 @@
 ---
-import { getCollection } from "astro:content";
-import { isVisible } from "../lib/content";
 
 interface Props {
   id?: string;
@@ -11,6 +9,8 @@ interface Props {
   score?: number | string;
   author?: string;
   type?: "article" | "home";
+  /** Featured posts shown on the homepage share card. */
+  featured?: { data: { title: string; thumb?: string; score?: number | null } }[];
 }
 
 const {
@@ -22,24 +22,14 @@ const {
   score,
   author,
   type = "article",
+  featured = [],
 } = Astro.props;
 
 const qrValue = url.href;
 
-// Fetch featured articles for Home card from BOTH collections
-let featuredArticles: any[] = [];
-if (type === "home") {
-  const articles = await getCollection("article", isVisible);
-  const submissions = await getCollection("submissions", isVisible);
-  const allPosts = [...articles, ...submissions];
-  featuredArticles = allPosts
-    .filter((p) => p.data.featured)
-    .sort(
-      (a, b) =>
-        new Date(b.data.pubDate).valueOf() - new Date(a.data.pubDate).valueOf(),
-    )
-    .slice(0, 3);
-}
+// Featured posts for the homepage card are passed in (keeps the content
+// collection out of pages rendered in the Worker).
+const featuredArticles = type === "home" ? featured.slice(0, 3) : [];
 ---
 
 <div

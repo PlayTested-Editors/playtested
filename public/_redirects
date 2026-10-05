@@ -1,2 +1,3 @@
-# Redirects for Cloudflare Pages
-/admin /admin/ 301
+# Old CMS address -> studio
+/admin /studio/ 302
+/admin/* /studio/ 302

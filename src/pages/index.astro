@@ -60,7 +60,7 @@ const pages = Math.max(featuredPosts.length - visible + 1, 1);
     />
   </Fragment>
 
-  <Header />
+  <Header homeFeatured={featuredPosts.slice(0, 3)} />
 
   {
     SiteOptions.showFeaturrdPostsOnHomePage && featuredPosts.length > 0 && (

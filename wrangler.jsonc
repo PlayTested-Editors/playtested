@@ -1,0 +1,57 @@
+// Cloudflare Workers config (static assets + Worker fallback).
+//
+// Built pages in ./dist are served straight from the asset layer — free,
+// unlimited, and they never invoke the Worker. The Worker only runs for URLs
+// with no built file: /api/*, /studio/*, brand-new articles that haven't been
+// built yet (live fallback), and 404s. See src/worker.ts.
+//
+// This is the DEV environment (deployed from the `dev` branch).
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "playtested-dev",
+  "main": "./dist/_worker.js/index.js",
+  "compatibility_date": "2025-12-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "workers_dev": true,
+  "preview_urls": false,
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS",
+    "html_handling": "auto-trailing-slash",
+    "not_found_handling": "none"
+  },
+  "observability": { "enabled": true },
+  "vars": {
+    "SITE_ENV": "dev",
+    "GITHUB_REPO": "PlayTested-Editors/playtested",
+    "GITHUB_BRANCH": "dev",
+    "GITHUB_DEPLOY_WORKFLOW": "deploy-dev.yml",
+    "CF_ACCOUNT_ID": "ed32fae89769af1fcf75d399823d666e"
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "playtested-dev",
+      "database_id": "a342650a-2496-4e90-afbe-4b5a6748cf9f",
+      "migrations_dir": "migrations"
+    }
+  ],
+  "kv_namespaces": [
+    { "binding": "CACHE", "id": "0da2533619304e5d89834fb3785279b2" }
+  ],
+  "r2_buckets": [
+    { "binding": "MEDIA", "bucket_name": "playtested-dev-media" }
+  ],
+  "vectorize": [
+    { "binding": "VECTORS", "index_name": "playtested-dev-chunks" }
+  ],
+  "ai": { "binding": "AI" },
+  // One trigger does both jobs: the usage watchdog and scheduled-post rebuilds.
+  "triggers": { "crons": ["*/10 * * * *"] },
+  // Per-visitor limits (per Cloudflare location; permissive by design).
+  "ratelimits": [
+    { "name": "RL_AI", "namespace_id": "4101", "simple": { "limit": 10, "period": 60 } },
+    { "name": "RL_SEARCH", "namespace_id": "4102", "simple": { "limit": 40, "period": 60 } },
+    { "name": "RL_AUTH", "namespace_id": "4103", "simple": { "limit": 10, "period": 60 } }
+  ]
+}
