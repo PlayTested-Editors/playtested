@@ -31,3 +31,6 @@ social.txt
 # generated per build (scripts/build.mjs)
 public/build-info.json
 public/robots.txt
+
+# Claude Code agent worktrees
+.claude/worktrees/
