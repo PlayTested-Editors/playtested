@@ -4,6 +4,7 @@
  * mirrors its output closely enough (GFM, raw HTML, heading ids, smart quotes).
  */
 import { Marked } from "marked";
+import { sanitizeHtml } from "./sanitize";
 
 function headingId(text: string): string {
   return text
@@ -46,5 +47,5 @@ md.use({
 });
 
 export function renderMarkdown(source: string): string {
-  return md.parse(source, { async: false }) as string;
+  return sanitizeHtml(md.parse(source, { async: false }) as string).html;
 }

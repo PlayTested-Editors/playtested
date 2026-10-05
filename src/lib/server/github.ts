@@ -98,7 +98,7 @@ export async function commitFiles(
     });
 
     const date = new Date().toISOString();
-    const commit = await gh<{ sha: string; html_url: string }>(env, "/git/commits", {
+    const commit = await gh<{ sha: string; html_url: string; committer: { date: string } }>(env, "/git/commits", {
       method: "POST",
       body: JSON.stringify({
         message,
@@ -113,7 +113,9 @@ export async function commitFiles(
         method: "PATCH",
         body: JSON.stringify({ sha: commit.sha, force: false }),
       });
-      return { sha: commit.sha, time: Date.parse(date), url: commit.html_url };
+      // GitHub's committer time is what the build stamps (git log %ct), so
+      // "is this publish live yet?" compares like with like.
+      return { sha: commit.sha, time: Date.parse(commit.committer?.date ?? date), url: commit.html_url };
     } catch (e) {
       // 422 = branch moved under us; rebuild the tree on the new head.
       if (e instanceof GitHubError && e.status === 422 && attempt < 2) continue;

@@ -4,6 +4,7 @@
  * holds working copies, revisions and the review state.
  */
 import YAML from "yaml";
+import { sanitizeHtml } from "../sanitize";
 import type { Env } from "./env";
 import { audit, now, parseJson, sha256Hex, uid } from "./util";
 import type { SessionUser } from "./auth";
@@ -112,7 +113,7 @@ export function finalise(d: ArticleData): ArticleData {
     author: d.author.trim(),
     game: d.game?.trim() || undefined,
     score: d.score === null || d.score === undefined ? null : Math.round(d.score * 10) / 10,
-    body: d.body.replace(/s+$/, ""),
+    body: sanitizeHtml(d.body).html.replace(/s+$/, ""),
   };
 }
 
