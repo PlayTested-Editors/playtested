@@ -86,6 +86,38 @@ const LIMITER: Record<Feature, "RL_AI" | "RL_SEARCH" | null> = {
   liveFallback: null,
 };
 
+/** Per-visitor requests allowed per minute. */
+const LIMITS: Record<"RL_AI" | "RL_SEARCH" | "RL_AUTH", number> = { RL_AI: 10, RL_SEARCH: 40, RL_AUTH: 10 };
+
+// Rate limits are counted in D1 (one row per visitor+feature, fixed one-minute
+// windows). The Workers rate-limit binding didn't enforce anything on the free
+// plan in testing, and in-memory counters don't work because consecutive
+// requests land on different machines. D1 is shared, so the limit holds.
+function rateStatement(env: Env, key: string): D1PreparedStatement {
+  return env.DB.prepare(
+    `INSERT INTO rate_limits (key, window, count) VALUES (?, ?, 1)
+     ON CONFLICT(key) DO UPDATE SET
+       count = CASE WHEN rate_limits.window = excluded.window THEN rate_limits.count + 1 ELSE 1 END,
+       window = excluded.window
+     RETURNING count`,
+  ).bind(key, Math.floor(now() / 60_000));
+}
+
+/** True when this visitor is still within the per-minute limit. */
+export async function withinRate(env: Env, name: "RL_AI" | "RL_SEARCH" | "RL_AUTH", key: string): Promise<boolean> {
+  try {
+    const row = await rateStatement(env, `${name}:${key}`).first<{ count: number }>();
+    return (row?.count ?? 0) <= LIMITS[name];
+  } catch {
+    return true; // never block real visitors because the counter failed
+  }
+}
+
+/** Cron: drop rate-limit rows from finished windows. */
+export async function pruneRateLimits(env: Env): Promise<void> {
+  await env.DB.prepare("DELETE FROM rate_limits WHERE window < ?").bind(Math.floor(now() / 60_000) - 2).run();
+}
+
 let cached: { value: GuardSettings; at: number } | null = null;
 
 function merge(base: GuardSettings, over: Partial<GuardSettings>): GuardSettings {
@@ -171,27 +203,40 @@ export async function gate(env: Env, request: Request, feature: Feature): Promis
     );
   }
 
+  // Rate limit and daily cap are checked in one D1 round trip.
   const limiterName = LIMITER[feature];
-  const limiter = limiterName ? env[limiterName] : undefined;
-  if (limiter) {
-    const { success } = await limiter.limit({ key: `${feature}:${clientIp(request)}` });
-    if (!success) {
-      return json(
-        { error: "You're going a bit fast — give it a minute and try again.", code: "rate_limited" },
-        { status: 429, headers: { "Retry-After": "60" } },
-      );
-    }
-  }
-
   const cap = g.caps[feature] ?? 0;
+  const statements: D1PreparedStatement[] = [];
+  if (limiterName) statements.push(rateStatement(env, `${limiterName}:${feature}:${clientIp(request)}`));
   if (cap > 0) {
-    const count = await bump(env, `feature:${feature}`);
-    if (count > cap) {
-      return json(
-        { error: "This feature hit its daily limit. It resets at 8 AM (Philippine time).", code: "daily_cap" },
-        { status: 429, headers: { "Retry-After": "3600" } },
-      );
-    }
+    statements.push(
+      env.DB.prepare(
+        `INSERT INTO usage_daily (day, metric, count) VALUES (?, ?, 1)
+         ON CONFLICT(day, metric) DO UPDATE SET count = count + 1
+         RETURNING count`,
+      ).bind(utcDay(), `feature:${feature}`),
+    );
+  }
+  if (!statements.length) return null;
+
+  let counts: number[];
+  try {
+    const results = await env.DB.batch<{ count: number }>(statements);
+    counts = results.map((r) => r.results[0]?.count ?? 0);
+  } catch {
+    return null; // counters unavailable: don't punish visitors
+  }
+  if (limiterName && counts[0] > LIMITS[limiterName]) {
+    return json(
+      { error: "You're going a bit fast — give it a minute and try again.", code: "rate_limited" },
+      { status: 429, headers: { "Retry-After": "60" } },
+    );
+  }
+  if (cap > 0 && counts[counts.length - 1] > cap) {
+    return json(
+      { error: "This feature hit its daily limit. It resets at 8 AM (Philippine time).", code: "daily_cap" },
+      { status: 429, headers: { "Retry-After": "3600" } },
+    );
   }
   return null;
 }

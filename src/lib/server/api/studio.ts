@@ -44,7 +44,7 @@ import {
   type ArticleRow,
 } from "../articles";
 import { commitFiles, dispatchDeploy, GitHubError, githubConfigured, listDeployRuns, type TreeEntry } from "../github";
-import { DEFAULT_GUARDS, currentLevel, getGuards, saveGuards, type GuardSettings } from "../guards";
+import { DEFAULT_GUARDS, currentLevel, getGuards, saveGuards, withinRate, type GuardSettings } from "../guards";
 import { ensureBlob, mediaForPaths, mediaJson, storeUpload, type MediaRow } from "../media";
 import { getBuildInfo, isBuilt, recordDeploy } from "../deploys";
 import { indexArticle, reindexPending, removeFromIndex } from "../search";
@@ -89,9 +89,8 @@ function withCookie(res: Response, cookie: string): Response {
 }
 
 async function limitAuth(c: Ctx): Promise<Response | null> {
-  if (!c.env.RL_AUTH) return null;
-  const { success } = await c.env.RL_AUTH.limit({ key: `auth:${clientIp(c.request)}` });
-  return success ? null : error(429, "Too many sign-in attempts. Wait a minute and try again.");
+  const ok = await withinRate(c.env, "RL_AUTH", `auth:${clientIp(c.request)}`);
+  return ok ? null : error(429, "Too many sign-in attempts. Wait a minute and try again.");
 }
 
 function integrations(env: Env) {

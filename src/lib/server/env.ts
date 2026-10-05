@@ -6,9 +6,6 @@ export interface Env {
   MEDIA: R2Bucket;
   VECTORS: Vectorize;
   AI: Ai;
-  RL_AI?: RateLimit;
-  RL_SEARCH?: RateLimit;
-  RL_AUTH?: RateLimit;
 
   SITE_ENV: string;
   GITHUB_REPO: string;

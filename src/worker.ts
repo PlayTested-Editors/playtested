@@ -10,7 +10,7 @@ import type { SSRManifest } from "astro";
 import { App } from "astro/app";
 import { handle } from "@astrojs/cloudflare/handler";
 import type { Env } from "./lib/server/env";
-import { isJunkPath } from "./lib/server/guards";
+import { isJunkPath, pruneRateLimits } from "./lib/server/guards";
 import { serveStagedImage } from "./lib/server/media";
 import { runWatchdog } from "./lib/server/watchdog";
 import { runScheduler } from "./lib/server/deploys";
@@ -76,7 +76,7 @@ export function createExports(manifest: SSRManifest) {
 
   const scheduled = async (_controller: ScheduledController, env: Env, ctx: ExecutionContext) => {
     ctx.waitUntil(
-      Promise.allSettled([runWatchdog(env), runScheduler(env), reindexPending(env, 8)]).then((results) => {
+      Promise.allSettled([runWatchdog(env), runScheduler(env), reindexPending(env, 8), pruneRateLimits(env)]).then((results) => {
         for (const r of results) if (r.status === "rejected") console.error("cron task failed:", r.reason);
       }),
     );
