@@ -27,6 +27,7 @@ import {
   createArticle,
   draftOf,
   fileHash,
+  finalise,
   getArticle,
   liveOf,
   markPublished,
@@ -384,7 +385,7 @@ route("POST", "/articles/:id/publish", "chief", async (c, m) => {
   if (rev !== row.draft_rev) throw new ConflictError(row);
   if (!githubConfigured(c.env)) return error(503, "GitHub isn't connected yet, so publishing can't update the site. Add the GITHUB_TOKEN secret.");
 
-  const data = draftOf(row);
+  const data = finalise(draftOf(row));
   const problems = validateForPublish(data);
   if (await slugTaken(c.env, data.slug, row.id)) problems.push(`The slug "${data.slug}" is already used.`);
   if (problems.length) return error(422, "Fix these before publishing.", { problems });

@@ -21,5 +21,10 @@ export default defineConfig({
     svelte(),
   ],
   prefetch: { prefetchAll: false, defaultStrategy: "hover" },
-  vite: { plugins: [tailwindcss()] },
+  vite: {
+    plugins: [tailwindcss()],
+    // The studio's image encoder (a Web Worker) lazy-loads its WASM codec.
+    worker: { format: "es" },
+    optimizeDeps: { exclude: ["@jsquash/avif"] },
+  },
 });

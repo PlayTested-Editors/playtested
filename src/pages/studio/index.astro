@@ -1,6 +1,8 @@
 ---
-// Studio shell (static). Deep links under /studio/* are served this page by
-// the Worker; the app reads location.pathname to pick the view.
+// Studio shell (static, free to serve). Deep links under /studio/* are served
+// this same page by the Worker; the app reads location.pathname to pick a view.
+import App from "../../studio/App.svelte";
+import "../../studio/studio.css";
 ---
 
 <!doctype html>
@@ -11,8 +13,14 @@
     <meta name="robots" content="noindex, nofollow" />
     <title>PlayTested Studio</title>
     <link rel="icon" type="image/png" href="/playtested.png" />
+    <script is:inline>
+      try {
+        const t = localStorage.getItem("theme") || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+        document.documentElement.classList.toggle("dark", t === "dark");
+      } catch {}
+    </script>
   </head>
   <body>
-    <div id="studio">Loading PlayTested Studio…</div>
+    <App client:only="svelte" />
   </body>
 </html>

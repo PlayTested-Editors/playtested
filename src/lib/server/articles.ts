@@ -76,25 +76,43 @@ export function slugify(input: string): string {
     .replace(/-+$/g, "");
 }
 
+/**
+ * Coerce a draft into shape. Strings are kept as typed (no trimming) so an
+ * autosave never eats the space someone just typed; finalise() trims at publish.
+ */
 export function normaliseData(input: Partial<ArticleData>): ArticleData {
   const tags = Array.isArray(input.tags) ? input.tags.map((t) => String(t).trim()).filter(Boolean) : [];
   const gallery = Array.isArray(input.gallery) ? input.gallery.map((g) => String(g).trim()).filter(Boolean) : [];
   const score = input.score === null || input.score === undefined || (input.score as unknown) === "" ? null : Number(input.score);
   return {
-    title: String(input.title ?? "").trim(),
-    description: String(input.description ?? "").trim(),
+    title: String(input.title ?? ""),
+    description: String(input.description ?? ""),
     pubDate: String(input.pubDate ?? toSiteIso(now())),
-    category: String(input.category ?? "").trim(),
+    category: String(input.category ?? ""),
     tags: [...new Set(tags)],
     featured: Boolean(input.featured),
-    author: String(input.author ?? "").trim(),
+    author: String(input.author ?? ""),
     slug: slugify(String(input.slug || input.title || "")),
     thumb: input.thumb ? String(input.thumb).trim() : undefined,
     large: input.large ? String(input.large).trim() : undefined,
     gallery,
-    score: score === null || Number.isNaN(score) ? null : Math.round(score * 10) / 10,
-    game: input.game ? String(input.game).trim() : undefined,
+    score: score === null || Number.isNaN(score) ? null : score,
+    game: input.game ? String(input.game) : undefined,
     body: String(input.body ?? "").replace(/\r\n/g, "\n"),
+  };
+}
+
+/** Tidy a draft for publishing: trim text fields, round the score. */
+export function finalise(d: ArticleData): ArticleData {
+  return {
+    ...d,
+    title: d.title.trim(),
+    description: d.description.trim(),
+    category: d.category.trim(),
+    author: d.author.trim(),
+    game: d.game?.trim() || undefined,
+    score: d.score === null || d.score === undefined ? null : Math.round(d.score * 10) / 10,
+    body: d.body.replace(/s+$/, ""),
   };
 }
 
