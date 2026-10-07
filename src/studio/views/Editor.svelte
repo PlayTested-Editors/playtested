@@ -26,6 +26,23 @@
   let conflict = $state<{ updatedBy: string | null; updatedAt: number; rev: number } | null>(null);
   let lockedBy = $state<{ id: string; name: string } | null>(null);
   let tab = $state<"write" | "details" | "media">("write");
+  const readMode = () => {
+    try {
+      return localStorage.getItem("studio.editorMode") === "markdown" ? "markdown" : "visual";
+    } catch {
+      return "visual";
+    }
+  };
+  let editorMode = $state<"visual" | "markdown">(readMode());
+  // The visual editor is a big chunk; only load it when someone uses it.
+  let richEditor: Promise<typeof import("../editor/RichEditor.svelte")> | null = null;
+  const loadRich = () => (richEditor ??= import("../editor/RichEditor.svelte"));
+  function setMode(m: "visual" | "markdown") {
+    editorMode = m;
+    try {
+      localStorage.setItem("studio.editorMode", m);
+    } catch {}
+  }
   let panel = $state<"none" | "history" | "notes">("none");
   let showPreview = $state(true);
   let publishOpen = $state(false);
@@ -401,7 +418,28 @@
         </div>
 
         {#if tab === "write"}
-          <MarkdownField bind:value={data.body} articleId={detail.article.id} articleMedia={detail.media} disabled={!canEdit} onmediaadded={addMedia} />
+          <div class="mb-3 flex items-center justify-end">
+            <div class="inline-flex rounded-lg bg-slate-100 p-0.5 text-xs font-semibold dark:bg-slate-800">
+              {#each [["visual", "Visual"], ["markdown", "Markdown"]] as [key, label]}
+                <button
+                  type="button"
+                  class="rounded-md px-3 py-1 transition {editorMode === key ? 'bg-white text-slate-900 shadow-sm dark:bg-slate-700 dark:text-white' : 'text-slate-500 hover:text-slate-800 dark:hover:text-slate-200'}"
+                  onclick={() => setMode(key as "visual" | "markdown")}>{label}</button
+                >
+              {/each}
+            </div>
+          </div>
+          {#if editorMode === "visual"}
+            {#await loadRich()}
+              <div class="grid h-64 place-items-center rounded-xl bg-white text-sm text-slate-400 ring-1 ring-slate-200 dark:bg-slate-900 dark:ring-slate-800">Loading editor…</div>
+            {:then { default: RichEditor }}
+              <RichEditor bind:value={data.body} articleId={detail.article.id} articleMedia={detail.media} disabled={!canEdit} onmediaadded={addMedia} />
+            {:catch}
+              <div class="rounded-xl bg-rose-50 p-4 text-sm text-rose-700 dark:bg-rose-500/10 dark:text-rose-300">The visual editor failed to load. Switch to Markdown, or reload the page.</div>
+            {/await}
+          {:else}
+            <MarkdownField bind:value={data.body} articleId={detail.article.id} articleMedia={detail.media} disabled={!canEdit} onmediaadded={addMedia} />
+          {/if}
         {:else if tab === "details"}
           <DetailsPanel bind:data bind:slugAuto articleId={detail.article.id} articleMedia={detail.media} {meta} isLive={Boolean(detail.live)} disabled={!canEdit} onmediaadded={addMedia} />
         {:else}
