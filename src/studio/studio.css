@@ -2,6 +2,19 @@
 @plugin '@tailwindcss/typography';
 @custom-variant dark (&:where(.dark, .dark *));
 
+/* Visual editor: wrapped images stack when the column is too narrow for text beside them. */
+.pt-rich {
+  container-type: inline-size;
+}
+@container (max-width: 560px) {
+  .pt-rich .pt-img.pt-wrap-left,
+  .pt-rich .pt-img.pt-wrap-right {
+    float: none;
+    width: 100% !important;
+    margin: 1rem 0;
+  }
+}
+
 @layer base {
   html {
     -webkit-font-smoothing: antialiased;

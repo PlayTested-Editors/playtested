@@ -10,7 +10,9 @@
  *  - SideDrop     drop an image on a paragraph's left/right edge to wrap the text around it
  */
 import { Extension, Mark, Node, mergeAttributes } from "@tiptap/core";
+import { Fragment, Slice } from "@tiptap/pm/model";
 import { NodeSelection, Plugin, PluginKey } from "@tiptap/pm/state";
+import { dropPoint } from "@tiptap/pm/transform";
 import { Decoration, DecorationSet, type EditorView } from "@tiptap/pm/view";
 import Image from "@tiptap/extension-image";
 import HardBreak from "@tiptap/extension-hard-break";
@@ -31,6 +33,9 @@ const wrapOf = (el: HTMLElement | null) => {
   return /\bimg-wrap-left\b/.test(cls) ? "left" : /\bimg-wrap-right\b/.test(cls) ? "right" : null;
 };
 export const WRAP_DEFAULT_WIDTH = 40;
+export const WRAP_MAX_WIDTH = 50;
+/** Dragging a wrapped image wider than this turns the wrap off (image on its own line). */
+const WRAP_STACK_AT = 58;
 
 /**
  * Images: plain markdown, the sized wrapper when given a height, or an image
@@ -149,24 +154,34 @@ export const SizedImage = Image.extend({
         const measure = (ev: MouseEvent) => {
           if (wrap) {
             const dx = (ev.clientX - startX) * (wrap === "right" ? -1 : 1);
-            return Math.round(Math.min(70, Math.max(20, ((startW + dx) / column) * 100)));
+            return Math.round(Math.min(100, Math.max(20, ((startW + dx) / column) * 100)));
           }
           return Math.round(Math.min(1000, Math.max(120, startH + (ev.clientY - startY))));
         };
         const move = (ev: MouseEvent) => {
           const v = measure(ev);
-          if (wrap) dom.style.width = `${v}%`;
+          const stack = wrap && v > WRAP_STACK_AT;
+          dom.classList.toggle("pt-will-stack", Boolean(stack));
+          if (wrap) dom.style.width = `${Math.min(v, stack ? 100 : WRAP_MAX_WIDTH)}%`;
           else img.style.maxHeight = `${v}px`;
-          badge.textContent = wrap ? label(current, v) : label(current, undefined, v);
+          badge.textContent = stack
+            ? "Let go to put the image on its own line"
+            : wrap
+              ? label(current, Math.min(v, WRAP_MAX_WIDTH))
+              : label(current, undefined, v);
         };
         const up = (ev: MouseEvent) => {
           window.removeEventListener("mousemove", move);
           window.removeEventListener("mouseup", up);
-          dom.classList.remove("pt-resizing");
+          dom.classList.remove("pt-resizing", "pt-will-stack");
           const v = measure(ev);
           const pos = typeof getPos === "function" ? getPos() : null;
           if (pos == null) return;
-          const attrs = wrap ? { ...current.attrs, width: v } : { ...current.attrs, height: v };
+          const attrs = !wrap
+            ? { ...current.attrs, height: v }
+            : v > WRAP_STACK_AT
+              ? { ...current.attrs, wrap: null, width: null, height: null }
+              : { ...current.attrs, width: Math.min(v, WRAP_MAX_WIDTH) };
           editor.view.dispatch(editor.view.state.tr.setNodeMarkup(pos, undefined, attrs));
         };
         window.addEventListener("mousemove", move);
@@ -396,7 +411,7 @@ export function sideZoneAt(view: EditorView, x: number, y: number): SideZone | n
   const dom = view.nodeDOM(pos) as HTMLElement | null;
   if (!dom?.getBoundingClientRect) return null;
   const r = dom.getBoundingClientRect();
-  const edge = r.width * 0.3;
+  const edge = Math.max(48, r.width * 0.2);
   if (x < r.left + edge) return { pos, side: "left" };
   if (x > r.right - edge) return { pos, side: "right" };
   return null;
@@ -485,9 +500,26 @@ export const SideDrop = Extension.create({
             const zone = sideZoneAt(view, e.clientX, e.clientY);
             setSideZone(view, null);
             const img = draggedImage(view);
-            if (!zone || !img) return false;
+            if (!img) return false;
+            if (zone) {
+              e.preventDefault();
+              return wrapBeside(view, zone, img.attrs, moved && img.source ? img.source : undefined);
+            }
+            if (!(img.attrs as any).wrap) return false; // normal move
+            // A wrapped image dropped between or inside blocks goes back on its own line.
+            const hit = view.posAtCoords({ left: e.clientX, top: e.clientY });
+            if (!hit) return false;
             e.preventDefault();
-            return wrapBeside(view, zone, img.attrs, moved && img.source ? img.source : undefined);
+            const node = view.state.schema.nodes.image.create({ ...img.attrs, wrap: null, width: null, height: null });
+            const tr = view.state.tr;
+            let at = dropPoint(tr.doc, hit.pos, new Slice(Fragment.from(node), 0, 0)) ?? hit.pos;
+            if (moved && img.source) {
+              tr.delete(img.source.from, img.source.to);
+              at = tr.mapping.map(at);
+            }
+            tr.replaceRangeWith(at, at, node);
+            view.dispatch(tr.scrollIntoView());
+            return true;
           },
         },
       }),

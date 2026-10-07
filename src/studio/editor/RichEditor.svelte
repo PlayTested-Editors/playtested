@@ -409,6 +409,10 @@
     margin-left: 1.75rem;
     margin-right: 0;
   }
+  :global(.pt-img.pt-will-stack) {
+    outline-style: dashed;
+    opacity: 0.85;
+  }
   :global(.pt-img.pt-wrap-left img),
   :global(.pt-img.pt-wrap-right img) {
     width: 100%;
@@ -419,7 +423,9 @@
     right: auto;
     cursor: nesw-resize;
   }
+  :global(.pt-rich h1),
   :global(.pt-rich h2),
+  :global(.pt-rich h3),
   :global(.pt-rich hr),
   :global(.pt-rich .pt-side) {
     clear: both;

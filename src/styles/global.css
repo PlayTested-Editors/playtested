@@ -279,7 +279,9 @@ code>span.line {
   }
 }
 /* New sections start below a wrapped image, and the article contains it. */
+.prose h1,
 .prose h2,
+.prose h3,
 .prose hr {
   clear: both;
 }
