@@ -6,7 +6,7 @@
  * scrolls to them, and every call goes through the usage guards.
  */
 import type { Env } from "./env";
-import { cookie, getCookie, googleConfigured, googleFinish, googleStart, type GoogleFlow } from "./auth";
+import { clearOAuthCookie, cookie, getCookie, googleConfigured, googleFinish, googleStart, type GoogleFlow } from "./auth";
 import { bump, featureOn, gate, getGuards, withinRate } from "./guards";
 import { clientIp, error, json, now, sha256Hex, uid } from "./util";
 
@@ -190,7 +190,7 @@ export async function handleComments(request: Request, env: Env): Promise<Respon
       .run();
     return redirect(`${back}#comments`, [
       cookie(READER_COOKIE, token, READER_DAYS * 86_400),
-      `pt_oauth=; Path=${READER_GOOGLE.cookiePath}; Max-Age=0; HttpOnly; Secure; SameSite=Lax`,
+      clearOAuthCookie(request, READER_GOOGLE),
     ]);
   }
   if (sub === "/auth/logout" && request.method === "POST") {

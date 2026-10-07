@@ -16,6 +16,7 @@ import {
   googleStart,
   lookupInvite,
   ownerSignIn,
+  clearOAuthCookie,
   startSession,
   userCount,
   type Role,
@@ -205,7 +206,7 @@ route("GET", "/auth/google/callback", "public", async (c) => {
     await c.env.DB.prepare("UPDATE users SET avatar = COALESCE(avatar, ?) WHERE id = ?").bind(result.picture, userId).run();
   }
   const session = await startSession(c.env, userId, c.request);
-  return redirect("/studio/", [session, "pt_oauth=; Path=/api/studio/auth/; Max-Age=0; HttpOnly; Secure; SameSite=Lax"]);
+  return redirect("/studio/", [session, clearOAuthCookie(c.request)]);
 });
 
 route("POST", "/auth/link", "public", async (c) => {

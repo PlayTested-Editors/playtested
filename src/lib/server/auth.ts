@@ -252,8 +252,16 @@ export async function googleStart(
   const payload = JSON.stringify({ state, verifier, invite: inviteToken, extra });
   return {
     url: `https://accounts.google.com/o/oauth2/v2/auth?${params}`,
-    cookie: cookie("pt_oauth", payload, 600, flow.cookiePath),
+    // One cookie per attempt (named by its state), so a double-click or a
+    // link prefetch can't overwrite the attempt the user actually finishes.
+    cookie: cookie(`pt_oauth_${state}`, payload, 600, flow.cookiePath),
   };
+}
+
+/** Set-Cookie value that removes a finished attempt's cookie. */
+export function clearOAuthCookie(request: Request, flow: GoogleFlow = STUDIO_GOOGLE): string {
+  const state = (new URL(request.url).searchParams.get("state") || "").replace(/[^A-Za-z0-9_-]/g, "");
+  return `pt_oauth_${state}=; Path=${flow.cookiePath}; Max-Age=0; HttpOnly; Secure; SameSite=Lax`;
 }
 
 export async function googleFinish(
@@ -266,8 +274,9 @@ export async function googleFinish(
   | { error: string }
 > {
   const url = new URL(request.url);
-  const raw = readCookie(request, "pt_oauth");
-  if (!raw) return { error: "Sign-in session expired. Please try again." };
+  const state = url.searchParams.get("state") || "";
+  const raw = /^[A-Za-z0-9_-]+$/.test(state) ? readCookie(request, `pt_oauth_${state}`) : null;
+  if (!raw) return { error: "Sign-in session expired or was started in another window. Please try again." };
   let saved: { state: string; verifier: string; invite: string | null; extra?: Record<string, string> };
   try {
     saved = JSON.parse(raw);

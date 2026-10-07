@@ -55,7 +55,7 @@
           <p class="mt-0.5 text-slate-500 dark:text-slate-400">{roleText[invite.role] ?? invite.role}</p>
         </div>
         {#if invite.google}
-          <a href={`/api/studio/auth/google/start?invite=${encodeURIComponent(token)}`} class="btn-primary w-full !py-2.5">Accept with Google</a>
+          <a href={`/api/studio/auth/google/start?invite=${encodeURIComponent(token)}`} data-astro-prefetch="false" class="btn-primary w-full !py-2.5">Accept with Google</a>
           <p class="text-center text-xs text-slate-500">Sign in with the Google account for {invite.email}.</p>
         {:else}
           <div>
