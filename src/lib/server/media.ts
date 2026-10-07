@@ -14,6 +14,29 @@ import { now } from "./util";
 
 export const MAX_UPLOAD_BYTES = 15 * 1024 * 1024;
 
+// Staging storage: R2 when the account has it, otherwise Workers KV (free,
+// no card needed; values up to 25 MB, and uploads are rare enough for the
+// free plan's 1,000 writes/day).
+const KV_PREFIX = "media:";
+
+async function stagePut(env: Env, key: string, body: ArrayBuffer, mime: string): Promise<void> {
+  if (env.MEDIA) await env.MEDIA.put(key, body, { httpMetadata: { contentType: mime } });
+  else await env.CACHE.put(KV_PREFIX + key, body, { metadata: { mime } });
+}
+
+async function stageGet(env: Env, key: string): Promise<ArrayBuffer | null> {
+  if (env.MEDIA) {
+    const obj = await env.MEDIA.get(key);
+    return obj ? obj.arrayBuffer() : null;
+  }
+  return env.CACHE.get(KV_PREFIX + key, "arrayBuffer");
+}
+
+export async function stageDelete(env: Env, key: string): Promise<void> {
+  if (env.MEDIA) await env.MEDIA.delete(key);
+  else await env.CACHE.delete(KV_PREFIX + key);
+}
+
 const EXT: Record<string, string> = {
   "image/avif": "avif",
   "image/webp": "webp",
@@ -69,7 +92,7 @@ export async function storeUpload(
   const publicPath = `/images/uploads/${base}-${id.slice(0, 6)}.${ext}`;
   const r2Key = `uploads${publicPath.slice("/images/uploads".length)}`;
 
-  await env.MEDIA.put(r2Key, body, { httpMetadata: { contentType: meta.mime } });
+  await stagePut(env, r2Key, body, meta.mime);
   await env.DB.prepare(
     `INSERT INTO media (id, r2_key, public_path, filename, mime, bytes, width, height, alt, article_id, uploaded_by, created_at)
      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
@@ -98,14 +121,13 @@ export async function serveStagedImage(env: Env, pathname: string): Promise<Resp
     .bind(decodeURIComponent(pathname))
     .first<{ r2_key: string; mime: string }>();
   if (!row) return null;
-  const obj = await env.MEDIA.get(row.r2_key);
-  if (!obj) return null;
-  return new Response(obj.body, {
+  const bytes = await stageGet(env, row.r2_key);
+  if (!bytes) return null;
+  return new Response(bytes, {
     headers: {
       "Content-Type": row.mime,
       // Once the build lands the static copy takes over; don't let browsers pin this one.
       "Cache-Control": "no-store",
-      ETag: obj.httpEtag,
     },
   });
 }
@@ -113,9 +135,9 @@ export async function serveStagedImage(env: Env, pathname: string): Promise<Resp
 /** Upload one staged image to GitHub as a blob (done just before publishing). */
 export async function ensureBlob(env: Env, m: MediaRow): Promise<string> {
   if (m.blob_sha) return m.blob_sha;
-  const obj = await env.MEDIA.get(m.r2_key);
-  if (!obj) throw new Error(`Uploaded file ${m.filename} is missing from storage.`);
-  const base64 = Buffer.from(await obj.arrayBuffer()).toString("base64");
+  const bytes = await stageGet(env, m.r2_key);
+  if (!bytes) throw new Error(`Uploaded file ${m.filename} is missing from storage.`);
+  const base64 = Buffer.from(bytes).toString("base64");
   const sha = await createBlob(env, base64);
   await env.DB.prepare("UPDATE media SET blob_sha = ? WHERE id = ?").bind(sha, m.id).run();
   return sha;

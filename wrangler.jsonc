@@ -9,6 +9,9 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "playtested-dev",
+  // PlayTested's own Cloudflare account (lyndongaming@gmail.com), separate
+  // from other projects so free-plan limits can't collide.
+  "account_id": "3290294832f56e48f5c04f91d5d87634",
   "main": "./dist/_worker.js/index.js",
   "compatibility_date": "2025-12-01",
   "compatibility_flags": ["nodejs_compat"],
@@ -26,22 +29,21 @@
     "GITHUB_REPO": "PlayTested-Editors/playtested",
     "GITHUB_BRANCH": "dev",
     "GITHUB_DEPLOY_WORKFLOW": "deploy-dev.yml",
-    "CF_ACCOUNT_ID": "ed32fae89769af1fcf75d399823d666e"
+    "CF_ACCOUNT_ID": "3290294832f56e48f5c04f91d5d87634"
   },
   "d1_databases": [
     {
       "binding": "DB",
       "database_name": "playtested-dev",
-      "database_id": "a342650a-2496-4e90-afbe-4b5a6748cf9f",
+      "database_id": "d4f067ec-2105-42ad-bc0d-83dff2dbdbac",
       "migrations_dir": "migrations"
     }
   ],
   "kv_namespaces": [
-    { "binding": "CACHE", "id": "0da2533619304e5d89834fb3785279b2" }
+    { "binding": "CACHE", "id": "60b62bf7520342d4979cb5c345ea5abb" }
   ],
-  "r2_buckets": [
-    { "binding": "MEDIA", "bucket_name": "playtested-dev-media" }
-  ],
+  // No R2 binding: studio uploads are staged in KV (src/lib/server/media.ts).
+  // Add { "binding": "MEDIA", "bucket_name": "…" } here once R2 is enabled.
   "vectorize": [
     { "binding": "VECTORS", "index_name": "playtested-dev-chunks" }
   ],

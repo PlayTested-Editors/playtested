@@ -3,7 +3,8 @@ export interface Env {
   ASSETS: Fetcher;
   DB: D1Database;
   CACHE: KVNamespace;
-  MEDIA: R2Bucket;
+  /** Optional: without R2, studio uploads are staged in KV (CACHE). */
+  MEDIA?: R2Bucket;
   VECTORS: Vectorize;
   AI: Ai;
 

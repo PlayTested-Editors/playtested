@@ -45,7 +45,7 @@ import {
 } from "../articles";
 import { commitFiles, dispatchDeploy, GitHubError, githubConfigured, listDeployRuns, type TreeEntry } from "../github";
 import { DEFAULT_GUARDS, currentLevel, getGuards, saveGuards, withinRate, type GuardSettings } from "../guards";
-import { ensureBlob, mediaForPaths, mediaJson, storeUpload, type MediaRow } from "../media";
+import { ensureBlob, mediaForPaths, mediaJson, stageDelete, storeUpload, type MediaRow } from "../media";
 import { getBuildInfo, isBuilt, recordDeploy } from "../deploys";
 import { indexArticle, reindexPending, removeFromIndex } from "../search";
 import { runWatchdog } from "../watchdog";
@@ -452,7 +452,7 @@ route("DELETE", "/articles/:id", "contributor", async (c, m) => {
   if (row instanceof Response) return row;
   if (row.live_json) return error(400, "Unpublish this article before deleting it.");
   const media = await c.env.DB.prepare("SELECT * FROM media WHERE article_id = ? AND committed = 0").bind(row.id).all<MediaRow>();
-  for (const md of media.results) await c.env.MEDIA.delete(md.r2_key);
+  for (const md of media.results) await stageDelete(c.env, md.r2_key);
   await c.env.DB.batch([
     c.env.DB.prepare("DELETE FROM media WHERE article_id = ? AND committed = 0").bind(row.id),
     c.env.DB.prepare("DELETE FROM articles WHERE id = ?").bind(row.id),
@@ -590,7 +590,7 @@ route("DELETE", "/media/:id", "contributor", async (c, m) => {
   if (!row) return error(404, "Image not found.");
   if (row.committed) return error(400, "This image is already published on the site; remove it from the article instead.");
   if (c.user!.role !== "chief" && row.uploaded_by !== c.user!.id) return error(403, "You can only delete your own uploads.");
-  await c.env.MEDIA.delete(row.r2_key);
+  await stageDelete(c.env, row.r2_key);
   await c.env.DB.prepare("DELETE FROM media WHERE id = ?").bind(row.id).run();
   return json({ ok: true });
 });
