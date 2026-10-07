@@ -9,7 +9,7 @@
   import { uploadFiles } from "../images.svelte";
   import { toast } from "../state.svelte";
   import MediaPicker from "../ui/MediaPicker.svelte";
-  import { Br, Caption, ImageText, RawHtml, SizedImage } from "./rich-extensions";
+  import { Br, Caption, ImageText, RawHtml, SideDrop, SizedImage, setSideZone, sideZoneAt, wrapBeside, type SideZone } from "./rich-extensions";
 
   let {
     value = $bindable(""),
@@ -46,6 +46,7 @@
         ImageText,
         Caption,
         RawHtml,
+        SideDrop,
         Placeholder.configure({ placeholder: "Start writing your review…" }),
         Markdown.configure({ html: true, tightLists: true, linkify: false, breaks: false, transformPastedText: true }),
       ],
@@ -56,8 +57,10 @@
           const files = [...(event.dataTransfer?.files ?? [])].filter((f) => f.type.startsWith("image/"));
           if (!files.length) return false;
           event.preventDefault();
+          const zone = sideZoneAt(view, event.clientX, event.clientY);
+          setSideZone(view, null);
           const pos = view.posAtCoords({ left: event.clientX, top: event.clientY })?.pos;
-          uploadAndInsert(files, pos);
+          uploadAndInsert(files, pos, zone);
           return true;
         },
         handlePaste: (_view, event) => {
@@ -216,11 +219,14 @@
     editor.view.dispatch(editor.state.tr.setNodeMarkup(b.pos, undefined, { ...b.node.attrs, src: m.url, alt: m.alt || b.node.attrs.alt }));
   }
 
-  async function uploadAndInsert(files: File[], at?: number) {
+  async function uploadAndInsert(files: File[], at?: number, zone?: SideZone | null) {
     const media = await uploadFiles(files, articleId);
     if (media.length) {
       onmediaadded?.(media);
-      insertImages(media, at);
+      // Dropped on a paragraph's edge: the first image goes beside it.
+      if (zone && editor && wrapBeside(editor.view, zone, { src: media[0].url, alt: media[0].alt || "" })) {
+        if (media.length > 1) insertImages(media.slice(1), zone.pos + editor.state.doc.nodeAt(zone.pos)!.nodeSize);
+      } else insertImages(media, at);
       toast(`Inserted ${media.length} image${media.length === 1 ? "" : "s"}`, "success");
     }
   }
@@ -272,7 +278,7 @@
         <button type="button" class={accent} onclick={() => putBesideText("right")}>Put beside text (image right)</button>
         <button type="button" class={accent} onclick={() => putBesideText("left")}>(image left)</button>
         <button type="button" class="{btn} ml-auto text-rose-600" onclick={removeSelectedImage}>Remove</button>
-        <span class="w-full text-[11px] text-indigo-700/70 dark:text-indigo-300/70">Tip: drag the image's corner handle to resize freely.</span>
+        <span class="w-full text-[11px] text-indigo-700/70 dark:text-indigo-300/70">Tip: drag the corner handle to resize, or drag the image onto the left or right edge of a paragraph to put it beside the text.</span>
       </div>
     {:else if sideBlock()}
       <div class="mt-1.5 flex flex-wrap items-center gap-1 rounded-lg bg-indigo-50/80 px-2 py-1.5 text-xs dark:bg-indigo-500/10">
@@ -407,6 +413,37 @@
   :global(.dark .pt-side),
   :global(.dark .pt-raw) {
     border-color: rgb(51 65 85);
+  }
+  :global(.pt-drop) {
+    position: relative;
+    border-radius: 0.5rem;
+    background: rgb(99 102 241 / 0.08);
+  }
+  :global(.pt-drop-left) {
+    box-shadow: inset 4px 0 0 rgb(99 102 241);
+  }
+  :global(.pt-drop-right) {
+    box-shadow: inset -4px 0 0 rgb(99 102 241);
+  }
+  :global(.pt-drop::after) {
+    position: absolute;
+    top: -0.6rem;
+    padding: 0 0.5rem;
+    border-radius: 9999px;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1.2rem;
+    color: white;
+    background: rgb(99 102 241);
+    pointer-events: none;
+  }
+  :global(.pt-drop-left::after) {
+    content: "⇤ Image goes on the left";
+    left: 0.5rem;
+  }
+  :global(.pt-drop-right::after) {
+    content: "Image goes on the right ⇥";
+    right: 0.5rem;
   }
   :global(.ProseMirror-selectednode.pt-side),
   :global(.ProseMirror-selectednode.pt-raw) {

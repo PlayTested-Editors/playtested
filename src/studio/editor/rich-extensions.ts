@@ -7,8 +7,11 @@
  *  - ImageText    the "image beside text" block (`div.flex … md:flex-row(-reverse)`)
  *  - Caption      `<span style="font-size…; color…">` captions in older articles
  *  - RawHtml      any other block HTML, kept verbatim and shown as a preview
+ *  - SideDrop     drop an image on a paragraph's left/right edge to put it beside the text
  */
-import { Mark, Node, mergeAttributes } from "@tiptap/core";
+import { Extension, Mark, Node, mergeAttributes } from "@tiptap/core";
+import { NodeSelection, Plugin, PluginKey } from "@tiptap/pm/state";
+import { Decoration, DecorationSet, type EditorView } from "@tiptap/pm/view";
 import Image from "@tiptap/extension-image";
 import HardBreak from "@tiptap/extension-hard-break";
 import { sanitizeHtml } from "../../lib/sanitize";
@@ -324,5 +327,112 @@ export const RawHtml = Node.create({
       dom.appendChild(body);
       return { dom, ignoreMutation: () => true };
     };
+  },
+});
+
+// ---- Drag an image beside a paragraph --------------------------------------
+
+const SIDE_TARGETS = ["paragraph", "heading", "bulletList", "orderedList", "blockquote"];
+export type SideZone = { pos: number; side: "left" | "right" };
+const sideKey = new PluginKey<SideZone | null>("sideDrop");
+
+/** The top-level text block under the pointer, if the pointer is in its left or right third. */
+export function sideZoneAt(view: EditorView, x: number, y: number): SideZone | null {
+  const hit = view.posAtCoords({ left: x, top: y });
+  if (!hit) return null;
+  const { doc } = view.state;
+  const at = hit.inside >= 0 ? hit.inside : hit.pos;
+  const $p = doc.resolve(at);
+  const pos = $p.depth >= 1 ? $p.before(1) : at;
+  const node = doc.nodeAt(pos);
+  if (!node || !SIDE_TARGETS.includes(node.type.name) || !node.textContent.trim()) return null;
+  const dom = view.nodeDOM(pos) as HTMLElement | null;
+  if (!dom?.getBoundingClientRect) return null;
+  const r = dom.getBoundingClientRect();
+  const edge = r.width * 0.3;
+  if (x < r.left + edge) return { pos, side: "left" };
+  if (x > r.right - edge) return { pos, side: "right" };
+  return null;
+}
+
+/** Wraps the block at zone.pos with an image; optionally removes the image from where it was. */
+export function wrapBeside(view: EditorView, zone: SideZone, image: { src: string; alt?: string }, remove?: { from: number; to: number }): boolean {
+  const { state } = view;
+  const node = state.doc.nodeAt(zone.pos);
+  if (!node || !SIDE_TARGETS.includes(node.type.name)) return false;
+  const block = state.schema.nodes.imageText.create({ src: image.src, alt: image.alt || "", side: zone.side }, [node]);
+  const tr = state.tr;
+  // Edit the later position first so the earlier one stays valid.
+  if (remove && remove.from > zone.pos) tr.delete(remove.from, remove.to);
+  tr.replaceWith(zone.pos, zone.pos + node.nodeSize, block);
+  if (remove && remove.from < zone.pos) tr.delete(remove.from, remove.to);
+  view.dispatch(tr.scrollIntoView());
+  return true;
+}
+
+/** Shows (or clears) the "image goes here" highlight. */
+export function setSideZone(view: EditorView, zone: SideZone | null) {
+  const cur = sideKey.getState(view.state);
+  if (cur?.pos === zone?.pos && cur?.side === zone?.side) return;
+  view.dispatch(view.state.tr.setMeta(sideKey, zone).setMeta("addToHistory", false));
+}
+
+function draggedImage(view: EditorView) {
+  const dragging = (view as any).dragging as { slice?: any; node?: NodeSelection } | null;
+  const first = dragging?.slice?.content.childCount === 1 ? dragging.slice.content.firstChild : null;
+  if (first?.type.name !== "image") return null;
+  // Where the image is being dragged from (ProseMirror records it when the drag starts).
+  const sel = dragging?.node ?? view.state.selection;
+  const source = sel instanceof NodeSelection && sel.node.type.name === "image" ? { from: sel.from, to: sel.to } : null;
+  return { attrs: first.attrs as { src: string; alt?: string }, source };
+}
+
+export const SideDrop = Extension.create({
+  name: "sideDrop",
+  addProseMirrorPlugins() {
+    return [
+      new Plugin<SideZone | null>({
+        key: sideKey,
+        state: {
+          init: () => null,
+          apply: (tr, value) => {
+            const meta = tr.getMeta(sideKey);
+            if (meta !== undefined) return meta;
+            return tr.docChanged ? null : value;
+          },
+        },
+        props: {
+          decorations(state) {
+            const z = sideKey.getState(state);
+            const node = z ? state.doc.nodeAt(z.pos) : null;
+            if (!z || !node) return null;
+            return DecorationSet.create(state.doc, [Decoration.node(z.pos, z.pos + node.nodeSize, { class: `pt-drop pt-drop-${z.side}` })]);
+          },
+          handleDOMEvents: {
+            dragover(view, e) {
+              const files = e.dataTransfer?.types.includes("Files");
+              setSideZone(view, files || draggedImage(view) ? sideZoneAt(view, e.clientX, e.clientY) : null);
+              return false;
+            },
+            dragleave(view, e) {
+              if (!view.dom.contains(e.relatedTarget as globalThis.Node | null)) setSideZone(view, null);
+              return false;
+            },
+            dragend(view) {
+              setSideZone(view, null);
+              return false;
+            },
+          },
+          handleDrop(view, e, _slice, moved) {
+            const zone = sideZoneAt(view, e.clientX, e.clientY);
+            setSideZone(view, null);
+            const img = draggedImage(view);
+            if (!zone || !img) return false;
+            e.preventDefault();
+            return wrapBeside(view, zone, img.attrs, moved && img.source ? img.source : undefined);
+          },
+        },
+      }),
+    ];
   },
 });
