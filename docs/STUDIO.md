@@ -98,5 +98,7 @@ Worker secrets are set with `npx wrangler secret put NAME`, run in the project f
 - **Deploy dev manually**: `npm run deploy:dev` (build → D1 sync → `wrangler deploy`).
 - **Database migrations**: add `migrations/000N_name.sql`, then `npm run db:migrate:dev`. CI applies them on every deploy.
 - **Content edited directly in git** is picked up by `scripts/sync-d1.mjs` on the next build. That script is idempotent and leaves alone studio publishes newer than the commit being built.
+- **Full search-index rebuild** (new database, schema change): `node scripts/bulk-index.mjs`. It does one SQL import plus embeddings from this machine. Never re-index article by article.
+- **Image staging**: uploads stage in R2 when a `MEDIA` binding exists, otherwise in KV (`CACHE`). The PlayTested account has no R2, which needs a card.
 - **Search index**: updated on publish. The cron catches up anything changed in git. Site & limits → Search index → *Index now* forces it.
 - **Dev content** comes from the `dev` branch. Merge `main` into `dev` to pull in articles published on the live site.
