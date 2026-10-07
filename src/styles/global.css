@@ -255,6 +255,40 @@ code>span.line {
   border-radius: 0.5rem;
 }
 
+/* Images the text wraps around (studio: "Wrap · image left/right"). Width comes
+   from the inline style; on phones the image sits above the text at full width. */
+.prose img.img-wrap {
+  margin-top: 0.35rem;
+  margin-bottom: 1rem;
+}
+.prose img.img-wrap-left {
+  float: left;
+  margin-left: 0;
+  margin-right: 1.75rem;
+}
+.prose img.img-wrap-right {
+  float: right;
+  margin-right: 0;
+  margin-left: 1.75rem;
+}
+@media (max-width: 767px) {
+  .prose img.img-wrap {
+    float: none;
+    width: 100% !important;
+    margin: 1.25rem 0;
+  }
+}
+/* New sections start below a wrapped image, and the article contains it. */
+.prose h2,
+.prose hr {
+  clear: both;
+}
+.prose::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
 /* ==========================================================================
    Motion
    Loading states, hover/press feedback, scroll reveal and page transitions.

@@ -62,6 +62,8 @@
   let openNotes = $derived(detail?.notes.filter((n) => !n.resolvedAt).length ?? 0);
   let future = $derived(data ? Date.parse(data.pubDate) > Date.now() : false);
   let state = $derived(detail?.article.state ?? "draft");
+  // A live article whose working copy differs from what readers see.
+  let liveEdited = $derived(Boolean(detail?.live) && canEdit && (state !== "published" || dirty));
   let building = $derived(Boolean(detail?.article.isLive && detail.article.publishCommit && !detail.built));
 
   function apply(d: ArticleDetail, replace: boolean) {
@@ -358,7 +360,7 @@
             {#if detail.article.isLive}
               <a class="block px-4 py-2 hover:bg-slate-50 dark:hover:bg-slate-700" href={`/article/${detail.live?.slug ?? data.slug}/`} target="_blank" onclick={() => (menuOpen = false)}>View live article ↗</a>
             {/if}
-            {#if detail.live && state !== "published" && canEdit}
+            {#if liveEdited}
               <button class="block w-full px-4 py-2 text-left hover:bg-slate-50 dark:hover:bg-slate-700" onclick={() => { menuOpen = false; confirm = "discard"; }}>Discard unpublished changes</button>
             {/if}
             {#if !isChiefUser && detail.permissions.submit && state !== "in_review" && detail.live && state !== "published"}
@@ -397,6 +399,13 @@
             <p class="text-xs font-semibold uppercase tracking-wide text-rose-700 dark:text-rose-300">Changes requested</p>
             <p class="mt-1 line-clamp-2 text-sm text-rose-900 dark:text-rose-100">{detail.notes.filter((n) => !n.resolvedAt).at(-1)?.body}</p>
           </button>
+        {/if}
+
+        {#if liveEdited}
+          <div class="mb-4 flex flex-wrap items-center gap-x-3 gap-y-1 rounded-lg bg-amber-50 px-3 py-2 text-sm text-amber-900 ring-1 ring-amber-200 dark:bg-amber-500/10 dark:text-amber-100 dark:ring-amber-500/25" transition:slide={{ duration: 150 }}>
+            <span><span class="font-semibold">You have unpublished changes.</span> Readers still see the published version.</span>
+            <button type="button" class="ml-auto rounded-md px-2.5 py-1 text-xs font-semibold text-amber-900 ring-1 ring-amber-300 transition hover:bg-amber-100 dark:text-amber-100 dark:ring-amber-500/40 dark:hover:bg-amber-500/20" onclick={() => (confirm = "discard")}>Discard my changes</button>
+          </div>
         {/if}
 
         <textarea
@@ -511,7 +520,7 @@
 
   <Modal open={confirm !== null} title={confirm === "unpublish" ? "Unpublish article?" : confirm === "delete" ? "Delete draft?" : "Discard unpublished changes?"} size="sm" onclose={() => (confirm = null)}>
     <p class="text-sm text-slate-600 dark:text-slate-300">
-      {#if confirm === "unpublish"}It's removed from the site after the next build. The article and its history stay in the studio.{:else if confirm === "delete"}This permanently deletes the draft and its unpublished images.{:else}Your working copy goes back to what's live on the site. You can still find these edits in History.{/if}
+      {#if confirm === "unpublish"}It's removed from the site after the next build. The article and its history stay in the studio.{:else if confirm === "delete"}This permanently deletes the draft and its unpublished images.{:else}Everything goes back to the version that's live on the site. Your edits stay in History if you change your mind.{/if}
     </p>
     {#snippet footer()}
       <button class="btn-secondary" onclick={() => (confirm = null)}>Cancel</button>

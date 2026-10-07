@@ -9,7 +9,7 @@
   import { uploadFiles } from "../images.svelte";
   import { toast } from "../state.svelte";
   import MediaPicker from "../ui/MediaPicker.svelte";
-  import { Br, Caption, ImageText, RawHtml, SideDrop, SizedImage, setSideZone, sideZoneAt, wrapBeside, type SideZone } from "./rich-extensions";
+  import { Br, Caption, ImageText, RawHtml, SideDrop, SizedImage, WRAP_DEFAULT_WIDTH, setSideZone, sideZoneAt, wrapBeside, type SideZone } from "./rich-extensions";
 
   let {
     value = $bindable(""),
@@ -138,7 +138,21 @@
     editor.view.dispatch(editor.state.tr.setNodeMarkup(sel.from, undefined, { ...sel.node.attrs, height }));
   }
 
-  /** Wrap the selected image + the block after it into an image-beside-text block. */
+  /** Text flows around the image (side = where the image sits), or back to a normal image. */
+  function setWrap(wrap: "left" | "right" | null) {
+    const sel = selectedImage();
+    if (!sel || !editor) return;
+    const width = wrap ? sel.node.attrs.width || WRAP_DEFAULT_WIDTH : null;
+    editor.view.dispatch(editor.state.tr.setNodeMarkup(sel.from, undefined, { ...sel.node.attrs, wrap, width, height: null }));
+  }
+
+  function setWrapWidth(width: number) {
+    const sel = selectedImage();
+    if (!sel || !editor) return;
+    editor.view.dispatch(editor.state.tr.setNodeMarkup(sel.from, undefined, { ...sel.node.attrs, width }));
+  }
+
+  /** Wrap the selected image + the block after it into a two-column block. */
   function putBesideText(side: "left" | "right" = "right") {
     const sel = selectedImage();
     if (!sel || !editor) return;
@@ -172,6 +186,16 @@
     editor.view.dispatch(editor.state.tr.replaceWith(b.pos, b.pos + b.node.nodeSize, nodes));
   }
 
+  /** Columns block -> image the text wraps around. */
+  function sideToWrap() {
+    const b = sideBlock();
+    if (!b || !editor) return;
+    const schema = editor.state.schema;
+    const nodes = [schema.nodes.image.create({ src: b.node.attrs.src, alt: b.node.attrs.alt, wrap: b.node.attrs.side, width: WRAP_DEFAULT_WIDTH })];
+    b.node.forEach((child: any) => nodes.push(child));
+    editor.view.dispatch(editor.state.tr.replaceWith(b.pos, b.pos + b.node.nodeSize, nodes));
+  }
+
   function removeSelectedImage() {
     editor?.chain().focus().deleteSelection().run();
   }
@@ -192,25 +216,13 @@
     else editor.chain().focus().insertContent(nodes).run();
   }
 
-  /** Image beside text: wraps the paragraph the cursor is in, or adds a new one. */
+  /** Image with text wrapping around it, placed at the start of the block the cursor is in. */
   function insertSide(m: Media) {
     if (!editor) return;
-    const { state } = editor;
-    const rf = state.selection.$from;
-    const para = rf.depth >= 1 ? rf.node(1) : null;
-    const schema = state.schema;
-    const allowed = ["paragraph", "heading", "bulletList", "orderedList", "blockquote"];
-    if (para && allowed.includes(para.type.name) && para.textContent.trim()) {
-      const pos = rf.before(1);
-      const block = schema.nodes.imageText.create({ src: m.url, alt: m.alt || "", side: "right" }, [para]);
-      editor.view.dispatch(state.tr.replaceWith(pos, pos + para.nodeSize, block));
-    } else {
-      editor
-        .chain()
-        .focus()
-        .insertContent({ type: "imageText", attrs: { src: m.url, alt: m.alt || "", side: "right" }, content: [{ type: "paragraph" }] })
-        .run();
-    }
+    const rf = editor.state.selection.$from;
+    const node = { type: "image", attrs: { src: m.url, alt: m.alt || "", wrap: "right", width: WRAP_DEFAULT_WIDTH } };
+    if (rf.depth >= 1 && rf.node(1).type.name !== "imageText") editor.chain().focus().insertContentAt(rf.before(1), node).run();
+    else editor.chain().focus().insertContent(node).run();
   }
 
   function swapSideImage(m: Media) {
@@ -262,27 +274,38 @@
       <button type="button" class={btn} title="Divider" {disabled} onclick={() => editor?.chain().focus().setHorizontalRule().run()}>—</button>
       <span class="mx-1 h-5 w-px bg-slate-200 dark:bg-slate-700"></span>
       <button type="button" class={accent} {disabled} onclick={() => { picker = "images"; pickerOpen = true; }}>+ Images</button>
-      <button type="button" class={accent} {disabled} title="Image next to text" onclick={() => { picker = "side"; pickerOpen = true; }}>+ Image beside text</button>
+      <button type="button" class={accent} {disabled} title="Image with the text wrapping around it" onclick={() => { picker = "side"; pickerOpen = true; }}>+ Image beside text</button>
       <span class="ml-auto pr-1 text-[11px] tabular-nums text-slate-400">{words.toLocaleString()} words · {Math.max(1, Math.round(words / 230))} min read</span>
     </div>
 
     {#if selectedImage()}
-      {@const h = selectedImage()?.node.attrs.height}
+      {@const a = selectedImage()!.node.attrs}
       <div class="mt-1.5 flex flex-wrap items-center gap-1 rounded-lg bg-indigo-50/80 px-2 py-1.5 text-xs dark:bg-indigo-500/10">
-        <span class="mr-1 font-semibold text-indigo-800 dark:text-indigo-200">Image:</span>
-        {#each [["S", 300], ["M", 450], ["L", 600]] as [label, px]}
-          <button type="button" class="{btn} {h === px ? on : ''}" onclick={() => setImageHeight(px as number)}>{label}</button>
-        {/each}
-        <button type="button" class="{btn} {!h ? on : ''}" onclick={() => setImageHeight(null)}>Full</button>
+        <span class="mr-1 font-semibold text-indigo-800 dark:text-indigo-200">Text:</span>
+        <button type="button" class="{btn} {!a.wrap ? on : ''}" title="Image on its own line" onclick={() => setWrap(null)}>Above &amp; below</button>
+        <button type="button" class="{btn} {a.wrap === 'left' ? on : ''}" title="Image on the left, text wraps around it" onclick={() => setWrap("left")}>Wrap · image left</button>
+        <button type="button" class="{btn} {a.wrap === 'right' ? on : ''}" title="Image on the right, text wraps around it" onclick={() => setWrap("right")}>Wrap · image right</button>
         <span class="mx-1 h-4 w-px bg-indigo-200 dark:bg-indigo-500/30"></span>
-        <button type="button" class={accent} onclick={() => putBesideText("right")}>Put beside text (image right)</button>
-        <button type="button" class={accent} onclick={() => putBesideText("left")}>(image left)</button>
+        <span class="mr-1 font-semibold text-indigo-800 dark:text-indigo-200">Size:</span>
+        {#if a.wrap}
+          {#each [["S", 30], ["M", 40], ["L", 50]] as [label, pct]}
+            <button type="button" class="{btn} {(a.width || WRAP_DEFAULT_WIDTH) === pct ? on : ''}" onclick={() => setWrapWidth(pct as number)}>{label}</button>
+          {/each}
+        {:else}
+          {#each [["S", 300], ["M", 450], ["L", 600]] as [label, px]}
+            <button type="button" class="{btn} {a.height === px ? on : ''}" onclick={() => setImageHeight(px as number)}>{label}</button>
+          {/each}
+          <button type="button" class="{btn} {!a.height ? on : ''}" onclick={() => setImageHeight(null)}>Full</button>
+        {/if}
+        <span class="mx-1 h-4 w-px bg-indigo-200 dark:bg-indigo-500/30"></span>
+        <button type="button" class={btn} title="Image and text in two separate columns" onclick={() => putBesideText(a.wrap === "left" ? "left" : "right")}>Columns</button>
         <button type="button" class="{btn} ml-auto text-rose-600" onclick={removeSelectedImage}>Remove</button>
-        <span class="w-full text-[11px] text-indigo-700/70 dark:text-indigo-300/70">Tip: drag the corner handle to resize, or drag the image onto the left or right edge of a paragraph to put it beside the text.</span>
+        <span class="w-full text-[11px] text-indigo-700/70 dark:text-indigo-300/70">Tip: drag the corner handle to resize. Drag the image onto the left or right edge of a paragraph to wrap the text around it. On phones it sits above the text.</span>
       </div>
     {:else if sideBlock()}
       <div class="mt-1.5 flex flex-wrap items-center gap-1 rounded-lg bg-indigo-50/80 px-2 py-1.5 text-xs dark:bg-indigo-500/10">
-        <span class="mr-1 font-semibold text-indigo-800 dark:text-indigo-200">Image beside text:</span>
+        <span class="mr-1 font-semibold text-indigo-800 dark:text-indigo-200">Columns:</span>
+        <button type="button" class={accent} onclick={sideToWrap}>Wrap text around the image instead</button>
         <button type="button" class={accent} onclick={flipSide}>Move image to the {sideBlock()?.node.attrs.side === "left" ? "right" : "left"}</button>
         <button type="button" class={accent} onclick={() => { picker = "swap"; pickerOpen = true; }}>Change image</button>
         <button type="button" class="{btn} ml-auto" onclick={unwrapSide}>Undo side-by-side</button>
@@ -371,6 +394,49 @@
   :global(.pt-img.pt-resizing .pt-img-badge) {
     opacity: 1;
   }
+  :global(.pt-img.pt-wrap-left),
+  :global(.pt-img.pt-wrap-right) {
+    margin-top: 0.35rem;
+    margin-bottom: 0.75rem;
+  }
+  :global(.pt-img.pt-wrap-left) {
+    float: left;
+    margin-right: 1.75rem;
+    margin-left: 0;
+  }
+  :global(.pt-img.pt-wrap-right) {
+    float: right;
+    margin-left: 1.75rem;
+    margin-right: 0;
+  }
+  :global(.pt-img.pt-wrap-left img),
+  :global(.pt-img.pt-wrap-right img) {
+    width: 100%;
+  }
+  /* The resize handle sits on the edge facing the text. */
+  :global(.pt-img.pt-wrap-right .pt-img-handle) {
+    left: -7px;
+    right: auto;
+    cursor: nesw-resize;
+  }
+  :global(.pt-rich h2),
+  :global(.pt-rich hr),
+  :global(.pt-rich .pt-side) {
+    clear: both;
+  }
+  :global(.pt-rich::after) {
+    content: "";
+    display: table;
+    clear: both;
+  }
+  @media (max-width: 767px) {
+    :global(.pt-img.pt-wrap-left),
+    :global(.pt-img.pt-wrap-right) {
+      float: none;
+      width: 100% !important;
+      margin: 1rem 0;
+    }
+  }
   :global(.pt-side) {
     display: flex;
     gap: 1.5rem;
@@ -438,11 +504,11 @@
     pointer-events: none;
   }
   :global(.pt-drop-left::after) {
-    content: "⇤ Image goes on the left";
+    content: "⇤ Image on the left, text wraps around";
     left: 0.5rem;
   }
   :global(.pt-drop-right::after) {
-    content: "Image goes on the right ⇥";
+    content: "Image on the right, text wraps around ⇥";
     right: 0.5rem;
   }
   :global(.ProseMirror-selectednode.pt-side),

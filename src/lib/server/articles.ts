@@ -113,7 +113,7 @@ export function finalise(d: ArticleData): ArticleData {
     author: d.author.trim(),
     game: d.game?.trim() || undefined,
     score: d.score === null || d.score === undefined ? null : Math.round(d.score * 10) / 10,
-    body: sanitizeHtml(d.body).html.replace(/s+$/, ""),
+    body: sanitizeHtml(d.body).html.replace(/\s+$/, ""),
   };
 }
 
@@ -330,12 +330,15 @@ export async function saveDraft(
   }
 
   let state: ArticleState = nextState ?? row.state;
-  if (!nextState && row.state === "published") {
+  if (!nextState && row.live_json) {
+    // Edited a live article -> draft; saved it back to exactly the live version
+    // (e.g. "Discard my changes") -> published again, with nothing pending.
     const live = liveOf(row);
     const unchanged = live && JSON.stringify(live) === JSON.stringify(data);
-    state = unchanged ? "published" : "draft";
+    if (unchanged) state = "published";
+    else if (row.state === "published") state = "draft";
   }
-  if (!nextState && row.state === "approved") state = "draft"; // edits after approval need a fresh look
+  if (!nextState && row.state === "approved" && state !== "published") state = "draft"; // edits after approval need a fresh look
 
   const rev = row.draft_rev + 1;
   const res = await env.DB.prepare(

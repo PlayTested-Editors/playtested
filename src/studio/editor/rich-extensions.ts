@@ -7,7 +7,7 @@
  *  - ImageText    the "image beside text" block (`div.flex … md:flex-row(-reverse)`)
  *  - Caption      `<span style="font-size…; color…">` captions in older articles
  *  - RawHtml      any other block HTML, kept verbatim and shown as a preview
- *  - SideDrop     drop an image on a paragraph's left/right edge to put it beside the text
+ *  - SideDrop     drop an image on a paragraph's left/right edge to wrap the text around it
  */
 import { Extension, Mark, Node, mergeAttributes } from "@tiptap/core";
 import { NodeSelection, Plugin, PluginKey } from "@tiptap/pm/state";
@@ -22,7 +22,21 @@ const maxHeightOf = (el: HTMLElement | null) => {
   return m ? Number(m[1]) : null;
 };
 
-/** Images: plain markdown, or the sized wrapper when given a height. Drag the corner to resize. */
+const widthOf = (el: HTMLElement | null) => {
+  const m = /(?:^|;)\s*width:\s*(\d+)%/.exec(el?.getAttribute("style") || "");
+  return m ? Number(m[1]) : null;
+};
+const wrapOf = (el: HTMLElement | null) => {
+  const cls = el?.getAttribute("class") || "";
+  return /\bimg-wrap-left\b/.test(cls) ? "left" : /\bimg-wrap-right\b/.test(cls) ? "right" : null;
+};
+export const WRAP_DEFAULT_WIDTH = 40;
+
+/**
+ * Images: plain markdown, the sized wrapper when given a height, or an image
+ * the text wraps around (`img.img-wrap-left/right`, width in %; it stacks
+ * above the text on phones). Drag the corner to resize.
+ */
 export const SizedImage = Image.extend({
   name: "image",
   draggable: true,
@@ -31,6 +45,8 @@ export const SizedImage = Image.extend({
     return {
       ...this.parent?.(),
       height: { default: null },
+      wrap: { default: null }, // "left" | "right": text flows around the image
+      width: { default: null }, // % of the column, for wrapped images
     };
   },
 
@@ -47,12 +63,18 @@ export const SizedImage = Image.extend({
       },
       {
         tag: "img[src]",
-        getAttrs: (el) => ({
-          src: (el as HTMLElement).getAttribute("src"),
-          alt: (el as HTMLElement).getAttribute("alt") || "",
-          title: (el as HTMLElement).getAttribute("title"),
-          height: maxHeightOf(el as HTMLElement),
-        }),
+        getAttrs: (el) => {
+          const img = el as HTMLElement;
+          const wrap = wrapOf(img);
+          return {
+            src: img.getAttribute("src"),
+            alt: img.getAttribute("alt") || "",
+            title: img.getAttribute("title"),
+            height: wrap ? null : maxHeightOf(img),
+            wrap,
+            width: wrap ? widthOf(img) ?? WRAP_DEFAULT_WIDTH : null,
+          };
+        },
       },
     ];
   },
@@ -61,8 +83,12 @@ export const SizedImage = Image.extend({
     return {
       markdown: {
         serialize(state: any, node: any) {
-          const { src, alt, height } = node.attrs;
-          if (height) {
+          const { src, alt, height, wrap, width } = node.attrs;
+          if (wrap) {
+            state.write(
+              `<img src="${attr(src)}" alt="${attr(alt)}" class="img-wrap img-wrap-${wrap} rounded shadow" style="width: ${width || WRAP_DEFAULT_WIDTH}%;" />`,
+            );
+          } else if (height) {
             state.write(
               `<div class="image-sized-wrapper" style="--img-height:${height}px;">\n  <img src="${attr(src)}" alt="${attr(alt)}" class="mx-auto block rounded shadow" style="max-height: ${height}px;" />\n</div>`,
             );
@@ -81,8 +107,6 @@ export const SizedImage = Image.extend({
       const dom = document.createElement("div");
       dom.className = "pt-img";
       const img = document.createElement("img");
-      img.src = node.attrs.src;
-      img.alt = node.attrs.alt || "";
       img.draggable = false;
       const handle = document.createElement("span");
       handle.className = "pt-img-handle";
@@ -94,33 +118,56 @@ export const SizedImage = Image.extend({
       dom.appendChild(badge);
 
       let current = node;
+      const label = (n: typeof node, w?: number, h?: number) => {
+        if (n.attrs.wrap) return `Text wraps · ${w ?? n.attrs.width ?? WRAP_DEFAULT_WIDTH}% wide`;
+        const height = h ?? n.attrs.height;
+        return height ? `${height}px tall` : "Full size";
+      };
       const apply = (n: typeof node) => {
         img.src = n.attrs.src;
         img.alt = n.attrs.alt || "";
-        img.style.maxHeight = n.attrs.height ? `${n.attrs.height}px` : "";
-        badge.textContent = n.attrs.height ? `${n.attrs.height}px` : "Full size";
+        const wrap = n.attrs.wrap as string | null;
+        dom.classList.toggle("pt-wrap-left", wrap === "left");
+        dom.classList.toggle("pt-wrap-right", wrap === "right");
+        dom.style.width = wrap ? `${n.attrs.width || WRAP_DEFAULT_WIDTH}%` : "";
+        img.style.maxHeight = !wrap && n.attrs.height ? `${n.attrs.height}px` : "";
+        badge.textContent = label(n);
       };
       apply(node);
 
       handle.addEventListener("mousedown", (e) => {
         e.preventDefault();
         e.stopPropagation();
+        const wrap = current.attrs.wrap as string | null;
+        const startX = e.clientX;
         const startY = e.clientY;
+        const startW = dom.getBoundingClientRect().width;
         const startH = img.getBoundingClientRect().height;
+        const column = dom.parentElement?.getBoundingClientRect().width || 800;
         dom.classList.add("pt-resizing");
+        // Wrapped images resize by width (handle on the side facing the text); others by height.
+        const measure = (ev: MouseEvent) => {
+          if (wrap) {
+            const dx = (ev.clientX - startX) * (wrap === "right" ? -1 : 1);
+            return Math.round(Math.min(70, Math.max(20, ((startW + dx) / column) * 100)));
+          }
+          return Math.round(Math.min(1000, Math.max(120, startH + (ev.clientY - startY))));
+        };
         const move = (ev: MouseEvent) => {
-          const h = Math.round(Math.min(1000, Math.max(120, startH + (ev.clientY - startY))));
-          img.style.maxHeight = `${h}px`;
-          badge.textContent = `${h}px`;
+          const v = measure(ev);
+          if (wrap) dom.style.width = `${v}%`;
+          else img.style.maxHeight = `${v}px`;
+          badge.textContent = wrap ? label(current, v) : label(current, undefined, v);
         };
         const up = (ev: MouseEvent) => {
           window.removeEventListener("mousemove", move);
           window.removeEventListener("mouseup", up);
           dom.classList.remove("pt-resizing");
-          const h = Math.round(Math.min(1000, Math.max(120, startH + (ev.clientY - startY))));
+          const v = measure(ev);
           const pos = typeof getPos === "function" ? getPos() : null;
           if (pos == null) return;
-          editor.view.dispatch(editor.view.state.tr.setNodeMarkup(pos, undefined, { ...current.attrs, height: h }));
+          const attrs = wrap ? { ...current.attrs, width: v } : { ...current.attrs, height: v };
+          editor.view.dispatch(editor.view.state.tr.setNodeMarkup(pos, undefined, attrs));
         };
         window.addEventListener("mousemove", move);
         window.addEventListener("mouseup", up);
@@ -355,16 +402,27 @@ export function sideZoneAt(view: EditorView, x: number, y: number): SideZone | n
   return null;
 }
 
-/** Wraps the block at zone.pos with an image; optionally removes the image from where it was. */
-export function wrapBeside(view: EditorView, zone: SideZone, image: { src: string; alt?: string }, remove?: { from: number; to: number }): boolean {
+/** Puts the image just before the block at zone.pos with the text wrapping around it; optionally removes it from where it was. */
+export function wrapBeside(
+  view: EditorView,
+  zone: SideZone,
+  image: { src: string; alt?: string; width?: number | null },
+  remove?: { from: number; to: number },
+): boolean {
   const { state } = view;
   const node = state.doc.nodeAt(zone.pos);
   if (!node || !SIDE_TARGETS.includes(node.type.name)) return false;
-  const block = state.schema.nodes.imageText.create({ src: image.src, alt: image.alt || "", side: zone.side }, [node]);
+  const img = state.schema.nodes.image.create({
+    src: image.src,
+    alt: image.alt || "",
+    wrap: zone.side,
+    width: image.width || WRAP_DEFAULT_WIDTH,
+    height: null,
+  });
   const tr = state.tr;
   // Edit the later position first so the earlier one stays valid.
   if (remove && remove.from > zone.pos) tr.delete(remove.from, remove.to);
-  tr.replaceWith(zone.pos, zone.pos + node.nodeSize, block);
+  tr.insert(zone.pos, img);
   if (remove && remove.from < zone.pos) tr.delete(remove.from, remove.to);
   view.dispatch(tr.scrollIntoView());
   return true;
@@ -379,12 +437,12 @@ export function setSideZone(view: EditorView, zone: SideZone | null) {
 
 function draggedImage(view: EditorView) {
   const dragging = (view as any).dragging as { slice?: any; node?: NodeSelection } | null;
-  const first = dragging?.slice?.content.childCount === 1 ? dragging.slice.content.firstChild : null;
+  const first: any = dragging?.slice?.content.childCount === 1 ? dragging.slice.content.firstChild : null;
   if (first?.type.name !== "image") return null;
   // Where the image is being dragged from (ProseMirror records it when the drag starts).
   const sel = dragging?.node ?? view.state.selection;
   const source = sel instanceof NodeSelection && sel.node.type.name === "image" ? { from: sel.from, to: sel.to } : null;
-  return { attrs: first.attrs as { src: string; alt?: string }, source };
+  return { attrs: first.attrs as { src: string; alt?: string; width?: number | null }, source };
 }
 
 export const SideDrop = Extension.create({
