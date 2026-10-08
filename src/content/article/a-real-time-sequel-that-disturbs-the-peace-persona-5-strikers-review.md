@@ -45,24 +45,17 @@ After dropping over a hundred hours into the masterpiece that was *Persona 5 Roy
 
 Let's be real, shifting a beloved JRPG into a real-time action game usually results in a mindless button masher that’s well disliked by many. I went into *Strikers* fully expecting to just spam the attack button until the screen cleared. And honestly? The combat here is incredibly confusing at first. You are bombarded with flashy effects and hordes of enemies, making the early hours feel like pure chaos. But once it clicks, it *really* clicks.
 
-<div class="flex flex-col md:flex-row-reverse items-center gap-6 mb-12 pb-6 border-b border-slate-700">
-  <img src="/images/uploads/p5s03.avif" alt="" class="w-full md:w-2/5 rounded shadow" />
-  <div class="flex-1 w-full">
+<img src="/images/uploads/p5s03.avif" alt="" class="img-wrap img-wrap-right rounded shadow" style="width: 40%;" />
 
 Atlus managed to take the very deliberate, menu-driven concepts of *Persona 5* and translate them perfectly into a real-time brawl. Pulling off a Baton Pass mid-combo or setting up an All-Out Attack feels just as satisfying here as it did in the turn-based original. They even nailed the elemental weaknesses and the distinct tactical differences between single and multi-target damage skills. 
 
 For anyone who hasn't actually seen it in action, the game basically drops you into these massive, open Jails where you can still sneak around, ambush, and battle shadows. But instead of loading into a turn-based line-up, popping an ambush turns the area around you into a massive combat zone with dozens of enemies at once. It uses a classic hack-and-slash structure where you are mixing light and heavy attacks, but the brilliant part is how they integrate the Persona Mechanics into your physical combos. Hitting a specific combo string might end with Joker doing a massive spinning attack or instantly summoning Arsene to cast a free elemental spell without draining your SP. It completely removes the usual button-mashing fatigue because you are constantly looking for openings to trigger these combo-enders, expose enemy weaknesses, break enemy shields, and clear the screen.
 
-  </div>
-</div>
-
 They also totally nailed the distinct feel of the characters. You aren't just playing as Joker with different skins; every single Phantom Thief feels entirely unique to play with its own moveset, skills, and Personas. You’re actually allowed to control the other characters for the first time, not just Joker. Swapping to Makoto to brawl through a crowd with her fists feels vastly different than using Haru's heavy axe or gliding around with Yusuke's katana. It flows so smoothly that, if I’m being completely honest, I actually like this combat system equally as much as the original turn-based mechanics. It’s just that good.
 
 ### **Ditching the Calendar Anxiety**
 
-<div class="flex flex-col md:flex-row items-center gap-6 mb-12 pb-6 border-b border-slate-700">
-  <img src="/images/uploads/p5s06.avif" alt="" class="w-full md:w-2/5 rounded shadow" />
-  <div class="flex-1 w-full">
+<img src="/images/uploads/p5s06.avif" alt="" class="img-wrap img-wrap-left rounded shadow" style="width: 40%;" />
 
 If you played the original, you know the unique stress of trying to max out your social links before the calendar runs out or a certain event comes up. After grinding both intricate dungeons and high school relationships for over a hundred hours in the predecessor, jumping into *Strikers* feels like a massive exhale.
 
@@ -70,14 +63,9 @@ This game is a completely stripped-down version of the Persona formula. You don'
 
 I don't hate the slice-of-life elements in the mainline games at all, but removing them here was totally the right call. It feels so refreshing to just focus on the Phantom Thieves actually being a team without the constant, suffocating pressure of a ticking clock hanging over your head.
 
-  </div>
-</div>
-
 ### **Nuanced Characters and Artificial Intelligence**
 
-<div class="flex flex-col md:flex-row-reverse items-center gap-6 mb-12 pb-6 border-b border-slate-700">
-  <img src="/images/uploads/p5s02.avif" alt="" class="w-full md:w-2/5 rounded shadow" />
-  <div class="flex-1 w-full">
+<img src="/images/uploads/p5s02.avif" alt="" class="img-wrap img-wrap-right rounded shadow" style="width: 40%;" />
 
 The road trip framing isn't the only thing carrying the narrative. The story in *Strikers* actually hits even harder today than it did a few years ago because the entire plot revolves heavily around Artificial Intelligence. It feels incredibly relevant right now, and the new characters—both the allies joining the Phantom Thieves and the enemies you face—fold perfectly into the established crew.
 
@@ -85,23 +73,15 @@ Introducing new party members into a group that already has 100 hours of establi
 
 But the biggest upgrade here is the antagonists. The original game gave us villains that were mostly just irredeemable, cartoonish scumbags (looking at you, Kamoshida). Here, the villains are actually given incredible nuance. You get to understand exactly why these "Monarchs" ended up ruling their respective Jails, making the narrative feel a lot more mature and way less black-and-white.
 
-  </div>
-</div>
-
 ### **The Dread of Saying Goodbye**
 
-<div class="flex flex-col md:flex-row-reverse items-center gap-6 mb-12 pb-6 border-b border-slate-700">
-  <img src="/images/uploads/p5s00.avif" alt="" class="w-full md:w-2/5 rounded shadow" />
-  <div class="flex-1 w-full">
+<img src="/images/uploads/p5s00.avif" alt="" class="img-wrap img-wrap-right rounded shadow" style="width: 40%;" />
 
 Because this game operates as a direct sequel, you go in already fully attached to this cast. The writing takes full advantage of that, with the entire narrative is built around a summer vacation, and there is this creeping dread as the road trip goes on because you know it eventually has to end.
 
 The pacing of the late-game narrative brilliantly manipulates these emotions. You get these massive emotional highs, incredible hangout sessions, and quiet moments that feel like the game is wrapping things up and getting ready to send everyone home. It creates this wild emotional rollercoaster where you just don't want to let go of the controller.
 
 It throws so many farewell moments at you, constantly keeping you guessing about when the journey actually ends. It completely caught me off guard with how deeply it hooked me through pure, good writing. It gives you all the frantic hacking and slashing you could want, but pairs it with an emotional weight that makes saying goodbye to this cast all over again genuinely tough.
-
-  </div>
-</div>
 
 ### **Conclusion**
 

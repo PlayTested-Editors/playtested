@@ -44,13 +44,7 @@ score: 9
 
 ---
 
-<div class="flex flex-col md:flex-row-reverse items-center gap-6 mb-12 pb-6 border-b border-slate-700">
-  <img
-    src=/images/reviews/2024-12-24-indiana-jones-great-circle-1.avif
-    alt="Indiana Jones and the Great Circle"
-    class="w-full md:w-2/5 rounded shadow"
-     />
-</div>
+<img src="/images/reviews/2024-12-24-indiana-jones-great-circle-1.avif" alt="Indiana Jones and the Great Circle" class="img-wrap img-wrap-right rounded shadow" style="width: 40%;" />
 
 I would like to repeat again, that the first person view absolutely works! Not only your in tune and more immersed as Indy, you also get upclose and personal with the puzzles and locations, which can now be much more cramped and smaller because of the view. It allows you to lean in and inspect ancient mechanisms, decipher cryptic markings up close, and feel a genuine sense of tension as you peer into a dark, unknown passage. The puzzles are a major highlight; they strike an excellent balance between being challenging enough to make you feel clever and intuitive enough to avoid unfair frustration. This isn’t just watching a hero solve a mystery; you are the hero, you are Indiana Jones, and the feeling of discovery is consistently rewarding.
 
@@ -59,26 +53,17 @@ Combat is simple but effective. It effectively captures the clumsy, scrappy feel
 
 The stealth mechanics however, being a major part of the gameplay, are more rudimentary. You can sneak past enemies or set up simple ambushes, but these segments feel basic and underdeveloped compared to the rest of the game. They are passable and serve their purpose, but lack the depth to be a true highlight.
 
-<div class="flex flex-col md:flex-row items-center gap-6 mb-12 pb-6 border-b border-slate-700">
-  <img
-    src=/images/reviews/2024-12-24-indiana-jones-great-circle-3.avif
-    alt="Indiana Jones and the Great Circle"
-    class="w-full md:w-2/5 rounded shadow"
-     />
+<img src="/images/reviews/2024-12-24-indiana-jones-great-circle-3.avif" alt="Indiana Jones and the Great Circle" class="img-wrap img-wrap-left rounded shadow" style="width: 40%;" />
+
 The game’s greatest success is its atmosphere. The environments are richly detailed and immersive, from the humid air of jungle ruins to the chilling echoes of forgotten tombs. Excellent level design is complemented by masterful lighting and soundscapes that build a palpable sense of tension and excitement. The audio design is strong across the board, with a stirring, thematic musical score and solid voice acting that brings the characters to life, making the world feel authentic and exciting to explore. The game features Troy Baker as Indiana Jones, and he did a phenomenal job as Indy, sounding absolutely like Indy in the films without a doubt. All in all it just feels like you're watching and listening to an Indiana Jones film. I don't think the graphics are aiming for photorealism, more like stylized graphics, but it looks realistic anyway and its very impressive, especially on Path Tracing modes.
-  </div>
+
 While the game delivers a fantastic adventure, it's not without some rough edges. The narrative suffers from some pacing issues early on, taking a bit of time to find its adventurous rhythm. Especially since the after the tutorial, the game puts you at the heart of the Vatican, and it could take a while before you end up in mountains, jungles, or deserts. I also encountered occasional technical glitches and AI quirks that, while not game-breaking, briefly pulled me out of the experience.
 
-
 ---
-<div class="flex flex-col md:flex-row-reverse items-center gap-6 mb-12 pb-6 border-b border-slate-700">
-  <img
-    src=/images/reviews/2024-12-24-indiana-jones-great-circle-4.avif
-    alt="Indiana Jones and the Great Circle"
-    class="w-full md:w-2/5 rounded shadow"
-     />
-     <div>
 
 ### Conclusion
+
+<img src="/images/reviews/2024-12-24-indiana-jones-great-circle-4.avif" alt="Indiana Jones and the Great Circle" class="img-wrap img-wrap-right rounded shadow" style="width: 40%;" />
+
 **Indiana Jones and the Great Circle** successfully translates the iconic adventurer’s tale from the big screen into a surprisingly effective first-person perspective in video game form. Its engaging puzzles, distinctive combat, and incredibly atmospheric world, combined with phenomenal performance from Troy Baker as Indy, create an adventure that truly captures the spirit of the films. I would have no problem if someone would say that Indiana Jones and the Great Circle is the fifth Indiana Jones entry in the series.
-  </div>  </div>
+

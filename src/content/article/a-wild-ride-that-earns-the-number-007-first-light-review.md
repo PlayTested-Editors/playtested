@@ -52,26 +52,17 @@ After years of radio silence and a massive hiatus for the franchise in gaming, W
 
 I’m going to start by saying that the combat system in *First Light* is absolutely phenomenal. I am dying to have more of this. It completely steps away from the slow, methodical gameplay of the *Hitman* games and leans heavily into gritty, visceral action.
 
-<div class="flex flex-col md:flex-row-reverse items-center gap-6 mb-12 pb-6 border-b border-slate-700">
-  <img src="/images/uploads/07fl04.avif" alt="" class="w-full md:w-2/5 rounded shadow" />
-  <div class="flex-1 w-full">
+<img src="/images/uploads/07fl04.avif" alt="" class="img-wrap img-wrap-right rounded shadow" style="width: 40%;" />
 
 The hand-to-hand melee is arguably the best part. It perfectly captures that haphazardly reckless, yet completely lethal vibe of James Bond, or maybe even action films in general. You aren't just mashing an attack button; you are actively using the environment to absolutely brutalize enemies. You can shove guys into shelves, smash them through decorative glass, throw random items scattered around the room, or just heave them over railings. 
 
 Every single hit carries this immense weight and gravitas. It feels incredibly grounded. Even the gunplay feeds into this chaotic energy—there is nothing quite as satisfying as emptying a magazine and then physically throwing the empty gun at a mercenary’s head to close the distance, then sprinting towards him to throw him out the window, getting his pistol, shooting another guy's hand and his assault rifle gets thrown into the air, you catch it, and you spray everyone down. It is raw, messy action movie perfection. This is hands down the best action shooter combat I've played in years.
 
-  </div>
-</div>
-
-
-
 ### **Escaping Agent 47’s Shadow**
 
 Because of the developer's pedigree, it’s super easy to dismiss this as just a *Hitman* reskin, but that is a completely unfair branding. *First Light* is heavily action-focused. The gunplay and melee are lightyears ahead of anything 47 has ever done. To get there, the game purposefully sacrifices that massive, open-ended sandbox freedom in exchange for a much more linear storytelling format. There are still multiple paths and choices in how you approach an objective, but it’s far more directed, which honestly fits the 007 style way better.
 
-<div class="flex flex-col md:flex-row-reverse items-center gap-6 mb-12 pb-6 border-b border-slate-700">
-  <img src="/images/uploads/07fl06.avif" alt="" class="w-full md:w-2/5 rounded shadow" />
-  <div class="flex-1 w-full">
+<img src="/images/uploads/07fl06.avif" alt="" class="img-wrap img-wrap-right rounded shadow" style="width: 40%;" />
 
 Structurally, the game completely ignores the modern trend of massive, bloated open worlds. Instead, it opts for a traditional, globe-trotting mission structure composed of distinct, highly detailed levels. You jump from a high-stakes casino in Monaco to a snow-swept alpine base, with each level serving as a contained sandbox. While they are far more linear than a standard *Hitman* map, they are still packed with multiple routes, hidden vents, and verticality that allow you to use your MI6 gadgets—like the Dart Phone or the Q-Watch’s hacking tool—to bypass security and approach objectives exactly how you want.
 
@@ -79,21 +70,13 @@ That isn't to say the espionage elements are gone. A huge percentage of your tim
 
 The absolute highlight of the game actually plays heavily on those expectations. Without spoiling anything, there is one specific level that completely flips the script on the developer's classic formula. Instead of being the apex predator who wants to assassinate a target, the game suddenly makes you feel like an NPC trapped inside a *Hitman* level. It is a brilliant, hilarious inversion of everything the studio is known for, and it is easily one of the best moments in the entire campaign for me.
 
-  </div>
-</div>
-
 ### **A Blockbuster Script with Last-Gen Looks**
 
-<div class="flex flex-col md:flex-row-reverse items-center gap-6 mb-12 pb-6 border-b border-slate-700">
-  <img src="/images/uploads/07fl05.avif" alt="" class="w-full md:w-2/5 rounded shadow" />
-  <div class="flex-1 w-full">
+<img src="/images/uploads/07fl05.avif" alt="" class="img-wrap img-wrap-right rounded shadow" style="width: 40%;" />
 
 Story-wise, this game punches way above its weight class. It feels exactly like a premium Hollywood film, and honestly, the writing is on par with, or even better than, several of the actual James Bond movies. The development of the core cast—like a younger, rougher Bond and a highly skeptical M—is handled beautifully.
 
 Unfortunately, that incredible writing doesn't extend to the main villain. It is a massive disappointment. In a franchise known for iconic, larger-than-life antagonists, the villain here just falls completely flat. They aren't memorable, they aren't menacing, and you never really feel that raw anger or motivation to take them down. I really wish they had fleshed out the antagonists and some of the side characters to match the quality of the core MI6 crew. I also wished some of the MI6 crew got fleshed out even more, especially those in Bond’s inner team.
-
-  </div>
-</div>
 
 The visual presentation also feels like a bit of a mixed bag. From a sheer lighting and presentation perspective, the game looks great, impressive even. IO Interactive has always been amazing at rendering dense crowds and exotic, atmospheric locations. But when you get up close, the actual character models and textures feel noticeably outdated. You can definitely tell the underlying Glacier engine is starting to show its age, occasionally making it feel like a last-gen game that is carried by brilliant art direction.
 

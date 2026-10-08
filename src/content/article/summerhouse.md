@@ -44,16 +44,11 @@ Sometimes you just want to turn your brain off and build something pretty withou
 
 ### **Seeing Through the Pixels**
 
-<div class="flex flex-col md:flex-row items-center gap-6 mb-12 pb-6 border-b border-slate-700">
-  <img src="/images/uploads/suimmerhouse00.avif" alt="" class="w-full md:w-2/5 rounded shadow" />
-  <div class="flex-1 w-full">
+<img src="/images/uploads/suimmerhouse00.avif" alt="" class="img-wrap img-wrap-left rounded shadow" style="width: 40%;" />
 
 One of the first things you’ll notice—and likely appreciate—is how the game handles its visual identity. In an era where "pixel art" is often used as a catch-all for indie aesthetics, this title understands that one size does not fit all. On a handheld like a Steam Deck, the heavy pixelated filter looks nostalgic and right at home. However, fire this up on a bigger monitor, and that same filter becomes a distracting, jagged mess that’s genuinely hard on the eyes.
 
 The developers were smart enough to include a toggle to remove that pixelation, and honestly, it’s a game-changer. Once you strip away the artificial grain, you’re left with a clean, low-fi visual style that is wonderfully done. It retains that "toy-like" charm while offering a clarity that makes the building process much more pleasant, you can even see more details that you otherwise would not have seen. It’s a thoughtful touch that provides accessibility to a wide range of players. Unfortunately though, this Pixel-Art filter removal does not extend to the icons of the placable entities in the menus (They’re still pixelated)
-
-  </div>
-</div>
 
 ### **The Unnecessary Friction**
 
@@ -63,16 +58,11 @@ This friction bleeds directly into the UI. Selecting items and navigating throug
 
 ### **A Dream That Ends Too Soon**
 
-<div class="flex flex-col md:flex-row-reverse items-center gap-6 mb-12 pb-6 border-b border-slate-700">
-  <img src="/images/uploads/suimmerhouse04.avif" alt="" class="w-full md:w-2/5 rounded shadow" />
-  <div class="flex-1 w-full">
+<img src="/images/uploads/suimmerhouse04.avif" alt="" class="img-wrap img-wrap-right rounded shadow" style="width: 40%;" />
 
 The hurdle here isn't just the controls, though—it’s also the depth. You go in expecting to build sprawling, intricate neighborhoods or perhaps a bustling little village, but the reality is much more constrained. The pool of building elements and decorations is surprisingly shallow.
 
 Once you’ve finished your first few projects, the "new game smell" evaporates almost instantly. There just isn't enough variety in the assets to justify a long-term stay. You’ll find yourself reaching for a specific window or a certain type of roof, only to realize you’ve already used the only three options available. They dont even mesh well with other designs so it also severely limits the possible combinations on an already shallow selection. It’s a cute builder at its core, but the lack of intuitive controls paired with the limited creative ceiling means the replay value is essentially non-existent. You can see the entire soul of this game in a single sitting.
-
-  </div>
-</div>
 
 ### **The Beautiful, Chill, Soundtrack**
 

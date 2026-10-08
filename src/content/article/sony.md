@@ -6,7 +6,6 @@ description: >-
   If you’ve been enjoying the trend of playing major PlayStation hits on your PC
   rig, the party is officially winding down.
 
-
   According to Bloomberg’s Jason Schreier, PlayStation is drastically shifting gears. Moving forward, their massive, single-player blockbusters—like Ghost of Yōtei and Marvel’s Wolverine—are staying locked to the PS5. While multiplayer games like Marathon will still hit PC to keep player counts healthy, Sony is drawing a hard line around their narrative adventures.
 category: write-up
 tags:
@@ -36,9 +35,7 @@ Instead of fixing the release window, Sony's board room misread the data, blamed
 
 ### The 30% Storefront Tax
 
-<div class="flex flex-col md:flex-row-reverse items-center gap-6 mb-12 pb-6 border-b border-slate-700">
-  <img src="/images/uploads/pspcsteam.avif" alt="" class="w-full md:w-2/5 rounded shadow" />
-  <div class="flex-1 w-full">
+<img src="/images/uploads/pspcsteam.avif" alt="" class="img-wrap img-wrap-right rounded shadow" style="width: 40%;" />
 
 When Sony first dipped its toes into PC, it treated Steam and Epic like a low-risk dumping ground for older games. But relying entirely on third-party storefronts meant handing over a massive 30% cut of every digital sale to Valve.
 
@@ -48,23 +45,15 @@ Instead of crying foul over shrinking margins and pulling the plug, Sony should 
 
 If they had launched a proprietary launcher and made their marquee titles completely exclusive to it on day one, PC players would have willingly downloaded it to play games like *Wolverine* on launch day. Sony would have bypassed the 30% middleman tax entirely, secured a direct pipeline to the consumer, and made the PC ecosystem wildly profitable. Bonus points if they actually introduce cross-buy (like Xbox's Play Anywhere program), that would actually make the storefront even more enticing, and would benefit PlayStation users to jump across PC and PlayStation frequently.
 
-  </div>
-</div>
-
 ### The Next Xbox and Valve's Machines.
 
-<div class="flex flex-col md:flex-row-reverse items-center gap-6 mb-12 pb-6 border-b border-slate-700">
-  <img src="/images/uploads/ds2steamdeck.avif" alt="" class="w-full md:w-2/5 rounded shadow" />
-  <div class="flex-1 w-full">
+<img src="/images/uploads/ds2steamdeck.avif" alt="" class="img-wrap img-wrap-right rounded shadow" style="width: 40%;" />
 
 Failing to build that storefront infrastructure didn’t just hurt Sony's margins; it walked them straight into a massive strategic corner. By surrendering their games entirely to Steam, Sony effectively allowed other hardware manufacturers to potentially turn PlayStation exclusives into their own system sellers.
 
 Look no further than Valve's Steam Deck. Because Sony put *God of War* and *Ghost of Tsushima* on Steam, Valve was able to market their handheld as a device capable of playing premier PlayStation blockbusters on the go. Sony essentially did the heavy lifting of game development only to hand Valve a killer app for their hardware.
 
 And the nightmare gets worse when looking at Microsoft. Xbox's upcoming next-generation console, Project Helix, is fundamentally a Windows-powered PC/Console hybrid designed to run native PC storefronts like Steam out of the box. Because Sony chose to sell their games on Steam instead of building a secure, proprietary firewall launcher, a player could soon buy the next Xbox, boot up Steam, and play PlayStation exclusives on Microsoft hardware.
-
-  </div>
-</div>
 
 > By relying on Steam instead of building their own ecosystem, Sony accidentally turned their greatest first-party weapons into future Xbox and Steam software.
 

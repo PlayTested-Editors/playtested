@@ -54,27 +54,17 @@ To progress in the levels, you must fulfill specific upgrade requirements for yo
 
 **ShantyTown** is a puzzle game disguised as an urban project. You aren't given an infinite toolbox of assets (except in Creative Mode). Instead, you're handed a fixed sequence of buildings and items that appear in a specific order. Your job is to find the right home for them within the constraints of the current level.
 
-<div class="flex flex-col md:flex-row items-center gap-6 mb-12 pb-6 border-b border-slate-700">
-  <img src="/images/uploads/shantytown08.avif" alt="" class="w-full md:w-2/5 rounded shadow" />
-  <div class="flex-1 w-full">
+<img src="/images/uploads/shantytown08.avif" alt="" class="img-wrap img-wrap-left rounded shadow" style="width: 40%;" />
 
 What’s fascinating is how the game handles your freedom. Technically, there is nothing stopping you from creating an absolute, unlogical, nonsense-looking district just to satisfy the objectives or place all the objects, to move on to the next level. You could just dump buildings wherever they fit.. But you won’t. This game innocently taps into your creative side in a way that feels effortless. You start a level purely to place some basic things, then realize you have to "solve the puzzle," but by the time you're placing those final items, you realize you've personally handcrafted a beautiful town unplanned. There’s a genuine rush of serotonin when you step back and look at a messy, vibrant neighborhood that feels like it has its own history and inhabitants, all born from a simple set of objectives.
 
-  </div>
-</div>
-
 ### **The Beauty of Looking Back**
 
-<div class="flex flex-col md:flex-row items-center gap-6 mb-12 pb-6 border-b border-slate-700">
-  <img src="/images/uploads/shantytown05.avif" alt="" class="w-full md:w-2/5 rounded shadow" />
-  <div class="flex-1 w-full">
+<img src="/images/uploads/shantytown05.avif" alt="" class="img-wrap img-wrap-left rounded shadow" style="width: 40%;" />
 
 One of my biggest pet peeves with level-based builders, or games in general, is the "erasure" of work. Usually, you finish Level 1, click "Next," and Level 1 ceases to exist anymore and now your in level 2, rinse and repeat. **ShantyTown** fixes this beautifully. As you progress through the map, your previous buildings and creations remain visible. Sometimes they’re just beside the next level. Sometimes you can spot them from across the map. They stay with you throughout the whole playthrough.
 
 It’s a small touch, but it’s a powerful one. It creates a sense of legacy—a physical reminder of your progress that stays with you. You aren't just clearing stages; you are slowly building a world. You can always go back and view the pictures you've taken of these older districts, though this is where a minor gripe comes in. Right now, the UI forces you to shuffle through individual level views just to see their respective photo galleries. For a game that encourages you to admire your work, the lack of a unified photo library is a strange, friction-heavy design choice.
-
-  </div>
-</div>
 
 ### **A Relaxing Afternoon (With a Performance Tax)**
 
@@ -84,16 +74,11 @@ However, the "chill" vibe doesn't exactly extend to the hardware requirements. I
 
 ### **Navigating the Cluttered UI and Controller Scheme**
 
-<div class="flex flex-col md:flex-row-reverse items-center gap-6 mb-12 pb-6 border-b border-slate-700">
-  <img src="/images/uploads/shantytown04.avif" alt="" class="w-full md:w-2/5 rounded shadow" />
-  <div class="flex-1 w-full">
+<img src="/images/uploads/shantytown04.avif" alt="" class="img-wrap img-wrap-right rounded shadow" style="width: 40%;" />
 
 The most significant hurdle to the "Zen" experience is the technical polish—specifically the interface. The UI is undeniably clunky. Playing mostly on a controller (which was a nice touch to add nonetheless). I could not ignore that there are moments where it just seems to break under its own weight; I ran into issues where commands simply wouldn’t work or windows would somehow duplicate themselves on the screen. 
 
 When you're trying to sink into the flow of building, having to fight with a item that won't be selected or a command that won't register is a buzzkill. It doesn't ruin the game, but it’s a reminder that beneath the beautiful shanties, the UX could use a little more polish.  For now, keyboard and mouse control is currently better and more stable in this game.
-
-  </div>
-</div>
 
 ### **Conclusion**
 

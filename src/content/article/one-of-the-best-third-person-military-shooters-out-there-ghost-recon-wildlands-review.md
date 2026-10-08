@@ -53,9 +53,7 @@ But earlier this year, I loaded it up on my Steam Deck and decided to give it on
 
 ### **The Ubisoft Bloat Is Real But Manageable**
 
-<div class="flex flex-col md:flex-row-reverse items-center gap-6 mb-12 pb-6 border-b border-slate-700">
-  <img src="/images/uploads/grwl002.avif" alt="" class="w-full md:w-2/5 rounded shadow" />
-  <div class="flex-1 w-full">
+<img src="/images/uploads/grwl002.avif" alt="" class="img-wrap img-wrap-right rounded shadow" style="width: 40%;" />
 
 *Ghost Recon Wildlands* is a massive, open-world tactical shooter that drops you and up to three friends (or AI squadmates) behind enemy lines in a beautiful but deadly recreation of Bolivia. Your overarching goal is to systematically dismantle the Santa Blanca drug cartel, hunting down regional bosses across varied biomes to eventually draw out their elusive leader, El Sueño. The gameplay loop is a highly addictive mix of reconnaissance and execution—you'll spend your time using drones to scout enemy positions, coordinating synchronized sniper shots, and infiltrating heavily guarded outposts using a massive arsenal of customizable weapons and hijacked vehicles.
 
@@ -63,27 +61,17 @@ With a game this massive, the progression in *Wildlands* is a massive hurdle rig
 
 As someone who has played a lot of hardcore milsims like *Arma*, this game manages to capture that same vast, military sandbox vibe, but strips away the punishing realism. It translates that hardcore tactical feeling into a much more accessible, arcade-style experience that feels incredibly rewarding once you get over the initial progression hump.
 
-  </div>
-</div>
-
 ### **Fluid Gunplay and Combat, Except for the Grenades…**
 
 When it comes to the actual combat, the gunplay easily holds its own against the best third-person shooters on the market. The movement system is super fluid, largely thanks to a highly intuitive automated cover system. As long as you are crouched near a wall or a barrier, your character naturally snaps to it, making it really easy to peek corners and manage sightlines without getting glued to the geometry.
 
-<div class="flex flex-col md:flex-row items-center gap-6 mb-12 pb-6 border-b border-slate-700">
-  <img src="/images/uploads/grwl00.avif" alt="" class="w-full md:w-2/5 rounded shadow" />
-  <div class="flex-1 w-full">
+<img src="/images/uploads/grwl00.avif" alt="" class="img-wrap img-wrap-left rounded shadow" style="width: 40%;" />
 
 However, the combat flow is actively sabotaged by one specific design choice, and it is easily my worst experience in the entire game: the throwable selection. To swap between grenades, flashbangs, or mines, you are forced to rapidly cycle through them using just the left D-pad. There is no weapon wheel. If you are in a frantic firefight and accidentally press left one too many times, you miss your frag grenade and have to cycle through the entire list all over again while getting shot at, then it is bound near the drone and binoculars so one misclick and your character will hilariously deploy his drone in a middle of a gunfight. An option to hide unwanted throwables or just a standard selection wheel would have completely fixed this.
 
-  </div>
-</div>
-
 ### **The Mostly Competent AI**
 
-<div class="flex flex-col md:flex-row-reverse items-center gap-6 mb-12 pb-6 border-b border-slate-700">
-  <img src="/images/uploads/grwl003.avif" alt="" class="w-full md:w-2/5 rounded shadow" />
-  <div class="flex-1 w-full">
+<img src="/images/uploads/grwl003.avif" alt="" class="img-wrap img-wrap-right rounded shadow" style="width: 40%;" />
 
 Historically, friendly AI in tactical shooters is a massive liability, either they give away your spot, or just serve as plain background filler but cannot actually kill anyone… but *Wildlands* actually gets it right. Your AI squadmates are highly competent killers. They rarely get spotted during stealth sections (but they’re not completely cheating and invisible), so they never ruin your infiltration, and they actively spot enemies on their own and call/mark them out. The absolute highlight here is the return of the Sync Shot feature from *Ghost Recon: Future Soldier* (a wildly underrated game). Lining up simultaneous sniper kills with your squad to silently wipe out an entire patrol in one button press never gets old.
 
@@ -91,23 +79,15 @@ The enemy AI is also surprisingly capable. Once a firefight breaks out, especial
 
 Unfortunately, the stealth detection mechanics feel a bit dated. The alarm system is far too binary. Once a single guard spots you and goes fully alert, there is almost no window to de-escalate. It feels like the entire base instantly forms a hive-mind, magically knowing your approximate location even if you killed the guy before he could pull a radio. Also, for a game so heavily focused on team tactics, the fact that you cannot command an AI teammate to drive a car while you man the turret is a bit of a disappointment. Come on, allow us to form convoys!
 
-  </div>
-</div>
-
 ### **A Masterclass in Co-Op Progression**
 
-<div class="flex flex-col md:flex-row-reverse items-center gap-6 mb-12 pb-6 border-b border-slate-700">
-  <img src="/images/uploads/grwl007.avif" alt="" class="w-full md:w-2/5 rounded shadow" />
-  <div class="flex-1 w-full">
+<img src="/images/uploads/grwl007.avif" alt="" class="img-wrap img-wrap-right rounded shadow" style="width: 40%;" />
 
 While the single-player experience with the AI squad is great, *Wildlands* also shines when you bring in a friend, largely because it features one of the most player-friendly co-op system progressions I've ever seen.
 
 Ubisoft completely understood that friends aren't always going to be at the exact same point in the story. In which many games don’t get. In other games, it’s either friends leave each other behind in the story, or they wait for each other’s schedules clear up to even play.
 
 Here in Ghost Recon Wildlands, the mission syncing mechanics are brilliant. If you join a friend's game and play a late-game mission in a province you haven't even unlocked yet, the game actively tracks that progress. You still get the XP, you still get the rewards, and most importantly, when you eventually reach that part of the story in your own solo save, the game remembers you already beat it and asks if you want to replay it or just skip it. It completely removes the friction of drop-in/drop-out co-op, making it incredibly easy to just jump in and wreck cartel bases together without worrying about messing up your own campaign.
-
-  </div>
-</div>
 
 ### **Conclusion**
 

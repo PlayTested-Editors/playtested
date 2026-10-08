@@ -45,9 +45,7 @@ Following its success on PC, **Tiny Bookshop** officially launches on Xbox Serie
 
 #### The Life of an on-the-go Mobile Bookseller
 
-<div class="flex flex-col md:flex-row-reverse items-center gap-6 mb-12 pb-6 border-b border-slate-700">
-  <img src="/images/uploads/06.avif" alt="undefined" class="w-full md:w-2/5 rounded shadow" />
-  <div class="flex-1 w-full">
+<img src="/images/uploads/06.avif" alt="undefined" class="img-wrap img-wrap-right rounded shadow" style="width: 40%;" />
 
 At its heart, **Tiny Bookshop** has very a simple cycle: you buy used books, you sell them on your mobile bookstore, and you earn gold. It’s a very chill loop that lacks any real "thrill" or intense challenge, but that’s clearly by design. One of the best touches is how the economy is handled - which is chill as well , the currency is simplified to just a handful of coins instead of a full-blown dollar system. It’s simplified enough to keep you focused on the inventory rather than the math.
 
@@ -57,66 +55,39 @@ What makes the experience pop (aside from the cozy, lo-fi visuals) is seeing all
 
 Being able to stock and sell everything from *The Hobbit* to classic manga like *Ranma ½* adds a touch of authenticity that makes the shop feel real and resonate with you instead of just featuring fictional books.
 
-  </div>
-</div>
-
-<div class="flex flex-col md:flex-row items-center gap-6 mb-12 pb-6 border-b border-slate-700">
-  <img src="/images/uploads/05.avif" alt="undefined" class="w-full md:w-2/5 rounded shadow" />
-  <div class="flex-1 w-full">
+<img src="/images/uploads/05.avif" alt="undefined" class="img-wrap img-wrap-left rounded shadow" style="width: 40%;" />
 
 The most "gamey" aspect is the emergent recommendation system, when it pops up. Instead of simple point-and-click sales, customers provide descriptive prompts about their mood, interests, or specific genres they’re craving. You must then manually browse your stocked inventory to find a match. The game probably uses a robust tagging system where every book is categorized by genre, tone, and subject matter (or multiple ones at that). Success depends on your ability to interpret customer needs and cross-reference them with your current stock. If you do meet their needs, you are giving a boost to your sales chances.
 
 Beyond sales, you manage the physical layout of your shop. Decorations and furniture aren't just cosmetic; they carry mechanical weights that influence shop stats. As you progress, you tasks, events, and characters that act as the primary driver for unlocking new locations, items, and expanding your trailer's capabilities.
 
-  </div>
-</div>
-
 #### A Believable Recommendation System
 
-<div class="flex flex-col md:flex-row-reverse items-center gap-6 mb-12 pb-6 border-b border-slate-700">
-  <img src="/images/uploads/09.avif" alt="undefined" class="w-full md:w-2/5 rounded shadow" />
-  <div class="flex-1 w-full">
+<img src="/images/uploads/09.avif" alt="undefined" class="img-wrap img-wrap-right rounded shadow" style="width: 40%;" />
 
 The "suggestion mechanic" is easily one of the most well-made parts of the game. Customers describe their specific tastes and preferences, and you have to recommend a book that fits. The books are tagged correctly as far as genre and descriptions are concerned, and the system feels incredibly believable. There weren't any moments where a book that fit perfectly in my understand, was rejected by a customer—the logic is on point and reliable, which makes the role-playing aspect feel satisfying. That isn't to say I don’t make mistakes; I certainly do. It usually happens when the shelves lack that perfect match and I decide to risk a 'loose' recommendation. Sometimes that gamble pays off, but other times, the customer just ends up disappointed.
 
-  </div>
-</div>
-
 ### The Struggle with the Slow Pacing
 
-<div class="flex flex-col md:flex-row-reverse items-center gap-6 mb-12 pb-6 border-b border-slate-700">
-  <img src="/images/uploads/03.avif" alt="undefined" class="w-full md:w-2/5 rounded shadow" />
-  <div class="flex-1 w-full">
+<img src="/images/uploads/03.avif" alt="undefined" class="img-wrap img-wrap-right rounded shadow" style="width: 40%;" />
 
 However, **Tiny Bookshop** can get quite monotonous because it doesn't allow for "power play." For instance, you can’t skip dialogues quickly, and there is a slight few-second delay when you are entering a conversation to recommend a book. These small animations and delay quirks prevent you from jumping to the next action you want to take immediately, especially if you've already seen these a lot of times already, and these small pet peeves really start to add up over time.
 
 The pacing is indeed very slow, maybe to a fault sometimes. Some parts of the gameplay feel like they should be fast-forwarded after you've experienced them a couple of times already, the game doesn't give you that option. You have to sit through each day at the intended speed. It’s clearly a game designed for a slow pace, but for anyone who wants to progress faster, the lack of a fast-forward toggle is a noticeable omission.
 
-  </div>
-</div>
-
 ### Progression and the "Bookstonbury" Life
 
 Even though the game revolves around the simple cycle of selling items and earning gold, as previously mentioned there are "quests" and tasks that provide a necessary sense of progression, most of which were done creatively. It’s also a nice touch that the game expands the gameplay later on and opens up a bit more, introducing new mechanics that refresh the pacing just as things are starting to feel a bit too familiar.
 
-<div class="flex flex-col md:flex-row items-center gap-6 mb-12 pb-6 border-b border-slate-700">
-  <img src="/images/uploads/07.avif" alt="undefined" class="w-full md:w-2/5 rounded shadow" />
-  <div class="flex-1 w-full">
+<img src="/images/uploads/07.avif" alt="undefined" class="img-wrap img-wrap-left rounded shadow" style="width: 40%;" />
 
 On the mechanical side, the 'effects' of decorations and items are a bit of a letdown. They feel too arbitrary and aren't straightforward at all. You find yourself constantly having to browse them with the "magnifying glass mode" just to understand what benefits they are actually providing to your shop. Or you could just straight up ignore them and just use items and decorations based on your vibe, which fits more in line with what game is about.
 
 Finally, there’s the setting of Bookstonbury. While the town is charming, you really have to suspend your disbelief regarding how fast these inhabitants are reading. Roughly same set of people (aside from the tourists) are buying and recycling tons of books almost every single day. It’s a bit immersion-breaking when you see societies buying massive amounts of books in one go and then repeating the feat the very next day, but it’s a small price to pay for a steady stream of customers in a game. Completely understandable.
 
-  </div>
-</div>
-
 #### Conclusion:
 
-<div class="flex flex-col md:flex-row-reverse items-center gap-6 mb-12 pb-6 border-b border-slate-700">
-  <img src="/images/uploads/04.avif" alt="undefined" class="w-full md:w-2/5 rounded shadow" />
-  <div class="flex-1 w-full">
+<img src="/images/uploads/04.avif" alt="undefined" class="img-wrap img-wrap-right rounded shadow" style="width: 40%;" />
 
 **Tiny Bookshop** is a solid, cozy experience for those who want a low-stakes and slow-paced management sim. I’d imagine it’s even more rewarding for book lovers, thanks to the hundreds of real-life titles on its roster. While the slow pacing and minor interface delays might frustrate those looking for a faster experience, the smart recommendation system and real-world references make it a charming world to get lost in.
 
-  </div>
-</div>

@@ -20,11 +20,9 @@ Better late than never! 2025 has been an absolute banger for the industry. From 
 
 We’ve seen sequels that somehow perfected already "perfect" formulas and new IPs that caught us completely off guard. It wasn't just about better graphics or larger worlds; it was about games that respected our time, challenged our emotions, and refined the very genres they inhabit. Here are my Top 10 Games of 2025, ranked and reviewed. As well as special mentions of non-2025 games that I've played in 2025 anyway.
 
-<div class="flex flex-col md:flex-row-reverse items-center gap-6 mb-12 pb-6 border-b border-slate-700">
-  <img src="/images/uploads/arc01.avif" alt="Arc Raiders" class="w-full md:w-2/5 rounded shadow" />
-  <div class="flex-1 w-full">
-
 ## **10. Arc Raiders**
+
+<img src="/images/uploads/arc01.avif" alt="Arc Raiders" class="img-wrap img-wrap-right rounded shadow" style="width: 40%;" />
 
 **Rating: 8.8/10**
 
@@ -34,14 +32,9 @@ A masterclass in restraint within the extraction shooter genre. It strips away t
 
 [Read The Review](https://www.playtested.net/article/arc-raiders/)
 
-  </div>
-</div>
-
-<div class="flex flex-col md:flex-row items-center gap-6 mb-12 pb-6 border-b border-slate-700">
-  <img src="/images/uploads/2025-07-16-the-alters-4.avif" alt="The Alters" class="w-full md:w-2/5 rounded shadow" />
-  <div class="flex-1 w-full">
-
 ## **9. The Alters**
+
+<img src="/images/uploads/2025-07-16-the-alters-4.avif" alt="The Alters" class="img-wrap img-wrap-left rounded shadow" style="width: 40%;" />
 
 **Rating: 8.8/10**
 
@@ -51,14 +44,9 @@ My absolute "surprise game" of the year. It’s rare to find a game that feeds y
 
 [Read The Review](https://www.playtested.net/article/thealters/)
 
-  </div>
-</div>
-
-<div class="flex flex-col md:flex-row-reverse items-center gap-6 mb-12 pb-6 border-b border-slate-700">
-  <img src="/images/uploads/dispatch04.avif" alt="Dispatch" class="w-full md:w-2/5 rounded shadow" />
-  <div class="flex-1 w-full">
-
 ## **8. Dispatch**
+
+<img src="/images/uploads/dispatch04.avif" alt="Dispatch" class="img-wrap img-wrap-right rounded shadow" style="width: 40%;" />
 
 **Rating: 9/10**
 
@@ -68,14 +56,9 @@ In an era of 100-hour epics, *Dispatch* is a breath of fresh air—a tight, epis
 
 [Read The Review](https://www.playtested.net/article/dispatch/)
 
-  </div>
-</div>
-
-<div class="flex flex-col md:flex-row items-center gap-6 mb-12 pb-6 border-b border-slate-700">
-  <img src="/images/uploads/2025-07-31-doom-dark-ages-0.avif" alt="Doom Dark Ages" class="w-full md:w-2/5 rounded shadow" />
-  <div class="flex-1 w-full">
-
 ## 7. Doom: Dark Ages
+
+<img src="/images/uploads/2025-07-31-doom-dark-ages-0.avif" alt="Doom Dark Ages" class="img-wrap img-wrap-left rounded shadow" style="width: 40%;" />
 
 **Rating: 9/10**
 
@@ -85,14 +68,9 @@ Fast, refined, and unapologetically brutal. It manages to bridge the gap between
 
 [Read The Review](https://www.playtested.net/article/doomdarkages/)
 
-  </div>
-</div>
-
-<div class="flex flex-col md:flex-row-reverse items-center gap-6 mb-12 pb-6 border-b border-slate-700">
-  <img src="/images/uploads/goy06.avif" alt="Ghost of Yotei" class="w-full md:w-2/5 rounded shadow" />
-  <div class="flex-1 w-full">
-
 ## 6. Ghost of Yotei
+
+<img src="/images/uploads/goy06.avif" alt="Ghost of Yotei" class="img-wrap img-wrap-right rounded shadow" style="width: 40%;" />
 
 **Rating: 9.1/10**
 
@@ -102,14 +80,9 @@ A masterclass in open-world pacing. It’s a game that respects the player's tim
 
 [Read The Review](https://www.playtested.net/article/ghostofyotei/)
 
-  </div>
-</div>
-
-<div class="flex flex-col md:flex-row items-center gap-6 mb-12 pb-6 border-b border-slate-700">
-  <img src="/images/uploads/2025-07-09-death-stranding-2-1.avif" alt="Death Stranding 2" class="w-full md:w-2/5 rounded shadow" />
-  <div class="flex-1 w-full">
-
 ## 5. Death Stranding 2
+
+<img src="/images/uploads/2025-07-09-death-stranding-2-1.avif" alt="Death Stranding 2" class="img-wrap img-wrap-left rounded shadow" style="width: 40%;" />
 
 **Rating: 9.3/10**
 
@@ -119,14 +92,9 @@ Kojima doubles down on the "journey over destination" philosophy, resulting in a
 
 [Read The Review](https://www.playtested.net/article/deathstranding2/)
 
-  </div>
-</div>
-
-<div class="flex flex-col md:flex-row-reverse items-center gap-6 mb-12 pb-6 border-b border-slate-700">
-  <img src="/images/uploads/2025-06-27-kcd2-1.avif" alt="Kingdom Come II" class="w-full md:w-2/5 rounded shadow" />
-  <div class="flex-1 w-full">
-
 ## 4. Kingdom Come: Deliverance II
+
+<img src="/images/uploads/2025-06-27-kcd2-1.avif" alt="Kingdom Come II" class="img-wrap img-wrap-right rounded shadow" style="width: 40%;" />
 
 **Rating: 9.3/10**
 
@@ -136,14 +104,9 @@ The sheer ambition here is staggering. It’s not just an RPG; it’s a living, 
 
 [Read The Review](https://www.playtested.net/article/kingdomcomedeliverance2/)
 
-  </div>
-</div>
-
-<div class="flex flex-col md:flex-row items-center gap-6 mb-12 pb-6 border-b border-slate-700">
-  <img src="/images/uploads/splitfiction01.avif" alt="Split Fiction" class="w-full md:w-2/5 rounded shadow" />
-  <div class="flex-1 w-full">
-
 ## 3. Split Fiction
+
+<img src="/images/uploads/splitfiction01.avif" alt="Split Fiction" class="img-wrap img-wrap-left rounded shadow" style="width: 40%;" />
 
 **Rating: 9.4/10**
 The gold standard for co-op gaming. It’s a constant barrage of creativity that makes every hour spent with a friend feel like a discovery.
@@ -152,14 +115,9 @@ The gold standard for co-op gaming. It’s a constant barrage of creativity that
 
 [Read The Review](https://www.playtested.net/article/splitfiction/)
 
-  </div>
-</div>
-
-<div class="flex flex-col md:flex-row-reverse items-center gap-6 mb-12 pb-6 border-b border-slate-700">
-  <img src="/images/uploads/hadesii04.avif" alt="Hades II" class="w-full md:w-2/5 rounded shadow" />
-  <div class="flex-1 w-full">
-
 ## 2. Hades II
+
+<img src="/images/uploads/hadesii04.avif" alt="Hades II" class="img-wrap img-wrap-right rounded shadow" style="width: 40%;" />
 
 **Rating: 9.4/10**
 
@@ -168,9 +126,6 @@ How do you improve on perfection? Supergiant found a way. By shifting the focus 
 > “It takes a formula already considered perfect and somehow manages to expand it without adding bloat... Hades II is a mandatory purchase for any rogue-lite or hack and slash fans.”
 
 [Read The Review](https://www.playtested.net/article/hades2/)
-
-  </div>
-</div>
 
 <div class="image-sized-wrapper" style="--img-height:200px;">
   <img src="/images/uploads/2025-06-06-clair-obscur-1.avif" alt="Clair Obscur" class="mx-auto block rounded shadow" style="max-height: 200px;" />

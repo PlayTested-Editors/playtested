@@ -43,15 +43,9 @@ It’s a game that understands the primal joy of the "turtle." You spend your ti
 * 🔋 Performance on the lower end systems is rough, struggling despite the deceptively simple art style.
 * ⚖️ Resource management is still surprisingly heavy, creating a friction that slows down the fun.
 
-
-
 ## **The Art of the Turtle**
 
-
-
-<div class="flex flex-col md:flex-row-reverse items-center gap-6 mb-12 pb-6 border-b border-slate-700">
-  <img src="/images/uploads/diplomacyinao06.avif" alt="" class="w-full md:w-2/5 rounded shadow" />
-  <div class="flex-1 w-full">
+<img src="/images/uploads/diplomacyinao06.avif" alt="" class="img-wrap img-wrap-right rounded shadow" style="width: 40%;" />
 
 If you grew up playing tower defense mods or RTS campaigns just to see how effectively your walls could hold enemy attacks, **Diplomacy is Not an Option** is your playground, a Medieval Fantasy RTS that is a mix of tower defense, horde survival, RTS, and base building genres. It is heavily reminiscent of *They Are Billions* but with a more tactile, brick-by-brick focus, and with significantly less Undead.
 
@@ -59,16 +53,9 @@ For me, It successfully translates that childhood "turtling" energy into a moder
 
 This streamlined approach allows you to focus on the functional beauty of your defensive layout. There is a "cozy" quality to the early game—expanding your borders, securing stone, and feeling like a master of your domain. But that coziness is a trap. The game lives in a space that is simultaneously chill and frantic, and it loves to remind you that your peace is temporary, and that **Diplomacy is Not An Option**.
 
-  </div>
-</div>
-
 ## **So, What are THE Options?**
 
-
-
-<div class="flex flex-col md:flex-row-reverse items-center gap-6 mb-12 pb-6 border-b border-slate-700">
-  <img src="/images/uploads/diplomacyinao02.avif" alt="" class="w-full md:w-2/5 rounded shadow" />
-  <div class="flex-1 w-full">
+<img src="/images/uploads/diplomacyinao02.avif" alt="" class="img-wrap img-wrap-right rounded shadow" style="width: 40%;" />
 
 The core loop of **Diplomacy is Not An Option** involves expanding your reach during the day to grab wood, stone, and iron, then retreating behind your ramparts to face occassional waves that start in the hundreds and end in the tens of thousands. 
 
@@ -76,23 +63,15 @@ The game offers a solid variety of ways to play. The Story Campaign is the main 
 
 If you just want the pure "turtle" experience, Endless Mode lets you build until the waves (which can reach 25,000+ units) finally crush you. Challenge Mode offers tactical puzzles with limited resources, and Sandbox Mode is the ultimate playground for testing wall designs with zero pressure of a game-over screen.
 
-  </div>
-</div>
-
 ## **The Micromanagement is Still There**
 
-<div class="flex flex-col md:flex-row items-center gap-6 mb-12 pb-6 border-b border-slate-700">
-  <img src="/images/uploads/diplomacyinao03.avif" alt="" class="w-full md:w-2/5 rounded shadow" />
-  <div class="flex-1 w-full">
+<img src="/images/uploads/diplomacyinao03.avif" alt="" class="img-wrap img-wrap-left rounded shadow" style="width: 40%;" />
 
 Despite the "stripped-down" nature of the Peon units, micromanagement hasn't disappeared—it’s just moved into the menus and the combat with large number of units. The way resource chains and building prerequisites are handled feels unnecessarily heavy. You’ll find yourself constantly diving back into the UI to check what’s missing or what needs to be upgraded. This is exacerbated by a UI that is frankly confusing at first. The monochromatic icons in the menus make everything look identical. While the building icons *inside* the city have color, the interface itself takes way too long to get used to. It’s a hurdle that shouldn't be there.
 
 When the fighting starts, the limitations become even clearer. The combat is barebones. You’re mostly dealing with "dumb" units that you point and click toward the enemy. There isn't much tactical depth or command options to the individual soldiers, and the enemy AI is easily exploited. You can kite massive groups of enemies around your walls or abuse aggro loops because they aren't smart—they’re just numerous. The challenge isn't outsmarting the horde; it’s surviving the sheer volume of bodies the game throws at you.
 
 The payoff for all that micromanagement clicking is the spectacle. Watching a sea of enemies hit your fortifications and literally shatter into pieces under the weight of your upgrades is peak RTS dopamine. Seeing the horde get tossed around like ragdolls by your heavy hitters is exactly the kind of visual feedback that makes the hours of resource-grinding kind of worth it.
-
-  </div>
-</div>
 
 ## **The Spiky Pressure of the Unknown**
 
@@ -105,20 +84,13 @@ You spend two hours having fun creating a great looking base layout, only to hav
 
 ## **Performance is Good and Bad**
 
-<div class="flex flex-col md:flex-row-reverse items-center gap-6 mb-12 pb-6 border-b border-slate-700">
-  <img src="/images/uploads/diplomacyinao04.avif" alt="" class="w-full md:w-2/5 rounded shadow" />
-  <div class="flex-1 w-full">
-
-
+<img src="/images/uploads/diplomacyinao04.avif" alt="" class="img-wrap img-wrap-right rounded shadow" style="width: 40%;" />
 
 At first glance, you’re looking at a charming, low-poly world that feels like it was plucked from a stylized toy box. The characters and buildings have that clean, geometric simplicity—sharp edges, flat colors, and a distinct lack of "grit." It’s a look that suggests a lighthearted, almost "cozy" experience, but presumably an equally light performance requirements.
 
 But we have to talk about the "Performance Floor and Ceiling”. On my desktop PC, **Diplomacy is Not an Option** is silky smooth, handling thousands of units without a hitch. But on the lower powered machine like the Steam Deck, it’s a different story. Despite the "basic" low-poly art style, the Steam Deck struggles significantly as the unit count rises. It’s disappointing because the "chill" building phases feel like they’d be perfect for handheld play, but the performance floor is just too high for the current optimization.
 
 The maps and additional modes do offer some variety—forcing you to adapt your walls to weird terrain—but the underlying issues remain. Whether you're in the campaign or a sandbox mode, you're always at the mercy of that sudden, overwhelming quantity of enemies.
-
-  </div>
-</div>
 
 ## **Conclusion**
 

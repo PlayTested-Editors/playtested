@@ -49,16 +49,11 @@ For as long as we’ve played RPGs, we’ve been lying to ourselves about freedo
 
 ### **Goodbye Dialogue Options, Hello Text Box.**
 
-<div class="flex flex-col md:flex-row-reverse items-center gap-6 mb-12 pb-6 border-b border-slate-700">
-  <img src="/images/uploads/omea08.avif" alt="" class="w-full md:w-2/5 rounded shadow" />
-  <div class="flex-1 w-full">
+<img src="/images/uploads/omea08.avif" alt="" class="img-wrap img-wrap-right rounded shadow" style="width: 40%;" />
 
 The core premise of **OMEA** is a pure, unadulterated RPG tabletop or adventure game-like experience brought to digital life. For this early hands-on, we were given access to a single, self-contained demo adventure called *Odin’s Trial*, where you play as a Viking washed up on a frozen, unforgiving island. Your goal is simple: survive the freezing cold, navigate the locals, and hunt or survive a mythical Beast. But how you go about that is entirely up to you. There are no dialogue trees here. You have a 512-character box to type or speak your actions, and the game’s custom narrative engine— supposedly trained on a massive library of creative fiction—interprets your words and continues the story.
 
 What makes this work so well is the sheer, conversational agility of the writing engine. Most games break the moment you step off the intended path, but this game actively welcomes your weirdness. I decided to roleplay my Viking as a time-traveler who had somehow visited the modern era before waking up on the frozen beach, vaguely remembering skyscrapers. I told an NPC that I remembered "halls that reached higher than any mountain, built not from stone or timber, but from smooth shining rock that caught the sun." Instead of giving me a generic error or ignoring the prompt, the game had the narrator dryly remark: "you hit your head harder than I expected." It was a hilarious, perfectly contextual response that felt like playing with a real, quick-witted human dungeon master.
-
-  </div>
-</div>
 
 The Game Master truly reacts dynamically to the exact words you say, and what’s more impressive is it is fully voiced albeit AI generated, which still felt surreal. During my playthrough, I decided to test the AI's sense of humor and named my character "Bulldog, the Flame Master, Wolf-Killer." Instead of ignoring my ridiculous title, the narrator fully embraced it—actually addressing me that way in full voice, while dryly making fun of the title in the subsequent scenes. 
 
@@ -70,16 +65,11 @@ Of course, given this much freedom, your first instinct is going to be trying to
 
 ### **Not Just A Chat Bot Experience**
 
-<div class="flex flex-col md:flex-row-reverse items-center gap-6 mb-12 pb-6 border-b border-slate-700">
-  <img src="/images/uploads/omea03.avif" alt="" class="w-full md:w-2/5 rounded shadow" />
-  <div class="flex-1 w-full">
+<img src="/images/uploads/omea03.avif" alt="" class="img-wrap img-wrap-right rounded shadow" style="width: 40%;" />
 
 It isn't just a giant chat window, either. To keep things from feeling like a pure collaborative writing exercise, OMEA incorporates physical dice rolls to determine the success of your wild ideas. If you decide to run away or attack an enemy, the game will trigger a digital roll that can turn a simple decision into an absolute disaster. This layer of mechanical unpredictability is crucial; it prevents the player from simply writing themselves out of every dangerous situation and keeps the survival elements, at least of *Odin’s Trial* feeling tense and meaningful.
 
 For all its tabletop aspirations though, the traditional RPG stats and skills felt largely superficial beyond the dice rolls, taking a back seat to your literal phrasing rather than dictating your character’s actual capabilities. The dynamic nature of the AI means that a clever sentence or a creative bluff will almost always carry you further than whatever arbitrary numbers are written on your character sheet.
-
-  </div>
-</div>
 
 The presentation, however, is where the current version of the game shows its limitations. The entire experience is fully voiced, which is an incredible feat for a game where the dialogue is being generated in real-time, but the narrator still sounds distinctly artificial. It has that slightly flat, robotic cadence of modern text-to-speech tools that can pull you out of the cold Viking atmosphere. Although, it is still passable and ultimately I was impressed. 
 
@@ -87,16 +77,11 @@ Additionally, for a game that isn’t graphically heavy—relying mostly on beau
 
 ### **Setting Expectations for the Platform**
 
-<div class="flex flex-col md:flex-row-reverse items-center gap-6 mb-12 pb-6 border-b border-slate-700">
-  <img src="/images/uploads/omea00.avif" alt="" class="w-full md:w-2/5 rounded shadow" />
-  <div class="flex-1 w-full">
+<img src="/images/uploads/omea00.avif" alt="" class="img-wrap img-wrap-right rounded shadow" style="width: 40%;" />
 
 It is vital to keep the scale of this project in perspective. While the developers are promising a massive platform where players can eventually explore everything from deep space to dark fantasy worlds with entirely unique backstories, what we have right now is **just a quick demo**. *Odin's Trial* is a proof of concept—a tiny, controlled slice of a much larger, theoretically infinite pie.
 
 Because it is just a single scenario, it doesn't represent "full" open-ended freedom yet. You are still dropped into a preset story mold with specific boundary parameters. The real test of OMEA will be seeing if this level of high-fidelity reactivity can hold up over a massive, multi-hour campaign spanning different genres, or if the AI's logic will start to loop and unravel when stretched past the boundaries of a short trial.
-
-  </div>
-</div>
 
 ### **Conclusion:**
 

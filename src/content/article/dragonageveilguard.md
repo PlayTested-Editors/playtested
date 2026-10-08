@@ -38,15 +38,10 @@ game: "Dragon Age: The Veilguard"
 - 🐞 Some reused maps for multiple quests reducing variety  
 
 ---
-<div class="flex flex-col md:flex-row-reverse items-center gap-6 mb-12 pb-6 border-b border-slate-700">
-  <img
-    src=/images/reviews/2024-11-26-dragon-age-veilguard-2.avif
-    alt="Dragon Age: The Veilguard"
-    class="w-full md:w-2/5 rounded shadow"
-     />
+
+<img src="/images/reviews/2024-11-26-dragon-age-veilguard-2.avif" alt="Dragon Age: The Veilguard" class="img-wrap img-wrap-right rounded shadow" style="width: 40%;" />
 
 **Dragon Age: The Veilguard** is a dark fantasy action RPG developed by BioWare that continues the legacy of the Dragon Age series by combining intense, now fully real-time combat with rich storytelling and expansive world-building. Set in a sprawling, immersive high fantasy world filled with political intrigue, ancient magic, and complex characters, It again invites players to step into the role of a customizable protagonist navigating a fractured land on the brink of war. As a long-time fan, I was too invested in the Dragon Age lore to simply stop playing. This is the fourth entry, the one that’s supposed to tie up all the story threads the series has been building for 15 years, so I just had to play it.
-</div>
 
 From the outset, Veilguard adopts a more action-oriented combat system reminiscent of games like God of War or even Bioware's own title: Mass Effect, a notable departure from the real-time pausable tactical angle of earlier Dragon Age titles. 
 
@@ -54,38 +49,23 @@ Sure, I miss the Dragon Age: Origins style of tactical play, which is much close
 
 The combat was a lot of fun—action-packed, intense, and truly real-time. However, over the course of a 50+ hour experience, it began to feel repetitive and lacking in options. Having only three skill slots is far too limiting, and the skill tree feels restrictive, lacking variety and impactful abilities. While respecs are free, the entire skill system should have offered more to experiment with.
 
-<div class="flex flex-col md:flex-row items-center gap-6 mb-12 pb-6 border-b border-slate-700">
-  <img
-    src=/images/reviews/2024-11-26-dragon-age-veilguard-3.avif
-    alt="Dragon Age: The Veilguard"
-    class="w-full md:w-2/5 rounded shadow"
-     />
+<img src="/images/reviews/2024-11-26-dragon-age-veilguard-3.avif" alt="Dragon Age: The Veilguard" class="img-wrap img-wrap-left rounded shadow" style="width: 40%;" />
+
 One gripe though, is that while there is still a party system, you cannot control other characters anymore and are now stuck to your chosen class. You cannot try other class except for when starting a new savefile and creating a different class. This is very different from the previous games where you could 'sample' other classes by way of playing the characters. For example, in Origins, even though I was playing a Warrior, I could experience what it was like to be a Mage through Morrigan and Wynne. This added a layer of RPG depth in a single playthrough that is now missing.
-</div>
 
 The game primarily follows a more linear progression compared to previous entries, guiding players through a focused storyline packed with cinematic moments and meaningful choices. However, scattered throughout are pockets of semi-open areas ripe for exploration, where players can hunt for loot, uncover secrets, and complete side quests that deepen world-building and character development.
 
 The quest structure, waypointing, and how objectives appear on the map were done very well. You can see other side quests on the map / minimap / compass even if you're not actively tracking them, which is a huge help for multitasking. The level design is probably the best in the series. The environments are a fantastic middle ground between open-world and linear, the locations are incredibly varied, and the smart use of verticality truly shines, especially now that they've finally added a jump button.
 
-<div class="flex flex-col md:flex-row-reverse items-center gap-6 mb-12 pb-6 border-b border-slate-700">
-  <img
-    src=/images/reviews/2024-11-26-dragon-age-veilguard-4.avif
-    alt="Dragon Age: The Veilguard"
-    class="w-full md:w-2/5 rounded shadow"
-     />
+<img src="/images/reviews/2024-11-26-dragon-age-veilguard-4.avif" alt="Dragon Age: The Veilguard" class="img-wrap img-wrap-right rounded shadow" style="width: 40%;" />
+
 As always, I have a problem with the sheer number of side quests in these games. This is especially true when quests for factions and companions appear to have a direct effect on the ending, creating a pressure to do everything. Games like this can feel bloated, filled with quests that just involve talking to a character or "investigating" by pressing a button on obvious glowing spots. The game also suffers from Dragon Age 2's habit of reusing the same maps for multiple quests. If you're a completionist who wants to do everything, you will see the same areas many, many times. Fortunately, Fast travel is implemented thoughtfully, allowing for quick movement without detracting from exploration. This convenience helps manage the sprawling map, making it easier to traverse between distant quest hubs and points of interest. On a minor note, I loved breaking all the destructible crates and vases!
-</div>
 
 The art style change was a bit jarring at first. The cartoonish character proportions and faces felt strange, but the effect wasn't as substantial as I expected. The change was likely amplified by the new setting—the culture and architecture in Tevinter are naturally different. I noticed this when I got to the Deep Roads, a location from the first game. Things suddenly started to look familiar, and it proved the style hadn't changed that much after all.
 
-<div class="flex flex-col md:flex-row items-center gap-6 mb-12 pb-6 border-b border-slate-700">
-  <img
-    src=/images/reviews/2024-11-26-dragon-age-veilguard-1.avif
-    alt="Dragon Age: The Veilguard"
-    class="w-full md:w-2/5 rounded shadow"
-     />
+<img src="/images/reviews/2024-11-26-dragon-age-veilguard-1.avif" alt="Dragon Age: The Veilguard" class="img-wrap img-wrap-left rounded shadow" style="width: 40%;" />
+
 Despite the decent visuals and best-in-class hair technology and regarding the controversies surrounding it, I found the characters weren't particularly attractive. As a straight male character, none of the romance options appealed to me, and they all felt better as friends. Some were initially annoying (especially their faces), like Neve with her stupid hat or Taash, but they grew on me. Speaking of Taash, I was wary because of the online backlash, but story-wise, she was an okay character. As for the game's DEI elements as a whole, I found them to be minimal; it took over 30 hours before I even encountered the first mention of a "they/them" pronoun, and it felt like a natural part of a character's personality, not something forced. It's not something that feels forced. It's basically in the same realm as Baldur's Gate 3's pronouns and man-bear romance or Mass Effect's alien and same-sex romances, when it comes to diversity.
-</div>
 
 Where the game takes a massive step back, in my opinion, is the roleplaying. The dialogue system has been heavily toned down, a trend that has continued with each game. There are no more skill checks in conversations, very few alternate outcomes, and no "evil" or "asshole" choices like in Origins or the Mass Effect games. This is something I hope BioWare improves in the future.
 
@@ -94,14 +74,10 @@ The main quest, however, is where the game truly excels. The core story and the 
 While Veilguard does stumble on some fronts — including the art style controversy and quest repetition — it still delivers a compelling, immersive RPG experience with enough depth and charm to satisfy fans.
 
 ---
-<div class="flex flex-col md:flex-row-reverse items-center gap-6 mb-12 pb-6 border-b border-slate-700">
-  <img
-    src=/images/reviews/2024-11-26-dragon-age-veilguard-5.avif
-    alt="Dragon Age: The Veilguard"
-    class="w-full md:w-2/5 rounded shadow"
-     />
-<div>
 
 ### Conclusion
+
+<img src="/images/reviews/2024-11-26-dragon-age-veilguard-5.avif" alt="Dragon Age: The Veilguard" class="img-wrap img-wrap-right rounded shadow" style="width: 40%;" />
+
 Despite its controversies and some design missteps, **Dragon Age: Veilguard** delivers a robust and engaging RPG experience. Overall, I'm quite satisfied with my experience. Narratively, The Veilguard was an awesome and satisfying conclusion that stood on the shoulders of three excellent games. Gameplay-wise, it was fun enough to carry me through, but its lack of depth and variety kept it from being truly great.
-</div></div>
+
