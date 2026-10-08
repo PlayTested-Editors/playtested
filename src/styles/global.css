@@ -9,7 +9,8 @@ code>span.line {
 
 
 .btn-tag {
-  @apply px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-slate-700 hover:bg-gray-200 dark:hover:bg-slate-600 rounded-md transition motion-safe:active:scale-95;
+  font-family: "Chakra Petch", "Segoe UI", sans-serif;
+  @apply px-4 py-2 text-sm font-bold text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-slate-700 hover:bg-gray-200 dark:hover:bg-slate-600 rounded-md transition motion-safe:active:scale-95;
 }
 
 .gallery {
@@ -174,9 +175,7 @@ h4,
 }
 
 .article-score-badge.beside-title {
-  border-right: 2px solid rgba(255, 255, 255, 0.1);
-  padding-right: 1rem;
-  margin-right: 1rem;
+  padding: 1rem 1.25rem;
 }
 
 .article-score-value {
@@ -195,6 +194,7 @@ h4,
   margin-top: 0.25rem;
   text-transform: uppercase;
   letter-spacing: 1px;
+  margin-right: -1px; /* the spacing after the last letter */
 }
 
 

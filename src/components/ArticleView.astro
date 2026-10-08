@@ -134,7 +134,7 @@ const tagHref = (tag: string) => `/tag/${tag.toLowerCase().replace(/\s+/g, "-")}
       onclick="window.scrollTo({ top: this.closest('article').getBoundingClientRect().top + window.scrollY, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' })"
     >
       <div
-        class="w-full max-w-5xl mx-auto xl:mx-4 flex flex-col lg:flex-row items-center lg:items-start gap-1 lg:gap-4 py-2 md:py-4 mb-2 lg:mb-4 px-2 md:px-0 text-center lg:text-left leading-tight"
+        class="w-full max-w-5xl mx-auto xl:mx-4 flex flex-col lg:flex-row items-center gap-1 lg:gap-5 py-2 md:py-4 mb-2 lg:mb-4 px-2 md:px-0 text-center lg:text-left leading-tight"
       >
         {
           hasScore && (
