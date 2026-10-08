@@ -53,10 +53,10 @@ if (currentPage < 1 || currentPage > totalPages) {
 const pageData = {
   data: paginated,
   url: {
-    current: `/blog/page/${currentPage}`,
-    prev: currentPage > 1 ? `/blog/page/${currentPage - 1}` : undefined,
+    current: `/blog/page/${currentPage}/`,
+    prev: currentPage > 1 ? `/blog/page/${currentPage - 1}/` : undefined,
     next:
-      currentPage < totalPages ? `/blog/page/${currentPage + 1}` : undefined,
+      currentPage < totalPages ? `/blog/page/${currentPage + 1}/` : undefined,
   },
   currentPage,
   lastPage: totalPages,

@@ -38,9 +38,9 @@ const paginated = postsInCat.slice(0, POSTS_PER_PAGE);
 const pageData = {
   data: paginated,
   url: {
-    current: `/category/${category}`,
+    current: `/category/${category}/`,
     prev: undefined,
-    next: totalPages > 1 ? `/category/${category}/page/2` : undefined,
+    next: totalPages > 1 ? `/category/${category}/page/2/` : undefined,
   },
   currentPage: 1,
   lastPage: totalPages,
@@ -57,16 +57,17 @@ const isGrid = ["review", "reviews"].includes(category);
     {category.replace(/-/g, " ")}
   </h1>
 
+  {/* PostCard renders its own <li>, so it goes straight into the <ul>. */}
   {isGrid ? (
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-x-6 gap-y-6">
+    <ul class="grid grid-cols-1 lg:grid-cols-2 gap-x-6 gap-y-6">
       {paginated.map((post, i) => (
         <PostCard post={post} priority={i < 2} />
       ))}
-    </div>
+    </ul>
   ) : (
     <ul class="space-y-4">
       {paginated.map((post, i) => (
-        <li><PostCard post={post} priority={i < 2} /></li>
+        <PostCard post={post} priority={i < 2} />
       ))}
     </ul>
   )}

@@ -35,7 +35,7 @@ const visiblePages = Array.from({ length: page.lastPage }, (_, i) => i + 1).filt
         ← {SiteOptions.pagination.prevText}
       </a>
     ) : (
-      <span class="px-4 py-2 text-sm font-medium cursor-not-allowed">
+      <span class="px-4 py-2 text-sm font-medium cursor-not-allowed opacity-50" aria-disabled="true">
         ← {SiteOptions.pagination.prevText}
       </span>
     ))}
@@ -54,7 +54,7 @@ const visiblePages = Array.from({ length: page.lastPage }, (_, i) => i + 1).filt
       <div class="flex items-center">
         {isEllipsis && <span class="px-2 select-none">…</span>}
         {num === page.currentPage ? (
-          <span class="px-3 py-2 text-sm font-medium bg-gray-900 text-white rounded-md" aria-current="page">
+          <span class="px-3 py-2 text-sm font-medium bg-gray-900 text-white dark:bg-slate-100 dark:text-slate-900 rounded-md" aria-current="page">
             {num}
           </span>
         ) : (
@@ -72,13 +72,13 @@ const visiblePages = Array.from({ length: page.lastPage }, (_, i) => i + 1).filt
         {SiteOptions.pagination.nextText} →
       </a>
     ) : (
-      <span class="px-4 py-2 text-sm font-medium cursor-not-allowed">
+      <span class="px-4 py-2 text-sm font-medium cursor-not-allowed opacity-50" aria-disabled="true">
         {SiteOptions.pagination.nextText} →
       </span>
     ))}
 </nav>
 
-<div class="text-center mt-4 text-sm text-gray-500">
+<div class="text-center mt-4 text-sm text-gray-600 dark:text-gray-400">
   Showing {(page.currentPage - 1) * page.size + 1} to {Math.min(page.currentPage * page.size, page.total)} of {page.total}
   {SiteOptions.pagination.postLabel}
 </div>

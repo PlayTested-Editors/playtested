@@ -55,9 +55,9 @@ const paginated = posts.slice(0, POSTS_PER_PAGE);
 const pageData = {
   data: paginated,
   url: {
-    current: `/tag/${tag}`,
+    current: `/tag/${tag}/`,
     prev: undefined,
-    next: totalPages > 1 ? `/tag/${tag}/page/2` : undefined,
+    next: totalPages > 1 ? `/tag/${tag}/page/2/` : undefined,
   },
   currentPage: 1,
   lastPage: totalPages,

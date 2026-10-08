@@ -7,6 +7,10 @@ export interface Props {
   homeFeatured?: { data: { title: string; thumb?: string; score?: number | null } }[];
 }
 const { showTitle = true, homeFeatured = [] } = Astro.props;
+// The wordmark is the page's main heading only on the homepage; elsewhere the
+// page's own <h1> (article title, tag name, …) is.
+const isHome = Astro.url.pathname === "/";
+const BrandTag = isHome ? "h1" : "p";
 ---
 
 <!-- No-FOUC theme bootstrap -->
@@ -33,8 +37,11 @@ const { showTitle = true, homeFeatured = [] } = Astro.props;
     <!-- Hamburger (mobile only) -->
     <button
       id="hamburger"
+      type="button"
       class="absolute left-4 p-2 sm:static sm:mr-4 lg:hidden"
       aria-label="Open menu"
+      aria-controls="nav-links"
+      aria-expanded="false"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -67,9 +74,9 @@ const { showTitle = true, homeFeatured = [] } = Astro.props;
         {
           showTitle && (
             <div>
-              <h1 class="font-brand text-lg sm:text-xl md:text-5xl font-bold hover:opacity-80 transition-opacity">
+              <BrandTag class="font-brand text-lg sm:text-xl md:text-5xl font-bold hover:opacity-80 transition-opacity">
                 Play<span class="text-[#3F7D00] dark:text-[#B6F03C]">Tested</span><span class="hidden sm:inline text-gray-400 dark:text-gray-500">.net</span>
-              </h1>
+              </BrandTag>
               <p
                 class="hidden sm:block text-sm md:text-lg text-gray-900 dark:text-gray-400 font-light mb-2 md:mb-0 max-w-[580px] md:max-w-none"
                 set:html={SiteOptions.siteSubTitle}
@@ -124,7 +131,7 @@ const { showTitle = true, homeFeatured = [] } = Astro.props;
   <div id="nav-container" class="relative">
     <nav
       id="nav-links"
-      class="absolute top-[60px] lg:top-[20px] left-0 right-0 w-full lg:w-full flex flex-col lg:flex-row lg:items-center gap-4 p-4 lg:p-0 bg-white dark:bg-slate-800 border-b border-gray-200 dark:border-slate-700 shadow-md lg:bg-transparent lg:dark:bg-transparent lg:border-none lg:shadow-none lg:relative z-40 transition-all duration-300 ease-in-out opacity-0 -translate-y-4 pointer-events-none lg:opacity-100 lg:translate-y-0 lg:pointer-events-auto lg:flex"
+      class="absolute top-[60px] lg:top-[20px] left-0 right-0 w-full lg:w-full flex flex-col lg:flex-row lg:items-center gap-4 p-4 lg:p-0 bg-white dark:bg-slate-800 border-b border-gray-200 dark:border-slate-700 shadow-md lg:bg-transparent lg:dark:bg-transparent lg:border-none lg:shadow-none lg:relative z-40 transition-all duration-300 ease-in-out opacity-0 -translate-y-4 pointer-events-none invisible lg:visible lg:opacity-100 lg:translate-y-0 lg:pointer-events-auto lg:flex"
     >
       <div class="flex flex-col lg:flex-row lg:items-center gap-2 lg:gap-4">
         <a href="/" class="btn-tag">Home</a>
@@ -135,13 +142,16 @@ const { showTitle = true, homeFeatured = [] } = Astro.props;
         <div class="relative">
           <button
             id="platformToggle"
+            type="button"
+            aria-expanded="false"
+            aria-controls="platformDropdown"
             class="btn-tag w-full lg:w-auto text-left"
           >
-            Platforms ▾
+            Platforms <span aria-hidden="true">▾</span>
           </button>
           <div
             id="platformDropdown"
-            class="absolute left-0 top-full mt-2 w-full bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-600 rounded-md shadow-lg z-20 transform scale-y-0 opacity-0 origin-top transition-all duration-200 pointer-events-none"
+            class="absolute left-0 top-full mt-2 w-full bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-600 rounded-md shadow-lg z-20 transform scale-y-0 opacity-0 origin-top transition-all duration-200 pointer-events-none invisible"
           >
             <a
               href="/tag/pc/"
@@ -162,15 +172,22 @@ const { showTitle = true, homeFeatured = [] } = Astro.props;
         </div>
 
         <div class="relative">
-          <button id="aiToggle" class="btn-tag w-full lg:w-auto text-left">
-            AI Features ▾
+          <button
+            id="aiToggle"
+            type="button"
+            aria-expanded="false"
+            aria-controls="aiDropdown"
+            class="btn-tag w-full lg:w-auto text-left"
+          >
+            AI Features <span aria-hidden="true">▾</span>
           </button>
           <div
             id="aiDropdown"
-            class="absolute left-0 top-full mt-2 w-full bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-600 rounded-md shadow-lg z-20 transform scale-y-0 opacity-0 origin-top transition-all duration-200 pointer-events-none"
+            class="absolute left-0 top-full mt-2 w-full bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-600 rounded-md shadow-lg z-20 transform scale-y-0 opacity-0 origin-top transition-all duration-200 pointer-events-none invisible"
           >
             <button
               id="nav-chat-btn"
+              type="button"
               class="block w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-slate-700"
             >
               AI Chatbot
@@ -194,17 +211,28 @@ const { showTitle = true, homeFeatured = [] } = Astro.props;
       >
         <a href="/about/" class="btn-tag w-full lg:w-auto">About The Site</a>
 
-        <div class="relative w-full lg:w-[300px]">
+        <!-- A real form: works before scripts load (and without them). -->
+        <form
+          action="/search/"
+          method="get"
+          role="search"
+          class="relative w-full lg:w-[300px]"
+        >
           <input
-            type="text"
+            type="search"
             id="global-search-input"
+            name="q"
+            required
+            maxlength="200"
+            aria-label="Search articles"
             placeholder="Search articles..."
             class="w-full py-2 pl-4 pr-10 rounded-md border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
           <button
             id="global-search-btn"
-            type="button"
-            class="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 rounded-md dark:bg-gray-600 bg-blue-100 text-white-600 hover:bg-blue-200 hover:text-blue-700 transition"
+            type="submit"
+            aria-label="Search"
+            class="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 rounded-md dark:bg-gray-600 bg-blue-100 text-gray-700 dark:text-gray-100 hover:bg-blue-200 hover:text-blue-700 transition"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -212,6 +240,7 @@ const { showTitle = true, homeFeatured = [] } = Astro.props;
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
+              aria-hidden="true"
             >
               <path
                 stroke-linecap="round"
@@ -221,12 +250,22 @@ const { showTitle = true, homeFeatured = [] } = Astro.props;
               ></path>
             </svg>
           </button>
-        </div>
+        </form>
       </div>
     </nav>
   </div>
 
   <script is:inline>
+    // Storage can throw (site data blocked, some private modes); never let that
+    // stop the header from working.
+    const readStoredTheme = () => {
+      try {
+        return localStorage.getItem("theme");
+      } catch {
+        return null;
+      }
+    };
+
     // Core theme manager
     const Theme = (() => {
       const sunPath =
@@ -239,7 +278,11 @@ const { showTitle = true, homeFeatured = [] } = Astro.props;
       const set = (t, persist = true) => {
         document.documentElement.classList.toggle("dark", t === "dark");
         document.documentElement.setAttribute("data-theme", t);
-        if (persist) localStorage.setItem("theme", t);
+        if (persist) {
+          try {
+            localStorage.setItem("theme", t);
+          } catch {}
+        }
         setGiscusTheme(t === "dark" ? "dark_dimmed" : "light");
 
         syncIcon();
@@ -299,7 +342,7 @@ const { showTitle = true, homeFeatured = [] } = Astro.props;
 
     function setupTheme() {
       // Re-apply theme from storage to ensure persistence across transitions
-      const stored = localStorage.getItem("theme");
+      const stored = readStoredTheme();
       const systemPrefersDark = window.matchMedia(
         "(prefers-color-scheme: dark)",
       ).matches;
@@ -327,111 +370,58 @@ const { showTitle = true, homeFeatured = [] } = Astro.props;
       }
     }
 
-    function setupMobileMenu() {
+    // Closed menus are `invisible` too, so their links leave the tab order and
+    // the accessibility tree (opacity alone keeps them focusable).
+    const NAV_OPEN = ["opacity-100", "translate-y-0", "pointer-events-auto"];
+    const NAV_CLOSED = ["opacity-0", "-translate-y-4", "pointer-events-none", "invisible"];
+    const DROPDOWN_OPEN = ["scale-y-100", "opacity-100"];
+    const DROPDOWN_CLOSED = ["scale-y-0", "opacity-0", "pointer-events-none", "invisible"];
+    const DROPDOWNS = [
+      ["platformToggle", "platformDropdown"],
+      ["aiToggle", "aiDropdown"],
+    ];
+
+    function setMobileMenu(open) {
       const nav = document.getElementById("nav-links");
       const hamburger = document.getElementById("hamburger");
-
-      if (hamburger && nav) {
-        // Clean up old listeners not needed as we replace or it's a fresh page
-        hamburger.onclick = () => {
-          const isClosed = nav.classList.contains("opacity-0");
-          if (isClosed) {
-            // Open it
-            nav.classList.remove(
-              "opacity-0",
-              "-translate-y-4",
-              "pointer-events-none",
-            );
-            nav.classList.add(
-              "opacity-100",
-              "translate-y-0",
-              "pointer-events-auto",
-            );
-          } else {
-            // Close it
-            nav.classList.remove(
-              "opacity-100",
-              "translate-y-0",
-              "pointer-events-auto",
-            );
-            nav.classList.add(
-              "opacity-0",
-              "-translate-y-4",
-              "pointer-events-none",
-            );
-          }
-        };
+      if (!nav) return;
+      nav.classList.remove(...(open ? NAV_CLOSED : NAV_OPEN));
+      nav.classList.add(...(open ? NAV_OPEN : NAV_CLOSED));
+      if (hamburger) {
+        hamburger.setAttribute("aria-expanded", String(open));
+        hamburger.setAttribute("aria-label", open ? "Close menu" : "Open menu");
       }
+    }
+    const mobileMenuOpen = () => !document.getElementById("nav-links")?.classList.contains("opacity-0");
+
+    function setDropdown(toggleId, menuId, open) {
+      const toggleBtn = document.getElementById(toggleId);
+      const dropdown = document.getElementById(menuId);
+      if (!toggleBtn || !dropdown) return;
+      dropdown.classList.remove(...(open ? DROPDOWN_CLOSED : DROPDOWN_OPEN));
+      dropdown.classList.add(...(open ? DROPDOWN_OPEN : DROPDOWN_CLOSED));
+      toggleBtn.setAttribute("aria-expanded", String(open));
+    }
+    const dropdownOpen = (menuId) => Boolean(document.getElementById(menuId)?.classList.contains("opacity-100"));
+
+    function setupMobileMenu() {
+      const hamburger = document.getElementById("hamburger");
+      // Assigned (not added) per page, so a re-run never stacks handlers.
+      if (hamburger) hamburger.onclick = () => setMobileMenu(!mobileMenuOpen());
     }
 
     function setupDropdown() {
-      const bindDropdown = (toggleId, menuId) => {
+      for (const [toggleId, menuId] of DROPDOWNS) {
         const toggleBtn = document.getElementById(toggleId);
-        const dropdown = document.getElementById(menuId);
-
-        if (toggleBtn && dropdown) {
-          toggleBtn.onclick = (e) => {
-            e.stopPropagation(); // Prevent closing immediately
-            // Close other dropdowns? Optional. But let's toggle current.
-
-            // Simple toggle
-            dropdown.classList.toggle("scale-y-100");
-            dropdown.classList.toggle("opacity-100");
-            dropdown.classList.toggle("scale-y-0");
-            dropdown.classList.toggle("opacity-0");
-            dropdown.classList.toggle("pointer-events-none");
-          };
-        }
-        return { toggleBtn, dropdown };
-      };
-
-      const platforms = bindDropdown("platformToggle", "platformDropdown");
-      const aiFeatures = bindDropdown("aiToggle", "aiDropdown");
-
-      // Global click handler to close ALL dropdowns if clicked outside
-      document.addEventListener("click", (e) => {
-        const close = (obj) => {
-          if (obj.toggleBtn && obj.dropdown) {
-            if (
-              !obj.toggleBtn.contains(e.target) &&
-              !obj.dropdown.contains(e.target)
-            ) {
-              // Only close if it's open (has opacity-100)
-              if (obj.dropdown.classList.contains("opacity-100")) {
-                obj.dropdown.classList.remove("scale-y-100", "opacity-100");
-                obj.dropdown.classList.add(
-                  "scale-y-0",
-                  "opacity-0",
-                  "pointer-events-none",
-                );
-              }
-            }
+        if (!toggleBtn) continue;
+        toggleBtn.onclick = (e) => {
+          e.stopPropagation(); // Prevent the outside-click handler closing it again
+          const open = !dropdownOpen(menuId);
+          for (const [otherToggle, otherMenu] of DROPDOWNS) {
+            if (otherMenu !== menuId) setDropdown(otherToggle, otherMenu, false);
           }
+          setDropdown(toggleId, menuId, open);
         };
-        close(platforms);
-        close(aiFeatures);
-      });
-    }
-
-    function setupSearch() {
-      const searchInput = document.getElementById("global-search-input");
-      const searchBtn = document.getElementById("global-search-btn");
-
-      if (searchInput) {
-        searchInput.addEventListener("keydown", (e) => {
-          if (e.key === "Enter") {
-            e.preventDefault();
-            const q = encodeURIComponent(searchInput.value.trim());
-            if (q) window.location.href = `/search/?q=${q}`;
-          }
-        });
-      }
-
-      if (searchBtn && searchInput) {
-        searchBtn.addEventListener("click", () => {
-          const q = encodeURIComponent(searchInput.value.trim());
-          if (q) window.location.href = `/search/?q=${q}`;
-        });
       }
     }
 
@@ -444,32 +434,53 @@ const { showTitle = true, homeFeatured = [] } = Astro.props;
           if (window["_playtestedToggleChat"]) {
             window["_playtestedToggleChat"]("center");
           }
-
+          setDropdown("aiToggle", "aiDropdown", false);
           // Also close mobile menu if open
-          const nav = document.getElementById("nav-links");
-          if (nav && !nav.classList.contains("opacity-0")) {
-            nav.classList.remove(
-              "opacity-100",
-              "translate-y-0",
-              "pointer-events-auto",
-            );
-            nav.classList.add(
-              "opacity-0",
-              "-translate-y-4",
-              "pointer-events-none",
-            );
-          }
+          if (mobileMenuOpen()) setMobileMenu(false);
         };
       }
     }
 
-    // Run on every page load (including View Transitions)
+    // Document-level listeners: bound once (this script runs once per visit),
+    // and they look the current page's elements up on each event, so nothing
+    // from a previous page is kept alive.
+    document.addEventListener("click", (e) => {
+      for (const [toggleId, menuId] of DROPDOWNS) {
+        if (!dropdownOpen(menuId)) continue;
+        const toggleBtn = document.getElementById(toggleId);
+        const dropdown = document.getElementById(menuId);
+        if (toggleBtn?.contains(e.target) || dropdown?.contains(e.target)) continue;
+        setDropdown(toggleId, menuId, false);
+      }
+    });
+    document.addEventListener("keydown", (e) => {
+      if (e.key !== "Escape") return;
+      for (const [toggleId, menuId] of DROPDOWNS) {
+        if (!dropdownOpen(menuId)) continue;
+        const dropdown = document.getElementById(menuId);
+        const hadFocus = dropdown?.contains(document.activeElement);
+        setDropdown(toggleId, menuId, false);
+        if (hadFocus) document.getElementById(toggleId)?.focus();
+      }
+      const hamburger = document.getElementById("hamburger");
+      if (hamburger && hamburger.offsetParent !== null && mobileMenuOpen()) {
+        const nav = document.getElementById("nav-links");
+        const hadFocus = nav?.contains(document.activeElement);
+        setMobileMenu(false);
+        if (hadFocus) hamburger.focus();
+      }
+    });
+
+    // Run on every page load (including View Transitions). Each step on its
+    // own, so one failing can't leave the rest of the header unwired.
     document.addEventListener("astro:page-load", () => {
-      setupTheme();
-      setupMobileMenu();
-      setupDropdown();
-      setupSearch();
-      setupNavChat();
+      for (const step of [setupTheme, setupMobileMenu, setupDropdown, setupNavChat]) {
+        try {
+          step();
+        } catch (err) {
+          console.error("header setup failed:", err);
+        }
+      }
     });
 
     // Also need to handle resize for theme icon sync
@@ -479,8 +490,7 @@ const { showTitle = true, homeFeatured = [] } = Astro.props;
     try {
       const mq = window.matchMedia("(prefers-color-scheme: dark)");
       mq.addEventListener?.("change", (e) => {
-        const stored = localStorage.getItem("theme");
-        if (!stored) Theme.set(e.matches ? "dark" : "light", false);
+        if (!readStoredTheme()) Theme.set(e.matches ? "dark" : "light", false);
       });
     } catch {}
   </script>

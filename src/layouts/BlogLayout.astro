@@ -87,7 +87,14 @@ const schema = JSON.stringify({
 
     <script is:inline>
       // Theme initialization - prevents FOUC
-      const getTheme = () => localStorage.getItem("theme") || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      // Storage access throws when site data is blocked; fall back to the OS setting.
+      const getTheme = () => {
+        let stored = null;
+        try {
+          stored = localStorage.getItem("theme");
+        } catch {}
+        return stored || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      };
       
       const setTheme = (theme) => {
         document.documentElement.classList.toggle("dark", theme === "dark");

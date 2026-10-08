@@ -14,6 +14,7 @@ import SocialShare from "./SocialShare.astro";
 import AskReview from "./AskReview.astro";
 import CommentsSection from "./CommentsSection.astro";
 import SiteOptions from "../site.config.mjs";
+import { shortTitle } from "../lib/titles";
 
 export interface ArticleViewData {
   title: string;
@@ -26,6 +27,8 @@ export interface ArticleViewData {
   large?: string;
   score?: number | null;
   gallery?: string[];
+  /** The reviewed game's name (frontmatter `game:`). */
+  game?: string;
 }
 
 export interface Props {
@@ -38,7 +41,7 @@ export interface Props {
 }
 
 const { slug, data, html, similar = [], mode = "static" } = Astro.props;
-const { title, pubDate, category, description, thumb, author, tags = [], large, score, gallery } = data;
+const { title, pubDate, category, description, thumb, author, tags = [], large, score, gallery, game } = data;
 
 const canonicalPath = `/article/${slug}/`;
 const pageUrl = new URL(canonicalPath, Astro.site);
@@ -50,6 +53,11 @@ const formattedDate = new Intl.DateTimeFormat("en-US", {
   day: "numeric",
 }).format(dateObj);
 const hasScore = typeof score !== "undefined" && score !== null;
+// Structured data: the game itself (titles read "Tagline | Game Review", so the
+// first title line is the tagline), and absolute image URLs.
+const gameName = game?.trim() || shortTitle(title);
+const schemaImage = large || thumb ? new URL((large || thumb)!, Astro.site).href : undefined;
+const tagHref = (tag: string) => `/tag/${tag.toLowerCase().replace(/\s+/g, "-")}/`;
 ---
 
 <BlogLayout title={title} description={description} canonicalPath={canonicalPath} noindex={mode === "preview"} image={large || thumb} type="article">
@@ -66,7 +74,7 @@ const hasScore = typeof score !== "undefined" && score !== null;
             "@id": `${pageUrl.href}#article`,
             headline: title,
             description: description,
-            image: thumb || large ? [thumb || large] : undefined,
+            image: schemaImage ? [schemaImage] : undefined,
             datePublished: dateObj.toISOString(),
             dateModified: dateObj.toISOString(),
             author: [{ "@type": "Person", name: author }],
@@ -85,7 +93,7 @@ const hasScore = typeof score !== "undefined" && score !== null;
                   description: description,
                   itemReviewed: {
                     "@type": "Game",
-                    name: titleLines[0],
+                    name: gameName,
                   },
                   reviewRating: {
                     "@type": "Rating",
@@ -119,7 +127,7 @@ const hasScore = typeof score !== "undefined" && score !== null;
       class="z-20 cursor-pointer transition-colors
              lg:bg-white lg:dark:bg-slate-800 lg:hover:bg-gray-50 lg:dark:hover:bg-slate-700
              lg:sticky lg:inset-x-0 lg:top-0"
-      onclick="window.scrollTo({ top: 190, behavior: 'smooth' })"
+      onclick="window.scrollTo({ top: this.closest('article').getBoundingClientRect().top + window.scrollY, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' })"
     >
       <div
         class="w-full max-w-5xl mx-auto xl:mx-4 flex flex-col lg:flex-row items-center lg:items-start gap-1 lg:gap-4 py-2 md:py-4 mb-2 lg:mb-4 px-2 md:px-0 text-center lg:text-left leading-tight"
@@ -179,7 +187,7 @@ const hasScore = typeof score !== "undefined" && score !== null;
           <span class="font-medium text-gray-500 dark:text-gray-400 mr-1">Tags:</span>
           {tags.map((tag) => (
             <a
-              href={`/tag/${tag.toLowerCase().replace(/\s+/g, "-")}`}
+              href={tagHref(tag)}
               class="inline-block bg-gray-100 text-gray-600 dark:bg-slate-700 dark:text-slate-300 px-1.5 py-0.5 sm:px-4 sm:py-1 rounded hover:bg-gray-200 dark:hover:bg-slate-600 no-underline hover:underline text-[10px] sm:text-xs transition motion-safe:active:scale-95"
             >
               {tag}
@@ -210,6 +218,7 @@ const hasScore = typeof score !== "undefined" && score !== null;
   }
 
   <div
+    data-article-body
     class="pt-2 prose prose-h2:text-2xl prose-lg max-w-none text-gray-700 dark:prose-strong:text-slate-100 dark:text-gray-300 prose-headings:text-gray-900 dark:prose-headings:text-slate-100 prose-a:text-blue-600 dark:prose-a:text-blue-400 prose-code:text-slate-700 dark:prose-code:text-slate-100 prose-pre:bg-gray-100 dark:prose-pre:bg-slate-800 prose-blockquote:border-gray-300 dark:prose-blockquote:border-gray-600 prose-blockquote:text-gray-600 dark:prose-blockquote:text-gray-400 prose-h3:text-[1.2em]"
   >
     {/* AI Summary Section moved inside prose for alignment */}
@@ -260,25 +269,26 @@ const hasScore = typeof score !== "undefined" && score !== null;
 
     {mode !== "preview" && <CommentsSection slug={slug} />}
   </div>
-</BlogLayout>
 
-{
-  SiteOptions.showSimilarPosts && similar.length > 0 && (
-    <>
-      <hr class="border-t border-gray-200 dark:border-gray-700 my-12" />
-      <section>
-        <h2 class="text-2xl font-semibold mb-8 text-center text-gray-800 dark:text-slate-200" data-reveal>{SiteOptions.labels.youMightAlsoLike}</h2>
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-          {similar.map((p) => (
-            <FeaturedCard post={p as any} />
-          ))}
-        </div>
-      </section>
-    </>
-  )
-}
+  {/* Everything below stays inside the layout (and its padded <main>); markup
+      after </BlogLayout> would be emitted after </html>. */}
+  {
+    SiteOptions.showSimilarPosts && similar.length > 0 && (
+      <>
+        <hr class="border-t border-gray-200 dark:border-gray-700 my-12" />
+        <section>
+          <h2 class="text-2xl font-semibold mb-8 text-center text-gray-800 dark:text-slate-200" data-reveal>{SiteOptions.labels.youMightAlsoLike}</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+            {similar.map((p) => (
+              <FeaturedCard post={p as any} />
+            ))}
+          </div>
+        </section>
+      </>
+    )
+  }
 
-<Footer />
+  <Footer />
 
 <script is:inline>
   (function () {
@@ -337,11 +347,11 @@ const hasScore = typeof score !== "undefined" && score !== null;
     if (isPreview) return;
     if (!ads.adSense.enabled && !ads.carbonAds.enabled && !ads.adsterra.enabled) return;
 
-    const articleBody = document.querySelector(".prose");
-    if (!articleBody) return;
-
-    // Remove existing ad containers to avoid duplicates on navigation
-    articleBody.querySelectorAll(".in-article-ad-wrapper").forEach((el) => el.remove());
+    // Only an article body: this listener outlives the article page under
+    // <ClientRouter />, and other pages (e.g. /privacy/) use .prose too.
+    const articleBody = document.querySelector("[data-article-body]");
+    if (!articleBody || articleBody.dataset.adsInjected) return;
+    articleBody.dataset.adsInjected = "1";
 
     const paragraphs = Array.from(articleBody.children).filter((el) => el.tagName === "P");
 
@@ -376,6 +386,10 @@ const hasScore = typeof score !== "undefined" && score !== null;
     }
   }
 
+  // The direct call fills the ad slot without waiting for window load; the
+  // data-ads-injected flag stops astro:page-load (which also fires on the first
+  // load) from injecting it a second time.
   document.addEventListener("astro:page-load", injectAds);
   injectAds();
 </script>
+</BlogLayout>

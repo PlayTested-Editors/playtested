@@ -18,6 +18,7 @@ const { slug } = Astro.props;
     <span data-who class="text-xs text-gray-500 dark:text-slate-400"></span>
   </div>
 
+  <p data-status role="status" class="mb-3 text-sm text-rose-600 empty:hidden dark:text-rose-400"></p>
   <div data-composer class="mb-6"></div>
 
   <div data-list class="space-y-5" aria-live="polite">
@@ -87,9 +88,17 @@ const { slug } = Astro.props;
     const composer = root.querySelector<HTMLElement>("[data-composer]")!;
     const countEl = root.querySelector<HTMLElement>("[data-count]")!;
     const whoEl = root.querySelector<HTMLElement>("[data-who]")!;
+    const statusEl = root.querySelector<HTMLElement>("[data-status]")!;
     let comments: C[] = [];
     let me: { name: string; avatar: string | null } | null = null;
     let replyTo: string | null = null;
+    // From the API on load; every re-render (post, delete, sign-out) reuses them.
+    let canSignIn = false;
+    let banned = false;
+    const smooth = (): ScrollBehavior => (matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth");
+    const notify = (text: string) => {
+      statusEl.textContent = text;
+    };
 
     const message = (text: string) => {
       list.innerHTML = `<p class="rounded-lg bg-gray-50 px-4 py-3 text-sm text-gray-600 dark:bg-slate-800/60 dark:text-slate-300">${esc(text)}</p>`;
@@ -132,7 +141,7 @@ const { slug } = Astro.props;
       renderComposer();
     }
 
-    function renderComposer(canSignIn = true) {
+    function renderComposer() {
       if (me) {
         whoEl.innerHTML = `Signed in as ${esc(me.name)} · <button data-act="logout" class="underline underline-offset-2 hover:text-indigo-600">Sign out</button>`;
         const target = replyTo ? comments.find((c) => c.id === replyTo) : null;
@@ -146,7 +155,9 @@ const { slug } = Astro.props;
         </form>`;
       } else {
         whoEl.textContent = "";
-        composer.innerHTML = canSignIn
+        composer.innerHTML = banned
+          ? `<p class="text-sm text-gray-500 dark:text-slate-400">Your account can't post comments.</p>`
+          : canSignIn
           ? `<a href="/api/comments/auth/google/start?return=${encodeURIComponent(location.pathname)}" data-astro-prefetch="false" rel="nofollow" class="inline-flex items-center gap-2 rounded-lg bg-white px-4 py-2.5 text-sm font-semibold text-gray-800 shadow-sm ring-1 ring-gray-300 transition hover:bg-gray-50 dark:bg-slate-800 dark:text-slate-100 dark:ring-slate-600 dark:hover:bg-slate-700">
               <svg class="h-4 w-4" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.3-.4-3.5z"/><path fill="#FF3D00" d="m6.3 14.7 6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-7.9l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.3-.4-3.5z"/></svg>
               Sign in with Google to comment</a>`
@@ -163,11 +174,12 @@ const { slug } = Astro.props;
           composer.innerHTML = "";
           return;
         }
-        comments = data.comments;
-        me = data.me;
+        comments = Array.isArray(data.comments) ? data.comments : [];
+        me = data.me ?? null;
+        banned = Boolean(data.banned);
+        canSignIn = Boolean(data.canSignIn) && !banned;
         render();
-        renderComposer(data.canSignIn && !data.banned);
-        if (location.hash === "#comments") root.scrollIntoView({ behavior: "smooth" });
+        if (location.hash === "#comments") root.scrollIntoView({ behavior: smooth() });
       } catch {
         message("Comments couldn't load right now.");
       }
@@ -197,7 +209,8 @@ const { slug } = Astro.props;
         const note = composer.querySelector<HTMLElement>("[data-form-msg]");
         if (note) note.textContent = data.held ? "Thanks! Your comment contains links, so a moderator will approve it first." : "Posted ✓";
       } catch (err) {
-        msg.textContent = (err as Error).message;
+        // fetch() itself throws a TypeError when offline; don't show "Failed to fetch".
+        msg.textContent = err instanceof TypeError ? "Couldn't reach PlayTested. Check your connection and try again." : (err as Error).message;
         msg.className = "text-xs text-rose-600";
         btn.disabled = false;
       }
@@ -208,21 +221,27 @@ const { slug } = Astro.props;
       if (el) {
         const id = el.dataset.id;
         const act = el.dataset.act;
+        notify("");
+        // Network failures and refusals get a visible message instead of silently doing nothing.
+        const failed = async (res: Response | null, fallback: string) => {
+          const data: any = res ? await res.json().catch(() => ({})) : {};
+          notify(data.error || fallback);
+        };
         if (act === "reply") {
           replyTo = id!;
           renderComposer();
-          composer.scrollIntoView({ behavior: "smooth", block: "center" });
+          composer.scrollIntoView({ behavior: smooth(), block: "center" });
           composer.querySelector("textarea")?.focus();
         } else if (act === "cancel-reply") {
           replyTo = null;
           renderComposer();
         } else if (act === "delete" && confirm("Delete your comment?")) {
-          const res = await fetch(`/api/comments/${id}`, { method: "DELETE", credentials: "same-origin" });
-          if (res.ok) {
+          const res = await fetch(`/api/comments/${id}`, { method: "DELETE", credentials: "same-origin" }).catch(() => null);
+          if (res?.ok) {
             const c = comments.find((x) => x.id === id);
             if (c) c.status = "deleted";
             render();
-          }
+          } else await failed(res, "Couldn't delete your comment. Please try again.");
         } else if (act === "edit") {
           const c = comments.find((x) => x.id === id);
           const next = c && prompt("Edit your comment", c.body);
@@ -232,17 +251,22 @@ const { slug } = Astro.props;
               credentials: "same-origin",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({ body: next }),
-            });
-            if (res.ok) {
+            }).catch(() => null);
+            if (res?.ok) {
+              const data = await res.json().catch(() => ({}));
               c.body = next.trim();
               c.editedAt = Date.now();
+              // Edits that add links go back to the moderation queue.
+              if (data.status) c.status = data.status;
               render();
-            }
+            } else await failed(res, "Couldn't save your edit. Please try again.");
           }
         } else if (act === "logout") {
-          await fetch("/api/comments/auth/logout", { method: "POST", credentials: "same-origin" });
-          me = null;
-          render();
+          const res = await fetch("/api/comments/auth/logout", { method: "POST", credentials: "same-origin" }).catch(() => null);
+          if (res?.ok) {
+            me = null;
+            render();
+          } else await failed(res, "Couldn't sign you out. Please try again.");
         }
         return;
       }

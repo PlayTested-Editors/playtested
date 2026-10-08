@@ -55,15 +55,21 @@ const pages = Math.max(featuredPosts.length - visible + 1, 1);
         <div class="relative">
           <button
             id="carousel-prev"
+            type="button"
+            aria-label="Previous featured posts"
+            aria-controls="carousel-track"
             class="absolute left-0 top-2/7 -translate-y-1/2 z-20 p-4 bg-white dark:bg-slate-700 rounded-full shadow-lg text-2xl disabled:opacity-50 cursor-pointer transition hover:shadow-xl motion-safe:active:scale-90"
           >
-            ❮
+            <span aria-hidden="true">❮</span>
           </button>
           <button
             id="carousel-next"
+            type="button"
+            aria-label="Next featured posts"
+            aria-controls="carousel-track"
             class="absolute right-0 top-2/7 -translate-y-1/2 z-20 p-4 bg-white dark:bg-slate-700 rounded-full shadow-lg text-2xl disabled:opacity-50 cursor-pointer transition hover:shadow-xl motion-safe:active:scale-90"
           >
-            ❯
+            <span aria-hidden="true">❯</span>
           </button>
 
           <!-- clip-x: clip sideways only, so hovered cards can lift without their glow being cut -->
@@ -90,6 +96,7 @@ const pages = Math.max(featuredPosts.length - visible + 1, 1);
 
             {Array.from({ length: pages }, (_, p) => (
               <button
+                type="button"
                 class="indicator w-6 h-2 rounded bg-gray-300 dark:bg-gray-600 cursor-pointer transition-all duration-300"
                 data-page={p}
                 aria-label={`Featured posts, slide ${p + 1}`}
@@ -171,8 +178,21 @@ const pages = Math.max(featuredPosts.length - visible + 1, 1);
     const maxIdx = () => Math.max(0, itemCount - getVisibleCount());
 
     function updateButtons() {
+      const focused = document.activeElement;
       if (prevBtn) prevBtn.disabled = idx <= 0;
       if (nextBtn) nextBtn.disabled = idx >= maxIdx();
+      // A button that just disabled itself drops keyboard focus; hand it to the other one.
+      if (focused === prevBtn && prevBtn?.disabled) nextBtn?.focus();
+      else if (focused === nextBtn && nextBtn?.disabled) prevBtn?.focus();
+    }
+
+    // Cards scrolled out of view stay out of the tab order and the
+    // accessibility tree (the viewport clips them, so focus there is invisible).
+    function updateItems() {
+      const visibleCount = getVisibleCount();
+      Array.from(track!.children).forEach((item, j) => {
+        (item as HTMLElement).inert = j < idx || j >= idx + visibleCount;
+      });
     }
 
     function updateIndicators() {
@@ -180,6 +200,8 @@ const pages = Math.max(featuredPosts.length - visible + 1, 1);
       const current = Math.min(idx, indicators.length - 1);
       indicators.forEach((btn, j) => {
         const active = j === current;
+        if (active) btn.setAttribute("aria-current", "true");
+        else btn.removeAttribute("aria-current");
         btn.classList.toggle("bg-gray-800", active);
         btn.classList.toggle("dark:bg-gray-200", active);
         btn.classList.toggle("bg-gray-300", !active);
@@ -194,6 +216,7 @@ const pages = Math.max(featuredPosts.length - visible + 1, 1);
       idx = Math.min(Math.max(idx, 0), maxIdx());
       track.style.transform = `translateX(-${(idx * 100) / getVisibleCount()}%)`;
       updateButtons();
+      updateItems();
       updateIndicators();
     }
 

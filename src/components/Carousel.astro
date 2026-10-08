@@ -36,6 +36,10 @@ const markLoaded = "this.classList.add('is-loaded')";
         style={heroName ? `view-transition-name: ${vtName(heroName)}` : undefined}
         onload={markLoaded}
         onerror={markLoaded}
+        tabindex="0"
+        role="button"
+        aria-haspopup="dialog"
+        aria-label="View image full screen"
       />
 
       <!-- Navigation Arrows (Centered on Image) -->
@@ -63,6 +67,10 @@ const markLoaded = "this.classList.add('is-loaded')";
           decoding="async"
           data-index={i}
           data-carousel-id={id}
+          tabindex="0"
+          role="button"
+          aria-label={`Show image ${i + 1} of ${images.length}`}
+          aria-current={i === 0 ? "true" : undefined}
           class="thumbnail w-16 h-16 md:w-24 md:h-24 shrink-0 object-cover rounded cursor-pointer opacity-50 border border-transparent bg-gray-300 dark:bg-slate-700 hover:opacity-75 transition duration-200 motion-safe:active:scale-95"
         />
       ))}
@@ -78,8 +86,18 @@ const markLoaded = "this.classList.add('is-loaded')";
     <!-- Lightbox Modal -->
     <div
       id={`${id}-lightbox`}
+      role="dialog"
+      aria-modal="true"
+      aria-label="Image viewer"
       class="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 backdrop-blur-sm hidden transition-opacity duration-300 opacity-0 cursor-zoom-out touch-pan-y"
     >
+      <!-- Lightbox Close Button -->
+      <button type="button" id={`${id}-lb-close`} class="absolute right-4 top-4 p-3 bg-white/10 hover:bg-white/20 text-white rounded-full transition backdrop-blur-sm z-[110] cursor-pointer motion-safe:active:scale-90" aria-label="Close image viewer">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+
       <!-- Lightbox Prev Button -->
       <button id={`${id}-lb-prev`} class="absolute left-4 top-1/2 -translate-y-1/2 p-3 bg-white/10 hover:bg-white/20 text-white rounded-full transition backdrop-blur-sm z-[110] cursor-pointer motion-safe:active:scale-90" aria-label="Previous image">
          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -119,6 +137,7 @@ const markLoaded = "this.classList.add('is-loaded')";
         // Lightbox buttons
         const lbPrev = document.getElementById(`${id}-lb-prev`);
         const lbNext = document.getElementById(`${id}-lb-next`);
+        const lbClose = document.getElementById(`${id}-lb-close`);
 
         const thumbnails = carousel.querySelectorAll('.thumbnail');
         if (!mainImg || !lightbox || !lightboxImg) return;
@@ -137,6 +156,8 @@ const markLoaded = "this.classList.add('is-loaded')";
             t.classList.toggle('border-white', active);
             t.classList.toggle('ring-2', active);
             t.classList.toggle('ring-blue-500', active);
+            if (active) t.setAttribute('aria-current', 'true');
+            else t.removeAttribute('aria-current');
           });
         };
 
@@ -184,25 +205,49 @@ const markLoaded = "this.classList.add('is-loaded')";
         // Initial highlight (the main image is already showing images[0])
         highlight(0);
 
-        // Lightbox logic
+        // Lightbox logic (a modal dialog: focus moves in, stays in, and returns)
+        let opener = null;
+        let hideTimer = 0;
+        const isOpen = () => !lightbox.classList.contains('hidden') && lightbox.classList.contains('opacity-100');
+
         const openLightbox = () => {
+          clearTimeout(hideTimer);
+          opener = document.activeElement;
           lightboxImg.src = mainImg.src;
+          lightboxImg.alt = `Image ${currentIndex + 1} of ${images.length}`;
           lightbox.classList.remove('hidden');
           lightbox.getBoundingClientRect(); // start the fade from the hidden state
           lightbox.classList.replace('opacity-0', 'opacity-100');
           lightboxImg.classList.replace('scale-95', 'scale-100');
+          lbClose?.focus({ preventScroll: true });
         };
 
         const closeLightbox = () => {
+          if (!isOpen()) return;
           lightbox.classList.replace('opacity-100', 'opacity-0');
           lightboxImg.classList.replace('scale-100', 'scale-95');
-          setTimeout(() => lightbox.classList.add('hidden'), 300);
+          hideTimer = setTimeout(() => lightbox.classList.add('hidden'), reduceMotion.matches ? 0 : 300);
+          if (opener && opener.isConnected) opener.focus({ preventScroll: true });
+          opener = null;
+        };
+
+        // Enter/Space on the image and thumbnails (role="button" <img>s).
+        const onActivateKey = (e, action) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            action();
+          }
         };
 
         mainImg.addEventListener('click', openLightbox);
+        mainImg.addEventListener('keydown', (e) => onActivateKey(e, openLightbox));
 
         lightbox.addEventListener('click', (e) => {
           if (e.target === lightbox || e.target === lightboxImg) closeLightbox();
+        });
+        lbClose?.addEventListener('click', (e) => {
+          e.stopPropagation();
+          closeLightbox();
         });
 
         // Main Arrows
@@ -215,7 +260,9 @@ const markLoaded = "this.classList.add('is-loaded')";
 
         // Thumbnails
         thumbnails.forEach((thumb, i) => {
-          thumb.addEventListener('click', () => show(i, i > currentIndex ? 1 : -1));
+          const pick = () => show(i, i > currentIndex ? 1 : -1);
+          thumb.addEventListener('click', pick);
+          thumb.addEventListener('keydown', (e) => onActivateKey(e, pick));
         });
 
         // Swipe left/right on the image or the lightbox
@@ -237,15 +284,24 @@ const markLoaded = "this.classList.add('is-loaded')";
           el?.addEventListener('touchend', onTouchEnd, { passive: true });
         });
 
-        // Arrow keys / Escape while the lightbox is open
+        // Arrow keys / Escape / Tab (kept inside) while the lightbox is open
         const onKey = (e) => {
           if (!carousel.isConnected) return document.removeEventListener('keydown', onKey);
-          if (lightbox.classList.contains('hidden')) return;
+          if (!isOpen()) return;
           if (e.key === 'ArrowLeft') goPrev();
           else if (e.key === 'ArrowRight') goNext();
           else if (e.key === 'Escape') closeLightbox();
+          else if (e.key === 'Tab') {
+            const focusables = [lbClose, lbPrev, lbNext].filter(Boolean);
+            const i = focusables.indexOf(document.activeElement);
+            e.preventDefault();
+            const step = e.shiftKey ? -1 : 1;
+            focusables[(i + step + focusables.length) % focusables.length]?.focus();
+          }
         };
         document.addEventListener('keydown', onKey);
+        // Leaving the page with the viewer open must not leave a stale listener behind.
+        document.addEventListener('astro:before-swap', () => document.removeEventListener('keydown', onKey), { once: true });
       }
 
       // Run immediately

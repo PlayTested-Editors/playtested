@@ -111,10 +111,9 @@ if (currentPage < 1 || currentPage > totalPages) {
     ) :
     (
       <ul class="space-y-4">
+        {/* PostCard renders its own <li>. */}
         {paginated.map((post, i) => (
-          <li>
-            <PostCard post={post} priority={i < 2} />
-          </li>
+          <PostCard post={post} priority={i < 2} />
         ))}
       </ul>
     )
