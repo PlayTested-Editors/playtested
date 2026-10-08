@@ -44,6 +44,17 @@ code>span.line {
   overflow: hidden;
 }
 
+/* Hovering a post card shows a cut-off title in full; its description gives
+   up a line so the card barely grows. No animation (instant swap). */
+@media (hover: hover) {
+  [data-vt-card]:is(:hover, :focus-within) .clamp-2-lines[data-clamped] {
+    -webkit-line-clamp: unset;
+  }
+  [data-vt-card]:is(:hover, :focus-within):has(.clamp-2-lines[data-clamped]) .card-desc {
+    -webkit-line-clamp: 1;
+  }
+}
+
 /* Brand lettering: headings and card titles use Chakra Petch (like the logo
    and share card); body text stays Segoe UI for readability. */
 h1,
@@ -273,6 +284,7 @@ h4,
 /* Images the text wraps around (studio: "Wrap · image left/right"). Width comes
    from the inline style; on phones the image sits above the text at full width. */
 .prose img.img-wrap {
+  clear: both; /* start below an earlier wrapped image, never beside it */
   margin-top: 0.35rem;
   margin-bottom: 1rem;
 }

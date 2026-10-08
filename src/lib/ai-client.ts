@@ -10,6 +10,7 @@
  *
  * Client-only: import from <script> tags, never from server code.
  */
+import { formatScore } from "./score";
 
 export interface Ref {
   url?: string;
@@ -204,7 +205,7 @@ export function citedRefs(text: string, refs: Refs): Ref[] {
 export function sourceChips(list: Ref[]): string {
   return list
     .map((r) => {
-      const score = typeof r.score === "number" ? `<span class="shrink-0 rounded-full bg-indigo-600 px-1.5 py-px text-[10px] font-bold text-white">${escapeHtml(String(r.score))}</span>` : "";
+      const score = typeof r.score === "number" ? `<span class="shrink-0 rounded-full bg-indigo-600 px-1.5 py-px text-[10px] font-bold text-white">${escapeHtml(formatScore(r.score))}</span>` : "";
       return `<a href="${escapeHtml(r.url || "/")}" title="${escapeHtml(r.title || "")}" class="inline-flex max-w-full items-center gap-1.5 rounded-full border border-indigo-200 dark:border-indigo-500/30 bg-white/80 dark:bg-slate-900/50 px-2.5 py-1 text-xs font-medium text-indigo-700 dark:text-indigo-300 hover:bg-indigo-50 dark:hover:bg-indigo-500/10 transition-colors"><svg class="h-3 w-3 shrink-0" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z"/></svg><span class="truncate">${escapeHtml(r.label || r.title || "Review")}</span>${score}</a>`;
     })
     .join("");

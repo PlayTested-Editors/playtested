@@ -16,6 +16,7 @@ import AskReview from "./AskReview.astro";
 import CommentsSection from "./CommentsSection.astro";
 import SiteOptions from "../site.config.mjs";
 import { shortTitle } from "../lib/titles";
+import { formatScore } from "../lib/score";
 
 export interface ArticleViewData {
   title: string;
@@ -140,7 +141,7 @@ const tagHref = (tag: string) => `/tag/${tag.toLowerCase().replace(/\s+/g, "-")}
           hasScore && (
             <div class="shrink-0">
               <div class="article-score-badge beside-title mx-auto md:mx-0 scale-90 lg:scale-95 xl:scale-100">
-                <span class="article-score-value text-base lg:text-lg xl:text-2xl">{score}</span>
+                <span class="article-score-value text-base lg:text-lg xl:text-2xl">{formatScore(score)}</span>
                 <span class="article-score-label text-[10px] lg:text-xs xl:text-sm">Score</span>
               </div>
             </div>
@@ -161,7 +162,8 @@ const tagHref = (tag: string) => `/tag/${tag.toLowerCase().replace(/\s+/g, "-")}
         </h1>
       </div>
     </div>
-    <div class="flex flex-col gap-1 mb-6 border-b pb-4 border-gray-200 dark:border-gray-700">
+    <div class="flex flex-col gap-3 md:flex-row md:items-end md:justify-between mb-4 border-b pb-4 border-gray-200 dark:border-gray-700">
+     <div class="flex flex-col gap-1">
       <div class="text-xl font-bold text-gray-800 dark:text-gray-100">
         By <a
           href={`/author/${author.toLowerCase().replace(/\s+/g, "-")}/`}
@@ -181,10 +183,13 @@ const tagHref = (tag: string) => `/tag/${tag.toLowerCase().replace(/\s+/g, "-")}
           )
         }
       </div>
+     </div>
+      <SocialShare title={title} description={description} thumb={thumb || large} score={score ?? undefined} author={author} url={pageUrl} />
     </div>
   </article>
 
-  <div class="flex flex-wrap items-center justify-between gap-y-2 mb-6">
+  <!-- Tags and the AI summary button share one row. -->
+  <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
     {
       tags?.length > 0 ? (
         <div class="flex flex-wrap items-center gap-1 text-xs sm:text-sm">
@@ -202,8 +207,17 @@ const tagHref = (tag: string) => `/tag/${tag.toLowerCase().replace(/\s+/g, "-")}
         <div />
       )
     }
-
-    <SocialShare title={title} description={description} thumb={thumb || large} score={score ?? undefined} author={author} url={pageUrl} />
+    <button
+      id="ai-summary-btn"
+      class="py-2 px-4 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-medium rounded-lg shadow-md hover:shadow-lg transition-all flex items-center gap-2 text-sm no-underline motion-safe:active:scale-[0.97]"
+      data-slug={slug}
+      disabled={mode === "preview"}
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+      </svg>
+      See AI Summary of Review
+    </button>
   </div>
   {
     large && (
@@ -225,22 +239,9 @@ const tagHref = (tag: string) => `/tag/${tag.toLowerCase().replace(/\s+/g, "-")}
     data-article-body
     class="pt-2 prose prose-h2:text-2xl prose-lg max-w-none text-gray-700 dark:prose-strong:text-slate-100 dark:text-gray-300 prose-headings:text-gray-900 dark:prose-headings:text-slate-100 prose-a:text-blue-600 dark:prose-a:text-blue-400 prose-code:text-slate-700 dark:prose-code:text-slate-100 prose-pre:bg-gray-100 dark:prose-pre:bg-slate-800 prose-blockquote:border-gray-300 dark:prose-blockquote:border-gray-600 prose-blockquote:text-gray-600 dark:prose-blockquote:text-gray-400 prose-h3:text-[1.2em]"
   >
-    {/* AI Summary Section moved inside prose for alignment */}
-    <button
-      id="ai-summary-btn"
-      class="mb-6 mt-4 py-2 px-4 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-medium rounded-lg shadow-md hover:shadow-lg transition-all flex items-center gap-2 text-sm no-underline motion-safe:active:scale-[0.97]"
-      data-slug={slug}
-      disabled={mode === "preview"}
-    >
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-      </svg>
-      See AI Summary of Review
-    </button>
-
     <div
       id="ai-summary-container"
-      class="mb-6 mt-4 p-4 bg-blue-50 dark:bg-slate-800/50 rounded-lg border border-blue-100 dark:border-slate-700 hidden flow-root"
+      class="mb-6 mt-2 p-4 bg-blue-50 dark:bg-slate-800/50 rounded-lg border border-blue-100 dark:border-slate-700 hidden flow-root"
     >
       <h3 class="font-bold text-blue-800 dark:text-blue-300 mb-2 flex items-center gap-2 mt-0">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">

@@ -84,7 +84,7 @@ const markLoaded = "this.classList.add('is-loaded')";
     </div>
     {
       description && (
-        <p class="text-sm text-gray-900 dark:text-gray-400 mt-1 line-clamp-2">
+        <p class="card-desc text-sm text-gray-900 dark:text-gray-400 mt-1 line-clamp-2">
           {description}
         </p>
       )
@@ -106,3 +106,19 @@ const markLoaded = "this.classList.add('is-loaded')";
     </div>
   </div>
 </li>
+
+<script>
+  // Mark titles cut off at two lines: hovering the card then shows the whole
+  // title (see .clamp-2-lines[data-clamped] in global.css).
+  const markClamped = () =>
+    document.querySelectorAll<HTMLElement>(".clamp-2-lines").forEach((el) => el.toggleAttribute("data-clamped", el.scrollHeight > el.clientHeight + 1));
+  document.addEventListener("astro:page-load", () => {
+    markClamped();
+    document.fonts?.ready.then(markClamped);
+  });
+  let resizeTimer: ReturnType<typeof setTimeout>;
+  addEventListener("resize", () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(markClamped, 200);
+  });
+</script>

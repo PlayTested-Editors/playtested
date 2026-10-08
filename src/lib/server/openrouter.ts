@@ -11,7 +11,8 @@ export function openRouterHeaders(env: Env, feature: string): Record<string, str
     Authorization: `Bearer ${env.OPENROUTER_API_KEY ?? ""}`,
     "Content-Type": "application/json",
     "HTTP-Referer": `https://playtested.net/ai/${feature}`,
-    "X-Title": `${site} - ${feature}`,
+    "X-Title": `${site} - ${feature}`, // older name of X-OpenRouter-Title
+    "X-OpenRouter-Title": `${site} - ${feature}`,
   };
 }
 

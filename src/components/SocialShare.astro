@@ -1,4 +1,5 @@
 ---
+import { formatScore } from "../lib/score";
 import ReviewCard from "./ReviewCard.astro";
 
 interface Props {
@@ -36,7 +37,7 @@ const hasScore = score !== undefined && score !== null && score !== "";
 const caption =
     type === "home"
         ? `PlayTested: no-nonsense game reviews. ${url.href}`
-        : `${title}${hasScore ? ` (${score}/10)` : ""}. Read the full review on PlayTested: ${url.href}`;
+        : `${title}${hasScore ? ` (${formatScore(score!)}/10)` : ""}. Read the full review on PlayTested: ${url.href}`;
 const fileName = `playtested-${(type === "home" ? "reviews" : title).toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 60) || "card"}.png`;
 
 const shareLinks = [

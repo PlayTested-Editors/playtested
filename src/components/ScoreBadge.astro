@@ -1,4 +1,5 @@
 ---
+import { formatScore } from "../lib/score";
 export interface Props {
   score: number;
 }
@@ -7,6 +8,6 @@ const rounded = Math.round(score);
 ---
 
 {typeof score === "number" && (
-  <div class={`score-badge score-outline-${rounded}`} aria-label={`Score: ${score} out of 10`}>{score}</div>
+  <div class={`score-badge score-outline-${rounded}`} aria-label={`Score: ${formatScore(score)} out of 10`}>{formatScore(score)}</div>
 
 )}

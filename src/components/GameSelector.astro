@@ -74,6 +74,7 @@ const isCompare = id === "comparator";
 
 <script>
   import { AiError, escapeHtml, getJson, isAbort, noticeHtml, postJson, prefersReducedMotion, renderMarkdown, safeHref } from "../lib/ai-client";
+  import { formatScore } from "../lib/score";
 
   type Game = { id: string; name: string; image: string | null; year: string };
   type RawgGame = { id: number; name: string; released?: string | null; background_image?: string | null; parent_platforms?: { platform: { name: string } }[] };
@@ -92,7 +93,7 @@ const isCompare = id === "comparator";
   function reviewLink(r: Review, compact = false): string {
     const href = r ? safeHref(r.url) : null;
     if (!r || !href) return `<span class="text-xs text-gray-500 dark:text-slate-400">Not reviewed on PlayTested yet</span>`;
-    const score = typeof r.score === "number" ? ` — ${r.score}/10` : "";
+    const score = typeof r.score === "number" ? ` — ${formatScore(r.score)}/10` : "";
     return `<a href="${escapeHtml(href)}" title="${escapeHtml(r.title)}" class="inline-flex items-center gap-1.5 rounded-lg bg-indigo-600 px-3 py-1.5 ${compact ? "text-xs" : "text-sm"} font-semibold text-white shadow-sm transition-colors hover:bg-indigo-700">We reviewed this${score} <span aria-hidden="true">→</span></a>`;
   }
 
@@ -242,7 +243,7 @@ const isCompare = id === "comparator";
       const cards = recs
         .map((g, i) => {
           const rawg = safeHref(g.url);
-          const score = typeof g.review?.score === "number" ? `<span class="score-badge score-outline-${Math.round(g.review.score)}">${g.review.score}</span>` : "";
+          const score = typeof g.review?.score === "number" ? `<span class="score-badge score-outline-${Math.round(g.review.score)}">${formatScore(g.review.score)}</span>` : "";
           const year = yearOf(g.released);
           return `<article class="flex flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-900/40">
             <div class="relative aspect-video">${thumb(g.image, "h-full w-full")}${score}</div>

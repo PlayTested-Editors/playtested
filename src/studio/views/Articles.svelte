@@ -4,6 +4,7 @@
   import { navigate, refreshCounts, route, toast, toastError } from "../state.svelte";
   import Modal from "../ui/Modal.svelte";
   import { relTime, dateTime } from "../format";
+  import { formatScore } from "../../lib/score";
   import StateBadge from "../ui/StateBadge.svelte";
 
   const TABS = [
@@ -196,7 +197,7 @@
                 </p>
               </div>
               {#if a.score !== null}
-                <span class="hidden sm:inline-flex h-8 w-8 items-center justify-center rounded-lg bg-slate-900 text-xs font-bold text-white dark:bg-slate-700">{a.score}</span>
+                <span class="hidden sm:inline-flex h-8 w-8 items-center justify-center rounded-lg bg-slate-900 text-xs font-bold text-white dark:bg-slate-700">{formatScore(a.score)}</span>
               {/if}
               <div class="hidden md:block"><StateBadge state={a.state} live={a.isLive} pending={a.hasPendingChanges} /></div>
             </a>

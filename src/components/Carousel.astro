@@ -68,7 +68,7 @@ const many = images.length > 1;
 
     <!-- Thumbnails: one scrolling row -->
     {many && (
-      <div data-strip class="gallery-strip mt-2 flex gap-2 overflow-x-auto scroll-px-1 snap-x pb-1">
+      <div data-strip class="gallery-strip mt-2 flex gap-2 overflow-x-auto scroll-px-1 snap-x p-0.5 pb-1">
         {images.map((src, i) => (
           <button
             type="button"
@@ -172,8 +172,11 @@ const many = images.length > 1;
           // Keep the active thumbnail in view without scrolling the page.
           const t = thumbnails[index];
           if (strip && t) {
+            // Measure from the strip itself (offsetLeft is relative to whatever
+            // positioned ancestor the article happens to have).
+            const offset = t.getBoundingClientRect().left - strip.getBoundingClientRect().left + strip.scrollLeft;
             strip.scrollTo({
-              left: t.offsetLeft - (strip.clientWidth - t.clientWidth) / 2,
+              left: offset - (strip.clientWidth - t.clientWidth) / 2,
               behavior: reduceMotion.matches ? "auto" : "smooth",
             });
           }

@@ -172,6 +172,7 @@ const questions = ["What are the best RPGs you've reviewed?", "Is Black Myth: Wu
 
 <script>
   import MiniSearch from "minisearch";
+  import { formatScore } from "../lib/score";
   import { navigate } from "astro:transitions/client";
   import {
     citedRefs,
@@ -394,7 +395,7 @@ const questions = ["What are the best RPGs you've reviewed?", "Is Black Myth: Wu
             .map((c) => `<li>${c.heading ? `<span class="font-semibold text-gray-700 dark:text-slate-300">${escapeHtml(c.heading)} · </span>` : ""}${highlight(c.snippet, terms)}</li>`)
             .join("")}</ul></details>`
         : "";
-      const score = typeof d.score === "number" ? `<span class="score-badge small-score score-outline-${Math.round(d.score)}">${d.score}</span>` : "";
+      const score = typeof d.score === "number" ? `<span class="score-badge small-score score-outline-${Math.round(d.score)}">${formatScore(d.score)}</span>` : "";
       const thumb = d.thumb
         ? `<img src="${escapeHtml(d.thumb)}" alt="" loading="lazy" decoding="async" class="h-full w-full object-cover transition duration-300 group-hover:scale-105 motion-reduce:transition-none">`
         : `<span class="grid h-full w-full place-items-center text-gray-300 dark:text-slate-600"><svg class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A1.5 1.5 0 0021.75 19.5V4.5A1.5 1.5 0 0020.25 3H3.75A1.5 1.5 0 002.25 4.5v15A1.5 1.5 0 003.75 21z"/></svg></span>`;
@@ -608,7 +609,7 @@ const questions = ["What are the best RPGs you've reviewed?", "Is Black Myth: Wu
             return `<li role="option" id="sugg-${i}" aria-selected="false" data-href="/article/${encodeURIComponent(d.slug)}/" class="cursor-pointer [&_mark]:bg-transparent [&_mark]:font-semibold [&_mark]:text-indigo-700 dark:[&_mark]:text-indigo-300"><div class="${row}">${
               d.thumb ? `<img src="${escapeHtml(d.thumb)}" alt="" loading="lazy" class="h-9 w-14 shrink-0 rounded object-cover">` : `<span class="h-9 w-14 shrink-0 rounded bg-gray-100 dark:bg-slate-700"></span>`
             }<span class="min-w-0 flex-1"><span class="block truncate text-sm font-medium text-gray-900 dark:text-slate-100">${highlight(d.title, terms)}</span><span class="block truncate text-xs text-gray-500 dark:text-slate-400">${escapeHtml(meta)}</span></span>${
-              typeof d.score === "number" ? `<span class="shrink-0 rounded-full bg-indigo-600 px-2 py-0.5 text-xs font-bold text-white">${d.score}</span>` : ""
+              typeof d.score === "number" ? `<span class="shrink-0 rounded-full bg-indigo-600 px-2 py-0.5 text-xs font-bold text-white">${formatScore(d.score)}</span>` : ""
             }</div></li>`;
           })
           .join("") +
