@@ -10,6 +10,7 @@ import Header from "./Header.astro";
 import Footer from "./Footer.astro";
 import FeaturedCard from "./FeaturedCard.astro";
 import Carousel from "./Carousel.astro";
+import { mergeGallery } from "../lib/gallery";
 import SocialShare from "./SocialShare.astro";
 import AskReview from "./AskReview.astro";
 import CommentsSection from "./CommentsSection.astro";
@@ -36,12 +37,15 @@ export interface Props {
   data: ArticleViewData;
   /** Rendered body for live/preview mode; static mode passes <Content /> as the slot. */
   html?: string;
+  /** Markdown source of the body; its images are added to the gallery. */
+  body?: string;
   similar?: { slug: string; data: any }[];
   mode?: "static" | "live" | "preview";
 }
 
-const { slug, data, html, similar = [], mode = "static" } = Astro.props;
-const { title, pubDate, category, description, thumb, author, tags = [], large, score, gallery, game } = data;
+const { slug, data, html, body, similar = [], mode = "static" } = Astro.props;
+const { title, pubDate, category, description, thumb, author, tags = [], large, score, gallery: picked, game } = data;
+const gallery = mergeGallery(picked, body);
 
 const canonicalPath = `/article/${slug}/`;
 const pageUrl = new URL(canonicalPath, Astro.site);
@@ -114,8 +118,8 @@ const tagHref = (tag: string) => `/tag/${tag.toLowerCase().replace(/\s+/g, "-")}
 
   {
     mode === "preview" && (
-      <div class="sticky top-0 z-40 -mx-4 sm:-mx-6 lg:-mx-8 mb-2 bg-amber-400/95 text-amber-950 text-center text-xs font-semibold tracking-wide py-1.5 backdrop-blur">
-        PREVIEW — this is how the article will look once published
+      <div class="pointer-events-none fixed bottom-4 left-1/2 z-50 -translate-x-1/2 rounded-full bg-amber-400/95 px-4 py-1.5 text-xs font-semibold tracking-wide text-amber-950 shadow-lg backdrop-blur">
+        PREVIEW — not published yet
       </div>
     )
   }
@@ -253,8 +257,8 @@ const tagHref = (tag: string) => `/tag/${tag.toLowerCase().replace(/\s+/g, "-")}
     {mode !== "preview" && <AskReview slug={slug} title={title} />}
 
     {
-      Array.isArray(gallery) && gallery.length > 0 && (
-        <div class="w-full lg:float-right lg:max-w-[420px] lg:ml-8 mb-6 lg:mb-4">
+      gallery.length > 0 && (
+        <div class="not-prose w-full mb-6 lg:float-right lg:w-[44%] lg:max-w-[520px] lg:ml-8 lg:mb-4 lg:mt-1">
           <Carousel images={gallery} heroName={large ? undefined : `hero-${slug}`} priority />
         </div>
       )

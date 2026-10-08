@@ -49,4 +49,4 @@ const similar = (
 Astro.response.headers.set("Cache-Control", "no-store");
 ---
 
-<ArticleView slug={slug} data={live!} html={renderMarkdown(live!.body)} similar={similar} mode="live" />
+<ArticleView slug={slug} data={live!} html={renderMarkdown(live!.body)} body={live!.body} similar={similar} mode="live" />

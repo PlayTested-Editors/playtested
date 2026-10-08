@@ -14,25 +14,22 @@ const { images, caption, heroName, priority = false } = Astro.props as Props;
 const id = `carousel-${Math.random().toString(36).substring(2, 9)}`;
 const imgsJSON = JSON.stringify(images);
 const markLoaded = "this.classList.add('is-loaded')";
+const many = images.length > 1;
 ---
 
 {images.length > 0 && (
-  <div
-    id={id}
-    data-current="0"
-    class="w-full max-w-[900px] mx-auto group relative"
-  >
-    <!-- Main Image: 16:9 box until it loads (most screenshots are 16:9), then its own ratio -->
-    <div class="relative rounded-lg w-full group overflow-hidden img-skeleton touch-pan-y" data-carousel-stage>
+  <div id={id} data-current="0" class="not-prose w-full max-w-[900px] mx-auto">
+    <!-- Main image: a fixed 16:9 frame, so the page doesn't jump between shots -->
+    <div class="relative aspect-video w-full overflow-hidden rounded-xl bg-slate-900 img-skeleton touch-pan-y group" data-carousel-stage>
       <img
         src={images[0]}
-        alt=""
+        alt={many ? `Screenshot 1 of ${images.length}` : "Screenshot"}
         width="1600"
         height="900"
         loading={priority ? "eager" : "lazy"}
         fetchpriority={priority ? "high" : "auto"}
         decoding="async"
-        class:list={["main-image gallery-main img-fade w-full h-auto max-h-[900px] object-contain rounded-lg cursor-zoom-in", heroName && "vt-morph"]}
+        class:list={["main-image gallery-main no-limit img-fade absolute inset-0 m-0 h-full w-full object-contain cursor-zoom-in", heroName && "vt-morph"]}
         style={heroName ? `view-transition-name: ${vtName(heroName)}` : undefined}
         onload={markLoaded}
         onerror={markLoaded}
@@ -42,48 +39,56 @@ const markLoaded = "this.classList.add('is-loaded')";
         aria-label="View image full screen"
       />
 
-      <!-- Navigation Arrows (Centered on Image) -->
-      <button id={`${id}-prev`} class="absolute top-1/2 left-2 -translate-y-1/2 p-2 bg-black/40 hover:bg-black/60 text-white rounded-full transition backdrop-blur-sm shadow-sm opacity-100 z-20 motion-safe:active:scale-90" aria-label="Previous image">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+      {many && (
+        <span data-counter class="pointer-events-none absolute left-2 top-2 z-20 rounded-full bg-black/60 px-2.5 py-0.5 text-xs font-semibold tabular-nums text-white backdrop-blur-sm">
+          1 / {images.length}
+        </span>
+      )}
+      <button type="button" data-expand class="absolute right-2 top-2 z-20 rounded-full bg-black/50 p-1.5 text-white backdrop-blur-sm transition hover:bg-black/70 motion-safe:active:scale-90" aria-label="View full screen">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4h4M20 8V4h-4M4 16v4h4M20 16v4h-4" />
         </svg>
       </button>
-      <button id={`${id}-next`} class="absolute top-1/2 right-2 -translate-y-1/2 p-2 bg-black/40 hover:bg-black/60 text-white rounded-full transition backdrop-blur-sm shadow-sm opacity-100 z-20 motion-safe:active:scale-90" aria-label="Next image">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-        </svg>
-      </button>
+
+      {many && (
+        <>
+          <button type="button" id={`${id}-prev`} class="absolute left-2 top-1/2 z-20 -translate-y-1/2 rounded-full bg-black/45 p-2 text-white shadow-sm backdrop-blur-sm transition hover:bg-black/65 motion-safe:active:scale-90" aria-label="Previous image">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+            </svg>
+          </button>
+          <button type="button" id={`${id}-next`} class="absolute right-2 top-1/2 z-20 -translate-y-1/2 rounded-full bg-black/45 p-2 text-white shadow-sm backdrop-blur-sm transition hover:bg-black/65 motion-safe:active:scale-90" aria-label="Next image">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
+        </>
+      )}
     </div>
 
-    <!-- Thumbnails -->
-    <div class="flex flex-nowrap overflow-x-auto md:flex-wrap justify-start md:justify-center gap-1 md:gap-2 mt-1 md:mt-2 pb-2 md:pb-0 scrollbar-hide">
-      {images.map((src, i) => (
-        <img
-          src={src}
-          alt=""
-          width="96"
-          height="96"
-          loading="lazy"
-          decoding="async"
-          data-index={i}
-          data-carousel-id={id}
-          tabindex="0"
-          role="button"
-          aria-label={`Show image ${i + 1} of ${images.length}`}
-          aria-current={i === 0 ? "true" : undefined}
-          class="thumbnail w-16 h-16 md:w-24 md:h-24 shrink-0 object-cover rounded cursor-pointer opacity-50 border border-transparent bg-gray-300 dark:bg-slate-700 hover:opacity-75 transition duration-200 motion-safe:active:scale-95"
-        />
-      ))}
-    </div>
-
-    <!-- Optional Caption -->
-    {caption && (
-      <div class="mt-4 text-center text-gray-700 dark:text-gray-300">
-        {caption}
+    <!-- Thumbnails: one scrolling row -->
+    {many && (
+      <div data-strip class="gallery-strip mt-2 flex gap-2 overflow-x-auto scroll-px-1 snap-x pb-1">
+        {images.map((src, i) => (
+          <button
+            type="button"
+            data-index={i}
+            aria-label={`Show image ${i + 1} of ${images.length}`}
+            aria-current={i === 0 ? "true" : undefined}
+            class:list={[
+              "thumbnail relative aspect-video w-[23%] min-w-[72px] shrink-0 snap-start overflow-hidden rounded-md bg-slate-200 ring-2 ring-offset-0 transition duration-200 dark:bg-slate-700 motion-safe:active:scale-95",
+              i === 0 ? "ring-blue-500 opacity-100" : "ring-transparent opacity-60 hover:opacity-100",
+            ]}
+          >
+            <img src={src} alt="" width="160" height="90" loading="lazy" decoding="async" class="no-limit absolute inset-0 m-0 h-full w-full object-cover" />
+          </button>
+        ))}
       </div>
     )}
 
-    <!-- Lightbox Modal -->
+    {caption && <div class="mt-3 text-center text-sm text-gray-600 dark:text-gray-300">{caption}</div>}
+
+    <!-- Lightbox -->
     <div
       id={`${id}-lightbox`}
       role="dialog"
@@ -91,33 +96,29 @@ const markLoaded = "this.classList.add('is-loaded')";
       aria-label="Image viewer"
       class="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 backdrop-blur-sm hidden transition-opacity duration-300 opacity-0 cursor-zoom-out touch-pan-y"
     >
-      <!-- Lightbox Close Button -->
-      <button type="button" id={`${id}-lb-close`} class="absolute right-4 top-4 p-3 bg-white/10 hover:bg-white/20 text-white rounded-full transition backdrop-blur-sm z-[110] cursor-pointer motion-safe:active:scale-90" aria-label="Close image viewer">
+      <button type="button" id={`${id}-lb-close`} class="absolute right-4 top-4 z-[110] cursor-pointer rounded-full bg-white/10 p-3 text-white backdrop-blur-sm transition hover:bg-white/20 motion-safe:active:scale-90" aria-label="Close image viewer">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
         </svg>
       </button>
-
-      <!-- Lightbox Prev Button -->
-      <button id={`${id}-lb-prev`} class="absolute left-4 top-1/2 -translate-y-1/2 p-3 bg-white/10 hover:bg-white/20 text-white rounded-full transition backdrop-blur-sm z-[110] cursor-pointer motion-safe:active:scale-90" aria-label="Previous image">
-         <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      {many && (
+        <button type="button" id={`${id}-lb-prev`} class="absolute left-4 top-1/2 z-[110] -translate-y-1/2 cursor-pointer rounded-full bg-white/10 p-3 text-white backdrop-blur-sm transition hover:bg-white/20 motion-safe:active:scale-90" aria-label="Previous image">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-         </svg>
-      </button>
-
-      <img
-        id={`${id}-lightbox-img`}
-        src=""
-        alt=""
-        class="max-w-[95vw] max-h-[95vh] object-contain shadow-2xl rounded-lg transition-transform duration-300 ease-out scale-95"
-      />
-
-      <!-- Lightbox Next Button -->
-      <button id={`${id}-lb-next`} class="absolute right-4 top-1/2 -translate-y-1/2 p-3 bg-white/10 hover:bg-white/20 text-white rounded-full transition backdrop-blur-sm z-[110] cursor-pointer motion-safe:active:scale-90" aria-label="Next image">
-         <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          </svg>
+        </button>
+      )}
+      <img id={`${id}-lightbox-img`} src="" alt="" class="no-limit max-h-[88vh] max-w-[95vw] scale-95 rounded-lg object-contain shadow-2xl transition-transform duration-300 ease-out" />
+      {many && (
+        <button type="button" id={`${id}-lb-next`} class="absolute right-4 top-1/2 z-[110] -translate-y-1/2 cursor-pointer rounded-full bg-white/10 p-3 text-white backdrop-blur-sm transition hover:bg-white/20 motion-safe:active:scale-90" aria-label="Next image">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-         </svg>
-      </button>
+          </svg>
+        </button>
+      )}
+      {many && (
+        <span data-lb-counter class="absolute bottom-4 left-1/2 -translate-x-1/2 rounded-full bg-white/10 px-3 py-1 text-sm font-semibold tabular-nums text-white">1 / {images.length}</span>
+      )}
     </div>
 
     <script define:vars={{ id, imgsJSON }}>
@@ -127,38 +128,55 @@ const markLoaded = "this.classList.add('is-loaded')";
         if (!carousel || carousel.dataset.ready) return;
         carousel.dataset.ready = "1";
 
-        const stage = carousel.querySelector('[data-carousel-stage]');
-        const mainImg = carousel.querySelector('.main-image');
+        const stage = carousel.querySelector("[data-carousel-stage]");
+        const mainImg = carousel.querySelector(".main-image");
+        const strip = carousel.querySelector("[data-strip]");
+        const counter = carousel.querySelector("[data-counter]");
+        const expand = carousel.querySelector("[data-expand]");
         const lightbox = document.getElementById(`${id}-lightbox`);
         const lightboxImg = document.getElementById(`${id}-lightbox-img`);
+        const lbCounter = lightbox?.querySelector("[data-lb-counter]");
         const prevBtn = document.getElementById(`${id}-prev`);
         const nextBtn = document.getElementById(`${id}-next`);
-
-        // Lightbox buttons
         const lbPrev = document.getElementById(`${id}-lb-prev`);
         const lbNext = document.getElementById(`${id}-lb-next`);
         const lbClose = document.getElementById(`${id}-lb-close`);
-
-        const thumbnails = carousel.querySelectorAll('.thumbnail');
+        const thumbnails = [...carousel.querySelectorAll(".thumbnail")];
         if (!mainImg || !lightbox || !lightboxImg) return;
 
         const images = JSON.parse(imgsJSON);
-        const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)');
+        const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)");
         let currentIndex = 0;
         let swapToken = 0;
+
+        const preload = (i) => {
+          if (images.length < 2) return;
+          const img = new Image();
+          img.src = images[(i + images.length) % images.length];
+        };
 
         const highlight = (index) => {
           thumbnails.forEach((t, i) => {
             const active = i === index;
-            t.classList.toggle('opacity-50', !active);
-            t.classList.toggle('border-transparent', !active);
-            t.classList.toggle('opacity-100', active);
-            t.classList.toggle('border-white', active);
-            t.classList.toggle('ring-2', active);
-            t.classList.toggle('ring-blue-500', active);
-            if (active) t.setAttribute('aria-current', 'true');
-            else t.removeAttribute('aria-current');
+            t.classList.toggle("ring-blue-500", active);
+            t.classList.toggle("opacity-100", active);
+            t.classList.toggle("ring-transparent", !active);
+            t.classList.toggle("opacity-60", !active);
+            if (active) t.setAttribute("aria-current", "true");
+            else t.removeAttribute("aria-current");
           });
+          const label = `${index + 1} / ${images.length}`;
+          if (counter) counter.textContent = label;
+          if (lbCounter) lbCounter.textContent = label;
+          mainImg.alt = `Screenshot ${index + 1} of ${images.length}`;
+          // Keep the active thumbnail in view without scrolling the page.
+          const t = thumbnails[index];
+          if (strip && t) {
+            strip.scrollTo({
+              left: t.offsetLeft - (strip.clientWidth - t.clientWidth) / 2,
+              behavior: reduceMotion.matches ? "auto" : "smooth",
+            });
+          }
         };
 
         // Slide the current image out, swap in the next once it has decoded
@@ -170,25 +188,28 @@ const markLoaded = "this.classList.add('is-loaded')";
           currentIndex = index;
           carousel.dataset.current = index;
           highlight(index);
-          if (!lightbox.classList.contains('hidden')) lightboxImg.src = src;
+          preload(index + dir);
+          if (!lightbox.classList.contains("hidden")) lightboxImg.src = src;
 
           const next = new Image();
           next.src = src;
           const decoded = (next.decode ? next.decode() : Promise.resolve()).catch(() => {});
 
           if (reduceMotion.matches) {
-            decoded.then(() => { if (token === swapToken) mainImg.src = src; });
+            decoded.then(() => {
+              if (token === swapToken) mainImg.src = src;
+            });
             return;
           }
-          mainImg.style.setProperty('--slide-dir', dir);
-          mainImg.classList.remove('is-entering');
-          mainImg.classList.add('is-leaving');
+          mainImg.style.setProperty("--slide-dir", dir);
+          mainImg.classList.remove("is-entering");
+          mainImg.classList.add("is-leaving");
           Promise.all([decoded, new Promise((r) => setTimeout(r, 180))]).then(() => {
             if (token !== swapToken) return;
             mainImg.src = src;
-            mainImg.classList.replace('is-leaving', 'is-entering');
+            mainImg.classList.replace("is-leaving", "is-entering");
             mainImg.getBoundingClientRect(); // commit the start position before sliding in
-            mainImg.classList.remove('is-entering');
+            mainImg.classList.remove("is-entering");
           });
         };
 
@@ -196,73 +217,63 @@ const markLoaded = "this.classList.add('is-loaded')";
           e?.stopPropagation();
           show(currentIndex - 1 < 0 ? images.length - 1 : currentIndex - 1, -1);
         };
-
         const goNext = (e) => {
           e?.stopPropagation();
           show(currentIndex + 1 >= images.length ? 0 : currentIndex + 1, 1);
         };
 
-        // Initial highlight (the main image is already showing images[0])
-        highlight(0);
-
-        // Lightbox logic (a modal dialog: focus moves in, stays in, and returns)
+        // Lightbox (a modal dialog: focus moves in, stays in, and returns)
         let opener = null;
         let hideTimer = 0;
-        const isOpen = () => !lightbox.classList.contains('hidden') && lightbox.classList.contains('opacity-100');
+        const isOpen = () => !lightbox.classList.contains("hidden") && lightbox.classList.contains("opacity-100");
 
         const openLightbox = () => {
           clearTimeout(hideTimer);
           opener = document.activeElement;
-          lightboxImg.src = mainImg.src;
-          lightboxImg.alt = `Image ${currentIndex + 1} of ${images.length}`;
-          lightbox.classList.remove('hidden');
+          lightboxImg.src = images[currentIndex];
+          lightboxImg.alt = `Screenshot ${currentIndex + 1} of ${images.length}`;
+          lightbox.classList.remove("hidden");
           lightbox.getBoundingClientRect(); // start the fade from the hidden state
-          lightbox.classList.replace('opacity-0', 'opacity-100');
-          lightboxImg.classList.replace('scale-95', 'scale-100');
+          lightbox.classList.replace("opacity-0", "opacity-100");
+          lightboxImg.classList.replace("scale-95", "scale-100");
           lbClose?.focus({ preventScroll: true });
+          preload(currentIndex + 1);
+          preload(currentIndex - 1);
         };
 
         const closeLightbox = () => {
           if (!isOpen()) return;
-          lightbox.classList.replace('opacity-100', 'opacity-0');
-          lightboxImg.classList.replace('scale-100', 'scale-95');
-          hideTimer = setTimeout(() => lightbox.classList.add('hidden'), reduceMotion.matches ? 0 : 300);
+          lightbox.classList.replace("opacity-100", "opacity-0");
+          lightboxImg.classList.replace("scale-100", "scale-95");
+          hideTimer = setTimeout(() => lightbox.classList.add("hidden"), reduceMotion.matches ? 0 : 300);
           if (opener && opener.isConnected) opener.focus({ preventScroll: true });
           opener = null;
         };
 
-        // Enter/Space on the image and thumbnails (role="button" <img>s).
-        const onActivateKey = (e, action) => {
-          if (e.key === 'Enter' || e.key === ' ') {
+        mainImg.addEventListener("click", openLightbox);
+        mainImg.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === " ") {
             e.preventDefault();
-            action();
+            openLightbox();
           }
-        };
+        });
+        expand?.addEventListener("click", openLightbox);
 
-        mainImg.addEventListener('click', openLightbox);
-        mainImg.addEventListener('keydown', (e) => onActivateKey(e, openLightbox));
-
-        lightbox.addEventListener('click', (e) => {
+        lightbox.addEventListener("click", (e) => {
           if (e.target === lightbox || e.target === lightboxImg) closeLightbox();
         });
-        lbClose?.addEventListener('click', (e) => {
+        lbClose?.addEventListener("click", (e) => {
           e.stopPropagation();
           closeLightbox();
         });
 
-        // Main Arrows
-        prevBtn?.addEventListener('click', goPrev);
-        nextBtn?.addEventListener('click', goNext);
+        prevBtn?.addEventListener("click", goPrev);
+        nextBtn?.addEventListener("click", goNext);
+        lbPrev?.addEventListener("click", goPrev);
+        lbNext?.addEventListener("click", goNext);
 
-        // Lightbox Arrows
-        lbPrev?.addEventListener('click', goPrev);
-        lbNext?.addEventListener('click', goNext);
-
-        // Thumbnails
         thumbnails.forEach((thumb, i) => {
-          const pick = () => show(i, i > currentIndex ? 1 : -1);
-          thumb.addEventListener('click', pick);
-          thumb.addEventListener('keydown', (e) => onActivateKey(e, pick));
+          thumb.addEventListener("click", () => show(i, i > currentIndex ? 1 : -1));
         });
 
         // Swipe left/right on the image or the lightbox
@@ -277,21 +288,21 @@ const markLoaded = "this.classList.add('is-loaded')";
           const dx = e.changedTouches[0].clientX - touchX;
           const dy = e.changedTouches[0].clientY - touchY;
           touchX = null;
-          if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy) * 1.5) (dx < 0 ? goNext : goPrev)();
+          if (images.length > 1 && Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy) * 1.5) (dx < 0 ? goNext : goPrev)();
         };
         [stage, lightbox].forEach((el) => {
-          el?.addEventListener('touchstart', onTouchStart, { passive: true });
-          el?.addEventListener('touchend', onTouchEnd, { passive: true });
+          el?.addEventListener("touchstart", onTouchStart, { passive: true });
+          el?.addEventListener("touchend", onTouchEnd, { passive: true });
         });
 
         // Arrow keys / Escape / Tab (kept inside) while the lightbox is open
         const onKey = (e) => {
-          if (!carousel.isConnected) return document.removeEventListener('keydown', onKey);
+          if (!carousel.isConnected) return document.removeEventListener("keydown", onKey);
           if (!isOpen()) return;
-          if (e.key === 'ArrowLeft') goPrev();
-          else if (e.key === 'ArrowRight') goNext();
-          else if (e.key === 'Escape') closeLightbox();
-          else if (e.key === 'Tab') {
+          if (e.key === "ArrowLeft") goPrev();
+          else if (e.key === "ArrowRight") goNext();
+          else if (e.key === "Escape") closeLightbox();
+          else if (e.key === "Tab") {
             const focusables = [lbClose, lbPrev, lbNext].filter(Boolean);
             const i = focusables.indexOf(document.activeElement);
             e.preventDefault();
@@ -299,16 +310,24 @@ const markLoaded = "this.classList.add('is-loaded')";
             focusables[(i + step + focusables.length) % focusables.length]?.focus();
           }
         };
-        document.addEventListener('keydown', onKey);
+        document.addEventListener("keydown", onKey);
         // Leaving the page with the viewer open must not leave a stale listener behind.
-        document.addEventListener('astro:before-swap', () => document.removeEventListener('keydown', onKey), { once: true });
+        document.addEventListener("astro:before-swap", () => document.removeEventListener("keydown", onKey), { once: true });
+
+        preload(1);
       }
 
-      // Run immediately
       initCarousel();
-
-      // Run on navigation
-      document.addEventListener('astro:page-load', initCarousel);
+      document.addEventListener("astro:page-load", initCarousel);
     </script>
   </div>
 )}
+
+<style>
+  .gallery-strip {
+    scrollbar-width: none;
+  }
+  .gallery-strip::-webkit-scrollbar {
+    display: none;
+  }
+</style>

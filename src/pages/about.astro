@@ -185,9 +185,11 @@ const siteTitle = SiteOptions.siteTitle || "PlayTested.Net";
             Don't have time to read the full review? Get an instant AI-generated
             summary that covers the key pros, cons, and the final verdict.
           </p>
-          <p class="mt-3 text-xs font-bold text-gray-900 dark:text-white">
-            (Available on Article pages)
-          </p>
+          <a
+            href="/category/review/"
+            class="inline-block mt-3 px-3 py-1 rounded bg-blue-600 text-white text-sm"
+            >Pick a review to summarise</a
+          >
         </div>
         <div>
           <h3 class="font-semibold mb-1">AI Chatbot</h3>
@@ -196,9 +198,12 @@ const siteTitle = SiteOptions.siteTitle || "PlayTested.Net";
             the whole site to find specific reviews or answers questions using
             our entire library.
           </p>
-          <p class="mt-3 text-xs font-bold text-gray-900 dark:text-white">
-            (Click the chat bubble)
-          </p>
+          <button
+            type="button"
+            class="inline-block mt-3 px-3 py-1 rounded bg-blue-600 text-white text-sm cursor-pointer"
+            onclick="window._playtestedToggleChat?.('center')"
+            >Try AI Chatbot</button
+          >
         </div>
         <div>
           <h3 class="font-semibold mb-1">AI Recommend</h3>

@@ -3,6 +3,7 @@
   import { scale } from "svelte/transition";
   import type { Media } from "../api";
   import MediaPicker from "../ui/MediaPicker.svelte";
+  import { autoGalleryImages } from "../../lib/gallery";
 
   let {
     value = $bindable<string[]>([]),
@@ -11,6 +12,7 @@
     disabled = false,
     onmediaadded,
     onusethumb,
+    body = "",
   }: {
     value?: string[];
     articleId: string;
@@ -18,7 +20,12 @@
     disabled?: boolean;
     onmediaadded?: (m: Media[]) => void;
     onusethumb?: (url: string) => void;
+    /** Article body: its images join the gallery automatically. */
+    body?: string;
   } = $props();
+
+  // Images used in the article that aren't picked here; the site adds them after the picked ones.
+  let auto = $derived(autoGalleryImages(value, body));
 
   let open = $state(false);
   let dragFrom = $state<number | null>(null);
@@ -69,6 +76,27 @@
       {/each}
     </ul>
     <p class="mt-1.5 text-[11px] text-slate-500">Drag to reorder. The first image shows first in the article's gallery.</p>
+  {/if}
+  {#if auto.length}
+    <div class="mt-3">
+      <p class="text-xs font-semibold text-slate-600 dark:text-slate-300">Added automatically from the article ({auto.length})</p>
+      <ul class="mt-1.5 grid grid-cols-4 gap-2 sm:grid-cols-6">
+        {#each auto as url (url)}
+          <li class="group relative aspect-video overflow-hidden rounded-md bg-slate-100 dark:bg-slate-800">
+            <img src={url} alt="" loading="lazy" class="h-full w-full object-cover opacity-80" />
+            {#if !disabled}
+              <button
+                type="button"
+                class="absolute inset-0 grid place-items-center bg-black/60 text-[10px] font-semibold text-white opacity-0 transition group-hover:opacity-100 focus:opacity-100"
+                title="Add to the picked list to choose its position"
+                onclick={() => (value = [...value, url])}>Pin to reorder</button
+              >
+            {/if}
+          </li>
+        {/each}
+      </ul>
+      <p class="mt-1.5 text-[11px] text-slate-500">Images in the article body show in the gallery after the ones above, without duplicates. No need to pick them twice.</p>
+    </div>
   {/if}
   {#if !disabled}
     <button type="button" class="btn-secondary mt-2 w-full" onclick={() => (open = true)}>+ Add gallery images</button>

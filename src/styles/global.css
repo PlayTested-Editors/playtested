@@ -285,11 +285,9 @@ code>span.line {
     margin: 1.25rem 0;
   }
 }
-/* New sections start below a wrapped image, and the article contains it. */
-.prose h1,
-.prose h2,
-.prose h3,
-.prose hr {
+/* New sections start below a wrapped image (but text keeps flowing beside the
+   gallery, which floats too), and the article contains it. */
+.prose .img-wrap ~ :is(h1, h2, h3, hr) {
   clear: both;
 }
 .prose::after {

@@ -149,7 +149,7 @@
 
   <div>
     <span class="label">Gallery</span>
-    <GalleryField bind:value={() => data.gallery ?? [], (v) => (data.gallery = v)} {articleId} {articleMedia} {disabled} {onmediaadded} onusethumb={(u) => (data.thumb = u)} />
+    <GalleryField bind:value={() => data.gallery ?? [], (v) => (data.gallery = v)} {articleId} {articleMedia} {disabled} {onmediaadded} onusethumb={(u) => (data.thumb = u)} body={data.body} />
   </div>
 </div>
 
