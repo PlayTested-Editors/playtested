@@ -52,16 +52,8 @@ const formattedDate = new Intl.DateTimeFormat("en-US", {
 const hasScore = typeof score !== "undefined" && score !== null;
 ---
 
-<BlogLayout title={title} description={description} canonicalPath={canonicalPath} noindex={mode === "preview"}>
+<BlogLayout title={title} description={description} canonicalPath={canonicalPath} noindex={mode === "preview"} image={large || thumb} type="article">
   <Fragment slot="head">
-    <meta property="og:type" content="article" />
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
-    <meta property="og:image" content={(thumb || large) ?? "/playtested.png"} />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={title} />
-    <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={(thumb || large) ?? "/playtested.png"} />
     <meta property="article:published_time" content={dateObj.toISOString()} />
     {large && <link rel="preload" as="image" href={large} fetchpriority="high" />}
     <script

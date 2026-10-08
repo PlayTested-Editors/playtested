@@ -255,6 +255,13 @@ code>span.line {
   border-radius: 0.5rem;
 }
 
+/* Brand lettering (logo wordmark, share card). Self-hosted via @fontsource. */
+.font-brand {
+  font-family: "Chakra Petch", "Segoe UI", sans-serif;
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
 /* Images the text wraps around (studio: "Wrap · image left/right"). Width comes
    from the inline style; on phones the image sits above the text at full width. */
 .prose img.img-wrap {

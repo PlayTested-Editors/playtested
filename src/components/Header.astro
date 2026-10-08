@@ -1,6 +1,5 @@
 ---
 import SiteOptions from "../site.config.mjs";
-import { Image } from "astro:assets";
 import SocialShare from "./SocialShare.astro";
 export interface Props {
   showTitle?: boolean;
@@ -56,20 +55,20 @@ const { showTitle = true, homeFeatured = [] } = Astro.props;
     <div
       class="flex flex-col sm:flex-row items-center text-center sm:text-left mx-auto sm:mx-0"
     >
-      <a href="/" class="flex items-center space-x-4 mt-2 md:mt-8">
-        <Image
-          src="/images/logo02.avif"
-          alt="Logo"
-          width={96}
-          height={96}
+      <a href="/" class="flex items-center space-x-2 sm:space-x-4 mt-2 md:mt-8">
+        <img
+          src="/favicon.svg"
+          alt="PlayTested"
+          width="96"
+          height="96"
           loading="eager"
-          class="w-12 h-12 md:w-24 md:h-24 rounded-full object-cover border border-gray-200 dark:border-gray-700 shadow hover:opacity-80 transition-opacity"
+          class="w-10 h-10 sm:w-12 sm:h-12 md:w-24 md:h-24 hover:opacity-80 transition-opacity"
         />
         {
           showTitle && (
             <div>
-              <h1 class="text-lg md:text-4xl font-bold tracking-tight hover:opacity-80 transition-opacity">
-                {SiteOptions.siteTitle}
+              <h1 class="font-brand text-lg sm:text-xl md:text-5xl font-bold hover:opacity-80 transition-opacity">
+                Play<span class="text-[#3F7D00] dark:text-[#B6F03C]">Tested</span><span class="hidden sm:inline text-gray-400 dark:text-gray-500">.net</span>
               </h1>
               <p
                 class="hidden sm:block text-sm md:text-lg text-gray-900 dark:text-gray-400 font-light mb-2 md:mb-0 max-w-[580px] md:max-w-none"

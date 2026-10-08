@@ -43,23 +43,6 @@ const pages = Math.max(featuredPosts.length - visible + 1, 1);
 ---
 
 <BlogLayout title={SiteOptions.siteTitle}>
-  <Fragment slot="head">
-    <script
-      type="application/ld+json"
-      set:html={JSON.stringify({
-        "@context": "https://schema.org",
-        "@type": "WebSite",
-        url: Astro.url.origin,
-        name: "PlayTested.Net",
-        potentialAction: {
-          "@type": "SearchAction",
-          target: `${Astro.url.origin}/search?q={search_term_string}`,
-          "query-input": "required name=search_term_string",
-        },
-      })}
-    />
-  </Fragment>
-
   <Header homeFeatured={featuredPosts.slice(0, 3)} />
 
   {
