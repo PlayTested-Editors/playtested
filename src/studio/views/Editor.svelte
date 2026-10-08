@@ -998,6 +998,9 @@
       <p class="text-slate-600 dark:text-slate-300">
         {#if review === "submit"}The chief editor will be able to review, request changes or publish it.{:else if review === "approve"}Marks the article as ready. You can publish it any time.{:else}The writer sees your note at the top of the article.{/if}
       </p>
+      {#if review === "submit" && data && !data.thumb && !data.gallery?.length && !data.body.includes("<img") && !data.body.includes("![")}
+        <p class="rounded-lg bg-sky-50 px-3 py-2 text-xs text-sky-800 dark:bg-sky-500/10 dark:text-sky-200">No images yet? That's fine. The chief editor can add the thumbnail and screenshots before publishing.</p>
+      {/if}
       <textarea class="input min-h-[110px]" placeholder={review === "request_changes" ? "What needs to change? (required)" : "Add a note (optional)"} bind:value={reviewNote}></textarea>
     </div>
     {#snippet footer()}

@@ -272,12 +272,33 @@ route("POST", "/auth/logout", "public", async (c) => withCookie(json({ ok: true 
 
 /** Your own display name in the studio (it starts as your Google name). The byline stays with the chief. */
 route("PATCH", "/me", "contributor", async (c) => {
-  const b = await body<{ name?: string }>(c.request);
+  const b = await body<{ name?: string; byline?: string }>(c.request);
+  const user = c.user!;
   const name = String(b.name ?? "").replace(/\s+/g, " ").trim();
   if (name.length < 2 || name.length > 40) return error(400, "Use a name between 2 and 40 characters.");
-  await c.env.DB.prepare("UPDATE users SET name = ? WHERE id = ?").bind(name, c.user!.id).run();
-  await audit(c.env.DB, c.user!.id, "user.rename", c.user!.id, { name });
-  return json({ ok: true, name });
+
+  // New writers pick their own byline once; after that only the chief changes it
+  // (in Team), since a byline decides which articles are theirs.
+  let byline: string | undefined;
+  if (b.byline !== undefined && b.byline.trim() && b.byline.trim() !== user.authorName) {
+    if (user.authorName && (user.realRole ?? user.role) !== "chief") return error(403, "Your byline is set. Ask the chief editor to change it.");
+    byline = b.byline.replace(/\s+/g, " ").trim();
+    if (byline.length < 2 || byline.length > 30) return error(400, "Use a byline between 2 and 30 characters.");
+    if (!/^[\p{L}\p{N}][\p{L}\p{N} ._-]*$/u.test(byline)) return error(400, "A byline can use letters, numbers, spaces, dots, dashes and underscores.");
+    // Taken by another writer, or already on someone's articles (claiming it would make them yours).
+    const onArticles = await c.env.DB.prepare("SELECT 1 FROM articles WHERE author = ? COLLATE NOCASE LIMIT 1").bind(byline).first();
+    if ((await bylineTaken(c.env, byline, user.id)) || (onArticles && byline.toLowerCase() !== (user.authorName ?? "").toLowerCase()))
+      return error(409, "That byline is already used by another writer. Try a different one.");
+  }
+
+  if (byline) {
+    await c.env.DB.prepare("UPDATE users SET name = ?, author_name = ? WHERE id = ?").bind(name, byline, user.id).run();
+    await audit(c.env.DB, user.id, "user.byline", user.id, { name, byline });
+  } else {
+    await c.env.DB.prepare("UPDATE users SET name = ? WHERE id = ?").bind(name, user.id).run();
+    await audit(c.env.DB, user.id, "user.rename", user.id, { name });
+  }
+  return json({ ok: true, name, authorName: byline ?? user.authorName });
 });
 
 // ---------------------------------------------------------------------------

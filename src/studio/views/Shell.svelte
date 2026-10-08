@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { Snippet } from "svelte";
-  import { onMount } from "svelte";
+  import { onMount, untrack } from "svelte";
   import { fade, fly } from "svelte/transition";
   import { api, getViewAs, setViewAs } from "../api";
   import { clearReturn, counts as countsSignal, loadSession, navigate, refreshCounts, route, session, toast, toastError, toggleTheme, isEditorOrAbove } from "../state.svelte";
@@ -107,18 +107,36 @@
   // ---- Your profile -------------------------------------------------------
   let profileOpen = $state(false);
   let profileName = $state("");
+  let profileByline = $state("");
   let savingProfile = $state(false);
-  function openProfile() {
+  // First visit without a byline: a welcome version of the same dialog.
+  let profileWelcome = $state(false);
+  let canSetByline = $derived(!session.user?.authorName);
+  function openProfile(welcome = false) {
     profileName = session.user?.name ?? "";
+    profileByline = session.user?.authorName ?? "";
+    profileWelcome = welcome;
     mobileOpen = false;
     profileOpen = true;
   }
+  // Ask once per browser session; not while the chief is previewing another role.
+  $effect(() => {
+    const u = session.user;
+    if (!u || u.authorName || u.realRole) return;
+    try {
+      if (sessionStorage.getItem("studio.profilePrompted")) return;
+      sessionStorage.setItem("studio.profilePrompted", "1");
+    } catch {
+      return;
+    }
+    untrack(() => openProfile(true));
+  });
   async function saveProfile() {
     savingProfile = true;
     try {
-      await api.patch("/me", { name: profileName });
+      await api.patch("/me", { name: profileName, ...(canSetByline && profileByline.trim() ? { byline: profileByline } : {}) });
       await loadSession();
-      toast("Name updated", "success", undefined, 2000);
+      toast("Profile saved", "success", undefined, 2000);
       profileOpen = false;
     } catch (e) {
       toastError(e);
@@ -194,7 +212,7 @@
         {:else}
           <div class="grid h-8 w-8 place-items-center rounded-full bg-gradient-to-br from-indigo-500 to-fuchsia-500 text-xs font-bold text-white">{session.user?.name?.[0]?.toUpperCase() ?? "?"}</div>
         {/if}
-        <button type="button" class="min-w-0 flex-1 rounded-md text-left leading-tight hover:opacity-80" title="Your profile" onclick={openProfile}>
+        <button type="button" class="min-w-0 flex-1 rounded-md text-left leading-tight hover:opacity-80" title="Your profile" onclick={() => openProfile()}>
           <p class="truncate text-sm font-medium">{session.user?.name}</p>
           <p class="text-[11px] capitalize text-slate-500">{session.user?.role === "chief" ? "Chief editor" : session.user?.role}</p>
         </button>
@@ -225,17 +243,26 @@
   </div>
 {/snippet}
 
-<Modal bind:open={profileOpen} title="Your profile" size="sm">
+<Modal bind:open={profileOpen} title={profileWelcome ? "Welcome! Set up your profile" : "Your profile"} size="sm">
   <div class="space-y-4 text-sm">
+    {#if profileWelcome}
+      <p class="text-slate-600 dark:text-slate-300">Pick the names people will see. You can change your display name any time.</p>
+    {/if}
     <div>
       <label class="label" for="profile-name">Display name</label>
       <input id="profile-name" class="input" maxlength="40" bind:value={profileName} />
       <p class="mt-1 text-[11px] text-slate-500">What the team sees in the studio: notes, "edited by", activity. It doesn't have to be your Google name.</p>
     </div>
     <div>
-      <p class="label">Byline</p>
-      <p class="rounded-lg bg-slate-50 px-3 py-2 dark:bg-slate-800/60">{session.user?.authorName || "Not set yet"}</p>
-      <p class="mt-1 text-[11px] text-slate-500">The name printed on your articles on the site. {session.user?.role === "chief" ? "Set bylines in Team." : "The chief editor sets it in Team."}</p>
+      {#if canSetByline}
+        <label class="label" for="profile-byline">Byline</label>
+        <input id="profile-byline" class="input" maxlength="30" placeholder="e.g. pixelknight" bind:value={profileByline} />
+        <p class="mt-1 text-[11px] text-slate-500">The name printed on your articles ("By …"), like a gamer tag. Choose carefully: after this, only the chief editor can change it.</p>
+      {:else}
+        <p class="label">Byline</p>
+        <p class="rounded-lg bg-slate-50 px-3 py-2 dark:bg-slate-800/60">{session.user?.authorName}</p>
+        <p class="mt-1 text-[11px] text-slate-500">The name printed on your articles on the site. {session.user?.role === "chief" ? "Change bylines in Team." : "Ask the chief editor if it needs to change."}</p>
+      {/if}
     </div>
     <div>
       <p class="label">Signed in as</p>
@@ -244,8 +271,12 @@
     </div>
   </div>
   {#snippet footer()}
-    <button class="btn-secondary" onclick={() => (profileOpen = false)}>Cancel</button>
-    <button class="btn-primary" disabled={savingProfile || profileName.trim().length < 2} onclick={saveProfile}>{savingProfile ? "Saving…" : "Save"}</button>
+    <button class="btn-secondary" onclick={() => (profileOpen = false)}>{profileWelcome ? "Later" : "Cancel"}</button>
+    <button
+      class="btn-primary"
+      disabled={savingProfile || profileName.trim().length < 2 || (canSetByline && profileByline.trim().length === 1)}
+      onclick={saveProfile}>{savingProfile ? "Saving…" : "Save"}</button
+    >
   {/snippet}
 </Modal>
 

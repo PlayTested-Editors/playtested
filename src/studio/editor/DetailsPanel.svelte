@@ -158,6 +158,9 @@
       {@render imageSlot("large", "Hero image", "Big image above the article (optional, rarely used)")}
     {/if}
   </div>
+  {#if !isChief()}
+    <p class="-mt-4 text-[11px] text-slate-500">Images are optional when you submit: the chief editor can add them.</p>
+  {/if}
 
   <div>
     <span class="label">Gallery</span>
