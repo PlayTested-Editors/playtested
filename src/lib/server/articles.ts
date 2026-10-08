@@ -191,14 +191,25 @@ export type Action =
  * request changes. Editors edit anything and submit; contributors work on
  * their own pieces.
  */
-/** Yours if you created it in the studio, or it carries your byline (bylines are set by the chief editor). */
+/**
+ * Yours if you created it in the studio, or it carries your byline (bylines are
+ * set by the chief editor). Bylines are stored trimmed and compared exactly, the
+ * same way the "Mine only" list filter does (an indexed `author = ?`).
+ */
 export function isOwnArticle(user: SessionUser, a: Pick<ArticleRow, "created_by" | "author">): boolean {
   if (a.created_by === user.id) return true;
-  const byline = user.authorName?.trim().toLowerCase();
-  return Boolean(byline && a.author?.trim().toLowerCase() === byline);
+  const byline = user.authorName?.trim();
+  return Boolean(byline && a.author?.trim() === byline);
 }
 
-export function can(user: SessionUser, action: Action, a?: Pick<ArticleRow, "created_by" | "author" | "live_json" | "state">): boolean {
+/** Workflow states a writer can submit from. */
+export const SUBMITTABLE: ArticleState[] = ["draft", "changes_requested"];
+
+export function can(
+  user: SessionUser,
+  action: Action,
+  a?: Pick<ArticleRow, "created_by" | "author" | "live_json" | "state" | "git_path">,
+): boolean {
   if (user.role === "chief") return true;
   const own = !a || isOwnArticle(user, a);
   switch (action) {
@@ -208,8 +219,9 @@ export function can(user: SessionUser, action: Action, a?: Pick<ArticleRow, "cre
     case "submit":
       return user.role === "editor" || own;
     case "delete":
-      // Only never-published drafts, and only your own (editors: any draft).
-      return Boolean(a && !a.live_json && (user.role === "editor" || own));
+      // Your own work in progress only: never published (no git file, ever), and
+      // not while it's with the chief editor. Editors don't delete others' work.
+      return Boolean(a && own && !a.live_json && !a.git_path && (a.state === "draft" || a.state === "changes_requested"));
     default:
       return false;
   }
@@ -233,6 +245,8 @@ export function rowSummary(row: ArticleRow) {
     featured: Boolean(row.featured),
     thumb: row.thumb,
     isLive: Boolean(row.live_json),
+    /** Was published at some point (its git file was created), even if unpublished since. */
+    wasPublished: Boolean(row.git_path),
     hasPendingChanges: Boolean(row.live_json) && row.state !== "published",
     pubDate: row.pub_date,
     publishedAt: row.published_at,
@@ -314,6 +328,8 @@ export async function freeGitPath(env: Env, slug: string, exceptId: string): Pro
 
 export async function createArticle(env: Env, user: SessionUser, input: Partial<ArticleData>): Promise<ArticleRow> {
   const data = normaliseData({ author: user.authorName || user.name, ...input });
+  // A new article always carries its creator's byline (only the chief changes bylines).
+  data.author = (user.role === "chief" && input.author ? data.author : user.authorName || user.name).trim();
   if (!data.slug) data.slug = `untitled-${uid(4).toLowerCase()}`;
   let slug = data.slug;
   for (let i = 2; await slugTaken(env, slug); i++) slug = `${data.slug}-${i}`;
@@ -349,6 +365,15 @@ export async function createArticle(env: Env, user: SessionUser, input: Partial<
   return (await getArticle(env, id))!;
 }
 
+/** Record the current working copy in History unless the newest revision already is it. */
+export async function snapshotIfMissing(env: Env, row: ArticleRow): Promise<void> {
+  const last = await env.DB.prepare("SELECT rev FROM revisions WHERE article_id = ? ORDER BY id DESC LIMIT 1")
+    .bind(row.id)
+    .first<{ rev: number }>();
+  if (last && last.rev === row.draft_rev) return;
+  await addRevision(env, row.id, row.draft_rev, draftOf(row), "autosave", row.updated_by, null);
+}
+
 export class ConflictError extends Error {
   constructor(public current: ArticleRow) {
     super("Someone else saved this article since you opened it.");
@@ -371,10 +396,26 @@ export async function saveDraft(
 ): Promise<ArticleRow> {
   if (row.draft_rev !== baseRev) throw new ConflictError(row);
   const data = normaliseData(input);
-  // The byline decides ownership (isOwnArticle), so only the chief editor changes it.
-  data.author = user.role === "chief" ? data.author.trim() : (row.author ?? data.author);
+  // The byline decides ownership (isOwnArticle), so only the chief editor changes
+  // it. Stored trimmed; a team member's byline typed in another case is stored
+  // exactly as theirs, so the indexed `author = ?` match finds it.
+  data.author = (user.role === "chief" ? data.author : (row.author ?? data.author)).trim();
+  if (user.role === "chief" && data.author && data.author !== (row.author ?? "").trim()) {
+    const member = await env.DB.prepare("SELECT author_name FROM users WHERE author_name = ? COLLATE NOCASE LIMIT 1")
+      .bind(data.author)
+      .first<{ author_name: string }>();
+    if (member?.author_name) data.author = member.author_name.trim();
+  }
   if (!data.slug) data.slug = row.slug;
   if (data.slug !== row.slug && (await slugTaken(env, data.slug, row.id))) throw new SlugTakenError(data.slug);
+
+  // About to replace a working copy History doesn't have (autosaves only keep a
+  // point every 15 minutes): keep it first, under whoever wrote it. Covers
+  // "Keep mine" after a conflict, "Discard changes", "Restore", and picking up
+  // someone else's draft. One indexed read of the newest revision.
+  if ((revisionKind && revisionKind !== "autosave") || (row.updated_by && row.updated_by !== user.id)) {
+    await snapshotIfMissing(env, row);
+  }
 
   let state: ArticleState = nextState ?? row.state;
   if (!nextState && row.live_json) {
@@ -425,10 +466,13 @@ export async function setState(
   kind: string,
   note?: string | null,
 ): Promise<ArticleRow> {
-  await env.DB.prepare("UPDATE articles SET state = ?, updated_by = ?, updated_at = ? WHERE id = ?")
-    .bind(state, user.id, now(), row.id)
+  // updated_by stays the last person who changed the text ("Unpublished changes by …").
+  await env.DB.prepare("UPDATE articles SET state = ?, updated_at = ? WHERE id = ?")
+    .bind(state, now(), row.id)
     .run();
   await addRevision(env, row.id, row.draft_rev, draftOf(row), kind, user.id, note);
+  // Approving settles the open review notes (the approval note itself stays open).
+  if (kind === "approve") await resolveOpenNotes(env, row.id);
   if (note) {
     await env.DB.prepare("INSERT INTO notes (article_id, user_id, body, created_at) VALUES (?, ?, ?, ?)")
       .bind(row.id, user.id, note, now())
@@ -436,6 +480,11 @@ export async function setState(
   }
   await audit(env.DB, user.id, `article.${kind}`, row.id, note ? { note } : undefined);
   return (await getArticle(env, row.id))!;
+}
+
+/** Mark every open note on an article resolved (approve, publish). Reads that article's notes via its index. */
+export async function resolveOpenNotes(env: Env, articleId: string): Promise<void> {
+  await env.DB.prepare("UPDATE notes SET resolved_at = ? WHERE article_id = ? AND resolved_at IS NULL").bind(now(), articleId).run();
 }
 
 /**
@@ -471,6 +520,7 @@ export async function markPublished(
       .run();
   }
   await addRevision(env, row.id, row.draft_rev, data, "publish", user.id, commit.sha.slice(0, 7));
+  await resolveOpenNotes(env, row.id);
   await audit(env.DB, user.id, "article.publish", row.id, { commit: commit.sha, slug: data.slug });
   return (await getArticle(env, row.id))!;
 }

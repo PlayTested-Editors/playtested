@@ -7,9 +7,17 @@
   let {
     articleId,
     notes,
+    canResolveAll = false,
     onupdate,
     onclose,
-  }: { articleId: string; notes: Note[]; onupdate: (d: ArticleDetail) => void; onclose: () => void } = $props();
+  }: {
+    articleId: string;
+    notes: Note[];
+    /** The chief editor, or the article's writer (marking feedback as addressed). */
+    canResolveAll?: boolean;
+    onupdate: (d: ArticleDetail) => void;
+    onclose: () => void;
+  } = $props();
 
   let text = $state("");
   let busy = $state(false);
@@ -43,7 +51,7 @@
   <header class="flex items-center justify-between border-b border-slate-100 px-5 py-4 dark:border-slate-800">
     <div>
       <h2 class="font-semibold">Review notes</h2>
-      <p class="text-xs text-slate-500">Feedback between editors. Notes never appear on the site.</p>
+      <p class="text-xs text-slate-500">Feedback between editors. Notes never appear on the site, and are resolved automatically on approval and publish.</p>
     </div>
     <button class="btn-ghost !p-2" aria-label="Close" onclick={onclose}>✕</button>
   </header>
@@ -55,8 +63,8 @@
       <div class="rounded-xl p-3 text-sm {n.resolvedAt ? 'bg-slate-50 opacity-60 dark:bg-slate-800/40' : 'bg-amber-50/70 ring-1 ring-amber-200/70 dark:bg-amber-500/5 dark:ring-amber-500/20'}" transition:slide={{ duration: 150 }}>
         <div class="mb-1 flex items-center justify-between gap-2">
           <p class="text-xs font-semibold">{n.userName ?? "Someone"} <span class="font-normal text-slate-500">· {relTime(n.createdAt)}</span></p>
-          {#if !n.resolvedAt && (session.user?.role === "chief" || session.user?.id === n.userId)}
-            <button class="text-xs font-medium text-indigo-600 hover:underline dark:text-indigo-400" onclick={() => resolve(n)}>Resolve</button>
+          {#if !n.resolvedAt && (canResolveAll || session.user?.id === n.userId)}
+            <button class="text-xs font-medium text-indigo-600 hover:underline dark:text-indigo-400" onclick={() => resolve(n)}>{session.user?.role === "chief" || session.user?.id === n.userId ? "Resolve" : "Mark addressed"}</button>
           {/if}
         </div>
         <p class="whitespace-pre-wrap leading-relaxed text-slate-700 dark:text-slate-200">{n.body}</p>

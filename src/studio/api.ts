@@ -116,7 +116,11 @@ export interface ArticleSummary {
   featured: boolean;
   thumb: string | null;
   isLive: boolean;
+  /** Was published at some point (even if unpublished since). */
+  wasPublished: boolean;
   hasPendingChanges: boolean;
+  /** List rows only: whether you may delete it (server's rule). */
+  canDelete?: boolean;
   pubDate: number | null;
   publishedAt: number | null;
   updatedAt: number;
@@ -156,10 +160,41 @@ export interface ArticleDetail {
   built: boolean;
   notes: Note[];
   names: Record<string, string>;
+  /** The review step behind an in_review / changes_requested state. */
+  review: {
+    kind: "submit" | "request_changes";
+    note: string | null;
+    by: string | null;
+    byName: string | null;
+    at: number;
+    /** The text changed after it was submitted. */
+    editedSince: boolean;
+  } | null;
   lockedBy: { id: string; name: string } | null;
   media: Media[];
-  permissions: { edit: boolean; submit: boolean; review: boolean; publish: boolean; unpublish: boolean; delete: boolean };
+  permissions: {
+    edit: boolean;
+    submit: boolean;
+    resolveNotes: boolean;
+    review: boolean;
+    publish: boolean;
+    unpublish: boolean;
+    delete: boolean;
+  };
   commit?: { sha: string; time: number; url: string };
+}
+
+/** The editor heartbeat's answer (POST /articles/:id/lock). */
+export interface LockStatus {
+  ok: boolean;
+  readOnly: boolean;
+  lockedBy: { id: string; name: string } | null;
+  state: ArticleState;
+  rev: number;
+  updatedBy: string | null;
+  updatedByName: string | null;
+  updatedAt: number;
+  openNotes: number;
 }
 
 export interface Revision {

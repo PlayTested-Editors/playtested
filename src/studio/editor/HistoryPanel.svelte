@@ -1,5 +1,6 @@
 <script lang="ts">
   import { diffWords } from "diff";
+  import { untrack } from "svelte";
   import { fly } from "svelte/transition";
   import { api, type ArticleData, type Revision } from "../api";
   import { KIND_LABEL, dateTime, relTime } from "../format";
@@ -8,20 +9,36 @@
   let {
     articleId,
     current,
+    live = null,
+    liveAt = null,
+    startWithLive = false,
     canRestore,
     onrestore,
     onclose,
   }: {
     articleId: string;
     current: ArticleData;
+    /** The version readers see now, to compare the working copy with. */
+    live?: ArticleData | null;
+    liveAt?: number | null;
+    /** Open straight on the comparison with the live version. */
+    startWithLive?: boolean;
     canRestore: boolean;
     onrestore: (revisionId: number) => Promise<void>;
     onclose: () => void;
   } = $props();
 
+  /** `id` -1 is the live version (not a stored revision: compare only, no restore). */
+  const LIVE_ID = -1;
   let revisions = $state<Revision[] | null>(null);
-  let selected = $state<{ id: number; data: ArticleData; kind: string; createdAt: number } | null>(null);
+  let selected = $state<{ id: number; data: ArticleData; kind: string; createdAt: number } | null>(
+    untrack(() => (startWithLive && live ? { id: LIVE_ID, data: live, kind: "live", createdAt: liveAt ?? 0 } : null)),
+  );
   let restoring = $state(false);
+
+  function openLive() {
+    if (live) selected = { id: LIVE_ID, data: live, kind: "live", createdAt: liveAt ?? 0 };
+  }
 
   $effect(() => {
     void articleId;
@@ -65,13 +82,25 @@
 <aside class="fixed inset-y-0 right-0 z-40 flex w-full max-w-2xl flex-col bg-white shadow-2xl ring-1 ring-slate-900/10 dark:bg-slate-900 dark:ring-white/10" transition:fly={{ x: 400, duration: 220 }}>
   <header class="flex items-center justify-between border-b border-slate-100 px-5 py-4 dark:border-slate-800">
     <div>
-      <h2 class="font-semibold">{selected ? `Compare with ${KIND_LABEL[selected.kind]?.toLowerCase() ?? selected.kind} · ${dateTime(selected.createdAt)}` : "History"}</h2>
-      <p class="text-xs text-slate-500">{selected ? "Red is in that version, green is in your current draft." : "Every save, review step and publish is kept."}</p>
+      <h2 class="font-semibold">
+        {selected
+          ? selected.id === LIVE_ID
+            ? "Compare with the live version"
+            : `Compare with ${KIND_LABEL[selected.kind]?.toLowerCase() ?? selected.kind} · ${dateTime(selected.createdAt)}`
+          : "History"}
+      </h2>
+      <p class="text-xs text-slate-500">
+        {selected
+          ? selected.id === LIVE_ID
+            ? "Red is what readers see now, green is the working copy."
+            : "Red is in that version, green is in your current draft."
+          : "Every save, review step and publish is kept."}
+      </p>
     </div>
     <div class="flex gap-2">
       {#if selected}
         <button class="btn-ghost" onclick={() => (selected = null)}>← Back</button>
-        {#if canRestore}
+        {#if canRestore && selected.id !== LIVE_ID}
           <button
             class="btn-primary"
             disabled={restoring}
@@ -92,6 +121,11 @@
       {#if !revisions}
         <p class="p-6 text-sm text-slate-500">Loading…</p>
       {:else}
+        {#if live}
+          <div class="px-5 pt-4">
+            <button class="btn-secondary w-full" onclick={openLive}>Compare the working copy with the live version</button>
+          </div>
+        {/if}
         <ol class="relative px-5 py-4">
           {#each revisions as r (r.id)}
             <li class="relative flex gap-4 pb-5 pl-6 before:absolute before:left-[7px] before:top-3 before:h-full before:w-px before:bg-slate-200 last:before:hidden dark:before:bg-slate-700">
@@ -107,7 +141,7 @@
     {:else}
       <div class="space-y-5 p-5">
         {#if !fieldChanges.length && !bodyDiff.length}
-          <p class="text-sm text-slate-500">This version is identical to your current draft.</p>
+          <p class="text-sm text-slate-500">{selected.id === LIVE_ID ? "The working copy is identical to the live version." : "This version is identical to your current draft."}</p>
         {/if}
         {#if fieldChanges.length}
           <table class="w-full text-sm">

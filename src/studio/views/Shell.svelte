@@ -57,10 +57,18 @@
     };
   });
 
+  // The writer's "Changes requested" view (its own sidebar item).
+  const myChangesView = () => route.query.get("state") === "changes_requested" && route.query.get("mine") === "1" && session.user?.role !== "chief";
+
   const nav = $derived([
     { href: "/studio/", label: "Dashboard", icon: "M2.25 12l8.954-8.955a1.126 1.126 0 0 1 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25", match: (p: string[]) => !p.length },
-    { href: "/studio/articles/", label: "Articles", icon: "M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z", match: (p: string[]) => p[0] === "articles" && route.query.get("state") !== "in_review" },
-    { href: "/studio/articles/?state=in_review", label: "Review queue", badge: counts.in_review, icon: "M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z", match: (p: string[]) => p[0] === "articles" && route.query.get("state") === "in_review" },
+    { href: "/studio/articles/", label: "Articles", icon: "M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z", match: (p: string[]) => p[0] === "articles" && route.query.get("state") !== "in_review" && !myChangesView() },
+    // The chief's badge is the review queue; everyone else's is their own pieces
+    // waiting on changes (the queue isn't theirs to act on).
+    { href: "/studio/articles/?state=in_review", label: "Review queue", badge: session.user?.role === "chief" ? counts.in_review : 0, icon: "M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z", match: (p: string[]) => p[0] === "articles" && route.query.get("state") === "in_review" },
+    ...(session.user?.role !== "chief" && counts.mine_changes_requested
+      ? [{ href: "/studio/articles/?state=changes_requested&mine=1", label: "Changes requested", badge: counts.mine_changes_requested, icon: "m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10", match: (p: string[]) => p[0] === "articles" && myChangesView() }]
+      : []),
     { href: "/studio/media/", label: "Media", icon: "m2.25 15.75 5.16-5.16a2.25 2.25 0 0 1 3.18 0l5.16 5.16m-1.5-1.5 1.41-1.41a2.25 2.25 0 0 1 3.18 0l2.91 2.91M3.75 21h16.5A1.5 1.5 0 0 0 21.75 19.5V4.5A1.5 1.5 0 0 0 20.25 3H3.75A1.5 1.5 0 0 0 2.25 4.5v15A1.5 1.5 0 0 0 3.75 21Z", match: (p: string[]) => p[0] === "media" },
     ...(isEditorOrAbove()
       ? [

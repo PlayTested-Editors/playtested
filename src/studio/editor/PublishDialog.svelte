@@ -1,22 +1,43 @@
 <script lang="ts">
   import Modal from "../ui/Modal.svelte";
   import { api, ApiError, type ArticleData, type ArticleDetail } from "../api";
-  import { dateTime } from "../format";
+  import { dateTime, relTime } from "../format";
+  import { session } from "../state.svelte";
 
   let {
     open = $bindable(false),
     detail,
     data,
     onpublished,
-  }: { open?: boolean; detail: ArticleDetail; data: ArticleData; onpublished: (d: ArticleDetail) => void } = $props();
+    onreload,
+    oncompare,
+  }: {
+    open?: boolean;
+    detail: ArticleDetail;
+    data: ArticleData;
+    onpublished: (d: ArticleDetail) => void;
+    /** Reload the article (after someone else saved a newer version). */
+    onreload: () => void | Promise<void>;
+    /** Show the working copy against the live version. */
+    oncompare: () => void;
+  } = $props();
 
-  let phase = $state<"confirm" | "images" | "committing" | "error">("confirm");
+  let phase = $state<"confirm" | "images" | "committing" | "error" | "stale">("confirm");
   let progress = $state({ done: 0, total: 0 });
   let problems = $state<string[]>([]);
   let errorText = $state("");
 
   let future = $derived(Date.parse(data.pubDate) > Date.now());
   let isUpdate = $derived(Boolean(detail.live));
+  // Never published before: the server dates it now unless it's scheduled.
+  let firstPublish = $derived(!detail.live && !detail.article.wasPublished);
+  // Readers can see the live version now (it isn't itself still scheduled).
+  let liveVisible = $derived(Boolean(detail.live) && !(Date.parse(detail.live!.pubDate) > Date.now()));
+  let changedBy = $derived.by(() => {
+    const by = detail.article.updatedBy;
+    if (!by) return null;
+    return by === session.user?.id ? "you" : (detail.names[by] ?? "someone");
+  });
   let checks = $derived([
     { ok: Boolean(data.title.trim()), text: "Has a title" },
     { ok: Boolean(data.description.trim()), text: "Has a description" },
@@ -62,6 +83,12 @@
           phase = "committing";
           continue;
         }
+        if (e instanceof ApiError && e.data.code === "conflict") {
+          // Retrying can't help: the text changed since this copy was loaded.
+          phase = "stale";
+          errorText = `${e.data.updatedBy ?? "Someone"} saved a newer version ${relTime(e.data.updatedAt)}. Load it and check it before publishing.`;
+          return;
+        }
         phase = "error";
         problems = e instanceof ApiError ? (e.data.problems ?? []) : [];
         errorText = (e as Error).message;
@@ -80,14 +107,28 @@
         <p class="font-semibold">{data.title || "Untitled"}</p>
         <p class="mt-1 text-xs text-slate-500">/article/{data.slug}/</p>
         <p class="mt-2 text-xs">
-          {#if future}
+          {#if future && liveVisible}
+            <span class="font-medium text-amber-700 dark:text-amber-400">Hidden from the site until {dateTime(data.pubDate)}.</span>
+            The publish date is in the future, so the live article disappears from the site now and comes back at that time. Set the date to now (Details) to update it in place.
+          {:else if future}
             <span class="font-medium text-sky-600 dark:text-sky-400">Scheduled for {dateTime(data.pubDate)}</span> — it'll appear on the site automatically at that time.
           {:else if isUpdate}
-            The live article updates on the site in about 1–2 minutes.
+            The live article updates on the site in about 1–2 minutes. Dated {dateTime(data.pubDate)}.
           {:else}
             <span class="font-medium text-emerald-600 dark:text-emerald-400">Viewable at its link right away</span>; the homepage and lists update in about 1–2 minutes.
           {/if}
         </p>
+        {#if !future && firstPublish}
+          <p class="mt-1 text-xs text-slate-500">Publishes dated now ({dateTime(Date.now())}). To schedule it instead, set a future date under Details.</p>
+        {:else if !future && !isUpdate}
+          <p class="mt-1 text-xs text-slate-500">Dated {dateTime(data.pubDate)} (its earlier publish date).</p>
+        {/if}
+        {#if isUpdate}
+          <p class="mt-2 border-t border-slate-200 pt-2 text-xs text-slate-600 dark:border-slate-700 dark:text-slate-300">
+            {#if changedBy}Last changed by <b>{changedBy}</b>, {relTime(detail.article.updatedAt)}. {/if}
+            <button type="button" class="font-semibold text-indigo-600 hover:underline dark:text-indigo-400" onclick={oncompare}>Compare with live</button>
+          </p>
+        {/if}
       </div>
       <ul class="space-y-1.5">
         {#each checks as c}
@@ -119,7 +160,16 @@
     </div>
   {/if}
   {#snippet footer()}
-    {#if phase === "confirm" || phase === "error"}
+    {#if phase === "stale"}
+      <button class="btn-secondary" onclick={() => (open = false)}>Cancel</button>
+      <button
+        class="btn-primary"
+        onclick={async () => {
+          open = false;
+          await onreload();
+        }}>Load latest version</button
+      >
+    {:else if phase === "confirm" || phase === "error"}
       <button class="btn-secondary" onclick={() => (open = false)}>Cancel</button>
       <button class="btn-success" disabled={blocking} onclick={publish}>{phase === "error" ? "Try again" : title}</button>
     {/if}

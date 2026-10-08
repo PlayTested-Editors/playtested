@@ -12,6 +12,9 @@
   let mine = $state<List | null>(null);
   let scheduled = $state<List | null>(null);
   let recent = $state<List | null>(null);
+  // Chief only: what's ready to go out, and live articles with changes not yet published.
+  let approved = $state<List | null>(null);
+  let pendingEdits = $state<List | null>(null);
   let guards = $state<{ settings: any; level: number; integrations: Record<string, boolean> } | null>(null);
 
   const EMPTY: List = { articles: [], names: {}, total: null };
@@ -32,6 +35,10 @@
     q("state=in_review&pageSize=8", (l) => (review = l));
     q(`state=changes_requested&pageSize=8${isChief() ? "" : "&mine=1"}`, (l) => (changes = l));
     q("mine=1&state=draft&pageSize=8", (l) => (mine = l));
+    if (isChief()) {
+      q("state=approved&pageSize=8", (l) => (approved = l));
+      q("state=pending&pageSize=8", (l) => (pendingEdits = l));
+    }
     q("state=scheduled&sort=pub&pageSize=6", (l) => (scheduled = l));
     q("state=published&sort=pub&pageSize=6", (l) => (recent = l));
     if (isEditorOrAbove()) {
@@ -97,8 +104,15 @@
     <div>
       <h1 class="text-2xl font-bold tracking-tight">{greeting}, {session.user?.name?.split(" ")[0]}</h1>
       <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">
-        {#if isChief() && review?.total}
-          {review.total} article{review.total === 1 ? " is" : "s are"} waiting for your review.
+        {#if isChief() && (review?.total || approved?.total)}
+          {[
+            review?.total ? `${review.total} article${review.total === 1 ? " is" : "s are"} waiting for your review` : "",
+            approved?.total ? `${approved.total} approved and ready to publish` : "",
+          ]
+            .filter(Boolean)
+            .join(" · ")}.
+        {:else if !isChief() && changes?.total}
+          {changes.total} of your articles {changes.total === 1 ? "needs" : "need"} changes.
         {:else}
           Here's what's happening on PlayTested.
         {/if}
@@ -118,7 +132,16 @@
   <div class="grid grid-cols-1 gap-6 lg:grid-cols-3">
     <div class="min-w-0 space-y-6 lg:col-span-2">
       {@render panel(isChief() ? "Needs your review" : "In review", review, "Nothing waiting for review.", "/studio/articles/?state=in_review")}
-      {@render panel("Changes requested", changes, "No changes requested.", "/studio/articles/?state=changes_requested")}
+      {#if isChief()}
+        {@render panel("Approved — ready to publish", approved, "Nothing approved and waiting.", "/studio/articles/?state=approved")}
+        {@render panel("Unpublished edits", pendingEdits, "No live article has unpublished changes.", "/studio/articles/?state=pending")}
+      {/if}
+      {@render panel(
+        isChief() ? "Changes requested" : "Changes requested on yours",
+        changes,
+        "No changes requested.",
+        `/studio/articles/?state=changes_requested${isChief() ? "" : "&mine=1"}`,
+      )}
       {@render panel("My drafts", mine, "No drafts — start something new.", "/studio/articles/?state=draft&mine=1")}
     </div>
     <div class="min-w-0 space-y-6">

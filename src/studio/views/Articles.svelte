@@ -2,7 +2,7 @@
   import { onMount, untrack } from "svelte";
   import { fade } from "svelte/transition";
   import { api, type ArticleSummary } from "../api";
-  import { navigate, refreshCounts, route, session, toast, toastError } from "../state.svelte";
+  import { navigate, refreshCounts, route, toast, toastError } from "../state.svelte";
   import Modal from "../ui/Modal.svelte";
   import { relTime, dateTime } from "../format";
   import StateBadge from "../ui/StateBadge.svelte";
@@ -93,16 +93,11 @@
   }
 
 
-  // Never-published drafts can be deleted from the list (the server checks permission too).
+  // Your own never-published drafts can be deleted from the list (the chief: anything
+  // not live). The server decides per row (`canDelete`) and checks again on delete.
   let toDelete = $state<ArticleSummary | null>(null);
   let deleting = $state(false);
-  function canDelete(a: ArticleSummary) {
-    const u = session.user;
-    if (!u || a.isLive) return false;
-    if (u.role === "chief" || u.role === "editor") return true;
-    const byline = u.authorName?.trim().toLowerCase();
-    return a.createdBy === u.id || Boolean(byline && a.author?.trim().toLowerCase() === byline);
-  }
+  const canDelete = (a: ArticleSummary) => Boolean(a.canDelete);
   async function confirmDelete() {
     const a = toDelete;
     if (!a || !data) return;
@@ -226,7 +221,9 @@
 
 <Modal open={toDelete !== null} title="Delete draft?" size="sm" onclose={() => (toDelete = null)}>
   <p class="text-sm text-slate-600 dark:text-slate-300">
-    <b>{toDelete?.title || "Untitled"}</b> will be deleted. It was never published, so nothing changes on the site.
+    <b>{toDelete?.title || "Untitled"}</b> will be deleted with its history and notes. It can't be undone.
+    {toDelete?.wasPublished ? "It isn't on the site now (it was unpublished)." : "It was never published, so nothing changes on the site."}
+    Uploaded images stay in the Media library.
   </p>
   {#snippet footer()}
     <button class="btn-secondary" onclick={() => (toDelete = null)}>Cancel</button>

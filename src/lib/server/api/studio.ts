@@ -31,6 +31,7 @@ import {
   finalise,
   freeGitPath,
   getArticle,
+  isOwnArticle,
   liveOf,
   markPublished,
   markUnpublished,
@@ -41,7 +42,9 @@ import {
   setState,
   SlugTakenError,
   slugTaken,
+  SUBMITTABLE,
   toMarkdown,
+  toSiteIso,
   validateForPublish,
   type ArticleData,
   type ArticleRow,
@@ -124,7 +127,19 @@ async function articleDetail(c: Ctx, row: ArticleRow) {
   )
     .bind(row.id)
     .all<{ id: number; body: string; created_at: number; resolved_at: number | null; user_id: string; name: string | null }>();
-  const names = await userNames(env, [row.created_by, row.updated_by, row.locked_by, row.assigned_to]);
+  // The review step behind the current state: the chief's request (shown to the
+  // writer) or the submission (to tell the chief if it was edited since). Only
+  // looked up in those states; the newest matching revision is a few rows back.
+  let review: { kind: string; rev: number; note: string | null; by: string | null; at: number } | null = null;
+  if (row.state === "changes_requested" || row.state === "in_review") {
+    const r = await env.DB.prepare(
+      "SELECT kind, rev, note, user_id, created_at FROM revisions WHERE article_id = ? AND kind IN ('submit', 'request_changes') ORDER BY id DESC LIMIT 1",
+    )
+      .bind(row.id)
+      .first<{ kind: string; rev: number; note: string | null; user_id: string | null; created_at: number }>();
+    if (r) review = { kind: r.kind, rev: r.rev, note: r.note, by: r.user_id, at: r.created_at };
+  }
+  const names = await userNames(env, [row.created_by, row.updated_by, row.locked_by, row.assigned_to, review?.by]);
   const lockActive = row.locked_by && row.locked_by !== user!.id && row.locked_at && now() - row.locked_at < 75_000;
   const media = await env.DB.prepare("SELECT * FROM media WHERE article_id = ? ORDER BY created_at DESC LIMIT 200")
     .bind(row.id)
@@ -143,11 +158,24 @@ async function articleDetail(c: Ctx, row: ArticleRow) {
       userName: n.name,
     })),
     names,
+    review: review
+      ? {
+          kind: review.kind,
+          note: review.note,
+          by: review.by,
+          byName: review.by ? (names[review.by] ?? null) : null,
+          at: review.at,
+          // The text changed after it was submitted (the hint names who changed it last).
+          editedSince: review.kind === "submit" && row.draft_rev > review.rev,
+        }
+      : null,
     lockedBy: lockActive ? { id: row.locked_by, name: names[row.locked_by!] ?? "Someone" } : null,
     media: media.results.map(mediaJson),
     permissions: {
       edit: can(user!, "edit", row),
-      submit: can(user!, "submit", row),
+      submit: can(user!, "submit", row) && SUBMITTABLE.includes(row.state),
+      // The chief, a note's author, or the article's owner resolves notes.
+      resolveNotes: user!.role === "chief" || isOwnArticle(user!, row),
       review: can(user!, "approve", row),
       publish: can(user!, "publish", row),
       unpublish: can(user!, "unpublish", row) && Boolean(row.live_json),
@@ -273,17 +301,15 @@ route("GET", "/articles", "contributor", async (c) => {
     where.push("author = ?");
     args.push(p.get("author"));
   }
-  if (p.get("mine") === "1") {
-    // Yours = created in the studio by you, or under your byline (imported articles
-    // have no creator). Both columns are indexed, so SQLite unions two index scans.
-    const byline = c.user!.authorName?.trim();
-    if (byline) {
-      where.push("(created_by = ? OR author = ?)");
-      args.push(c.user!.id, byline);
-    } else {
-      where.push("created_by = ?");
-      args.push(c.user!.id);
-    }
+  // Yours = created in the studio by you, or under your byline (imported articles
+  // have no creator). Both columns are indexed, so SQLite unions two index scans.
+  const byline = c.user!.authorName?.trim();
+  const mineSql = byline ? "(created_by = ? OR author = ?)" : "created_by = ?";
+  const mineArgs: unknown[] = byline ? [c.user!.id, byline] : [c.user!.id];
+  const mine = p.get("mine") === "1";
+  if (mine) {
+    where.push(mineSql);
+    args.push(...mineArgs);
   }
   const sort = { updated: "updated_at DESC", pub: "pub_date DESC", title: "title COLLATE NOCASE ASC", score: "score DESC" }[
     p.get("sort") || "updated"
@@ -295,22 +321,36 @@ route("GET", "/articles", "contributor", async (c) => {
   // Every query here reads through an index, so a list view costs roughly
   // the rows it shows, not the whole table (D1 free plan: 5M rows read/day).
   // No total COUNT(*): paging uses pageSize + 1 to know if there's more.
-  const [rows, counts, scheduled, pending] = await c.env.DB.batch([
+  // The tab counts follow "Mine only" (they read the state / pub_date indexes,
+  // i.e. only in-progress or scheduled rows, then filter to yours).
+  const and = mine ? ` AND ${mineSql}` : "";
+  const cArgs = mine ? mineArgs : [];
+  const isChiefUser = c.user!.role === "chief";
+  const [rows, counts, scheduled, pending, myChanges] = await c.env.DB.batch([
     c.env.DB.prepare(`SELECT * FROM articles ${whereSql} ORDER BY ${sort} LIMIT ? OFFSET ?`).bind(...args, pageSize + 1, (page - 1) * pageSize),
-    c.env.DB.prepare("SELECT state, COUNT(*) AS n FROM articles WHERE state IN ('draft', 'in_review', 'changes_requested', 'approved') GROUP BY state"),
-    c.env.DB.prepare("SELECT COUNT(*) AS n FROM articles WHERE pub_date > ? AND live_json IS NOT NULL").bind(now()),
-    c.env.DB.prepare("SELECT COUNT(*) AS n FROM articles WHERE state IN ('draft', 'in_review', 'changes_requested', 'approved') AND live_json IS NOT NULL"),
+    c.env.DB.prepare(
+      `SELECT state, COUNT(*) AS n FROM articles WHERE state IN ('draft', 'in_review', 'changes_requested', 'approved')${and} GROUP BY state`,
+    ).bind(...cArgs),
+    c.env.DB.prepare(`SELECT COUNT(*) AS n FROM articles WHERE pub_date > ? AND live_json IS NOT NULL${and}`).bind(now(), ...cArgs),
+    c.env.DB.prepare(
+      `SELECT COUNT(*) AS n FROM articles WHERE state IN ('draft', 'in_review', 'changes_requested', 'approved') AND live_json IS NOT NULL${and}`,
+    ).bind(...cArgs),
+    // Writers' sidebar badge: their own pieces waiting on changes (state index, then filter).
+    c.env.DB.prepare(`SELECT COUNT(*) AS n FROM articles WHERE state = 'changes_requested' AND ${isChiefUser ? "0" : mineSql}`).bind(
+      ...(isChiefUser ? [] : mineArgs),
+    ),
   ]);
   const all = rows.results as ArticleRow[];
-  const list = all.slice(0, pageSize).map(rowSummary);
+  const list = all.slice(0, pageSize).map((row) => ({ ...rowSummary(row), canDelete: can(c.user!, "delete", row) && !row.live_json }));
   const names = await userNames(c.env, list.flatMap((a) => [a.updatedBy, a.createdBy]));
   const stateCounts = Object.fromEntries((counts.results as { state: string; n: number }[]).map((r) => [r.state, r.n]));
   const extra = {
     scheduled: (scheduled.results[0] as { n: number }).n,
     pending: (pending.results[0] as { n: number }).n,
+    mine_changes_requested: (myChanges.results[0] as { n: number }).n,
   };
   // A total is only known (cheaply) for the in-progress tabs.
-  const total = !q && !p.get("category") && !p.get("author") && p.get("mine") !== "1" && state
+  const total = !q && !p.get("category") && !p.get("author") && state
     ? ((stateCounts as Record<string, number>)[state] ?? (extra as Record<string, number>)[state] ?? null)
     : null;
   return json({
@@ -353,26 +393,49 @@ route("PUT", "/articles/:id", "contributor", async (c, m) => {
   return json(await articleDetail(c, saved));
 });
 
+/**
+ * Editor heartbeat (every 30s while an article is open). `hold: true` takes or
+ * renews the presence lock — sent only once this person has edited, so merely
+ * reading an article never shows you as "editing". Every call also reports the
+ * article's workflow state, draft rev, who last changed it and the open-note
+ * count, so an open editor notices reviews and other people's saves.
+ */
 route("POST", "/articles/:id/lock", "contributor", async (c, m) => {
-  const row = await getArticle(c.env, decodeURIComponent(m[1]));
+  let row = await getArticle(c.env, decodeURIComponent(m[1]));
   if (!row) return error(404, "Article not found.");
+  const { hold } = await body<{ hold?: boolean }>(c.request);
+  const me = c.user!.id;
+  const t = now();
+  const canEdit = can(c.user!, "edit", row);
+  let ok = false;
   // Only people who can edit take the presence lock (a read-only viewer must
   // not show up as "editing" and block the real author).
-  if (!can(c.user!, "edit", row)) return json({ ok: false, lockedBy: null, readOnly: true });
-  // Atomic take-or-renew: two people opening at once can't both get it.
-  const t = now();
-  const res = await c.env.DB.prepare(
-    "UPDATE articles SET locked_by = ?, locked_at = ? WHERE id = ? AND (locked_by IS NULL OR locked_by = ? OR locked_at IS NULL OR locked_at < ?)",
-  )
-    .bind(c.user!.id, t, row.id, c.user!.id, t - 75_000)
-    .run();
-  if (!res.meta.changes) {
-    const holder = await c.env.DB.prepare("SELECT locked_by FROM articles WHERE id = ?").bind(row.id).first<{ locked_by: string | null }>();
-    const by = holder?.locked_by ?? row.locked_by;
-    const names = by ? await userNames(c.env, [by]) : {};
-    return json({ ok: false, lockedBy: by ? { id: by, name: names[by] ?? "Someone" } : null });
+  if (hold && canEdit) {
+    // Atomic take-or-renew: two people starting to edit at once can't both get it.
+    const res = await c.env.DB.prepare(
+      "UPDATE articles SET locked_by = ?, locked_at = ? WHERE id = ? AND (locked_by IS NULL OR locked_by = ? OR locked_at IS NULL OR locked_at < ?)",
+    )
+      .bind(me, t, row.id, me, t - 75_000)
+      .run();
+    ok = Boolean(res.meta.changes);
+    if (!ok) row = (await getArticle(c.env, row.id)) ?? row;
   }
-  return json({ ok: true, rev: row.draft_rev, updatedBy: row.updated_by });
+  const holder = !ok && row.locked_by && row.locked_by !== me && row.locked_at && t - row.locked_at < 75_000 ? row.locked_by : null;
+  const [names, open] = await Promise.all([
+    userNames(c.env, [holder, row.updated_by]),
+    c.env.DB.prepare("SELECT COUNT(*) AS n FROM notes WHERE article_id = ? AND resolved_at IS NULL").bind(row.id).first<{ n: number }>(),
+  ]);
+  return json({
+    ok,
+    readOnly: !canEdit,
+    lockedBy: holder ? { id: holder, name: names[holder] ?? "Someone" } : null,
+    state: row.state,
+    rev: row.draft_rev,
+    updatedBy: row.updated_by,
+    updatedByName: row.updated_by ? (names[row.updated_by] ?? null) : null,
+    updatedAt: row.updated_at,
+    openNotes: open?.n ?? 0,
+  });
 });
 
 route("POST", "/articles/:id/unlock", "contributor", async (c, m) => {
@@ -385,7 +448,16 @@ route("POST", "/articles/:id/unlock", "contributor", async (c, m) => {
 route("POST", "/articles/:id/submit", "contributor", async (c, m) => {
   const row = await loadEditable(c, m[1], "submit");
   if (row instanceof Response) return row;
-  if (row.state === "published") return error(400, "There are no unpublished changes to submit.");
+  if (!SUBMITTABLE.includes(row.state)) {
+    return error(
+      400,
+      row.state === "published"
+        ? "There are no unpublished changes to submit."
+        : row.state === "approved"
+          ? "This article is already approved."
+          : "This article is already waiting for review.",
+    );
+  }
   const { note } = await body<{ note?: string }>(c.request);
   return json(await articleDetail(c, await setState(c.env, c.user!, row, "in_review", "submit", note?.trim() || null)));
 });
@@ -393,7 +465,9 @@ route("POST", "/articles/:id/submit", "contributor", async (c, m) => {
 route("POST", "/articles/:id/request-changes", "chief", async (c, m) => {
   const row = await loadEditable(c, m[1], "request_changes");
   if (row instanceof Response) return row;
-  const { note } = await body<{ note?: string }>(c.request);
+  const { note, rev } = await body<{ note?: string; rev?: number }>(c.request);
+  // A verdict on text the reviewer hasn't seen is refused (→ 409, reload first).
+  if (rev !== row.draft_rev) throw new ConflictError(row);
   if (!note?.trim()) return error(400, "Say what needs to change.");
   return json(await articleDetail(c, await setState(c.env, c.user!, row, "changes_requested", "request_changes", note.trim())));
 });
@@ -401,7 +475,8 @@ route("POST", "/articles/:id/request-changes", "chief", async (c, m) => {
 route("POST", "/articles/:id/approve", "chief", async (c, m) => {
   const row = await loadEditable(c, m[1], "approve");
   if (row instanceof Response) return row;
-  const { note } = await body<{ note?: string }>(c.request);
+  const { note, rev } = await body<{ note?: string; rev?: number }>(c.request);
+  if (rev !== row.draft_rev) throw new ConflictError(row);
   return json(await articleDetail(c, await setState(c.env, c.user!, row, "approved", "approve", note?.trim() || null)));
 });
 
@@ -419,6 +494,9 @@ route("POST", "/articles/:id/publish", "chief", async (c, m) => {
   if (!githubConfigured(c.env)) return error(503, "GitHub isn't connected yet, so publishing can't update the site. Add the GITHUB_TOKEN secret.");
 
   const data = finalise(draftOf(row));
+  // A first publish is dated now: the draft's date is when it was started, which
+  // would bury it under newer posts. A future date (scheduling) is kept.
+  if (!row.git_path && !row.live_json && !(Date.parse(data.pubDate) > now())) data.pubDate = toSiteIso(now());
   const problems = validateForPublish(data);
   if (await slugTaken(c.env, data.slug, row.id)) problems.push(`The slug "${data.slug}" is already used.`);
   if (problems.length) return error(422, "Fix these before publishing.", { problems });
@@ -556,9 +634,14 @@ route("POST", "/articles/:id/notes", "contributor", async (c, m) => {
 route("POST", "/notes/:id/resolve", "contributor", async (c, m) => {
   const note = await c.env.DB.prepare("SELECT article_id, user_id FROM notes WHERE id = ?").bind(Number(m[1])).first<{ article_id: string; user_id: string }>();
   if (!note) return error(404, "Note not found.");
-  if (c.user!.role !== "chief" && note.user_id !== c.user!.id) return error(403, "Only the chief editor or the note's author can resolve it.");
+  const row = await getArticle(c.env, note.article_id);
+  if (!row) return error(404, "Article not found.");
+  // The chief editor, the note's author, or the article's writer (to mark feedback addressed).
+  if (c.user!.role !== "chief" && note.user_id !== c.user!.id && !isOwnArticle(c.user!, row)) {
+    return error(403, "Only the chief editor, the note's author or the article's writer can resolve it.");
+  }
   await c.env.DB.prepare("UPDATE notes SET resolved_at = ? WHERE id = ?").bind(now(), Number(m[1])).run();
-  return json(await articleDetail(c, (await getArticle(c.env, note.article_id))!));
+  return json(await articleDetail(c, row));
 });
 
 const META_CACHE_KEY = "studio:meta:v1";

@@ -1,10 +1,10 @@
 <script lang="ts">
   import { onMount, tick, untrack } from "svelte";
   import { fade, slide } from "svelte/transition";
-  import { api, ApiError, type ArticleData, type ArticleDetail, type Media } from "../api";
-  import { navigate, route, session, setLeaveGuard, toast, toastError } from "../state.svelte";
+  import { api, ApiError, type ArticleData, type ArticleDetail, type LockStatus, type Media } from "../api";
+  import { navigate, refreshCounts, route, session, setLeaveGuard, toast, toastError } from "../state.svelte";
   import { deploys, refreshDeploys, watchCommit } from "../deploys.svelte";
-  import { bytes, relTime, slugify } from "../format";
+  import { STATE_LABEL, bytes, dateTime, relTime, slugify } from "../format";
   import StateBadge from "../ui/StateBadge.svelte";
   import Modal from "../ui/Modal.svelte";
   import Dropzone from "../ui/Dropzone.svelte";
@@ -25,6 +25,9 @@
   let saveError = $state<string | null>(null);
   let lastSavedAt = $state<number | null>(null);
   let conflict = $state<{ updatedBy: string | null; updatedAt: number; rev: number } | null>(null);
+  // Someone else saved a newer version than the one on screen (seen by the heartbeat,
+  // or a review/publish refused as stale). Reloading shows it.
+  let stale = $state<{ by: string | null; at: number } | null>(null);
   let lockedBy = $state<{ id: string; name: string } | null>(null);
   let tab = $state<"write" | "details" | "media">("write");
   let aiOpen = $state(false);
@@ -101,6 +104,15 @@
     } catch {}
   }
   let panel = $state<"none" | "history" | "notes">("none");
+  // History opens on "compare with the live version" (from the banner / publish dialog).
+  let historyLive = $state(false);
+  let historyKey = $state(0); // remounts the panel so it opens on the comparison again
+  function compareWithLive() {
+    publishOpen = false;
+    historyLive = true;
+    historyKey++;
+    panel = "history";
+  }
   let showPreview = $state(true);
   let publishOpen = $state(false);
   let review = $state<null | "submit" | "request_changes" | "approve">(null);
@@ -126,6 +138,16 @@
   let articleState = $derived(detail?.article.state ?? "draft");
   // A live article whose working copy differs from what readers see.
   let liveEdited = $derived(Boolean(detail?.live) && canEdit && (articleState !== "published" || dirty));
+  // Who made the pending changes, when it wasn't you.
+  let pendingBy = $derived.by(() => {
+    const by = detail?.article.updatedBy;
+    if (!detail || articleState === "published" || !by || by === session.user?.id) return null;
+    return detail.names[by] ?? "Someone";
+  });
+  // The chief's request, shown to the writer at the top of the article.
+  let changeRequest = $derived(
+    articleState === "changes_requested" && detail?.review?.kind === "request_changes" && detail.review.note ? detail.review : null,
+  );
   let building = $derived(Boolean(detail?.article.isLive && detail.article.publishCommit && !detail.built));
 
   const flushEditor = () => rich?.flush();
@@ -154,6 +176,7 @@
       const d = await api.get<ArticleDetail>(`/articles/${id}`);
       apply(d, true);
       conflict = null;
+      stale = null;
       slugAuto = !d.live && (!d.draft.slug || d.draft.slug.startsWith("untitled-") || d.draft.slug === slugify(d.draft.title));
       checkBackup(d);
     } catch (e) {
@@ -278,6 +301,7 @@
       apply(d, stable(data) === sent);
       lastSavedAt = Date.now();
       conflict = null;
+      stale = null;
       toastedError = null;
       if (manual) toast("Saved", "success", undefined, 1800);
       return "ok";
@@ -337,11 +361,56 @@
     await save(true, true);
   }
 
-  // ---- Presence lock ------------------------------------------------------
+  // ---- Presence lock & live status ------------------------------------------
+  // The presence lock is only taken once you've edited here (reading an article
+  // never shows you as "editing"). Every heartbeat also brings the workflow
+  // state, the latest rev and the open-note count, so reviews and other people's
+  // saves show up without a reload.
+  let editedHere = $state(false);
+  let refreshingMeta = false;
+
+  $effect(() => {
+    if (dirty && !editedHere) {
+      editedHere = true;
+      untrack(() => void heartbeat());
+    }
+  });
+
   async function heartbeat() {
     try {
-      const r = await api.post<{ ok: boolean; lockedBy?: { id: string; name: string } }>(`/articles/${id}/lock`);
-      lockedBy = r.ok ? null : (r.lockedBy ?? null);
+      const r = await api.post<LockStatus>(`/articles/${id}/lock`, { hold: editedHere });
+      lockedBy = r.lockedBy;
+      if (!detail || destroyed) return;
+      // A newer version than ours, saved while no save of ours was on its way.
+      if (r.rev > detail.article.rev && !inflight && !saving && !conflict) {
+        stale = { by: r.updatedByName, at: r.updatedAt };
+      }
+      // Submitted, approved, changes requested, notes added…: refresh state and notes
+      // (never the draft or its rev).
+      if ((r.state !== detail.article.state || r.openNotes !== openNotes) && !refreshingMeta) {
+        const before = detail.article.state;
+        refreshingMeta = true;
+        try {
+          const d = await api.get<ArticleDetail>(`/articles/${id}`);
+          if (destroyed || !detail) return;
+          applyMeta(d);
+          if (d.article.state !== before) {
+            const by = d.review?.byName;
+            const msg =
+              d.article.state === "changes_requested"
+                ? `${by ?? "The chief editor"} requested changes`
+                : d.article.state === "approved"
+                  ? "Approved by the chief editor"
+                  : d.article.state === "in_review"
+                    ? `${by ?? "Someone"} submitted this for review`
+                    : `Status changed: ${STATE_LABEL[d.article.state]}`;
+            toast(msg, "info", undefined, 7000);
+            refreshCounts();
+          }
+        } finally {
+          refreshingMeta = false;
+        }
+      }
     } catch {
       /* ignore */
     }
@@ -474,8 +543,14 @@
       toast(review === "submit" ? "Submitted for review" : review === "approve" ? "Approved" : "Changes requested", "success");
       review = null;
       reviewNote = "";
+      refreshCounts();
     } catch (e) {
-      toastError(e);
+      if (e instanceof ApiError && e.data.code === "conflict") {
+        // The text changed since this copy was loaded: review the latest one first.
+        stale = { by: e.data.updatedBy ?? null, at: e.data.updatedAt };
+        review = null;
+        toast(`${e.data.updatedBy ?? "Someone"} saved a newer version. Reload to review what's there now — your note is kept.`, "error", undefined, 8000);
+      } else toastError(e);
     } finally {
       busy = false;
     }
@@ -500,7 +575,11 @@
       watchCommit(d.commit.sha, d.commit.time);
     }
     refreshDeploys();
-    toast(future ? "Scheduled ✓" : "Published ✓ — the article is viewable at its link now", "success", { label: "View", href: `/article/${d.draft.slug}/` }, 7000);
+    refreshCounts();
+    // A scheduled article isn't on the site until its date: no "View" link then.
+    const scheduled = Date.parse(d.live?.pubDate ?? d.draft.pubDate) > Date.now();
+    if (scheduled) toast(`Scheduled ✓ — it appears on the site on ${dateTime(d.live?.pubDate ?? d.draft.pubDate)}`, "success", undefined, 7000);
+    else toast("Published ✓ — the article is viewable at its link now", "success", { label: "View", href: `/article/${d.draft.slug}/` }, 7000);
   }
 
   async function runConfirm() {
@@ -517,12 +596,12 @@
         setLeaveGuard(null);
         clearBackup();
         data = null; // nothing left to save on the way out
-        toast("Draft deleted", "success");
+        refreshCounts();
+        toast("Article deleted", "success");
         navigate("/studio/articles/", true);
       } else if (what === "discard" && detail?.live) {
-        flushEditor();
-        await settle();
-        if (conflict) throw new Error("Resolve the editing conflict first.");
+        // Save what's typed first: the server keeps the replaced copy in History.
+        await ensureSaved();
         data = structuredClone($state.snapshot(detail.live)) as ArticleData;
         if (!(await save(true))) throw new Error(saveError ? `Couldn't save: ${saveError}` : "Couldn't save the published version. Try again.");
         toast("Back to the published version", "success");
@@ -601,7 +680,7 @@
       <button class="btn-ghost relative !px-2.5" onclick={() => (panel = panel === "notes" ? "none" : "notes")} title="Review notes">
         Notes{#if openNotes}<span class="ml-1 rounded-full bg-amber-500 px-1.5 text-[10px] font-bold text-white">{openNotes}</span>{/if}
       </button>
-      <button class="btn-ghost !px-2.5" onclick={() => (panel = panel === "history" ? "none" : "history")}>History</button>
+      <button class="btn-ghost !px-2.5" onclick={() => { historyLive = false; panel = panel === "history" ? "none" : "history"; }}>History</button>
       <button class="btn-ghost hidden !px-2.5 lg:inline-flex" onclick={() => (showPreview = !showPreview)}>{showPreview ? "Hide preview" : "Preview"}</button>
       {#if canEdit}
         <button class="btn-secondary" disabled={saving || (!dirty && !conflict)} onclick={() => save(true)}>Save</button>
@@ -637,14 +716,14 @@
             {#if liveEdited}
               <button class="block w-full px-4 py-2 text-left hover:bg-slate-50 dark:hover:bg-slate-700" onclick={() => { menuOpen = false; confirm = "discard"; }}>Discard unpublished changes</button>
             {/if}
-            {#if !isChiefUser && detail.permissions.submit && articleState !== "in_review" && detail.live && articleState !== "published"}
-              <button class="block w-full px-4 py-2 text-left hover:bg-slate-50 dark:hover:bg-slate-700" onclick={() => { menuOpen = false; review = "submit"; }}>Submit changes for review</button>
+            {#if detail.live && detail.article.state !== "published"}
+              <button class="block w-full px-4 py-2 text-left hover:bg-slate-50 dark:hover:bg-slate-700" onclick={() => { menuOpen = false; compareWithLive(); }}>Compare with live version</button>
             {/if}
             {#if detail.permissions.unpublish}
               <button class="block w-full px-4 py-2 text-left text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-500/10" onclick={() => { menuOpen = false; confirm = "unpublish"; }}>Unpublish</button>
             {/if}
             {#if detail.permissions.delete}
-              <button class="block w-full px-4 py-2 text-left text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-500/10" onclick={() => { menuOpen = false; confirm = "delete"; }}>Delete draft</button>
+              <button class="block w-full px-4 py-2 text-left text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-500/10" onclick={() => { menuOpen = false; confirm = "delete"; }}>Delete article…</button>
             {/if}
           </div>
         {/if}
@@ -655,7 +734,12 @@
       <div class="flex flex-wrap items-center gap-3 border-t border-rose-200 bg-rose-50 px-4 py-2 text-sm text-rose-800 dark:border-rose-500/30 dark:bg-rose-500/10 dark:text-rose-200" transition:slide>
         <span class="flex-1"><strong>{conflict.updatedBy ?? "Someone"}</strong> saved a newer version {relTime(conflict.updatedAt)}. Your latest edits aren't saved.</span>
         <button class="btn-secondary !py-1" onclick={load}>Load their version</button>
-        <button class="btn-danger !py-1" onclick={overwrite}>Keep mine</button>
+        <button class="btn-danger !py-1" onclick={overwrite} title="Their version stays in History">Keep mine</button>
+      </div>
+    {:else if stale}
+      <div class="flex flex-wrap items-center gap-3 border-t border-sky-200 bg-sky-50 px-4 py-2 text-sm text-sky-900 dark:border-sky-500/30 dark:bg-sky-500/10 dark:text-sky-100" role="status" transition:slide>
+        <span class="flex-1"><strong>{stale.by ?? "Someone"}</strong> saved a newer version {relTime(stale.at)}. You're looking at an older copy.</span>
+        <button class="btn-secondary !py-1" onclick={load}>Reload</button>
       </div>
     {:else if saveError && canEdit}
       <div class="flex flex-wrap items-center gap-3 border-t border-rose-200 bg-rose-50 px-4 py-2 text-sm text-rose-800 dark:border-rose-500/30 dark:bg-rose-500/10 dark:text-rose-200" role="alert" transition:slide>
@@ -673,11 +757,24 @@
     <!-- Editor column -->
     <div class="min-w-0 flex-1 {showPreview ? 'lg:max-w-[52%] xl:max-w-[50%]' : ''}">
       <div class="mx-auto max-w-3xl px-4 py-6 sm:px-6">
-        {#if detail.notes.some((n) => !n.resolvedAt) && articleState === "changes_requested"}
+        {#if changeRequest}
           <button class="mb-5 w-full rounded-xl bg-rose-50 p-4 text-left ring-1 ring-rose-200 transition hover:bg-rose-100 dark:bg-rose-500/10 dark:ring-rose-500/30" onclick={() => (panel = "notes")}>
-            <p class="text-xs font-semibold uppercase tracking-wide text-rose-700 dark:text-rose-300">Changes requested</p>
-            <p class="mt-1 line-clamp-2 text-sm text-rose-900 dark:text-rose-100">{detail.notes.filter((n) => !n.resolvedAt).at(-1)?.body}</p>
+            <p class="text-xs font-semibold uppercase tracking-wide text-rose-700 dark:text-rose-300">
+              Changes requested{changeRequest.byName ? ` by ${changeRequest.byName}` : ""} · {relTime(changeRequest.at)}
+            </p>
+            <p class="mt-1 line-clamp-3 whitespace-pre-wrap text-sm text-rose-900 dark:text-rose-100">{changeRequest.note}</p>
+            {#if detail.permissions.submit}
+              <p class="mt-2 text-xs text-rose-700 dark:text-rose-300">Make the changes, then use <b>Submit for review</b> again.</p>
+            {/if}
           </button>
+        {/if}
+
+        {#if articleState === "in_review" && detail.review?.kind === "submit" && detail.review.editedSince}
+          <div class="mb-4 rounded-lg bg-amber-50 px-3 py-2 text-sm text-amber-900 ring-1 ring-amber-200 dark:bg-amber-500/10 dark:text-amber-100 dark:ring-amber-500/25">
+            <span class="font-semibold">Edited since it was submitted</span>
+            {#if detail.article.updatedBy}— last by {detail.article.updatedBy === session.user?.id ? "you" : (detail.names[detail.article.updatedBy] ?? "someone")}, {relTime(detail.article.updatedAt)}{/if}.
+            <button type="button" class="ml-1 font-semibold underline" onclick={() => { historyLive = false; panel = "history"; }}>See History</button>
+          </div>
         {/if}
 
         {#if recovered && canEdit}
@@ -692,8 +789,14 @@
 
         {#if liveEdited}
           <div class="mb-4 flex flex-wrap items-center gap-x-3 gap-y-1 rounded-lg bg-amber-50 px-3 py-2 text-sm text-amber-900 ring-1 ring-amber-200 dark:bg-amber-500/10 dark:text-amber-100 dark:ring-amber-500/25" transition:slide={{ duration: 150 }}>
-            <span><span class="font-semibold">You have unpublished changes.</span> Readers still see the published version.</span>
-            <button type="button" class="ml-auto rounded-md px-2.5 py-1 text-xs font-semibold text-amber-900 ring-1 ring-amber-300 transition hover:bg-amber-100 dark:text-amber-100 dark:ring-amber-500/40 dark:hover:bg-amber-500/20" onclick={() => (confirm = "discard")}>Discard my changes</button>
+            <span>
+              <span class="font-semibold">{pendingBy ? `Unpublished changes by ${pendingBy}, ${relTime(detail.article.updatedAt)}.` : "You have unpublished changes."}</span>
+              Readers still see the published version.
+            </span>
+            <span class="ml-auto flex gap-2">
+              <button type="button" class="rounded-md px-2.5 py-1 text-xs font-semibold text-amber-900 ring-1 ring-amber-300 transition hover:bg-amber-100 dark:text-amber-100 dark:ring-amber-500/40 dark:hover:bg-amber-500/20" onclick={compareWithLive}>Compare with live</button>
+              <button type="button" class="rounded-md px-2.5 py-1 text-xs font-semibold text-amber-900 ring-1 ring-amber-300 transition hover:bg-amber-100 dark:text-amber-100 dark:ring-amber-500/40 dark:hover:bg-amber-500/20" onclick={() => (confirm = "discard")}>Discard unpublished changes</button>
+            </span>
           </div>
         {/if}
 
@@ -797,12 +900,26 @@
   </div>
 
   {#if panel === "history"}
-    <HistoryPanel articleId={detail.article.id} current={data} canRestore={canEdit} onrestore={restore} onclose={() => (panel = "none")} />
+    {#key historyKey}
+    <HistoryPanel
+      articleId={detail.article.id}
+      current={data}
+      live={detail.live}
+      liveAt={detail.article.publishedAt}
+      startWithLive={historyLive}
+      canRestore={canEdit}
+      onrestore={restore}
+      onclose={() => {
+        panel = "none";
+        historyLive = false;
+      }}
+    />
+    {/key}
   {:else if panel === "notes"}
-    <NotesPanel articleId={detail.article.id} notes={detail.notes} onupdate={applyMeta} onclose={() => (panel = "none")} />
+    <NotesPanel articleId={detail.article.id} notes={detail.notes} canResolveAll={detail.permissions.resolveNotes} onupdate={applyMeta} onclose={() => (panel = "none")} />
   {/if}
 
-  <PublishDialog bind:open={publishOpen} {detail} {data} onpublished={onPublished} />
+  <PublishDialog bind:open={publishOpen} {detail} {data} onpublished={onPublished} onreload={load} oncompare={compareWithLive} />
   <AiWriteGuide bind:open={aiOpen} hasBody={Boolean(data.body.trim())} hasTitle={Boolean(data.title.trim())} onuse={useAiDraft} />
 
   <Modal open={leaveChoice !== null} title="Keep this draft?" size="sm" onclose={() => leaveChoice?.("stay")}>
@@ -835,9 +952,15 @@
     {/snippet}
   </Modal>
 
-  <Modal open={confirm !== null} title={confirm === "unpublish" ? "Unpublish article?" : confirm === "delete" ? "Delete draft?" : "Discard unpublished changes?"} size="sm" onclose={() => (confirm = null)}>
+  <Modal open={confirm !== null} title={confirm === "unpublish" ? "Unpublish article?" : confirm === "delete" ? "Delete article?" : "Discard unpublished changes?"} size="sm" onclose={() => (confirm = null)}>
     <p class="text-sm text-slate-600 dark:text-slate-300">
-      {#if confirm === "unpublish"}It's removed from the site after the next build. The article and its history stay in the studio.{:else if confirm === "delete"}This permanently deletes the draft and its unpublished images.{:else}Everything goes back to the version that's live on the site. Your edits stay in History if you change your mind.{/if}
+      {#if confirm === "unpublish"}
+        It's removed from the site after the next build. The article and its history stay in the studio.
+      {:else if confirm === "delete"}
+        This permanently deletes the article, its history and its notes. It can't be undone. Uploaded images aren't deleted: they stay in the Media library.
+      {:else}
+        The working copy goes back to the version that's live on the site{pendingBy ? `, replacing ${pendingBy}'s changes` : ""}. The current changes are saved in History first, so they can be restored.
+      {/if}
     </p>
     {#snippet footer()}
       <button class="btn-secondary" onclick={() => (confirm = null)}>Cancel</button>
