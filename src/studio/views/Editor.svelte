@@ -14,6 +14,7 @@
   import NotesPanel from "../editor/NotesPanel.svelte";
   import PreviewPane from "../editor/PreviewPane.svelte";
   import PublishDialog from "../editor/PublishDialog.svelte";
+  import AiWriteGuide from "../editor/AiWriteGuide.svelte";
 
   let { id }: { id: string } = $props();
 
@@ -26,6 +27,16 @@
   let conflict = $state<{ updatedBy: string | null; updatedAt: number; rev: number } | null>(null);
   let lockedBy = $state<{ id: string; name: string } | null>(null);
   let tab = $state<"write" | "details" | "media">("write");
+  let aiOpen = $state(false);
+
+  /** A draft from the "Write with AI" guide. The old text stays in History. */
+  function useAiDraft(d: { title: string | null; score: number | null; body: string; mode: "replace" | "append" }) {
+    if (!data) return;
+    if (d.title) data.title = d.title;
+    if (d.score !== null && (data.score === null || data.score === undefined)) data.score = d.score;
+    data.body = d.mode === "append" && data.body.trim() ? `${data.body.trimEnd()}\n\n${d.body}` : d.body;
+    toast(d.mode === "append" ? "Draft added below your text" : "Draft added. Now make it yours.", "success");
+  }
   const readMode = () => {
     try {
       return localStorage.getItem("studio.editorMode") === "markdown" ? "markdown" : "visual";
@@ -656,7 +667,20 @@
             ></textarea>
             <p class="mt-1.5 text-xs text-slate-500 dark:text-slate-400">Tip: the part before <b>|</b> becomes the first line of the title on the site.</p>
           </div>
-          <div class="mb-3 flex items-center justify-end">
+          <div class="mb-3 flex flex-wrap items-center justify-between gap-2">
+            {#if canEdit}
+              <button
+                type="button"
+                class="inline-flex items-center gap-1.5 rounded-lg bg-gradient-to-r from-indigo-500 to-purple-600 px-3 py-1.5 text-xs font-semibold text-white shadow-sm transition hover:from-indigo-600 hover:to-purple-700"
+                onclick={() => (aiOpen = true)}
+                title="Turn your notes into a first draft with ChatGPT, Gemini or another AI"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" /></svg>
+                Write with AI
+              </button>
+            {:else}
+              <span></span>
+            {/if}
             <div class="inline-flex rounded-lg bg-slate-100 p-0.5 text-xs font-semibold dark:bg-slate-800">
               {#each [["visual", "Visual"], ["markdown", "Markdown"]] as [key, label]}
                 <button
@@ -727,6 +751,7 @@
   {/if}
 
   <PublishDialog bind:open={publishOpen} {detail} {data} onpublished={onPublished} />
+  <AiWriteGuide bind:open={aiOpen} hasBody={Boolean(data.body.trim())} hasTitle={Boolean(data.title.trim())} onuse={useAiDraft} />
 
   <Modal
     open={review !== null}
