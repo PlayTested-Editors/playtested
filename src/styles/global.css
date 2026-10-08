@@ -43,32 +43,41 @@ code>span.line {
   overflow: hidden;
 }
 
-/* Default Score Badge */
+/* Brand lettering: headings and card titles use Chakra Petch (like the logo
+   and share card); body text stays Segoe UI for readability. */
+h1,
+h2,
+h3,
+h4,
+[data-vt-title] {
+  font-family: "Chakra Petch", "Segoe UI", sans-serif;
+  letter-spacing: 0;
+}
+
+/* Score badge: a solid PlayTested-blue pill (the logo's gradient) with navy
+   brand-font numbers, like the share card. */
 .score-badge {
   position: absolute;
   bottom: 0.5rem;
   right: 0.5rem;
-  font-size: 0.85rem;
+  font-size: 1rem;
   font-weight: 700;
-  padding: 0.5rem 0.75rem;
-  border-radius: 999px;
-  color: white;
-  background: linear-gradient(to right, #06b6d4, #3b82f6);
-  border: 5px solid;
-  /* Thicker outline */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+  padding: 0.35rem 0.6rem;
+  border-radius: 0.5rem;
+  color: #0b1020;
+  background: linear-gradient(180deg, #8ccbff, #3e9df8);
+  border: 0;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.35);
   z-index: 10;
   pointer-events: none;
   line-height: 1;
-  font-family: 'Segoe UI', sans-serif;
+  font-family: "Chakra Petch", "Segoe UI", sans-serif;
   display: flex;
   align-items: center;
   justify-content: center;
-  min-width: 3rem;
+  min-width: 2.6rem;
   text-align: center;
-  transition: transform 0.35s var(--ease-spring), border 0.3s ease;
-  text-shadow: 0 0 2px black;
-  /* Optional black outline for legibility */
+  transition: transform 0.35s var(--ease-spring);
 }
 
 
@@ -141,10 +150,9 @@ code>span.line {
 /* Shrink on mobile only */
 @media (max-width: 1023px) {
   .post-card-thumb .score-badge {
-    font-size: 0.6rem;
-    padding: 0.2m 0.2rem;
-    border-width: 2px;
-
+    font-size: 0.75rem;
+    padding: 0.25rem 0.4rem;
+    min-width: 2rem;
   }
 }
 
@@ -153,12 +161,12 @@ code>span.line {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(to right, #06b6d4, #3b82f6);
-  color: white;
-  font-weight: bold;
-  font-family: "Segoe UI", sans-serif;
+  background: linear-gradient(180deg, #8ccbff, #3e9df8);
+  color: #0b1020;
+  font-weight: 700;
+  font-family: "Chakra Petch", "Segoe UI", sans-serif;
   padding: 1rem 1.5rem;
-  border-radius: 1rem;
+  border-radius: 0.75rem;
   font-size: 1.5rem;
   line-height: 1;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
@@ -182,8 +190,8 @@ code>span.line {
 
 .article-score-label {
   font-size: 0.75rem;
-  font-weight: normal;
-  opacity: 0.85;
+  font-weight: 700;
+  opacity: 0.75;
   margin-top: 0.25rem;
   text-transform: uppercase;
   letter-spacing: 1px;

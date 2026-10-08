@@ -7,8 +7,6 @@ const rounded = Math.round(score);
 ---
 
 {typeof score === "number" && (
-  <div class={`score-badge score-outline-${rounded}`}>
-  {score}/10
-</div>
+  <div class={`score-badge score-outline-${rounded}`} aria-label={`Score: ${score} out of 10`}>{score}</div>
 
 )}
