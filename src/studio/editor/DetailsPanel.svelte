@@ -150,9 +150,13 @@
     <input type="checkbox" class="h-5 w-9 cursor-pointer appearance-none rounded-full bg-slate-300 transition before:block before:h-4 before:w-4 before:translate-x-0.5 before:rounded-full before:bg-white before:shadow before:transition checked:bg-indigo-600 checked:before:translate-x-[18px] dark:bg-slate-600" {disabled} bind:checked={data.featured} />
   </label>
 
+  <!-- Only the thumbnail: reviews lead with the gallery, and no article uses the
+       old "large" hero image. It's still shown here if an article has one. -->
   <div class="grid gap-4 sm:grid-cols-2">
     {@render imageSlot("thumb", "Thumbnail", "Card & share image")}
-    {@render imageSlot("large", "Hero image", "Big image above the article")}
+    {#if data.large}
+      {@render imageSlot("large", "Hero image", "Big image above the article (optional, rarely used)")}
+    {/if}
   </div>
 
   <div>
