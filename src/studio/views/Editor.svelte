@@ -2,7 +2,7 @@
   import { onMount, tick, untrack } from "svelte";
   import { fade, slide } from "svelte/transition";
   import { api, ApiError, type ArticleData, type ArticleDetail, type Media } from "../api";
-  import { navigate, session, toast, toastError } from "../state.svelte";
+  import { navigate, route, session, setLeaveGuard, toast, toastError } from "../state.svelte";
   import { deploys, refreshDeploys, watchCommit } from "../deploys.svelte";
   import { bytes, relTime, slugify } from "../format";
   import StateBadge from "../ui/StateBadge.svelte";
@@ -28,6 +28,50 @@
   let lockedBy = $state<{ id: string; name: string } | null>(null);
   let tab = $state<"write" | "details" | "media">("write");
   let aiOpen = $state(false);
+
+  // ---- Empty and brand-new drafts --------------------------------------------
+  // "New article" creates a draft right away. Leaving it empty deletes it again,
+  // and leaving a new one that has content asks whether to keep it.
+  const isFresh = untrack(() => route.query.get("new") === "1");
+  let draftDeleted = false;
+  let leaveChoice = $state<null | ((choice: "keep" | "delete" | "stay") => void)>(null);
+  const isBlank = (d: ArticleData) =>
+    !d.title.trim() &&
+    !d.body.trim() &&
+    !d.description.trim() &&
+    !d.game?.trim() &&
+    !d.thumb &&
+    !d.large &&
+    !d.gallery?.length &&
+    !d.tags.length &&
+    (d.score === null || d.score === undefined);
+  /** A never-published draft with nothing in it, that this user may delete. */
+  const isEmptyDraft = () => Boolean(detail && data && !detail.live && detail.permissions.delete && !detail.media.length && isBlank(data));
+
+  async function deleteThisDraft(quiet: boolean) {
+    draftDeleted = true;
+    clearTimeout(timer);
+    try {
+      await api.del(`/articles/${id}`);
+      if (!quiet) toast("Draft deleted", "success");
+    } catch (e) {
+      if (!quiet) toastError(e);
+    }
+  }
+
+  $effect(() => {
+    if (!isFresh || !detail || !data || detail.live || !detail.permissions.delete || isBlank(data)) return;
+    setLeaveGuard(async (to) => {
+      if (draftDeleted || to.includes(`/articles/${id}/`)) return true;
+      const choice = await new Promise<"keep" | "delete" | "stay">((resolve) => (leaveChoice = resolve));
+      leaveChoice = null;
+      if (choice === "stay") return false;
+      if (choice === "delete") await deleteThisDraft(false);
+      else await ensureSaved();
+      return true;
+    });
+    return () => setLeaveGuard(null);
+  });
 
   /** A draft from the "Write with AI" guide. The old text stays in History. */
   function useAiDraft(d: { title: string | null; score: number | null; body: string; mode: "replace" | "append" }) {
@@ -350,6 +394,12 @@
       window.removeEventListener("beforeunload", onBeforeUnload);
       document.removeEventListener("visibilitychange", onHide);
       const unlock = () => fetch(`/api/studio/articles/${id}/unlock`, { method: "POST", keepalive: true, credentials: "same-origin" }).catch(() => undefined);
+      if (draftDeleted) return;
+      if (isEmptyDraft()) {
+        // Nothing was written: don't leave an "Untitled" draft behind.
+        void deleteThisDraft(true);
+        return;
+      }
       if (dirty || inflight) {
         if (dirty) writeBackup();
         // Saving re-takes the lock, so release it afterwards.
@@ -463,6 +513,8 @@
         toast("Unpublished — it disappears from the site after the next build (~1–2 min)", "success");
       } else if (what === "delete") {
         await api.del(`/articles/${id}`);
+        draftDeleted = true;
+        setLeaveGuard(null);
         clearBackup();
         data = null; // nothing left to save on the way out
         toast("Draft deleted", "success");
@@ -752,6 +804,17 @@
 
   <PublishDialog bind:open={publishOpen} {detail} {data} onpublished={onPublished} />
   <AiWriteGuide bind:open={aiOpen} hasBody={Boolean(data.body.trim())} hasTitle={Boolean(data.title.trim())} onuse={useAiDraft} />
+
+  <Modal open={leaveChoice !== null} title="Keep this draft?" size="sm" onclose={() => leaveChoice?.("stay")}>
+    <p class="text-sm text-slate-600 dark:text-slate-300">
+      You started a new article. Keep it as a draft to finish later, or delete it? It isn't published either way.
+    </p>
+    {#snippet footer()}
+      <button class="btn-secondary" onclick={() => leaveChoice?.("stay")}>Keep editing</button>
+      <button class="btn-danger" onclick={() => leaveChoice?.("delete")}>Delete</button>
+      <button class="btn-primary" onclick={() => leaveChoice?.("keep")}>Keep draft</button>
+    {/snippet}
+  </Modal>
 
   <Modal
     open={review !== null}

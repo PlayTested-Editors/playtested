@@ -2,8 +2,8 @@
   import type { Snippet } from "svelte";
   import { onMount } from "svelte";
   import { fade, fly } from "svelte/transition";
-  import { api } from "../api";
-  import { clearReturn, counts as countsSignal, navigate, route, session, toggleTheme, isEditorOrAbove } from "../state.svelte";
+  import { api, getViewAs, setViewAs } from "../api";
+  import { clearReturn, counts as countsSignal, loadSession, navigate, refreshCounts, route, session, toggleTheme, isEditorOrAbove } from "../state.svelte";
   import { deploys, latestRun, refreshDeploys, stopDeploys } from "../deploys.svelte";
   import { relTime } from "../format";
 
@@ -82,7 +82,21 @@
   });
   const dot: Record<string, string> = { slate: "bg-slate-400", amber: "bg-amber-500 animate-pulse", rose: "bg-rose-500", emerald: "bg-emerald-500" };
 
+  // "View as": the chief previews the studio as an editor or contributor.
+  let isRealChief = $derived(session.user?.role === "chief" || session.user?.realRole === "chief");
+  let viewing = $state<"chief" | "editor" | "contributor">(getViewAs() ?? "chief");
+  async function viewAs(role: "chief" | "editor" | "contributor") {
+    if (role === viewing) return;
+    setViewAs(role === "chief" ? null : role);
+    viewing = role;
+    mobileOpen = false;
+    await loadSession();
+    refreshCounts();
+    navigate("/studio/", true);
+  }
+
   async function signOut() {
+    setViewAs(null);
     await api.post("/auth/logout").catch(() => undefined);
     stopDeploys();
     clearReturn();
@@ -125,6 +139,17 @@
           {/if}
         </a>
       {/each}
+      <div class="my-2 border-t border-slate-200/70 dark:border-slate-800"></div>
+      <a
+        href="/"
+        target="_blank"
+        rel="noopener"
+        class="group flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800/70 dark:hover:text-slate-100"
+      >
+        <svg class="h-5 w-5 shrink-0 text-slate-400 group-hover:text-slate-600 dark:group-hover:text-slate-300" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 0 0 8.716-6.747M12 21a9.004 9.004 0 0 1-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 0 1 7.843 4.582M12 3a8.997 8.997 0 0 0-7.843 4.582m15.686 0A11.953 11.953 0 0 1 12 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0 1 21 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0 1 12 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 0 1 3 12c0-1.605.42-3.113 1.157-4.418" /></svg>
+        <span class="flex-1">View live site</span>
+        <span class="text-xs text-slate-400" aria-hidden="true">↗</span>
+      </a>
     </nav>
     <div class="space-y-3 border-t border-slate-200/70 dark:border-slate-800 p-3">
       <a href="/studio/settings/#deploys" class="flex items-center gap-2 rounded-lg px-3 py-2 text-xs text-slate-600 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800">
@@ -145,6 +170,21 @@
           <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z" /></svg>
         </button>
       </div>
+      {#if isRealChief}
+        <div class="px-1">
+          <p class="mb-1 text-[10px] font-semibold uppercase tracking-wide text-slate-400">View studio as</p>
+          <div class="grid grid-cols-3 rounded-lg bg-slate-100 p-0.5 text-[11px] font-semibold dark:bg-slate-800" role="group" aria-label="View studio as">
+            {#each [["chief", "Chief"], ["editor", "Editor"], ["contributor", "Contributor"]] as [key, label]}
+              <button
+                type="button"
+                aria-pressed={viewing === key}
+                class="rounded-md px-1.5 py-1 transition {viewing === key ? 'bg-white text-slate-900 shadow-sm dark:bg-slate-700 dark:text-white' : 'text-slate-500 hover:text-slate-800 dark:hover:text-slate-200'}"
+                onclick={() => viewAs(key as "chief" | "editor" | "contributor")}>{label}</button
+              >
+            {/each}
+          </div>
+        </div>
+      {/if}
       <div class="flex gap-2 px-1 text-xs">
         <a href="/" target="_blank" class="btn-ghost !px-2 !py-1 flex-1">View site ↗</a>
         <button class="btn-ghost !px-2 !py-1 flex-1" onclick={signOut}>Sign out</button>
@@ -175,6 +215,12 @@
   {/if}
 
   <main>
+    {#if session.user?.realRole === "chief" && session.user.role !== "chief"}
+      <div class="sticky top-0 z-20 flex flex-wrap items-center gap-x-3 gap-y-1 border-b border-amber-300 bg-amber-100/95 px-4 py-2 text-sm text-amber-900 backdrop-blur dark:border-amber-500/30 dark:bg-amber-500/15 dark:text-amber-100" in:fade>
+        <span><b>Previewing as {session.user.role === "editor" ? "an editor" : "a contributor"}.</b> You see and can do only what they can.</span>
+        <button type="button" class="ml-auto rounded-md px-2.5 py-1 text-xs font-semibold ring-1 ring-amber-400 transition hover:bg-amber-200 dark:ring-amber-500/50 dark:hover:bg-amber-500/25" onclick={() => viewAs("chief")}>Back to chief editor</button>
+      </div>
+    {/if}
     {@render children()}
   </main>
 </div>

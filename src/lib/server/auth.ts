@@ -18,6 +18,8 @@ export interface SessionUser {
   avatar: string | null;
   role: Role;
   authorName: string | null;
+  /** Set while the chief previews the studio as a lower role ("View as"). */
+  realRole?: Role;
 }
 
 export const SESSION_COOKIE = "pt_session";
@@ -55,6 +57,13 @@ export async function getSessionUser(env: Env, request: Request): Promise<Sessio
       .first<{ id: string; email: string; name: string; avatar: string | null; role: Role; author_name: string | null; status: string; expires_at: number }>();
     if (row && row.status === "active" && row.expires_at > now()) {
       user = { id: row.id, email: row.email, name: row.name, avatar: row.avatar, role: row.role, authorName: row.author_name };
+      // "View as": the chief can preview the studio as an editor or contributor.
+      // It only ever lowers the role, so it can't grant anything. A previewed
+      // contributor has no byline, like a newly invited writer.
+      const viewAs = request.headers.get("x-studio-view-as");
+      if (row.role === "chief" && (viewAs === "editor" || viewAs === "contributor")) {
+        user = { ...user, role: viewAs, realRole: "chief", authorName: viewAs === "contributor" ? null : user.authorName };
+      }
     }
   }
   userCache.set(request, user);

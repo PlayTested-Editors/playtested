@@ -2,7 +2,8 @@
   import { onMount, untrack } from "svelte";
   import { fade } from "svelte/transition";
   import { api, type ArticleSummary } from "../api";
-  import { navigate, route, toastError } from "../state.svelte";
+  import { navigate, refreshCounts, route, session, toast, toastError } from "../state.svelte";
+  import Modal from "../ui/Modal.svelte";
   import { relTime, dateTime } from "../format";
   import StateBadge from "../ui/StateBadge.svelte";
 
@@ -91,6 +92,33 @@
     }
   }
 
+
+  // Never-published drafts can be deleted from the list (the server checks permission too).
+  let toDelete = $state<ArticleSummary | null>(null);
+  let deleting = $state(false);
+  function canDelete(a: ArticleSummary) {
+    const u = session.user;
+    if (!u || a.isLive) return false;
+    if (u.role === "chief" || u.role === "editor") return true;
+    const byline = u.authorName?.trim().toLowerCase();
+    return a.createdBy === u.id || Boolean(byline && a.author?.trim().toLowerCase() === byline);
+  }
+  async function confirmDelete() {
+    const a = toDelete;
+    if (!a || !data) return;
+    deleting = true;
+    try {
+      await api.del(`/articles/${a.id}`);
+      data.articles = data.articles.filter((x) => x.id !== a.id);
+      refreshCounts();
+      toast("Draft deleted", "success");
+      toDelete = null;
+    } catch (e) {
+      toastError(e);
+    } finally {
+      deleting = false;
+    }
+  }
 </script>
 
 <div class="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
@@ -152,8 +180,8 @@
     {:else}
       <ul class="divide-y divide-slate-100 dark:divide-slate-800 transition-opacity {loading ? 'opacity-60' : ''}">
         {#each data.articles as a (a.id)}
-          <li in:fade={{ duration: 120 }}>
-            <a href={`/studio/articles/${a.id}/`} class="group flex items-center gap-4 px-4 py-3 transition hover:bg-slate-50 dark:hover:bg-slate-800/50">
+          <li in:fade={{ duration: 120 }} class="flex items-center transition hover:bg-slate-50 dark:hover:bg-slate-800/50">
+            <a href={`/studio/articles/${a.id}/`} class="group flex min-w-0 flex-1 items-center gap-4 px-4 py-3">
               <div class="h-12 w-20 shrink-0 overflow-hidden rounded-lg bg-slate-100 dark:bg-slate-800">
                 {#if a.thumb}<img src={a.thumb} alt="" loading="lazy" class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105" />{/if}
               </div>
@@ -168,6 +196,17 @@
               {/if}
               <div class="hidden md:block"><StateBadge state={a.state} live={a.isLive} pending={a.hasPendingChanges} /></div>
             </a>
+            {#if canDelete(a)}
+              <button
+                type="button"
+                class="mr-2 rounded-lg p-2 text-slate-400 transition hover:bg-rose-50 hover:text-rose-600 dark:hover:bg-rose-500/10 dark:hover:text-rose-400"
+                title="Delete draft"
+                aria-label={`Delete draft: ${a.title || "Untitled"}`}
+                onclick={() => (toDelete = a)}
+              >
+                <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" /></svg>
+              </button>
+            {/if}
           </li>
         {/each}
       </ul>
@@ -184,3 +223,13 @@
     </div>
   {/if}
 </div>
+
+<Modal open={toDelete !== null} title="Delete draft?" size="sm" onclose={() => (toDelete = null)}>
+  <p class="text-sm text-slate-600 dark:text-slate-300">
+    <b>{toDelete?.title || "Untitled"}</b> will be deleted. It was never published, so nothing changes on the site.
+  </p>
+  {#snippet footer()}
+    <button class="btn-secondary" onclick={() => (toDelete = null)}>Cancel</button>
+    <button class="btn-danger" disabled={deleting} onclick={confirmDelete}>{deleting ? "Deleting…" : "Delete"}</button>
+  {/snippet}
+</Modal>

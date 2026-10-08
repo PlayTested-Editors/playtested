@@ -274,8 +274,16 @@ route("GET", "/articles", "contributor", async (c) => {
     args.push(p.get("author"));
   }
   if (p.get("mine") === "1") {
-    where.push("created_by = ?");
-    args.push(c.user!.id);
+    // Yours = created in the studio by you, or under your byline (imported articles
+    // have no creator). Both columns are indexed, so SQLite unions two index scans.
+    const byline = c.user!.authorName?.trim();
+    if (byline) {
+      where.push("(created_by = ? OR author = ?)");
+      args.push(c.user!.id, byline);
+    } else {
+      where.push("created_by = ?");
+      args.push(c.user!.id);
+    }
   }
   const sort = { updated: "updated_at DESC", pub: "pub_date DESC", title: "title COLLATE NOCASE ASC", score: "score DESC" }[
     p.get("sort") || "updated"
@@ -662,6 +670,14 @@ route("GET", "/users", "editor", async (c) => {
   return json({ users: users.results, invites: c.user!.role === "chief" ? invites.results : [] });
 });
 
+/** Bylines decide who owns imported articles, so each belongs to one person. */
+async function bylineTaken(env: Env, byline: string, exceptUserId: string | null): Promise<boolean> {
+  const clash = await env.DB.prepare("SELECT id FROM users WHERE author_name = ? COLLATE NOCASE AND id != ? LIMIT 1")
+    .bind(byline, exceptUserId ?? "")
+    .first();
+  return Boolean(clash);
+}
+
 route("PATCH", "/users/:id", "chief", async (c, m) => {
   const b = await body<{ role?: Role; status?: "active" | "disabled"; name?: string; authorName?: string }>(c.request);
   const target = m[1];
@@ -671,6 +687,10 @@ route("PATCH", "/users/:id", "chief", async (c, m) => {
   }
   if (b.role && !Object.hasOwn(RANK, b.role)) return error(400, "Unknown role.");
   if (b.status && b.status !== "active" && b.status !== "disabled") return error(400, "Unknown status.");
+  if (b.authorName !== undefined) b.authorName = b.authorName.trim();
+  if (b.authorName && (await bylineTaken(c.env, b.authorName, target))) {
+    return error(409, `Another team member already uses the byline "${b.authorName}".`);
+  }
   await c.env.DB.prepare(
     "UPDATE users SET role = COALESCE(?, role), status = COALESCE(?, status), name = COALESCE(?, name), author_name = COALESCE(?, author_name) WHERE id = ?",
   )
@@ -695,7 +715,11 @@ route("POST", "/invites", "chief", async (c) => {
   const role = b.role && Object.hasOwn(RANK, b.role) ? b.role : "contributor";
   const existing = await findUserByEmail(c.env, email);
   if (existing && existing.status === "active") return error(400, "That person is already on the team.");
-  const { token } = await createInvite(c.env, c.user!, email, role, b.authorName?.trim() || null);
+  const byline = b.authorName?.trim() || null;
+  if (byline && (await bylineTaken(c.env, byline, existing?.id ?? null))) {
+    return error(409, `Another team member already uses the byline "${byline}".`);
+  }
+  const { token } = await createInvite(c.env, c.user!, email, role, byline);
   return json({ url: `${c.url.origin}/studio/invite/?token=${encodeURIComponent(token)}`, expiresInDays: 14 }, { status: 201 });
 });
 

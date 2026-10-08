@@ -17,6 +17,26 @@ export function setUnauthorizedHandler(fn: () => void) {
   onUnauthorized = fn;
 }
 
+// "View as" (chief only): preview the studio as a lower role. Kept per tab, so
+// a new tab always opens as yourself.
+const VIEW_KEY = "studio.viewAs";
+let viewAs: "editor" | "contributor" | null = (() => {
+  try {
+    const v = sessionStorage.getItem(VIEW_KEY);
+    return v === "editor" || v === "contributor" ? v : null;
+  } catch {
+    return null;
+  }
+})();
+export const getViewAs = () => viewAs;
+export function setViewAs(role: "editor" | "contributor" | null) {
+  viewAs = role;
+  try {
+    if (role) sessionStorage.setItem(VIEW_KEY, role);
+    else sessionStorage.removeItem(VIEW_KEY);
+  } catch {}
+}
+
 async function request<T>(method: string, path: string, body?: unknown, init: RequestInit = {}): Promise<T> {
   const res = await fetch(`/api/studio${path}`, {
     method,
@@ -24,6 +44,7 @@ async function request<T>(method: string, path: string, body?: unknown, init: Re
     ...init,
     headers: {
       ...(body !== undefined && !(body instanceof Blob) ? { "Content-Type": "application/json" } : {}),
+      ...(viewAs ? { "X-Studio-View-As": viewAs } : {}),
       ...(init.headers ?? {}),
     },
     body: body === undefined ? undefined : body instanceof Blob ? body : JSON.stringify(body),
@@ -62,6 +83,8 @@ export interface User {
   avatar: string | null;
   role: Role;
   authorName: string | null;
+  /** Present while the chief is previewing as a lower role. */
+  realRole?: Role;
 }
 
 export interface ArticleData {

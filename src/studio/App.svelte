@@ -54,7 +54,7 @@
       creating = true;
       api
         .post<{ article: { id: string } }>("/articles", { data: {} })
-        .then((d) => navigate(`/studio/articles/${d.article.id}/`, true))
+        .then((d) => navigate(`/studio/articles/${d.article.id}/?new=1`, true))
         .catch((e) => {
           toastError(e);
           navigate("/studio/articles/", true);

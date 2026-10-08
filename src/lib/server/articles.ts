@@ -191,9 +191,16 @@ export type Action =
  * request changes. Editors edit anything and submit; contributors work on
  * their own pieces.
  */
-export function can(user: SessionUser, action: Action, a?: Pick<ArticleRow, "created_by" | "live_json" | "state">): boolean {
+/** Yours if you created it in the studio, or it carries your byline (bylines are set by the chief editor). */
+export function isOwnArticle(user: SessionUser, a: Pick<ArticleRow, "created_by" | "author">): boolean {
+  if (a.created_by === user.id) return true;
+  const byline = user.authorName?.trim().toLowerCase();
+  return Boolean(byline && a.author?.trim().toLowerCase() === byline);
+}
+
+export function can(user: SessionUser, action: Action, a?: Pick<ArticleRow, "created_by" | "author" | "live_json" | "state">): boolean {
   if (user.role === "chief") return true;
-  const own = !a || a.created_by === user.id;
+  const own = !a || isOwnArticle(user, a);
   switch (action) {
     case "edit":
     case "restore":
@@ -364,6 +371,8 @@ export async function saveDraft(
 ): Promise<ArticleRow> {
   if (row.draft_rev !== baseRev) throw new ConflictError(row);
   const data = normaliseData(input);
+  // The byline decides ownership (isOwnArticle), so only the chief editor changes it.
+  data.author = user.role === "chief" ? data.author.trim() : (row.author ?? data.author);
   if (!data.slug) data.slug = row.slug;
   if (data.slug !== row.slug && (await slugTaken(env, data.slug, row.id))) throw new SlugTakenError(data.slug);
 

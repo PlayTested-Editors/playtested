@@ -1,6 +1,7 @@
 <script lang="ts">
   import type { ArticleData, Media } from "../api";
   import { fromLocalInput, slugify, toLocalInput } from "../format";
+  import { isChief } from "../state.svelte";
   import TagInput from "../ui/TagInput.svelte";
   import MediaPicker from "../ui/MediaPicker.svelte";
   import GalleryField from "./GalleryField.svelte";
@@ -114,8 +115,9 @@
   <div class="grid gap-4 sm:grid-cols-2">
     <div>
       <label class="label" for="author">Byline</label>
-      <input id="author" class="input" list="studio-authors" {disabled} bind:value={data.author} />
+      <input id="author" class="input" list="studio-authors" disabled={disabled || !isChief()} bind:value={data.author} />
       <datalist id="studio-authors">{#each meta.authors as a}<option value={a}></option>{/each}</datalist>
+      {#if !isChief()}<p class="mt-1 text-[11px] text-slate-500">Set by the chief editor. It decides whose article this is.</p>{/if}
     </div>
     <div>
       <label class="label" for="game">Game <span class="normal-case font-normal text-slate-400">(optional)</span></label>

@@ -33,8 +33,23 @@ export function scrollToHash(hash = location.hash) {
   tick();
 }
 
-export function navigate(to: string, replace = false) {
+/**
+ * A view can ask to confirm before in-app navigation away from it (e.g. "keep
+ * this draft?"). Return false to stay. Browser back/forward isn't intercepted.
+ */
+type LeaveGuard = (to: string) => boolean | Promise<boolean>;
+let leaveGuard: LeaveGuard | null = null;
+export function setLeaveGuard(guard: LeaveGuard | null) {
+  leaveGuard = guard;
+}
+
+export async function navigate(to: string, replace = false) {
   const url = to.startsWith("/studio") ? to : `/studio/${to.replace(/^\//, "")}`;
+  if (leaveGuard) {
+    const guard = leaveGuard;
+    if (!(await guard(url))) return;
+    if (leaveGuard === guard) leaveGuard = null;
+  }
   if (replace) history.replaceState(null, "", url);
   else history.pushState(null, "", url);
   syncRoute();
