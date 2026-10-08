@@ -634,15 +634,6 @@
           </div>
         {/if}
 
-        <textarea
-          class="w-full resize-none border-0 bg-transparent p-0 text-3xl font-bold leading-tight tracking-tight text-slate-900 [field-sizing:content] placeholder:text-slate-300 focus:outline-none focus:ring-0 dark:text-white dark:placeholder:text-slate-700"
-          rows="1"
-          placeholder="Article title"
-          disabled={!canEdit}
-          bind:value={data.title}
-        ></textarea>
-        <p class="mb-5 text-xs text-slate-400">Tip: use "Game Name | Review headline" — the part before | becomes the first line of the title.</p>
-
         <div class="mb-5 flex gap-1 border-b border-slate-200 dark:border-slate-800">
           {#each [["write", "Write"], ["details", "Details"], ["media", `Media${detail.media.length ? ` (${detail.media.length})` : ""}`]] as [key, label]}
             <button
@@ -653,6 +644,18 @@
         </div>
 
         {#if tab === "write"}
+          <div class="mb-4">
+            <label for="article-title" class="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">Title</label>
+            <textarea
+              id="article-title"
+              class="w-full resize-none rounded-xl border border-slate-300 bg-white px-4 py-3 text-2xl font-bold leading-tight tracking-tight text-slate-900 shadow-sm transition [field-sizing:content] placeholder:font-semibold placeholder:text-slate-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 disabled:opacity-70 dark:border-slate-700 dark:bg-slate-900 dark:text-white dark:placeholder:text-slate-500"
+              rows="1"
+              placeholder="Game Name | Review headline"
+              disabled={!canEdit}
+              bind:value={data.title}
+            ></textarea>
+            <p class="mt-1.5 text-xs text-slate-500 dark:text-slate-400">Tip: the part before <b>|</b> becomes the first line of the title on the site.</p>
+          </div>
           <div class="mb-3 flex items-center justify-end">
             <div class="inline-flex rounded-lg bg-slate-100 p-0.5 text-xs font-semibold dark:bg-slate-800">
               {#each [["visual", "Visual"], ["markdown", "Markdown"]] as [key, label]}
