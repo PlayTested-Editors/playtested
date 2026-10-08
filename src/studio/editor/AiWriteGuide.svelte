@@ -39,6 +39,25 @@
     }
   }
 
+  /**
+   * Text selected on the AI's page is copied as formatted HTML plus plain text
+   * without any markdown. Convert the HTML back to markdown so headings and
+   * lists survive.
+   */
+  async function pasteReply(e: ClipboardEvent) {
+    const html = e.clipboardData?.getData("text/html");
+    if (!html || !/<(h[1-6]|li|p|strong|b)\b/i.test(html)) return; // plain text: let it paste normally
+    e.preventDefault();
+    const el = e.currentTarget as HTMLTextAreaElement;
+    const { default: TurndownService } = await import("turndown");
+    const md = new TurndownService({ headingStyle: "atx", bulletListMarker: "-", emDelimiter: "*", strongDelimiter: "**", codeBlockStyle: "fenced" })
+      .turndown(html)
+      .trim();
+    const start = el.selectionStart ?? reply.length;
+    const end = el.selectionEnd ?? reply.length;
+    reply = reply.slice(0, start) + md + reply.slice(end);
+  }
+
   function use(mode: "replace" | "append") {
     if (!parsed?.body) return;
     onuse({ title: useTitle && parsed.title ? parsed.title : null, score: parsed.score, body: parsed.body, mode });
@@ -104,7 +123,15 @@
     <!-- 3. Paste back -->
     <section class="space-y-3">
       <h3 class="flex items-center gap-2 font-semibold"><span class={step}>3</span> Paste the AI's reply here</h3>
-      <textarea class="input min-h-[140px] font-mono text-xs" placeholder="Paste the whole reply (the title line and everything after it)" bind:value={reply}></textarea>
+      <textarea
+        class="input min-h-[140px] font-mono text-xs"
+        placeholder="Paste the whole reply (the title line and everything after it)"
+        bind:value={reply}
+        onpaste={pasteReply}
+      ></textarea>
+      <p class="text-xs text-slate-500 dark:text-slate-400">
+        Tip: use the AI's own <b>Copy</b> button under its reply. Selecting the text by hand works too; headings and lists are converted back.
+      </p>
       {#if parsed}
         <div class="rounded-lg bg-slate-50 p-3 text-xs dark:bg-slate-800/60">
           {#if parsed.title}

@@ -20,6 +20,10 @@ type Kind = "pros" | "cons";
 
 const BULLET = /^\s{0,3}(?:[-*+•▪◦]|\d{1,2}[.)])\s+(.*)$/;
 const FENCE = /^\s*(```|~~~)/;
+// A point copied from an AI's rendered page loses its bullet but keeps its emoji.
+const EMOJI_LED = /^\s{0,3}(\p{Extended_Pictographic}|\p{Regional_Indicator}{2})/u;
+// "Pros & Cons Pros:" — a heading run into the first label when line breaks were lost.
+const MERGED = /^(\s*(?:#{1,6}\s+)?(?:\*\*)?(?:the\s+)?pros\s*(?:&|and|\/|\+)\s*cons(?:\*\*)?\s*:?)\s+((?:\*\*)?pros\b.*)$/i;
 
 /** "Pros", "## **The Cons:**", "👍 Pros" → its kind; anything else → null. */
 function labelKind(line: string): Kind | null {
@@ -58,7 +62,13 @@ const nextContent = (lines: string[], from: number) => {
 };
 
 export function tidyProsCons(markdown: string): { text: string; changed: number } {
-  const lines = markdown.replace(/\r\n/g, "\n").split("\n");
+  const lines = markdown
+    .replace(/\r\n/g, "\n")
+    .split("\n")
+    .flatMap((l) => {
+      const m = MERGED.exec(l);
+      return m ? [m[1], "", m[2]] : [l];
+    });
   const out: string[] = [];
   let changed = 0;
   let inFence = false;
@@ -75,7 +85,8 @@ export function tidyProsCons(markdown: string): { text: string; changed: number 
     if (isCombinedLabel(line)) {
       const j = nextContent(lines, i + 1);
       const k = j < lines.length ? labelKind(lines[j]) : null;
-      if (k && j + 1 < lines.length && BULLET.test(lines[nextContent(lines, j + 1)] ?? "")) {
+      const follower = lines[nextContent(lines, j + 1)] ?? "";
+      if (k && j + 1 < lines.length && (BULLET.test(follower) || EMOJI_LED.test(follower))) {
         changed++;
         i = j - 1; // drop the combined heading and the blank lines after it
         continue;
@@ -86,7 +97,9 @@ export function tidyProsCons(markdown: string): { text: string; changed: number 
 
     const kind = labelKind(line);
     const first = kind ? nextContent(lines, i + 1) : -1;
-    if (!kind || first >= lines.length || !BULLET.test(lines[first])) {
+    // Points are a bullet list, or (when copied as plain text) emoji-led lines.
+    const emojiMode = Boolean(kind) && first < lines.length && !BULLET.test(lines[first]) && EMOJI_LED.test(lines[first]);
+    if (!kind || first >= lines.length || !(BULLET.test(lines[first]) || emojiMode)) {
       out.push(line);
       continue;
     }
@@ -96,6 +109,14 @@ export function tidyProsCons(markdown: string): { text: string; changed: number 
     const items: string[] = [];
     let j = first;
     for (; j < lines.length; j++) {
+      if (emojiMode) {
+        if (EMOJI_LED.test(lines[j])) {
+          items.push(`- ${lines[j].trim()}`);
+          continue;
+        }
+        if (!lines[j].trim() && EMOJI_LED.test(lines[nextContent(lines, j)] ?? "")) continue;
+        break;
+      }
       const b = BULLET.exec(lines[j]);
       if (b) {
         items.push(`- ${b[1].trim()}`);

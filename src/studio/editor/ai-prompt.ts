@@ -61,6 +61,10 @@ export function buildPrompt(input: { game: string; score: string; notes: string 
 /** Splits an AI reply into title, score and body. */
 export function parseReply(reply: string): { title: string; score: number | null; body: string } {
   let text = reply.replace(/\r\n/g, "\n").trim();
+  // Copied as plain text from the AI's page: no markdown at all and one block
+  // per line. Markdown would run those lines together, so separate them.
+  const hasMarkdown = /^\s{0,3}(#{1,6}\s|[-*+]\s|\d+[.)]\s|>|```)/m.test(text);
+  if (!hasMarkdown && !/\n\s*\n/.test(text) && text.includes("\n")) text = text.split(/\n+/).join("\n\n");
   // Replies are often wrapped in a ```markdown code block.
   const fenced = /^```[a-z]*\n([\s\S]*?)\n```$/i.exec(text);
   if (fenced) text = fenced[1].trim();
@@ -70,7 +74,11 @@ export function parseReply(reply: string): { title: string; score: number | null
   const first = lines.findIndex((l) => l.trim());
   if (first >= 0) {
     const m = /^(?:#{1,2}\s+|\*\*)?\s*(?:title\s*:\s*)?(.+?)(?:\*\*)?\s*$/i.exec(lines[first].trim());
-    const looksLikeTitle = /^(#{1,2}\s|title\s*:|\*\*)/i.test(lines[first].trim());
+    const firstLine = lines[first].trim();
+    // Marked as a title, or (copied as plain text) a short line like "X Review: Subtitle (8/10)".
+    const looksLikeTitle =
+      /^(#{1,2}\s|title\s*:|\*\*)/i.test(firstLine) ||
+      (firstLine.length <= 160 && !/[.!?]$/.test(firstLine) && /\breview\b|\(\d{1,2}(\.\d)?\s*\/\s*10\)\s*$/i.test(firstLine));
     if (m && looksLikeTitle) {
       title = m[1].replace(/^\*\*|\*\*$/g, "").trim();
       lines.splice(first, 1);
