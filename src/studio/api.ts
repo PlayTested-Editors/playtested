@@ -146,6 +146,23 @@ export interface Media {
   createdAt: number;
 }
 
+/** "Find screenshots" in the image picker (mirrors src/lib/server/screenshots.ts). */
+export interface ShotMatch {
+  source: "steam" | "rawg";
+  id: string;
+  name: string;
+  year?: string;
+}
+export interface Shot {
+  thumb: string;
+  full: string;
+}
+export interface ShotResults {
+  matches: ShotMatch[];
+  current: ShotMatch | null;
+  shots: Shot[];
+}
+
 export interface Note {
   id: number;
   body: string;

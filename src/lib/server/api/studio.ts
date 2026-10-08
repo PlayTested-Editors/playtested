@@ -53,6 +53,7 @@ import { commitFiles, dispatchDeploy, GitHubError, githubConfigured, listDeployR
 import { DEFAULT_GUARDS, currentLevel, getGuards, saveGuards, withinRate, type GuardSettings } from "../guards";
 import { ensureBlob, mediaForPaths, mediaJson, stageDelete, storeUpload, type MediaRow } from "../media";
 import { getBuildInfo, isBuilt, recordDeploy } from "../deploys";
+import { findScreenshots, proxyScreenshot, type ShotSource } from "../screenshots";
 import { indexArticle, markIndexDirty, reindexPending, removeFromIndex } from "../search";
 import { runWatchdog } from "../watchdog";
 import { audit, clientIp, error, json, now, parseJson, utcDay } from "../util";
@@ -710,6 +711,20 @@ route("GET", "/media", "contributor", async (c) => {
     .all<MediaRow>();
   return json({ media: rows.results.map(mediaJson), page, pageSize });
 });
+
+// Official screenshots by game name (Steam, then RAWG) for the image picker.
+route("GET", "/screenshots", "contributor", async (c) => {
+  const p = c.url.searchParams;
+  const q = (p.get("q") || "").trim().slice(0, 100);
+  if (!q) return error(400, "Type a game name.");
+  if (!(await withinRate(c.env, "RL_SEARCH", `shots:${c.user!.id}`))) return error(429, "Too many searches. Wait a minute.");
+  const source = p.get("source");
+  const id = p.get("id");
+  const pick = (source === "steam" || source === "rawg") && id && /^[0-9]{1,12}$/.test(id) ? { source: source as ShotSource, id } : undefined;
+  return json(await findScreenshots(c.env, q, pick));
+});
+
+route("GET", "/screenshots/image", "contributor", async (c) => proxyScreenshot(c.url.searchParams.get("url") || ""));
 
 route("PATCH", "/media/:id", "contributor", async (c, m) => {
   const { alt, articleId } = await body<{ alt?: string; articleId?: string }>(c.request);

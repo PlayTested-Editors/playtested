@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { onMount, tick, untrack } from "svelte";
+  import { onMount, setContext, tick, untrack } from "svelte";
   import { fade, slide } from "svelte/transition";
   import { api, ApiError, type ArticleData, type ArticleDetail, type LockStatus, type Media } from "../api";
   import { navigate, refreshCounts, reloadForNewVersion, route, session, setLeaveGuard, toast, toastError, toggleTheme } from "../state.svelte";
@@ -21,6 +21,13 @@
 
   let detail = $state<ArticleDetail | null>(null);
   let data = $state<ArticleData | null>(null);
+  // The image picker's "Find screenshots" searches for this game by default.
+  setContext("studio.game", () => data?.game?.trim() || gameFromTitle(data?.title ?? ""));
+  function gameFromTitle(title: string): string {
+    // "Headline | Game Name Review" → "Game Name"
+    const tail = title.includes("|") ? title.split("|").pop()! : title;
+    return tail.replace(/\s*[-–:]?\s*(early access\s+)?(review|first impressions?|preview|demo)\b.*$/i, "").trim();
+  }
   let savedJson = $state("");
   let saving = $state(false);
   let saveError = $state<string | null>(null);
