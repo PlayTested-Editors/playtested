@@ -31,6 +31,14 @@ const cardId = `card-${Math.random().toString(36).substr(2, 9)}`;
 const encodedUrl = encodeURIComponent(url.href);
 const encodedTitle = encodeURIComponent(title);
 
+// What gets pasted next to the shared image, and the image's file name.
+const hasScore = score !== undefined && score !== null && score !== "";
+const caption =
+    type === "home"
+        ? `PlayTested: no-nonsense game reviews. ${url.href}`
+        : `${title}${hasScore ? ` (${score}/10)` : ""}. Read the full review on PlayTested: ${url.href}`;
+const fileName = `playtested-${(type === "home" ? "reviews" : title).toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 60) || "card"}.png`;
+
 const shareLinks = [
     {
         name: "Facebook",
@@ -116,24 +124,32 @@ const shareLinks = [
         )
     }
 
+    {
+        variant === "default" && (
+            <button
+                type="button"
+                class="share-open-btn inline-flex items-center gap-1.5 h-8 md:h-10 px-3 md:px-4 rounded-full bg-blue-600 text-white text-sm font-semibold shadow-sm transition-colors hover:bg-blue-700 motion-safe:active:scale-95"
+                data-target={cardId}
+                aria-haspopup="dialog"
+            >
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.7 10.7l6.6-3.4M8.7 13.3l6.6 3.4M18 8a3 3 0 100-6 3 3 0 000 6zM6 15a3 3 0 100-6 3 3 0 000 6zm12 7a3 3 0 100-6 3 3 0 000 6z" />
+                </svg>
+                Share
+            </button>
+        )
+    }
+
     <button
-        class={`save-card-btn inline-flex items-center justify-center rounded-full bg-gray-100 dark:bg-slate-700 text-gray-600 dark:text-gray-300 transition-colors hover:bg-indigo-500 hover:text-white ${variant === "small" ? "w-8 h-8 md:w-10 md:h-10" : "w-8 h-8 md:w-10 md:h-10"}`}
-        title="Save Card Image"
+        type="button"
+        class="share-open-btn inline-flex items-center justify-center w-8 h-8 md:w-10 md:h-10 rounded-full bg-gray-100 dark:bg-slate-700 text-gray-600 dark:text-gray-300 transition-colors hover:bg-indigo-500 hover:text-white"
+        title="Share card image"
+        aria-label="Share card image"
+        aria-haspopup="dialog"
         data-target={cardId}
     >
-        <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="w-4 h-4 md:w-5 md:h-5"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-        >
-            <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
-            ></path>
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 md:w-5 md:h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
         </svg>
     </button>
 </div>
@@ -151,85 +167,191 @@ const shareLinks = [
     />
 </div>
 
+<!-- Share dialog: the card image preview, and the ways to get it out. -->
+<dialog
+    id={`${cardId}-dialog`}
+    class="share-dialog m-auto w-[min(44rem,calc(100vw-2rem))] max-h-[calc(100dvh-2rem)] overflow-y-auto rounded-3xl bg-white p-0 text-gray-900 shadow-2xl ring-1 ring-black/10 backdrop:bg-black/70 backdrop:backdrop-blur-sm dark:bg-slate-800 dark:text-slate-100 dark:ring-white/10"
+    aria-labelledby={`${cardId}-dialog-title`}
+    data-card={cardId}
+    data-url={url.href}
+    data-title={type === "home" ? "PlayTested" : title}
+    data-file={fileName}
+>
+    <div class="p-4 md:p-6">
+        <div class="mb-4 flex items-center justify-between gap-3">
+            <h3 id={`${cardId}-dialog-title`} class="m-0 text-lg font-extrabold md:text-xl">
+                {type === "home" ? "Share PlayTested" : "Share this review"}
+            </h3>
+            <button type="button" data-act="close" class="grid h-10 w-10 place-items-center rounded-xl bg-gray-100 text-gray-600 transition hover:bg-gray-200 dark:bg-slate-700 dark:text-slate-300 dark:hover:bg-slate-600" aria-label="Close">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+
+        <div class="mb-4 grid aspect-[1200/630] place-items-center overflow-hidden rounded-2xl bg-gray-100 dark:bg-slate-900">
+            <img data-preview alt="Share image preview" class="hidden h-full w-full object-contain" />
+            <p data-loading class="m-0 px-6 text-center text-sm text-gray-500 dark:text-slate-400">Creating image…</p>
+        </div>
+
+        <div class="mb-3 grid grid-cols-2 gap-2 sm:grid-cols-4" data-actions>
+            <button type="button" data-act="share" class="hidden min-h-11 rounded-xl bg-blue-600 px-3 text-sm font-semibold text-white transition hover:bg-blue-700 disabled:opacity-50">Share</button>
+            <button type="button" data-act="download" disabled class="min-h-11 rounded-xl bg-gray-100 px-3 text-sm font-semibold transition hover:bg-gray-200 disabled:opacity-50 dark:bg-slate-700 dark:hover:bg-slate-600">Download image</button>
+            <button type="button" data-act="link" class="min-h-11 rounded-xl bg-gray-100 px-3 text-sm font-semibold transition hover:bg-gray-200 dark:bg-slate-700 dark:hover:bg-slate-600">Copy link</button>
+            <button type="button" data-act="caption" class="min-h-11 rounded-xl bg-gray-100 px-3 text-sm font-semibold transition hover:bg-gray-200 dark:bg-slate-700 dark:hover:bg-slate-600">Copy caption</button>
+        </div>
+
+        <p data-caption class="m-0 select-all break-words rounded-xl bg-gray-100 px-3 py-2 text-xs text-gray-600 dark:bg-slate-900 dark:text-slate-400">{caption}</p>
+        <p data-status role="status" class="m-0 mt-2 min-h-[1rem] text-xs font-medium text-blue-700 dark:text-blue-300"></p>
+    </div>
+</dialog>
+
 <script>
     import * as htmlToImage from "html-to-image";
 
-    // Script runs once per page, we need to wire up all buttons present
-    // If use "astro:page-load" we re-run logic
+    // One rendered image per card per page view.
+    const rendered = new Map<string, Promise<Blob>>();
+
+    async function renderCard(card: HTMLElement): Promise<Blob> {
+        card.style.opacity = "1";
+        card.style.zIndex = "-50";
+        try {
+            await document.fonts?.ready;
+            await new Promise((r) => setTimeout(r, 100));
+            const opts = { pixelRatio: 2, backgroundColor: "#0B1020", cacheBust: false };
+            // Safari sometimes paints images only on the second pass.
+            if (/^((?!chrome|android).)*safari/i.test(navigator.userAgent)) await htmlToImage.toBlob(card, opts).catch(() => null);
+            const blob = await htmlToImage.toBlob(card, opts);
+            if (!blob) throw new Error("No image");
+            return blob;
+        } finally {
+            card.style.opacity = "0";
+        }
+    }
+
+    function cardBlob(cardId: string): Promise<Blob> {
+        let p = rendered.get(cardId);
+        if (!p) {
+            const card = document.getElementById(cardId);
+            p = card ? renderCard(card) : Promise.reject(new Error("No card"));
+            p.catch(() => rendered.delete(cardId));
+            rendered.set(cardId, p);
+        }
+        return p;
+    }
+
+    async function copy(text: string) {
+        try {
+            await navigator.clipboard.writeText(text);
+            return true;
+        } catch {
+            return false;
+        }
+    }
+
+    function openDialog(cardId: string, opener: HTMLElement) {
+        const dialog = document.getElementById(`${cardId}-dialog`) as HTMLDialogElement | null;
+        if (!dialog) return;
+        const $ = <T extends HTMLElement>(sel: string) => dialog.querySelector<T>(sel)!;
+        const preview = $<HTMLImageElement>("[data-preview]");
+        const loading = $("[data-loading]");
+        const status = $("[data-status]");
+        const shareBtn = $<HTMLButtonElement>('[data-act="share"]');
+        const downloadBtn = $<HTMLButtonElement>('[data-act="download"]');
+        const say = (msg: string) => (status.textContent = msg);
+
+        if (!dialog.dataset.bound) {
+            dialog.dataset.bound = "1";
+            const url = dialog.dataset.url || location.href;
+            const caption = $("[data-caption]").textContent?.trim() || url;
+            const fileName = dialog.dataset.file || "playtested.png";
+            let blob: Blob | null = null;
+            let objectUrl = "";
+
+            dialog.addEventListener("click", (e) => {
+                if (e.target === dialog) dialog.close(); // backdrop
+            });
+            dialog.addEventListener("close", () => {
+                const back = (dialog as HTMLDialogElement & { _opener?: HTMLElement })._opener;
+                if (back?.isConnected) back.focus();
+            });
+            $('[data-act="close"]').addEventListener("click", () => dialog.close());
+
+            $('[data-act="link"]').addEventListener("click", async () =>
+                say((await copy(url)) ? "Link copied. It opens this page." : "Couldn't copy automatically. Select the caption below instead."),
+            );
+            $('[data-act="caption"]').addEventListener("click", async () =>
+                say((await copy(caption)) ? "Caption copied. Paste it with the image." : "Couldn't copy automatically. Select the caption below instead."),
+            );
+            downloadBtn.addEventListener("click", () => {
+                if (!objectUrl) return;
+                const a = document.createElement("a");
+                a.href = objectUrl;
+                a.download = fileName;
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+                say("Image downloaded.");
+            });
+            shareBtn.addEventListener("click", async () => {
+                if (!blob) return;
+                const file = new File([blob], fileName, { type: "image/png" });
+                try {
+                    await navigator.share({ files: [file], title: dialog.dataset.title, text: caption, url });
+                    say("Shared.");
+                } catch (e) {
+                    if ((e as Error)?.name !== "AbortError") say("Sharing didn't work here. Try Download image instead.");
+                }
+            });
+
+            cardBlob(cardId)
+                .then((b) => {
+                    blob = b;
+                    objectUrl = URL.createObjectURL(b);
+                    preview.src = objectUrl;
+                    preview.classList.remove("hidden");
+                    loading.classList.add("hidden");
+                    downloadBtn.disabled = false;
+                    const file = new File([b], fileName, { type: "image/png" });
+                    if (navigator.canShare?.({ files: [file] })) shareBtn.classList.remove("hidden");
+                })
+                .catch(() => {
+                    loading.textContent = "The image couldn't be created in this browser. You can still copy the link or caption.";
+                });
+            document.addEventListener("astro:before-swap", () => objectUrl && URL.revokeObjectURL(objectUrl), { once: true });
+        }
+
+        (dialog as HTMLDialogElement & { _opener?: HTMLElement })._opener = opener;
+        say("");
+        dialog.showModal();
+        ($<HTMLButtonElement>('[data-act="close"]')).focus();
+    }
 
     function initSocialShare() {
-        // Copy Link Logic
-        const copyBtns = document.querySelectorAll(".copy-link-btn");
-        copyBtns.forEach((btn) => {
-            // avoid double binding? replace or check?
-            if ((btn as any)._bound) return;
-            (btn as any)._bound = true;
-
+        // Copy-link icon in the share bar
+        document.querySelectorAll<HTMLElement>(".copy-link-btn").forEach((btn) => {
+            if (btn.dataset.bound) return;
+            btn.dataset.bound = "1";
             btn.addEventListener("click", async () => {
-                const url = (btn as HTMLElement).dataset.url;
-                if (url) {
-                    try {
-                        await navigator.clipboard.writeText(url);
-                        const originalHtml = btn.innerHTML;
-                        btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>`;
-                        setTimeout(() => (btn.innerHTML = originalHtml), 2000);
-                    } catch (e) {
-                        console.error("Failed to copy", e);
-                    }
-                }
+                const url = btn.dataset.url;
+                if (!url || !(await copy(url))) return;
+                const originalHtml = btn.innerHTML;
+                btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>`;
+                setTimeout(() => (btn.innerHTML = originalHtml), 2000);
             });
         });
 
-        // Save Card Logic
-        const saveBtns = document.querySelectorAll(".save-card-btn");
-        saveBtns.forEach((btn) => {
-            if ((btn as any)._bound) return;
-            (btn as any)._bound = true;
-
-            btn.addEventListener("click", async () => {
-                const targetId = (btn as HTMLElement).dataset.target;
-                if (!targetId) return;
-
-                const card = document.getElementById(targetId);
-                if (!card) return;
-
-                const originalBtnHtml = btn.innerHTML;
-                btn.innerHTML = `<svg class="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>`;
-
-                try {
-                    // Make visible for capture by overriding opacity
-                    card.style.opacity = "1";
-                    // Keep z-index low to avoid flashing over content
-                    card.style.zIndex = "-50";
-
-                    // Wait a moment for any paints/font rendering
-                    await new Promise((r) => setTimeout(r, 100));
-
-                    const dataUrl = await htmlToImage.toPng(card, {
-                        quality: 0.95,
-                        pixelRatio: 2,
-                        backgroundColor: "#0B1020",
-                    });
-
-                    // Reset
-                    card.style.opacity = "0";
-
-                    const link = document.createElement("a");
-                    link.download = `playtested-card-${Date.now()}.png`;
-                    link.href = dataUrl;
-                    link.click();
-                } catch (error) {
-                    console.error("oops, something went wrong!", error);
-                    alert("Failed to generate card image.");
-                } finally {
-                    if (card) card.style.opacity = "0";
-                    btn.innerHTML = originalBtnHtml;
-                }
+        // Share / card buttons open the share dialog
+        document.querySelectorAll<HTMLElement>(".share-open-btn").forEach((btn) => {
+            if (btn.dataset.bound) return;
+            btn.dataset.bound = "1";
+            btn.addEventListener("click", () => {
+                const target = btn.dataset.target;
+                if (target) openDialog(target, btn);
             });
         });
     }
 
-    // init on load
     initSocialShare();
     document.addEventListener("astro:page-load", initSocialShare);
 </script>
