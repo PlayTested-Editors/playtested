@@ -188,7 +188,7 @@
       apply(d, true);
       conflict = null;
       stale = null;
-      slugAuto = !d.live && (!d.draft.slug || d.draft.slug.startsWith("untitled-") || d.draft.slug === slugify(d.draft.title));
+      slugAuto = !d.live && (!d.draft.slug || d.draft.slug.startsWith("untitled-") || d.draft.slug === slugify(d.draft.title) || d.draft.slug === autoSlugBase(d.draft));
       checkBackup(d);
     } catch (e) {
       toastError(e);
@@ -335,9 +335,12 @@
     }
   }
 
+  /** The slug a new article gets: from the game name, or the title if there is no game. */
+  const autoSlugBase = (d: ArticleData) => slugify(d.game?.trim() || d.title);
+
   function bumpSlug() {
     if (!data) return;
-    const base = slugify(data.title);
+    const base = autoSlugBase(data);
     if (base) {
       slugDedupe = { base, n: slugDedupe?.base === base ? slugDedupe.n + 1 : 2 };
     } else {
@@ -357,9 +360,9 @@
   });
 
   $effect(() => {
-    // Keep the slug following the title until it's edited by hand (never once live).
+    // Keep the slug following the game name (or title) until it's edited by hand (never once live).
     if (data && slugAuto && !detail?.live) {
-      const base = slugify(data.title);
+      const base = autoSlugBase(data);
       const s = base && slugDedupe?.base === base ? `${base}-${slugDedupe.n}` : base;
       if (s && s !== data.slug) data.slug = s;
     }
@@ -827,11 +830,11 @@
               id="article-title"
               class="w-full resize-none rounded-xl border border-slate-300 bg-white px-4 py-3 text-2xl font-bold leading-tight tracking-tight text-slate-900 shadow-sm transition [field-sizing:content] placeholder:font-semibold placeholder:text-slate-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 disabled:opacity-70 dark:border-slate-700 dark:bg-slate-900 dark:text-white dark:placeholder:text-slate-500"
               rows="1"
-              placeholder="Game Name | Review headline"
+              placeholder="Review Title | Game Name Review"
               disabled={!canEdit}
               bind:value={data.title}
             ></textarea>
-            <p class="mt-1.5 text-xs text-slate-500 dark:text-slate-400">Tip: the part before <b>|</b> becomes the first line of the title on the site.</p>
+            <p class="mt-1.5 text-xs text-slate-500 dark:text-slate-400">Review Title | Game Name Review (e.g. <i>Best Game Ever | Half-Life Review</i>). The part before <b>|</b> is the first line of the title on the site.</p>
           </div>
           <div class="mb-3 flex flex-wrap items-center justify-between gap-2">
             {#if canEdit}

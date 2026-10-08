@@ -496,7 +496,10 @@ route("POST", "/articles/:id/publish", "chief", async (c, m) => {
   const data = finalise(draftOf(row));
   // A first publish is dated now: the draft's date is when it was started, which
   // would bury it under newer posts. A future date (scheduling) is kept.
-  if (!row.git_path && !row.live_json && !(Date.parse(data.pubDate) > now())) data.pubDate = toSiteIso(now());
+  // Only an untouched date (still ~ when the draft was started) moves to now; a date
+  // the writer set — backdated to when they played it, or in the future — is kept.
+  const untouchedDate = Math.abs(Date.parse(data.pubDate) - row.created_at) < 10 * 60_000;
+  if (!row.git_path && !row.live_json && untouchedDate && !(Date.parse(data.pubDate) > now())) data.pubDate = toSiteIso(now());
   const problems = validateForPublish(data);
   if (await slugTaken(c.env, data.slug, row.id)) problems.push(`The slug "${data.slug}" is already used.`);
   if (problems.length) return error(422, "Fix these before publishing.", { problems });

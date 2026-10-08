@@ -1,6 +1,5 @@
 <script lang="ts">
   import { onMount, untrack } from "svelte";
-  import { fade } from "svelte/transition";
   import { api, type ArticleSummary } from "../api";
   import { navigate, refreshCounts, route, toast, toastError } from "../state.svelte";
   import Modal from "../ui/Modal.svelte";
@@ -61,16 +60,23 @@
   // Only the latest request may write `data`: a slow earlier response must not
   // replace newer results.
   let requestSeq = 0;
+  // Dim the list only when a load is slow enough to notice; a quick refresh
+  // that dims and undims reads as a flicker.
+  let dimTimer: ReturnType<typeof setTimeout> | undefined;
   async function load(qs: string) {
     const seq = ++requestSeq;
-    loading = true;
+    clearTimeout(dimTimer);
+    dimTimer = setTimeout(() => seq === requestSeq && (loading = true), 300);
     try {
       const d = await api.get<NonNullable<typeof data>>(`/articles?pageSize=30&${qs}`);
       if (seq === requestSeq) data = d;
     } catch (e) {
       if (seq === requestSeq) toastError(e);
     } finally {
-      if (seq === requestSeq) loading = false;
+      if (seq === requestSeq) {
+        clearTimeout(dimTimer);
+        loading = false;
+      }
     }
   }
 
@@ -175,7 +181,7 @@
     {:else}
       <ul class="divide-y divide-slate-100 dark:divide-slate-800 transition-opacity {loading ? 'opacity-60' : ''}">
         {#each data.articles as a (a.id)}
-          <li in:fade={{ duration: 120 }} class="flex items-center transition hover:bg-slate-50 dark:hover:bg-slate-800/50">
+          <li class="flex items-center transition-colors hover:bg-slate-50 dark:hover:bg-slate-800/50">
             <a href={`/studio/articles/${a.id}/`} class="group flex min-w-0 flex-1 items-center gap-4 px-4 py-3">
               <div class="h-12 w-20 shrink-0 overflow-hidden rounded-lg bg-slate-100 dark:bg-slate-800">
                 {#if a.thumb}<img src={a.thumb} alt="" loading="lazy" class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105" />{/if}

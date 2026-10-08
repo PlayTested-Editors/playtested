@@ -70,7 +70,7 @@
         Caption,
         RawHtml,
         SideDrop,
-        Placeholder.configure({ placeholder: "Start writing your review…" }),
+        Placeholder.configure({ placeholder: "Put your actual full review here…" }),
         Markdown.configure({ html: true, tightLists: true, linkify: false, breaks: false, transformPastedText: true }),
       ],
       content: value,

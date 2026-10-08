@@ -251,6 +251,7 @@ export function rowSummary(row: ArticleRow) {
     pubDate: row.pub_date,
     publishedAt: row.published_at,
     updatedAt: row.updated_at,
+    createdAt: row.created_at,
     updatedBy: row.updated_by,
     createdBy: row.created_by,
     assignedTo: row.assigned_to,

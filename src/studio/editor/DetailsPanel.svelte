@@ -55,7 +55,7 @@
 
 <div class="space-y-6">
   <div>
-    <label class="label" for="slug">URL slug</label>
+    <label class="label" for="slug">Link title / URL slug</label>
     <div class="flex items-center gap-2">
       <span class="hidden text-xs text-slate-400 sm:inline">/article/</span>
       <input
@@ -69,19 +69,22 @@
         }}
       />
       {#if !isLive}
-        <button type="button" class="btn-ghost !px-2 text-xs whitespace-nowrap" title="Keep the slug in sync with the title" onclick={() => { slugAuto = true; data.slug = slugify(data.title); }}>
-          {slugAuto ? "Auto ✓" : "From title"}
+        <button type="button" class="btn-ghost !px-2 text-xs whitespace-nowrap" title="Keep the slug in sync with the game name (or the title if there is no game)" onclick={() => { slugAuto = true; data.slug = slugify(data.game?.trim() || data.title); }}>
+          {slugAuto ? "Auto ✓" : "Automatic"}
         </button>
       {/if}
     </div>
     {#if isLive}
       <p class="mt-1 text-[11px] text-amber-600 dark:text-amber-400">This article is live — changing the slug changes its URL and breaks old links.</p>
+    {:else}
+      <p class="mt-1 text-[11px] text-slate-500">Optional custom link. If left on Automatic, it follows the Game name, or the article title if no game is set.</p>
     {/if}
   </div>
 
   <div>
     <label class="label" for="desc">Description</label>
     <textarea id="desc" class="input min-h-[96px]" maxlength={descMax * 3} {disabled} bind:value={data.description} placeholder="One or two sentences shown on cards, search results and social shares."></textarea>
+    <p class="mt-1 text-[11px] text-slate-500">Write a short one-paragraph summary, or copy-paste the first or second paragraph of your review.</p>
     <p class="mt-1 text-right text-[11px] tabular-nums {data.description.length > descMax ? 'text-amber-600' : 'text-slate-400'}">{data.description.length} characters</p>
   </div>
 
@@ -104,6 +107,7 @@
         value={data.score ?? ""}
         oninput={(e) => (data.score = e.currentTarget.value === "" ? null : Number(e.currentTarget.value))}
       />
+      <p class="mt-1 text-[11px] text-slate-500">From 0 to 10 in 0.1 steps (e.g. 7.3 is okay).</p>
     </div>
   </div>
 
@@ -132,7 +136,9 @@
       <button type="button" class="btn-secondary whitespace-nowrap" {disabled} onclick={() => (data.pubDate = fromLocalInput(""))}>Now</button>
     </div>
     <p class="mt-1 text-[11px] {future ? 'text-sky-600 dark:text-sky-400 font-medium' : 'text-slate-500'}">
-      {future ? "Future date: publishing will schedule this — it appears on the site automatically at this time." : "Set a future date to schedule the article."}
+      {future
+        ? "Future date: publishing will schedule this — it appears on the site automatically at this time."
+        : "You can backdate this (to when you wrote the review or played the game), or set a future date to schedule it. If you leave it, it's dated when you publish."}
     </p>
   </div>
 

@@ -31,6 +31,8 @@
   let isUpdate = $derived(Boolean(detail.live));
   // Never published before: the server dates it now unless it's scheduled.
   let firstPublish = $derived(!detail.live && !detail.article.wasPublished);
+  // Same rule as the server: a date nobody changed (still ~ draft creation) becomes "now".
+  let untouchedDate = $derived(Math.abs(Date.parse(data.pubDate) - detail.article.createdAt) < 10 * 60_000);
   // Readers can see the live version now (it isn't itself still scheduled).
   let liveVisible = $derived(Boolean(detail.live) && !(Date.parse(detail.live!.pubDate) > Date.now()));
   let changedBy = $derived.by(() => {
@@ -118,8 +120,10 @@
             <span class="font-medium text-emerald-600 dark:text-emerald-400">Viewable at its link right away</span>; the homepage and lists update in about 1–2 minutes.
           {/if}
         </p>
-        {#if !future && firstPublish}
-          <p class="mt-1 text-xs text-slate-500">Publishes dated now ({dateTime(Date.now())}). To schedule it instead, set a future date under Details.</p>
+        {#if !future && firstPublish && untouchedDate}
+          <p class="mt-1 text-xs text-slate-500">Publishes dated now ({dateTime(Date.now())}). To backdate or schedule it, set the date under Details.</p>
+        {:else if !future && firstPublish}
+          <p class="mt-1 text-xs text-slate-500">Dated {dateTime(data.pubDate)}, the date you set under Details.</p>
         {:else if !future && !isUpdate}
           <p class="mt-1 text-xs text-slate-500">Dated {dateTime(data.pubDate)} (its earlier publish date).</p>
         {/if}

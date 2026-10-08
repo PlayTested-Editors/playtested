@@ -118,6 +118,8 @@ export interface ArticleSummary {
   isLive: boolean;
   /** Was published at some point (even if unpublished since). */
   wasPublished: boolean;
+  /** When the article was created (an untouched publish date is about this). */
+  createdAt: number;
   hasPendingChanges: boolean;
   /** List rows only: whether you may delete it (server's rule). */
   canDelete?: boolean;

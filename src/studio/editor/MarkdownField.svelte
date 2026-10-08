@@ -206,7 +206,7 @@ Write the text that sits beside the image here.
     aria-label="Article body (Markdown)"
     title="Tab inserts spaces. Press Esc, then Tab, to move on."
     onblur={() => (tabLeaves = false)}
-    placeholder="Start writing your review… Markdown works: ## headings, **bold**, _italic_, > quotes, - lists. Drop or paste images anywhere."
+    placeholder="Put your actual full review here… Markdown works: ## headings, **bold**, _italic_, > quotes, - lists. Drop or paste images anywhere."
     class="block w-full resize-none rounded-b-xl border-0 bg-transparent px-5 py-4 font-[ui-serif,Georgia,serif] text-[16px] leading-7 text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-0 dark:text-slate-200"
     {onkeydown}
     oninput={resize}
