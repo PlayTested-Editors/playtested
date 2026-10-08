@@ -157,7 +157,8 @@ export interface Toast {
   id: number;
   kind: "success" | "error" | "info";
   message: string;
-  action?: { label: string; href: string };
+  /** A link (href) or an in-app action (run), e.g. "Undo". */
+  action?: { label: string; href?: string; run?: () => void };
 }
 
 export const toasts = $state<Toast[]>([]);

@@ -19,8 +19,11 @@
       animate:flip={{ duration: 200 }}
     >
       <p class="flex-1 leading-snug">{t.message}</p>
-      {#if t.action}
+      {#if t.action?.href}
         <a class="shrink-0 font-semibold underline underline-offset-2" href={t.action.href} target="_blank" rel="noopener">{t.action.label}</a>
+      {:else if t.action?.run}
+        {@const run = t.action.run}
+        <button type="button" class="shrink-0 font-semibold underline underline-offset-2" onclick={() => (run(), dismissToast(t.id))}>{t.action.label}</button>
       {/if}
       <button class="-mr-1 shrink-0 opacity-70 hover:opacity-100" aria-label="Dismiss" onclick={() => dismissToast(t.id)}>✕</button>
     </div>

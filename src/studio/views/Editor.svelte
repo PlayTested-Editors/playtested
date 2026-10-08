@@ -15,6 +15,7 @@
   import PreviewPane from "../editor/PreviewPane.svelte";
   import PublishDialog from "../editor/PublishDialog.svelte";
   import AiWriteGuide from "../editor/AiWriteGuide.svelte";
+  import { tidyProsCons } from "../editor/tidy";
 
   let { id }: { id: string } = $props();
 
@@ -75,6 +76,16 @@
     });
     return () => setLeaveGuard(null);
   });
+
+  /** Pros / Cons sections in the site's usual format (only real, labelled lists). */
+  function tidyBody() {
+    if (!data) return;
+    const { text, changed } = tidyProsCons(data.body);
+    if (!changed) return toast("Pros & Cons already look right. Nothing to change.", "info");
+    const before = data.body;
+    data.body = text;
+    toast(`Tidied ${changed} Pros/Cons section${changed === 1 ? "" : "s"}.`, "success", { label: "Undo", run: () => data && (data.body = before) }, 8000);
+  }
 
   /** A draft from the "Write with AI" guide. The old text stays in History. */
   function useAiDraft(d: { title: string | null; score: number | null; body: string; mode: "replace" | "append" }) {
@@ -833,6 +844,12 @@
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" /></svg>
                 Write with AI
               </button>
+              <button
+                type="button"
+                class="mr-auto rounded-lg px-2.5 py-1.5 text-xs font-semibold text-slate-600 ring-1 ring-slate-200 transition hover:bg-slate-100 dark:text-slate-300 dark:ring-slate-700 dark:hover:bg-slate-800"
+                onclick={tidyBody}
+                title="Format the Pros and Cons sections like the rest of the site (## Pros, ## Cons, - bullets)"
+              >Tidy Pros &amp; Cons</button>
             {:else}
               <span></span>
             {/if}

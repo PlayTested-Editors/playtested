@@ -4,6 +4,8 @@
  * Edit the wording here; the guide in AiWriteGuide.svelte builds on it.
  */
 
+import { tidyProsCons } from "./tidy";
+
 export const AI_SERVICES = [
   { name: "ChatGPT", url: "https://chatgpt.com/" },
   { name: "Gemini", url: "https://gemini.google.com/app" },
@@ -80,5 +82,7 @@ export function parseReply(reply: string): { title: string; score: number | null
     score = Number(s[1]);
     title = title.slice(0, s.index).trim();
   }
-  return { title, score: score !== null && score >= 0 && score <= 10 ? score : null, body: lines.join("\n").trim() };
+  // Pros / Cons in the site's usual "## Pros" + "- " bullets format.
+  const body = tidyProsCons(lines.join("\n").trim()).text;
+  return { title, score: score !== null && score >= 0 && score <= 10 ? score : null, body };
 }
