@@ -61,6 +61,18 @@ jobs:
         run: npx wrangler d1 migrations apply DB --remote --config wrangler.production.jsonc
       - name: Build
         run: node scripts/build.mjs --env production
+        # Ad unit IDs are public (they appear in every page), so they live here
+        # rather than in secrets. Adsterra IDs need replacing: see P7.
+        env:
+          PUBLIC_ADSENSE_ENABLED: "true"
+          PUBLIC_ADSENSE_CLIENT_ID: ca-pub-1881206716454045
+          PUBLIC_ADSENSE_ARTICLE_UNIT_ID: "4753902993"
+          PUBLIC_ADSENSE_FOOTER_UNIT_ID: "6294941726"
+          PUBLIC_ADSTERRA_ENABLED: "true"
+          PUBLIC_ADSTERRA_NATIVE_ID: 7541489fe8c59309ca2df0c4a8388020
+          PUBLIC_ADSTERRA_FOOTER_ID: ce707fdce55ed67d4b822f07899b7bee
+          PUBLIC_ADSTERRA_SOCIAL_ID: d27a9df3900fb493846123cd1814822f
+          PUBLIC_ADSTERRA_POPUNDER_ID: ""
       - name: Mirror git content into the studio database
         run: node scripts/sync-d1.mjs
       - name: Deploy
