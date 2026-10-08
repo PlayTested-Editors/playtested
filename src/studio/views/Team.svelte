@@ -8,7 +8,7 @@
 
   interface Row {
     id: string;
-    email: string;
+    email: string | null;
     name: string;
     avatar: string | null;
     author_name: string | null;
@@ -19,7 +19,7 @@
   }
   interface Invite {
     id: string;
-    email: string;
+    email: string | null;
     role: Role;
     author_name: string | null;
     created_at: number;
@@ -70,7 +70,7 @@
    * `control` is the input/select that made the change: if the server refuses,
    * it's put back to the saved value (re-rendering the same value won't).
    */
-  async function update(u: Row, patch: Partial<{ role: Role; status: string; authorName: string }>, control?: HTMLInputElement | HTMLSelectElement) {
+  async function update(u: Row, patch: Partial<{ role: Role; status: string; authorName: string; name: string }>, control?: HTMLInputElement | HTMLSelectElement) {
     try {
       await api.patch(`/users/${u.id}`, patch);
       toast("Updated", "success", undefined, 1500);
@@ -81,7 +81,7 @@
       }
       load();
     } catch (e) {
-      if (control) control.value = "role" in patch ? u.role : (u.author_name ?? "");
+      if (control) control.value = "role" in patch ? u.role : "name" in patch ? u.name : (u.author_name ?? "");
       toastError(e);
       load();
     }
@@ -134,8 +134,18 @@
               <div class="grid h-9 w-9 place-items-center rounded-full bg-gradient-to-br from-indigo-500 to-fuchsia-500 text-sm font-bold text-white">{u.name[0]?.toUpperCase()}</div>
             {/if}
             <div class="min-w-[180px] flex-1">
-              <p class="text-sm font-medium">{u.name}{u.id === session.user?.id ? " (you)" : ""}</p>
-              <p class="text-xs text-slate-500">{u.email} · {u.last_login_at ? `active ${relTime(u.last_login_at)}` : "never signed in"}</p>
+              {#if isChief()}
+                <input
+                  class="input !w-48 !py-1 !text-sm font-medium"
+                  value={u.name}
+                  aria-label={`Display name for ${u.name}`}
+                  title="Display name shown in the studio"
+                  onchange={(e) => update(u, { name: e.currentTarget.value }, e.currentTarget)}
+                />
+              {:else}
+                <p class="text-sm font-medium">{u.name}{u.id === session.user?.id ? " (you)" : ""}</p>
+              {/if}
+              <p class="mt-0.5 text-xs text-slate-500">{u.email ? `${u.email} · ` : ""}{u.last_login_at ? `active ${relTime(u.last_login_at)}` : "never signed in"}</p>
             </div>
             {#if isChief()}
               <input class="input !w-40 !py-1.5 !text-xs" placeholder="Byline name" value={u.author_name ?? ""} onchange={(e) => update(u, { authorName: e.currentTarget.value }, e.currentTarget)} title="Name written on their articles" />

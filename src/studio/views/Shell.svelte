@@ -3,7 +3,8 @@
   import { onMount } from "svelte";
   import { fade, fly } from "svelte/transition";
   import { api, getViewAs, setViewAs } from "../api";
-  import { clearReturn, counts as countsSignal, loadSession, navigate, refreshCounts, route, session, toggleTheme, isEditorOrAbove } from "../state.svelte";
+  import { clearReturn, counts as countsSignal, loadSession, navigate, refreshCounts, route, session, toast, toastError, toggleTheme, isEditorOrAbove } from "../state.svelte";
+  import Modal from "../ui/Modal.svelte";
   import { deploys, latestRun, refreshDeploys, stopDeploys } from "../deploys.svelte";
   import { relTime } from "../format";
 
@@ -103,6 +104,29 @@
     navigate("/studio/", true);
   }
 
+  // ---- Your profile -------------------------------------------------------
+  let profileOpen = $state(false);
+  let profileName = $state("");
+  let savingProfile = $state(false);
+  function openProfile() {
+    profileName = session.user?.name ?? "";
+    mobileOpen = false;
+    profileOpen = true;
+  }
+  async function saveProfile() {
+    savingProfile = true;
+    try {
+      await api.patch("/me", { name: profileName });
+      await loadSession();
+      toast("Name updated", "success", undefined, 2000);
+      profileOpen = false;
+    } catch (e) {
+      toastError(e);
+    } finally {
+      savingProfile = false;
+    }
+  }
+
   async function signOut() {
     setViewAs(null);
     await api.post("/auth/logout").catch(() => undefined);
@@ -170,10 +194,10 @@
         {:else}
           <div class="grid h-8 w-8 place-items-center rounded-full bg-gradient-to-br from-indigo-500 to-fuchsia-500 text-xs font-bold text-white">{session.user?.name?.[0]?.toUpperCase() ?? "?"}</div>
         {/if}
-        <div class="min-w-0 flex-1 leading-tight">
+        <button type="button" class="min-w-0 flex-1 rounded-md text-left leading-tight hover:opacity-80" title="Your profile" onclick={openProfile}>
           <p class="truncate text-sm font-medium">{session.user?.name}</p>
           <p class="text-[11px] capitalize text-slate-500">{session.user?.role === "chief" ? "Chief editor" : session.user?.role}</p>
-        </div>
+        </button>
         <button class="btn-ghost !p-1.5" title="Toggle theme" aria-label="Toggle theme" onclick={toggleTheme}>
           <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z" /></svg>
         </button>
@@ -200,6 +224,30 @@
     </div>
   </div>
 {/snippet}
+
+<Modal bind:open={profileOpen} title="Your profile" size="sm">
+  <div class="space-y-4 text-sm">
+    <div>
+      <label class="label" for="profile-name">Display name</label>
+      <input id="profile-name" class="input" maxlength="40" bind:value={profileName} />
+      <p class="mt-1 text-[11px] text-slate-500">What the team sees in the studio: notes, "edited by", activity. It doesn't have to be your Google name.</p>
+    </div>
+    <div>
+      <p class="label">Byline</p>
+      <p class="rounded-lg bg-slate-50 px-3 py-2 dark:bg-slate-800/60">{session.user?.authorName || "Not set yet"}</p>
+      <p class="mt-1 text-[11px] text-slate-500">The name printed on your articles on the site. {session.user?.role === "chief" ? "Set bylines in Team." : "The chief editor sets it in Team."}</p>
+    </div>
+    <div>
+      <p class="label">Signed in as</p>
+      <p class="text-slate-600 dark:text-slate-300">{session.user?.email}</p>
+      <p class="mt-1 text-[11px] text-slate-500">Only you and the chief editor see this. It's never shown on the site.</p>
+    </div>
+  </div>
+  {#snippet footer()}
+    <button class="btn-secondary" onclick={() => (profileOpen = false)}>Cancel</button>
+    <button class="btn-primary" disabled={savingProfile || profileName.trim().length < 2} onclick={saveProfile}>{savingProfile ? "Saving…" : "Save"}</button>
+  {/snippet}
+</Modal>
 
 <div class="min-h-screen {focus ? '' : 'lg:pl-64'}">
   <aside class="fixed inset-y-0 left-0 z-30 hidden w-64 border-r border-slate-200/70 bg-white/80 backdrop-blur dark:border-slate-800 dark:bg-slate-900/80 {focus ? '' : 'lg:block'}">

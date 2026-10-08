@@ -269,6 +269,16 @@ route("POST", "/auth/invite", "public", async (c) => {
 
 route("POST", "/auth/logout", "public", async (c) => withCookie(json({ ok: true }), await endSession(c.env, c.request)));
 
+/** Your own display name in the studio (it starts as your Google name). The byline stays with the chief. */
+route("PATCH", "/me", "contributor", async (c) => {
+  const b = await body<{ name?: string }>(c.request);
+  const name = String(b.name ?? "").replace(/\s+/g, " ").trim();
+  if (name.length < 2 || name.length > 40) return error(400, "Use a name between 2 and 40 characters.");
+  await c.env.DB.prepare("UPDATE users SET name = ? WHERE id = ?").bind(name, c.user!.id).run();
+  await audit(c.env.DB, c.user!.id, "user.rename", c.user!.id, { name });
+  return json({ ok: true, name });
+});
+
 // ---------------------------------------------------------------------------
 // Articles
 
@@ -753,7 +763,10 @@ route("GET", "/users", "editor", async (c) => {
     c.env.DB.prepare("SELECT id, email, name, avatar, author_name, role, status, created_at, last_login_at FROM users ORDER BY role, name"),
     c.env.DB.prepare("SELECT id, email, role, author_name, created_at, expires_at FROM invites WHERE accepted_at IS NULL AND expires_at > ? ORDER BY created_at DESC").bind(now()),
   ]);
-  return json({ users: users.results, invites: c.user!.role === "chief" ? invites.results : [] });
+  // Team members' sign-in emails are only for the chief (and yourself).
+  const isChief = c.user!.role === "chief";
+  const list = (users.results as { id: string; email: string | null }[]).map((u) => (isChief || u.id === c.user!.id ? u : { ...u, email: null }));
+  return json({ users: list, invites: isChief ? invites.results : [] });
 });
 
 /** Bylines decide who owns imported articles, so each belongs to one person. */
@@ -773,6 +786,10 @@ route("PATCH", "/users/:id", "chief", async (c, m) => {
   }
   if (b.role && !Object.hasOwn(RANK, b.role)) return error(400, "Unknown role.");
   if (b.status && b.status !== "active" && b.status !== "disabled") return error(400, "Unknown status.");
+  if (b.name !== undefined) {
+    b.name = String(b.name).replace(/\s+/g, " ").trim();
+    if (b.name.length < 2 || b.name.length > 40) return error(400, "Use a name between 2 and 40 characters.");
+  }
   if (b.authorName !== undefined) b.authorName = b.authorName.trim();
   if (b.authorName && (await bylineTaken(c.env, b.authorName, target))) {
     return error(409, `Another team member already uses the byline "${b.authorName}".`);

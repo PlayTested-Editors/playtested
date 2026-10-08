@@ -127,6 +127,7 @@ export function validateForPublish(d: ArticleData): string[] {
   if (!d.slug) errors.push("Slug is required.");
   if (!d.description) errors.push("Description is required.");
   if (!d.category) errors.push("Category is required.");
+  if (!d.author.trim()) errors.push("A byline is required (Details → Byline). Writers get theirs from the chief editor in Team.");
   if (Number.isNaN(Date.parse(d.pubDate))) errors.push("Publish date is invalid.");
   if (!d.body.trim()) errors.push("The article body is empty.");
   if (d.score !== null && d.score !== undefined && (d.score < 0 || d.score > 10)) errors.push("Score must be between 0 and 10.");
@@ -328,9 +329,10 @@ export async function freeGitPath(env: Env, slug: string, exceptId: string): Pro
 }
 
 export async function createArticle(env: Env, user: SessionUser, input: Partial<ArticleData>): Promise<ArticleRow> {
-  const data = normaliseData({ author: user.authorName || user.name, ...input });
-  // A new article always carries its creator's byline (only the chief changes bylines).
-  data.author = (user.role === "chief" && input.author ? data.author : user.authorName || user.name).trim();
+  const data = normaliseData({ author: user.authorName ?? "", ...input });
+  // A new article carries its creator's byline (only the chief changes bylines).
+  // Never their account (Google) name: that isn't meant for the public site.
+  data.author = (user.role === "chief" && input.author ? data.author : (user.authorName ?? "")).trim();
   if (!data.slug) data.slug = `untitled-${uid(4).toLowerCase()}`;
   let slug = data.slug;
   for (let i = 2; await slugTaken(env, slug); i++) slug = `${data.slug}-${i}`;
@@ -400,7 +402,10 @@ export async function saveDraft(
   // The byline decides ownership (isOwnArticle), so only the chief editor changes
   // it. Stored trimmed; a team member's byline typed in another case is stored
   // exactly as theirs, so the indexed `author = ?` match finds it.
-  data.author = (user.role === "chief" ? data.author : (row.author ?? data.author)).trim();
+  // Writers can't change bylines; a blank one on their own draft picks up the byline
+  // the chief has since given them.
+  const ownBlank = !row.author?.trim() && row.created_by === user.id ? (user.authorName ?? "") : "";
+  data.author = (user.role === "chief" ? data.author : row.author?.trim() || ownBlank || (row.author ?? "")).trim();
   if (user.role === "chief" && data.author && data.author !== (row.author ?? "").trim()) {
     const member = await env.DB.prepare("SELECT author_name FROM users WHERE author_name = ? COLLATE NOCASE LIMIT 1")
       .bind(data.author)

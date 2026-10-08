@@ -37,7 +37,7 @@ Astro.response.headers.set("X-Robots-Tag", "noindex");
 
 <ArticleView
   slug={data.slug || "preview"}
-  data={{ ...data, author: data.author || user.authorName || user.name, title: data.title || "Untitled article" }}
+  data={{ ...data, author: data.author || user.authorName || "Byline not set", title: data.title || "Untitled article" }}
   html={renderMarkdown(data.body || "*Start writing — your article body will appear here.*")}
   body={data.body}
   mode="preview"
