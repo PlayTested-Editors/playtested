@@ -9,7 +9,7 @@ export const prerender = false;
 
 import ArticleView from "../../components/ArticleView.astro";
 import { getSessionUser } from "../../lib/server/auth";
-import { draftOf, getArticle, normaliseData, type ArticleData } from "../../lib/server/articles";
+import { canView, draftOf, getArticle, normaliseData, type ArticleData } from "../../lib/server/articles";
 import { renderMarkdown } from "../../lib/markdown";
 
 const env = Astro.locals.runtime.env;
@@ -27,7 +27,8 @@ if (Astro.request.method === "POST") {
 } else {
   const id = Astro.url.searchParams.get("id");
   const row = id ? await getArticle(env, id) : null;
-  data = row ? draftOf(row) : null;
+  // Same privacy as the studio: no peeking at other people's drafts by id.
+  data = row && canView(user, row) ? draftOf(row) : null;
 }
 if (!data) return new Response("Nothing to preview.", { status: 400 });
 

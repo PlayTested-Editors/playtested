@@ -25,6 +25,8 @@ import {
 import {
   ConflictError,
   can,
+  canView,
+  visibleSql,
   createArticle,
   draftOf,
   fileHash,
@@ -187,9 +189,16 @@ async function articleDetail(c: Ctx, row: ArticleRow) {
   };
 }
 
+/** An article this user may see; hidden ones answer 404, exactly like missing ones. */
+async function loadVisible(c: Ctx, id: string): Promise<ArticleRow | Response> {
+  const row = await getArticle(c.env, decodeURIComponent(id));
+  if (!row || !canView(c.user!, row)) return error(404, "Article not found.");
+  return row;
+}
+
 async function loadEditable(c: Ctx, id: string, action: Parameters<typeof can>[1]): Promise<ArticleRow | Response> {
   const row = await getArticle(c.env, decodeURIComponent(id));
-  if (!row) return error(404, "Article not found.");
+  if (!row || !canView(c.user!, row)) return error(404, "Article not found.");
   if (!can(c.user!, action, row)) return error(403, "You don't have permission to do that.");
   return row;
 }
@@ -374,6 +383,12 @@ route("GET", "/articles", "contributor", async (c) => {
     where.push(mineSql);
     args.push(...mineArgs);
   }
+  // Other people's private drafts never show (see canView in articles.ts).
+  const vis = visibleSql(c.user!);
+  if (vis) {
+    where.push(vis.sql);
+    args.push(...vis.args);
+  }
   const sort = { updated: "updated_at DESC", pub: "pub_date DESC", title: "title COLLATE NOCASE ASC", score: "score DESC" }[
     p.get("sort") || "updated"
   ] ?? "updated_at DESC";
@@ -386,8 +401,8 @@ route("GET", "/articles", "contributor", async (c) => {
   // No total COUNT(*): paging uses pageSize + 1 to know if there's more.
   // The tab counts follow "Mine only" (they read the state / pub_date indexes,
   // i.e. only in-progress or scheduled rows, then filter to yours).
-  const and = mine ? ` AND ${mineSql}` : "";
-  const cArgs = mine ? mineArgs : [];
+  const and = (mine ? ` AND ${mineSql}` : "") + (vis ? ` AND ${vis.sql}` : "");
+  const cArgs = [...(mine ? mineArgs : []), ...(vis?.args ?? [])];
   const isChiefUser = c.user!.role === "chief";
   const [rows, counts, scheduled, pending, myChanges] = await c.env.DB.batch([
     c.env.DB.prepare(`SELECT * FROM articles ${whereSql} ORDER BY ${sort} LIMIT ? OFFSET ?`).bind(...args, pageSize + 1, (page - 1) * pageSize),
@@ -434,8 +449,8 @@ route("POST", "/articles", "contributor", async (c) => {
 });
 
 route("GET", "/articles/:id", "contributor", async (c, m) => {
-  const row = await getArticle(c.env, decodeURIComponent(m[1]));
-  if (!row) return error(404, "Article not found.");
+  const row = await loadVisible(c, m[1]);
+  if (row instanceof Response) return row;
   return json(await articleDetail(c, row));
 });
 
@@ -464,8 +479,9 @@ route("PUT", "/articles/:id", "contributor", async (c, m) => {
  * count, so an open editor notices reviews and other people's saves.
  */
 route("POST", "/articles/:id/lock", "contributor", async (c, m) => {
-  let row = await getArticle(c.env, decodeURIComponent(m[1]));
-  if (!row) return error(404, "Article not found.");
+  const found = await loadVisible(c, m[1]);
+  if (found instanceof Response) return found;
+  let row = found;
   const { hold } = await body<{ hold?: boolean }>(c.request);
   const me = c.user!.id;
   const t = now();
@@ -647,8 +663,8 @@ route("DELETE", "/articles/:id", "contributor", async (c, m) => {
 });
 
 route("GET", "/articles/:id/revisions", "contributor", async (c, m) => {
-  const row = await getArticle(c.env, decodeURIComponent(m[1]));
-  if (!row) return error(404, "Article not found.");
+  const row = await loadVisible(c, m[1]);
+  if (row instanceof Response) return row;
   const revs = await c.env.DB.prepare(
     `SELECT r.id, r.rev, r.kind, r.note, r.created_at, r.user_id, u.name FROM revisions r LEFT JOIN users u ON u.id = r.user_id
      WHERE r.article_id = ? ORDER BY r.id DESC LIMIT 150`,
@@ -673,6 +689,8 @@ route("GET", "/revisions/:id", "contributor", async (c, m) => {
     .bind(Number(m[1]))
     .first<{ id: number; article_id: string; rev: number; kind: string; data_json: string; created_at: number }>();
   if (!r) return error(404, "Revision not found.");
+  const owner = await getArticle(c.env, r.article_id);
+  if (!owner || !canView(c.user!, owner)) return error(404, "Revision not found.");
   return json({ id: r.id, articleId: r.article_id, rev: r.rev, kind: r.kind, createdAt: r.created_at, data: normaliseData(parseJson(r.data_json, {})) });
 });
 
@@ -689,8 +707,8 @@ route("POST", "/articles/:id/restore", "contributor", async (c, m) => {
 });
 
 route("POST", "/articles/:id/notes", "contributor", async (c, m) => {
-  const row = await getArticle(c.env, decodeURIComponent(m[1]));
-  if (!row) return error(404, "Article not found.");
+  const row = await loadVisible(c, m[1]);
+  if (row instanceof Response) return row;
   const { text } = await body<{ text?: string }>(c.request);
   if (!text?.trim()) return error(400, "Write a note first.");
   await c.env.DB.prepare("INSERT INTO notes (article_id, user_id, body, created_at) VALUES (?, ?, ?, ?)")
@@ -703,7 +721,7 @@ route("POST", "/notes/:id/resolve", "contributor", async (c, m) => {
   const note = await c.env.DB.prepare("SELECT article_id, user_id FROM notes WHERE id = ?").bind(Number(m[1])).first<{ article_id: string; user_id: string }>();
   if (!note) return error(404, "Note not found.");
   const row = await getArticle(c.env, note.article_id);
-  if (!row) return error(404, "Article not found.");
+  if (!row || !canView(c.user!, row)) return error(404, "Article not found.");
   // The chief editor, the note's author, or the article's writer (to mark feedback addressed).
   if (c.user!.role !== "chief" && note.user_id !== c.user!.id && !isOwnArticle(c.user!, row)) {
     return error(403, "Only the chief editor, the note's author or the article's writer can resolve it.");
@@ -758,8 +776,21 @@ route("GET", "/media", "contributor", async (c) => {
   const p = c.url.searchParams;
   const pageSize = Math.min(Number(p.get("pageSize")) || 60, 200);
   const page = Math.max(Number(p.get("page")) || 1, 1);
-  const where = p.get("article") ? "WHERE article_id = ?" : "";
-  const args = p.get("article") ? [p.get("article")] : [];
+  const conds: string[] = [];
+  const args: unknown[] = [];
+  if (p.get("article")) {
+    const a = await getArticle(c.env, p.get("article")!);
+    if (!a || !canView(c.user!, a)) return error(404, "Article not found.");
+    conds.push("article_id = ?");
+    args.push(a.id);
+  }
+  // The shared library: your own uploads plus images already on the live site
+  // (not what's waiting in other people's unpublished drafts).
+  if (c.user!.role !== "chief") {
+    conds.push("(uploaded_by = ? OR committed = 1)");
+    args.push(c.user!.id);
+  }
+  const where = conds.length ? `WHERE ${conds.join(" AND ")}` : "";
   const rows = await c.env.DB.prepare(`SELECT * FROM media ${where} ORDER BY created_at DESC LIMIT ? OFFSET ?`)
     .bind(...args, pageSize, (page - 1) * pageSize)
     .all<MediaRow>();
@@ -971,12 +1002,15 @@ route("POST", "/deploys", "chief", async (c) => {
 });
 
 route("GET", "/activity", "editor", async (c) => {
+  // Editors don't see activity on other people's private drafts.
+  const actVis = visibleSql(c.user!, "a.");
   const rows = await c.env.DB.prepare(
     `SELECT l.id, l.action, l.target, l.meta, l.created_at, l.user_id, u.name, a.title AS article_title
      FROM audit_log l LEFT JOIN users u ON u.id = l.user_id LEFT JOIN articles a ON a.id = l.target
+     ${actVis ? `WHERE a.id IS NULL OR ${actVis.sql}` : ""}
      ORDER BY l.id DESC LIMIT ?`,
   )
-    .bind(Math.min(Number(c.url.searchParams.get("limit")) || 60, 200))
+    .bind(...(actVis?.args ?? []), Math.min(Number(c.url.searchParams.get("limit")) || 60, 200))
     .all();
   return json({ activity: rows.results });
 });

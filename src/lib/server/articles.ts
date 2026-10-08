@@ -203,22 +203,43 @@ export function isOwnArticle(user: SessionUser, a: Pick<ArticleRow, "created_by"
   return Boolean(byline && a.author?.trim() === byline);
 }
 
+/**
+ * Who can see an article in the studio. Drafts are private until they're
+ * submitted: the chief sees everything; editors see their own work, anything
+ * submitted or published, and drafts they last edited themselves (editing a
+ * live article turns it back into a draft); contributors see only their own.
+ */
+export function canView(user: SessionUser, a: Pick<ArticleRow, "created_by" | "author" | "state" | "updated_by">): boolean {
+  if (user.role === "chief" || isOwnArticle(user, a)) return true;
+  return user.role === "editor" && (a.state !== "draft" || a.updated_by === user.id);
+}
+
+/** canView() as SQL for list queries (null = no restriction). Columns may be prefixed, e.g. "a.". */
+export function visibleSql(user: SessionUser, p = ""): { sql: string; args: unknown[] } | null {
+  if (user.role === "chief") return null;
+  const byline = user.authorName?.trim();
+  const own = byline ? `${p}created_by = ? OR ${p}author = ?` : `${p}created_by = ?`;
+  const ownArgs: unknown[] = byline ? [user.id, byline] : [user.id];
+  if (user.role === "editor") return { sql: `(${p}state != 'draft' OR ${p}updated_by = ? OR ${own})`, args: [user.id, ...ownArgs] };
+  return { sql: `(${own})`, args: ownArgs };
+}
+
 /** Workflow states a writer can submit from. */
 export const SUBMITTABLE: ArticleState[] = ["draft", "changes_requested"];
 
 export function can(
   user: SessionUser,
   action: Action,
-  a?: Pick<ArticleRow, "created_by" | "author" | "live_json" | "state" | "git_path">,
+  a?: Pick<ArticleRow, "created_by" | "author" | "live_json" | "state" | "git_path" | "updated_by">,
 ): boolean {
   if (user.role === "chief") return true;
   const own = !a || isOwnArticle(user, a);
   switch (action) {
     case "edit":
     case "restore":
-      return user.role === "editor" || own;
     case "submit":
-      return user.role === "editor" || own;
+      // Editors work on anything they can see (not other people's private drafts).
+      return own || (user.role === "editor" && canView(user, a!));
     case "delete":
       // Your own work in progress only: never published (no git file, ever), and
       // not while it's with the chief editor. Editors don't delete others' work.
