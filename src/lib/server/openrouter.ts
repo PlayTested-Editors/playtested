@@ -10,7 +10,9 @@ export function openRouterHeaders(env: Env, feature: string): Record<string, str
   return {
     Authorization: `Bearer ${env.OPENROUTER_API_KEY ?? ""}`,
     "Content-Type": "application/json",
-    "HTTP-Referer": `https://playtested.net/ai/${feature}`,
+    // Must be a valid URL: OpenRouter files requests with a bad one (e.g. a
+    // space from "AI Summary") under "Unknown".
+    "HTTP-Referer": `https://playtested.net/ai/${feature.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`,
     "X-Title": `${site} - ${feature}`, // older name of X-OpenRouter-Title
     "X-OpenRouter-Title": `${site} - ${feature}`,
   };
