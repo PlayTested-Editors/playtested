@@ -2,7 +2,7 @@
   import { onMount, tick, untrack } from "svelte";
   import { fade, slide } from "svelte/transition";
   import { api, ApiError, type ArticleData, type ArticleDetail, type LockStatus, type Media } from "../api";
-  import { navigate, refreshCounts, route, session, setLeaveGuard, toast, toastError } from "../state.svelte";
+  import { navigate, refreshCounts, reloadForNewVersion, route, session, setLeaveGuard, toast, toastError } from "../state.svelte";
   import { deploys, refreshDeploys, watchCommit } from "../deploys.svelte";
   import { STATE_LABEL, bytes, dateTime, relTime, slugify } from "../format";
   import StateBadge from "../ui/StateBadge.svelte";
@@ -106,7 +106,22 @@
   let editorMode = $state<"visual" | "markdown">(readMode());
   // The visual editor is a big chunk; only load it when someone uses it.
   let richEditor: Promise<typeof import("../editor/RichEditor.svelte")> | null = null;
-  const loadRich = () => (richEditor ??= import("../editor/RichEditor.svelte"));
+  // A failed load right after a deploy means this tab runs the old build: reload
+  // once (the beforeunload handler backs up unsaved text first).
+  const loadRich = () =>
+    (richEditor ??= import("../editor/RichEditor.svelte").catch((e) => {
+      richEditor = null;
+      if (!reloadForNewVersion()) throw e;
+      return new Promise<never>(() => {});
+    }));
+  // Never spin forever: after 15s offer a reload.
+  let richSlow = $state(false);
+  $effect(() => {
+    if (editorMode !== "visual") return;
+    const t = setTimeout(() => (richSlow = true), 15_000);
+    void loadRich().then(() => clearTimeout(t), () => clearTimeout(t));
+    return () => clearTimeout(t);
+  });
   // The mounted visual editor: it holds back keystrokes for 250ms, flush() hands them over now.
   let rich = $state<{ flush: () => void } | null>(null);
   function setMode(m: "visual" | "markdown") {
@@ -869,7 +884,16 @@
           </div>
           {#if editorMode === "visual"}
             {#await loadRich()}
-              <div class="grid h-64 place-items-center rounded-xl bg-white text-sm text-slate-400 ring-1 ring-slate-200 dark:bg-slate-900 dark:ring-slate-800">Loading editor…</div>
+              <div class="grid h-64 place-items-center rounded-xl bg-white text-sm text-slate-400 ring-1 ring-slate-200 dark:bg-slate-900 dark:ring-slate-800">
+                {#if richSlow}
+                  <div class="text-center">
+                    <p>The editor is taking a while. The studio may have just been updated.</p>
+                    <button type="button" class="btn-secondary mt-3" onclick={() => location.reload()}>Reload</button>
+                  </div>
+                {:else}
+                  Loading editor…
+                {/if}
+              </div>
             {:then { default: RichEditor }}
               <RichEditor bind:this={rich} bind:value={data.body} articleId={detail.article.id} articleMedia={detail.media} disabled={!canEdit} onmediaadded={addMedia} onmarkdown={() => setMode("markdown")} />
             {:catch}

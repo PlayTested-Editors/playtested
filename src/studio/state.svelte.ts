@@ -59,7 +59,29 @@ export async function navigate(to: string, replace = false) {
 
 const isStudioHref = (href: string) => href === "/studio" || href.startsWith("/studio/") || href.startsWith("/studio?") || href.startsWith("/studio#");
 
+/**
+ * After a deploy, an open tab still asks for the previous build's code files,
+ * which no longer exist. Reload once to pick up the new build (at most once a
+ * minute, so a real outage can't cause a reload loop). Returns false when it
+ * won't reload. Views save their own backup on unload (beforeunload).
+ */
+export function reloadForNewVersion(): boolean {
+  try {
+    const last = Number(sessionStorage.getItem("studio.reloadedForUpdate") || 0);
+    if (Date.now() - last < 60_000) return false;
+    sessionStorage.setItem("studio.reloadedForUpdate", String(Date.now()));
+  } catch {
+    return false;
+  }
+  location.reload();
+  return true;
+}
+
 if (typeof window !== "undefined") {
+  // A lazily loaded piece of the studio failed to load: usually a new deploy.
+  window.addEventListener("vite:preloadError", (e) => {
+    if (reloadForNewVersion()) e.preventDefault();
+  });
   window.addEventListener("popstate", syncRoute);
   // Intercept in-app links so navigation stays client-side.
   document.addEventListener("click", (e) => {
