@@ -15,7 +15,7 @@
   import PreviewPane from "../editor/PreviewPane.svelte";
   import PublishDialog from "../editor/PublishDialog.svelte";
   import AiWriteGuide from "../editor/AiWriteGuide.svelte";
-  import { tidyProsCons } from "../editor/tidy";
+  import { tidyFormatting } from "../editor/tidy";
 
   let { id }: { id: string } = $props();
 
@@ -80,11 +80,12 @@
   /** Pros / Cons sections in the site's usual format (only real, labelled lists). */
   function tidyBody() {
     if (!data) return;
-    const { text, changed } = tidyProsCons(data.body);
-    if (!changed) return toast("Pros & Cons already look right. Nothing to change.", "info");
+    const { text, styles, sections } = tidyFormatting(data.body);
+    if (!styles && !sections) return toast("Formatting already looks right. Nothing to change.", "info");
     const before = data.body;
     data.body = text;
-    toast(`Tidied ${changed} Pros/Cons section${changed === 1 ? "" : "s"}.`, "success", { label: "Undo", run: () => data && (data.body = before) }, 8000);
+    const parts = [sections ? `${sections} Pros/Cons section${sections === 1 ? "" : "s"}` : "", styles ? `removed pasted styling from ${styles} place${styles === 1 ? "" : "s"}` : ""].filter(Boolean);
+    toast(`Tidied: ${parts.join(", ")}.`, "success", { label: "Undo", run: () => data && (data.body = before) }, 8000);
   }
 
   /** A draft from the "Write with AI" guide. The old text stays in History. */
@@ -851,8 +852,8 @@
                 type="button"
                 class="mr-auto rounded-lg px-2.5 py-1.5 text-xs font-semibold text-slate-600 ring-1 ring-slate-200 transition hover:bg-slate-100 dark:text-slate-300 dark:ring-slate-700 dark:hover:bg-slate-800"
                 onclick={tidyBody}
-                title="Format the Pros and Cons sections like the rest of the site (## Pros, ## Cons, - bullets)"
-              >Tidy Pros &amp; Cons</button>
+                title="Pros/Cons like the rest of the site (## Pros, ## Cons, - bullets), and remove styling pasted from Google Docs, Word or web pages"
+              >Tidy formatting</button>
             {:else}
               <span></span>
             {/if}

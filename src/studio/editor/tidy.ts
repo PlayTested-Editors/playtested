@@ -141,3 +141,33 @@ export function tidyProsCons(markdown: string): { text: string; changed: number 
   }
   return { text: out.join("\n"), changed };
 }
+
+/**
+ * Removes inline styling pasted in from Google Docs, Word or web pages
+ * (`<span style="color: #000000; font-family: Arial…">text</span>` → `text`).
+ * Only the site's grey caption style is kept. The text inside is untouched.
+ */
+export function stripPastedStyles(markdown: string): { text: string; changed: number } {
+  const keep = (style: string) => style.replace(/\s+/g, "").replace(/;$/, "").toLowerCase() === "font-size:0.95em;color:#888";
+  let text = markdown;
+  let changed = 0;
+  // Innermost spans first, repeated until none are left, so nested wrappers unwrap too.
+  for (let pass = 0; pass < 10; pass++) {
+    let hit = false;
+    text = text.replace(/<span\s+style\s*=\s*"([^"]*)"\s*>((?:(?!<span[\s>])[\s\S])*?)<\/span>/gi, (m, style: string, inner: string) => {
+      if (keep(style)) return m;
+      hit = true;
+      changed++;
+      return inner;
+    });
+    if (!hit) break;
+  }
+  return { text, changed };
+}
+
+/** Everything the "Tidy" button does: pasted styling, then Pros / Cons. */
+export function tidyFormatting(markdown: string): { text: string; styles: number; sections: number } {
+  const a = stripPastedStyles(markdown);
+  const b = tidyProsCons(a.text);
+  return { text: b.text, styles: a.changed, sections: b.changed };
+}

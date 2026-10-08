@@ -401,13 +401,29 @@ export const ImageText = Node.create({
 });
 
 /** Small grey captions (`<span style="font-size…; color…">`) used under images in older articles. */
+/**
+ * The one inline style articles use: the small grey caption. Any other inline
+ * style (e.g. Google Docs' "color: #000000; font-family: Arial" on pasted text)
+ * is not kept: it would show as black text and end up on the site.
+ */
+export const isCaptionStyle = (style: string | null | undefined) =>
+  (style ?? "").replace(/\s+/g, "").replace(/;$/, "").toLowerCase() === "font-size:0.95em;color:#888";
+
 export const Caption = Mark.create({
   name: "caption",
   addAttributes() {
     return { style: { default: "font-size: 0.95em; color: #888;" } };
   },
   parseHTML() {
-    return [{ tag: "span[style]", getAttrs: (el) => ({ style: (el as HTMLElement).getAttribute("style") }) }];
+    return [
+      {
+        tag: "span[style]",
+        getAttrs: (el) => {
+          const style = (el as HTMLElement).getAttribute("style");
+          return isCaptionStyle(style) ? { style } : false;
+        },
+      },
+    ];
   },
   renderHTML({ HTMLAttributes }) {
     return ["span", HTMLAttributes, 0];

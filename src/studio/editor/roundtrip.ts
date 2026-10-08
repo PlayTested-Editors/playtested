@@ -17,6 +17,9 @@ const GFM_ONLY: [RegExp, string][] = [
   [/(^|[^~\\])~(?=[^\s~])[^~\n]*[^\s~\\]~(?!~)/m, "~single tilde~ strikethrough"],
 ];
 
+/** Same rule as the Caption mark in rich-extensions.ts (kept local: this file has no editor imports). */
+const isCaptionStyle = (style: string | null) => (style ?? "").replace(/\s+/g, "").replace(/;$/, "").toLowerCase() === "font-size:0.95em;color:#888";
+
 const INLINE_TAGS = new Set(["a", "strong", "em", "b", "i", "s", "del", "strike", "u", "span", "code", "sup", "sub", "mark", "small", "kbd", "abbr"]);
 
 function withoutCode(src: string): string {
@@ -66,6 +69,12 @@ export function canonicalHtml(html: string): string[] {
         const empty = !el.textContent?.trim() && !el.querySelector("img,br,hr,iframe,video,input,embed,object");
         // Empty inline tags and paragraphs render as nothing.
         if (empty && (INLINE_TAGS.has(tag) || tag === "p")) continue;
+        // A span whose only attribute is a non-caption style (pasted from Docs/Word)
+        // is dropped by the visual editor on purpose; its text is what counts.
+        if (tag === "span" && el.attributes.length === 1 && el.hasAttribute("style") && !isCaptionStyle(el.getAttribute("style"))) {
+          walk(el, inDiv);
+          continue;
+        }
         const attrs = Array.from(el.attributes)
           .map((a) => `${a.name}="${a.value.replace(/\s+/g, " ").trim()}"`)
           .sort();

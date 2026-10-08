@@ -4,7 +4,7 @@
  * Edit the wording here; the guide in AiWriteGuide.svelte builds on it.
  */
 
-import { tidyProsCons } from "./tidy";
+import { tidyFormatting } from "./tidy";
 
 export const AI_SERVICES = [
   { name: "ChatGPT", url: "https://chatgpt.com/" },
@@ -91,6 +91,6 @@ export function parseReply(reply: string): { title: string; score: number | null
     title = title.slice(0, s.index).trim();
   }
   // Pros / Cons in the site's usual "## Pros" + "- " bullets format.
-  const body = tidyProsCons(lines.join("\n").trim()).text;
+  const body = tidyFormatting(lines.join("\n").trim()).text;
   return { title, score: score !== null && score >= 0 && score <= 10 ? score : null, body };
 }
