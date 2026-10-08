@@ -117,8 +117,17 @@ export async function storeUpload(
 
 /** Serve an uploaded image that isn't part of a deployed build yet. */
 export async function serveStagedImage(env: Env, pathname: string): Promise<Response | null> {
+  let path: string;
+  try {
+    path = decodeURIComponent(pathname);
+  } catch {
+    return null; // malformed %-escape: let the normal 404 answer
+  }
+  // Upload paths are always /images/uploads/<slug>-<id>.<ext>: anything else
+  // can't be a staged upload, so don't spend a D1 read on it.
+  if (!/^\/images\/uploads\/[a-z0-9-]+\.(avif|webp|jpg|png|gif)$/.test(path)) return null;
   const row = await env.DB.prepare("SELECT r2_key, mime FROM media WHERE public_path = ?")
-    .bind(decodeURIComponent(pathname))
+    .bind(path)
     .first<{ r2_key: string; mime: string }>();
   if (!row) return null;
   const bytes = await stageGet(env, row.r2_key);
@@ -126,6 +135,7 @@ export async function serveStagedImage(env: Env, pathname: string): Promise<Resp
   return new Response(bytes, {
     headers: {
       "Content-Type": row.mime,
+      "X-Content-Type-Options": "nosniff",
       // Once the build lands the static copy takes over; don't let browsers pin this one.
       "Cache-Control": "no-store",
     },

@@ -230,7 +230,7 @@ const askReview: Handler = async (request, env) => {
   let score = doc?.score ?? null;
   const passages = (doc?.chunks ?? []).map((c) => ({ idx: c.idx, heading: c.heading, text: c.text }));
   if (passages.length < 2) {
-    const row = await env.DB.prepare("SELECT * FROM articles WHERE slug = ? AND live_json IS NOT NULL").bind(slug).first<ArticleRow>();
+    const row = await env.DB.prepare("SELECT * FROM articles WHERE live_slug = ? AND live_json IS NOT NULL").bind(slug).first<ArticleRow>();
     const live = row ? liveOf(row) : null;
     if (live && Date.parse(live.pubDate) <= Date.now()) {
       title ||= live.title;
@@ -279,9 +279,10 @@ const summary: Handler = async (request, env) => {
   const body = await readJson<{ slug?: string }>(request);
   const slug = String(body?.slug || "").slice(0, 200);
   if (!slug) return error(400, "Missing article.");
-  const row = await env.DB.prepare("SELECT * FROM articles WHERE slug = ? AND live_json IS NOT NULL").bind(slug).first<ArticleRow>();
+  const row = await env.DB.prepare("SELECT * FROM articles WHERE live_slug = ? AND live_json IS NOT NULL").bind(slug).first<ArticleRow>();
   const live = row && liveOf(row);
-  if (!row || !live) return error(404, "Article not found.");
+  // Scheduled posts stay private until their date (same 404 as a missing one).
+  if (!row || !live || !(Date.parse(live.pubDate) <= Date.now())) return error(404, "Article not found.");
 
   const cacheKey = `summary:${slug}:${row.live_hash}`;
   const cached = await env.CACHE.get(cacheKey);
@@ -335,6 +336,8 @@ const rawgSearch: Handler = async (request, env) => {
 const rawgDetails: Handler = async (request, env) => {
   const slug = new URL(request.url).searchParams.get("slug");
   if (!slug) return error(400, "Missing slug");
+  const blocked = await gate(env, request, "search");
+  if (blocked) return blocked;
   return rawgFetch(env, `/games/${encodeURIComponent(slug.slice(0, 120))}`);
 };
 

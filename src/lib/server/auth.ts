@@ -176,21 +176,34 @@ export async function acceptInvite(
   if (identity.email && identity.email.toLowerCase() !== invite.email.toLowerCase()) {
     return { error: `This invite is for ${invite.email}. Sign in with that Google account.` };
   }
+  // Claim the invite atomically before acting on it: a second concurrent use
+  // finds it already accepted.
+  const claimedAt = now();
+  const claimed = await env.DB.prepare("UPDATE invites SET accepted_at = ? WHERE id = ? AND accepted_at IS NULL AND expires_at > ? RETURNING id")
+    .bind(claimedAt, invite.id, claimedAt)
+    .first();
+  if (!claimed) return { error: "This invite link has expired or was already used." };
   let userId: string;
-  const existing = await findUserByEmail(env, invite.email);
-  if (existing) {
-    userId = existing.id;
-    await env.DB.prepare("UPDATE users SET role = ?, status = 'active' WHERE id = ?").bind(invite.role, userId).run();
-  } else {
-    userId = await createUser(env, {
-      email: invite.email,
-      name: identity.name || invite.author_name || invite.email.split("@")[0],
-      role: invite.role,
-      avatar: identity.avatar ?? null,
-      authorName: invite.author_name,
-    });
+  try {
+    const existing = await findUserByEmail(env, invite.email);
+    if (existing) {
+      userId = existing.id;
+      await env.DB.prepare("UPDATE users SET role = ?, status = 'active' WHERE id = ?").bind(invite.role, userId).run();
+    } else {
+      userId = await createUser(env, {
+        email: invite.email,
+        name: identity.name || invite.author_name || invite.email.split("@")[0],
+        role: invite.role,
+        avatar: identity.avatar ?? null,
+        authorName: invite.author_name,
+      });
+    }
+  } catch (e) {
+    // Release the claim so the invite can be retried.
+    await env.DB.prepare("UPDATE invites SET accepted_at = NULL WHERE id = ? AND accepted_user_id IS NULL").bind(invite.id).run();
+    throw e;
   }
-  await env.DB.prepare("UPDATE invites SET accepted_at = ?, accepted_user_id = ? WHERE id = ?").bind(now(), userId, invite.id).run();
+  await env.DB.prepare("UPDATE invites SET accepted_user_id = ? WHERE id = ?").bind(userId, invite.id).run();
   await audit(env.DB, userId, "invite.accept", invite.id);
   return { userId };
 }
@@ -206,13 +219,14 @@ export async function createLoginLink(env: Env, by: SessionUser, userId: string)
 }
 
 export async function consumeLoginLink(env: Env, token: string): Promise<string | null> {
-  const hash = await sha256Hex(token);
-  const row = await env.DB.prepare("SELECT user_id FROM login_links WHERE token_hash = ? AND used_at IS NULL AND expires_at > ?")
-    .bind(hash, now())
+  // Claim and read in one statement, so two concurrent requests can't both use it.
+  const t = now();
+  const row = await env.DB.prepare(
+    "UPDATE login_links SET used_at = ? WHERE token_hash = ? AND used_at IS NULL AND expires_at > ? RETURNING user_id",
+  )
+    .bind(t, await sha256Hex(token), t)
     .first<{ user_id: string }>();
-  if (!row) return null;
-  await env.DB.prepare("UPDATE login_links SET used_at = ? WHERE token_hash = ?").bind(now(), hash).run();
-  return row.user_id;
+  return row?.user_id ?? null;
 }
 
 // ---------------------------------------------------------------------------

@@ -48,7 +48,8 @@ await build({ entryPoints: ["src/lib/server/search.ts"], bundle: true, platform:
 const { chunkArticle } = await import(pathToFileURL(bundle).href);
 
 const res = query(
-  `SELECT slug, live_json, live_hash FROM articles WHERE live_json IS NOT NULL ORDER BY pub_date DESC${LIMIT ? ` LIMIT ${LIMIT}` : ""}`,
+  // live_slug: the slug the site serves (a draft may be renaming it).
+  `SELECT COALESCE(live_slug, slug) AS slug, live_json, live_hash FROM articles WHERE live_json IS NOT NULL ORDER BY pub_date DESC${LIMIT ? ` LIMIT ${LIMIT}` : ""}`,
 );
 console.log(`Loaded ${res.results.length} articles (rows read: ${res.meta.rows_read}).`);
 

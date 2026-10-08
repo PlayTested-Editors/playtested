@@ -72,7 +72,7 @@ export async function runScheduler(env: Env): Promise<void> {
   if (!info) return;
   const t = now();
   const due = await env.DB.prepare(
-    "SELECT slug FROM articles WHERE live_json IS NOT NULL AND pub_date > ? AND pub_date <= ? ORDER BY pub_date LIMIT 10",
+    "SELECT live_slug AS slug FROM articles WHERE live_json IS NOT NULL AND pub_date > ? AND pub_date <= ? ORDER BY pub_date LIMIT 10",
   )
     .bind(info.builtAt, t)
     .all<{ slug: string }>();

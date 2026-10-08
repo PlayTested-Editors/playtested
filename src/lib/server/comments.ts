@@ -96,6 +96,12 @@ async function list(request: Request, env: Env): Promise<Response> {
   });
 }
 
+/** Link-heavy comments wait for a moderator (checked on every edit too). */
+function statusFor(body: string): "pending" | "visible" {
+  const links = (body.match(/https?:\/\//gi) ?? []).length;
+  return links > 2 ? "pending" : "visible";
+}
+
 async function post(request: Request, env: Env): Promise<Response> {
   const me = await getReader(env, request);
   if (!me) return error(401, "Sign in to comment.");
@@ -110,7 +116,10 @@ async function post(request: Request, env: Env): Promise<Response> {
   const body = String(b.body || "").replace(/\r\n/g, "\n").trim();
   if (body.length < 2) return error(400, "Write a little more first.");
   if (body.length > MAX_LEN) return error(400, `Comments can be up to ${MAX_LEN} characters.`);
-  const article = await env.DB.prepare("SELECT 1 FROM articles WHERE slug = ? AND live_json IS NOT NULL").bind(slug).first();
+  // The slug the site serves (not a renamed, unpublished draft's), and not a scheduled post.
+  const article = await env.DB.prepare("SELECT 1 FROM articles WHERE live_slug = ? AND live_json IS NOT NULL AND pub_date <= ?")
+    .bind(slug, now())
+    .first();
   if (!article) return error(404, "Article not found.");
   if (b.parentId) {
     const parent = await env.DB.prepare("SELECT parent_id FROM comments WHERE id = ? AND slug = ?").bind(b.parentId, slug).first<{ parent_id: string | null }>();
@@ -120,9 +129,7 @@ async function post(request: Request, env: Env): Promise<Response> {
   }
   if ((await bump(env, `comment-user:${me.id}`)) > PER_DAY) return error(429, "You've reached today's comment limit.");
 
-  // Link-heavy comments wait for a moderator.
-  const links = (body.match(/https?:\/\//gi) ?? []).length;
-  const status = links > 2 ? "pending" : "visible";
+  const status = statusFor(body);
   const id = uid(12);
   await env.DB.prepare(
     "INSERT INTO comments (id, slug, parent_id, commenter_id, body, status, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)",
@@ -139,18 +146,25 @@ async function post(request: Request, env: Env): Promise<Response> {
 async function editOrDelete(request: Request, env: Env, id: string): Promise<Response> {
   const me = await getReader(env, request);
   if (!me) return error(401, "Sign in first.");
+  if (me.status !== "active") return error(403, "You can't comment on PlayTested.");
+  const blocked = await gate(env, request, "comments");
+  if (blocked) return blocked;
   const row = await env.DB.prepare("SELECT * FROM comments WHERE id = ?").bind(id).first<CommentRow>();
-  if (!row || row.commenter_id !== me.id) return error(404, "Comment not found.");
+  if (!row || row.commenter_id !== me.id || row.status === "deleted") return error(404, "Comment not found.");
   if (request.method === "DELETE") {
     await env.DB.prepare("UPDATE comments SET status = 'deleted', body = '' WHERE id = ?").bind(id).run();
     return json({ ok: true });
   }
+  // A comment a moderator hid stays hidden: no edits.
+  if (row.status !== "visible" && row.status !== "pending") return error(403, "This comment can't be edited.");
   if (now() - row.created_at > EDIT_WINDOW_MS) return error(400, "Comments can only be edited for 30 minutes.");
   const b = (await request.json().catch(() => ({}))) as { body?: string };
-  const body = String(b.body || "").trim();
+  const body = String(b.body || "").replace(/\r\n/g, "\n").trim();
   if (body.length < 2 || body.length > MAX_LEN) return error(400, "That comment is too short or too long.");
-  await env.DB.prepare("UPDATE comments SET body = ?, edited_at = ? WHERE id = ?").bind(body, now(), id).run();
-  return json({ ok: true });
+  // Re-check links, so an edit can't slip spam past the moderation hold.
+  const status = statusFor(body);
+  await env.DB.prepare("UPDATE comments SET body = ?, status = ?, edited_at = ? WHERE id = ?").bind(body, status, now(), id).run();
+  return json({ ok: true, status, held: status === "pending" });
 }
 
 export async function handleComments(request: Request, env: Env): Promise<Response> {

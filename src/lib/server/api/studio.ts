@@ -29,6 +29,7 @@ import {
   draftOf,
   fileHash,
   finalise,
+  freeGitPath,
   getArticle,
   liveOf,
   markPublished,
@@ -38,6 +39,7 @@ import {
   rowSummary,
   saveDraft,
   setState,
+  SlugTakenError,
   slugTaken,
   toMarkdown,
   validateForPublish,
@@ -48,7 +50,7 @@ import { commitFiles, dispatchDeploy, GitHubError, githubConfigured, listDeployR
 import { DEFAULT_GUARDS, currentLevel, getGuards, saveGuards, withinRate, type GuardSettings } from "../guards";
 import { ensureBlob, mediaForPaths, mediaJson, stageDelete, storeUpload, type MediaRow } from "../media";
 import { getBuildInfo, isBuilt, recordDeploy } from "../deploys";
-import { indexArticle, reindexPending, removeFromIndex } from "../search";
+import { indexArticle, markIndexDirty, reindexPending, removeFromIndex } from "../search";
 import { runWatchdog } from "../watchdog";
 import { audit, clientIp, error, json, now, parseJson, utcDay } from "../util";
 
@@ -227,9 +229,12 @@ route("GET", "/invite/:token", "public", async (c, m) => {
 route("POST", "/auth/invite", "public", async (c) => {
   const limited = await limitAuth(c);
   if (limited) return limited;
+  // With Google configured the invite must be accepted through Google, which
+  // proves the invited email; the link alone is only enough without Google.
+  if (googleConfigured(c.env)) return error(400, "Accept this invite with Google, using the invited account.");
   const { token, name } = await body<{ token?: string; name?: string }>(c.request);
   if (!token) return error(400, "Missing invite.");
-  const accepted = await acceptInvite(c.env, token, { name });
+  const accepted = await acceptInvite(c.env, token, { name: name ? String(name).slice(0, 100) : undefined });
   if ("error" in accepted) return error(400, accepted.error);
   return withCookie(json({ ok: true }), await startSession(c.env, accepted.userId, c.request));
 });
@@ -343,11 +348,22 @@ route("PUT", "/articles/:id", "contributor", async (c, m) => {
 route("POST", "/articles/:id/lock", "contributor", async (c, m) => {
   const row = await getArticle(c.env, decodeURIComponent(m[1]));
   if (!row) return error(404, "Article not found.");
-  if (row.locked_by && row.locked_by !== c.user!.id && row.locked_at && now() - row.locked_at < 75_000) {
-    const names = await userNames(c.env, [row.locked_by]);
-    return json({ ok: false, lockedBy: { id: row.locked_by, name: names[row.locked_by] ?? "Someone" } });
+  // Only people who can edit take the presence lock (a read-only viewer must
+  // not show up as "editing" and block the real author).
+  if (!can(c.user!, "edit", row)) return json({ ok: false, lockedBy: null, readOnly: true });
+  // Atomic take-or-renew: two people opening at once can't both get it.
+  const t = now();
+  const res = await c.env.DB.prepare(
+    "UPDATE articles SET locked_by = ?, locked_at = ? WHERE id = ? AND (locked_by IS NULL OR locked_by = ? OR locked_at IS NULL OR locked_at < ?)",
+  )
+    .bind(c.user!.id, t, row.id, c.user!.id, t - 75_000)
+    .run();
+  if (!res.meta.changes) {
+    const holder = await c.env.DB.prepare("SELECT locked_by FROM articles WHERE id = ?").bind(row.id).first<{ locked_by: string | null }>();
+    const by = holder?.locked_by ?? row.locked_by;
+    const names = by ? await userNames(c.env, [by]) : {};
+    return json({ ok: false, lockedBy: by ? { id: by, name: names[by] ?? "Someone" } : null });
   }
-  await c.env.DB.prepare("UPDATE articles SET locked_by = ?, locked_at = ? WHERE id = ?").bind(c.user!.id, now(), row.id).run();
   return json({ ok: true, rev: row.draft_rev, updatedBy: row.updated_by });
 });
 
@@ -408,7 +424,10 @@ route("POST", "/articles/:id/publish", "chief", async (c, m) => {
 
   const markdown = toMarkdown(data);
   const hash = await fileHash(markdown);
-  const gitPath = row.git_path || `src/content/article/${data.slug}.md`;
+  // A live article keeps its file (frontmatter `slug:` handles renames). A first
+  // publish (or a re-publish after unpublishing, whose file was deleted) gets a
+  // file name no other live article owns — never another article's file.
+  const gitPath = row.live_json && row.git_path ? row.git_path : await freeGitPath(c.env, data.slug, row.id);
   const entries: TreeEntry[] = [
     { path: gitPath, content: markdown },
     ...images.map((i) => ({ path: `public${i.public_path}`, sha: i.blob_sha! })),
@@ -420,16 +439,26 @@ route("POST", "/articles/:id/publish", "chief", async (c, m) => {
     email: c.user!.email,
   });
 
-  if (!row.git_path) await c.env.DB.prepare("UPDATE articles SET git_path = ? WHERE id = ?").bind(gitPath, row.id).run();
   if (images.length) {
     await c.env.DB.prepare(`UPDATE media SET committed = 1 WHERE id IN (${images.map(() => "?").join(",")})`)
       .bind(...images.map((i) => i.id))
       .run();
   }
-  const published = await markPublished(c.env, c.user!, row, data, hash, commit);
+  const oldLiveSlug = row.live_json ? (row.live_slug ?? liveOf(row)?.slug ?? null) : null;
+  const published = await markPublished(c.env, c.user!, row, data, hash, commit, gitPath);
   await recordDeploy(c.env, "publish", "requested", { commit: commit.sha, userId: c.user!.id, message: data.title });
   c.waitUntil(c.env.CACHE.delete(META_CACHE_KEY));
-  c.waitUntil(indexArticle(c.env, data, hash).catch((e) => console.error("index failed", e)));
+  c.waitUntil(
+    (async () => {
+      // A renamed article: its old URL is gone, so drop the old search entry.
+      if (oldLiveSlug && oldLiveSlug !== data.slug) await removeFromIndex(c.env, oldLiveSlug);
+      await indexArticle(c.env, data, hash);
+    })().catch(async (e) => {
+      console.error("index failed", e);
+      // Let the background job retry (it finds live articles whose index is missing/stale).
+      await markIndexDirty(c.env).catch(() => undefined);
+    }),
+  );
   return json({ ...(await articleDetail(c, published)), commit });
 });
 
@@ -452,10 +481,11 @@ route("DELETE", "/articles/:id", "contributor", async (c, m) => {
   const row = await loadEditable(c, m[1], "delete");
   if (row instanceof Response) return row;
   if (row.live_json) return error(400, "Unpublish this article before deleting it.");
-  const media = await c.env.DB.prepare("SELECT * FROM media WHERE article_id = ? AND committed = 0").bind(row.id).all<MediaRow>();
-  for (const md of media.results) await stageDelete(c.env, md.r2_key);
+  // Uploads are only detached, not deleted: the same image may be used in
+  // another draft (inserted from the media library). The uploader or the chief
+  // editor can still delete them from the media library.
   await c.env.DB.batch([
-    c.env.DB.prepare("DELETE FROM media WHERE article_id = ? AND committed = 0").bind(row.id),
+    c.env.DB.prepare("UPDATE media SET article_id = NULL WHERE article_id = ?").bind(row.id),
     c.env.DB.prepare("DELETE FROM articles WHERE id = ?").bind(row.id),
   ]);
   await audit(c.env.DB, c.user!.id, "article.delete", row.id, { title: row.title });
@@ -579,10 +609,29 @@ route("GET", "/media", "contributor", async (c) => {
 
 route("PATCH", "/media/:id", "contributor", async (c, m) => {
   const { alt, articleId } = await body<{ alt?: string; articleId?: string }>(c.request);
+  const media = await c.env.DB.prepare("SELECT * FROM media WHERE id = ?").bind(m[1]).first<MediaRow>();
+  if (!media) return error(404, "Image not found.");
+  // The uploader, the chief editor, or whoever can edit the article the image
+  // belongs to may change it.
+  const user = c.user!;
+  let allowed = user.role === "chief" || media.uploaded_by === user.id;
+  if (!allowed && media.article_id) {
+    const owner = await getArticle(c.env, media.article_id);
+    allowed = Boolean(owner && can(user, "edit", owner));
+  }
+  if (!allowed) return error(403, "You can only change your own uploads or images in articles you can edit.");
+  let targetId: string | null = null;
+  if (articleId !== undefined && articleId !== null) {
+    // Attaching to an article: must be one you can edit.
+    const target = await getArticle(c.env, String(articleId));
+    if (!target) return error(404, "Article not found.");
+    if (!can(user, "edit", target)) return error(403, "You can't attach images to that article.");
+    targetId = target.id;
+  }
   await c.env.DB.prepare("UPDATE media SET alt = COALESCE(?, alt), article_id = COALESCE(?, article_id) WHERE id = ?")
-    .bind(alt ?? null, articleId ?? null, m[1])
+    .bind(typeof alt === "string" ? alt.slice(0, 500) : null, targetId, media.id)
     .run();
-  const row = await c.env.DB.prepare("SELECT * FROM media WHERE id = ?").bind(m[1]).first<MediaRow>();
+  const row = await c.env.DB.prepare("SELECT * FROM media WHERE id = ?").bind(media.id).first<MediaRow>();
   return row ? json({ media: mediaJson(row) }) : error(404, "Image not found.");
 });
 
@@ -620,7 +669,8 @@ route("PATCH", "/users/:id", "chief", async (c, m) => {
     const chiefs = await c.env.DB.prepare("SELECT COUNT(*) AS n FROM users WHERE role = 'chief' AND status = 'active'").first<{ n: number }>();
     if ((chiefs?.n ?? 0) <= 1) return error(400, "You're the only chief editor — promote someone else first.");
   }
-  if (b.role && !(b.role in RANK)) return error(400, "Unknown role.");
+  if (b.role && !Object.hasOwn(RANK, b.role)) return error(400, "Unknown role.");
+  if (b.status && b.status !== "active" && b.status !== "disabled") return error(400, "Unknown status.");
   await c.env.DB.prepare(
     "UPDATE users SET role = COALESCE(?, role), status = COALESCE(?, status), name = COALESCE(?, name), author_name = COALESCE(?, author_name) WHERE id = ?",
   )
@@ -642,7 +692,7 @@ route("POST", "/invites", "chief", async (c) => {
   const b = await body<{ email?: string; role?: Role; authorName?: string }>(c.request);
   const email = String(b.email || "").trim().toLowerCase();
   if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return error(400, "Enter a valid email address.");
-  const role = b.role && b.role in RANK ? b.role : "contributor";
+  const role = b.role && Object.hasOwn(RANK, b.role) ? b.role : "contributor";
   const existing = await findUserByEmail(c.env, email);
   if (existing && existing.status === "active") return error(400, "That person is already on the team.");
   const { token } = await createInvite(c.env, c.user!, email, role, b.authorName?.trim() || null);
@@ -745,7 +795,7 @@ route("GET", "/comments", "editor", async (c) => {
     c.env.DB.prepare(
       `SELECT m.id, m.slug, m.parent_id, m.body, m.status, m.created_at, m.edited_at, m.commenter_id,
          c.name, c.email, c.avatar, c.status AS commenter_status, a.title AS article_title
-       FROM comments m JOIN commenters c ON c.id = m.commenter_id LEFT JOIN articles a ON a.slug = m.slug
+       FROM comments m JOIN commenters c ON c.id = m.commenter_id LEFT JOIN articles a ON a.live_slug = m.slug
        ${where} ORDER BY m.created_at DESC LIMIT 50 OFFSET ?`,
     ).bind(...args, (page - 1) * 50),
     c.env.DB.prepare("SELECT 'pending' AS status, COUNT(*) AS n FROM comments WHERE status = 'pending'"),
@@ -793,6 +843,19 @@ route("GET", "/index", "editor", async (c) => {
 });
 
 route("POST", "/index/run", "chief", async (c) => {
+  // FTS5 writes cost ~3k D1 rows read per article, and the 5M/day allowance is
+  // shared account-wide. Past half of it, indexing needs an explicit override.
+  const { override } = await body<{ override?: boolean }>(c.request);
+  if (override !== true) {
+    const d1 = (await getGuards(c.env)).usage?.metrics?.d1Read;
+    if (d1 && d1.limit && d1.used / d1.limit > 0.5) {
+      return error(
+        429,
+        `Today's D1 reads are at ${Math.round((d1.used / d1.limit) * 100)}% of the free daily allowance, so indexing is paused until the 00:00 UTC reset (8 AM PH). Override only if it can't wait.`,
+        { code: "d1_budget", used: d1.used, limit: d1.limit },
+      );
+    }
+  }
   const vectors = c.url.searchParams.get("vectors") === "0" ? false : undefined;
   return json(await reindexPending(c.env, vectors === false ? 12 : 6, { force: true, vectors }));
 });
@@ -812,15 +875,17 @@ export async function handleStudio(request: Request, env: Env, ctx: ExecutionCon
     if (r.method !== request.method && !(r.method === "GET" && request.method === "HEAD")) continue;
     const m = r.re.exec(sub);
     if (!m) continue;
-    const user = await getSessionUser(env, request);
-    if (r.min !== "public") {
-      if (!user) return error(401, "Please sign in.");
-      if (RANK[user.role] < RANK[r.min]) return error(403, "You don't have permission to do that.");
-    }
-    const c: Ctx = { env, request, url, user, waitUntil: (p) => ctx.waitUntil(p) };
     try {
+      const user = await getSessionUser(env, request);
+      if (r.min !== "public") {
+        if (!user) return error(401, "Please sign in.");
+        if (RANK[user.role] < RANK[r.min]) return error(403, "You don't have permission to do that.");
+      }
+      const c: Ctx = { env, request, url, user, waitUntil: (p) => ctx.waitUntil(p) };
       return await r.fn(c, m);
     } catch (e) {
+      if (e instanceof SlugTakenError) return error(409, e.message, { code: "slug_taken", slug: e.slug });
+      if (e instanceof URIError) return error(400, "Malformed address or header.");
       if (e instanceof ConflictError) {
         const names = await userNames(env, [e.current.updated_by]);
         return error(409, e.message, {

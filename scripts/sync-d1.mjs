@@ -53,8 +53,13 @@ const { articles } = JSON.parse(fs.readFileSync(EXPORT, "utf8"));
 const info = fs.existsSync("public/build-info.json") ? JSON.parse(fs.readFileSync("public/build-info.json", "utf8")) : {};
 const buildCommitTime = info.commitTime ?? Date.now();
 
-const existing = query("SELECT id, slug, git_path, live_hash, state, draft_rev, live_json IS NOT NULL AS is_live, publish_commit_time FROM articles");
-const byPath = new Map(existing.filter((r) => r.git_path).map((r) => [r.git_path, r]));
+const existing = query(
+  "SELECT id, slug, live_slug, git_path, live_hash, state, draft_rev, live_json IS NOT NULL AS is_live, publish_commit_time FROM articles",
+);
+// Only live articles own a file in git; a draft's git_path (older studio
+// versions pre-filled one) must not capture an unrelated file.
+const byPath = new Map(existing.filter((r) => r.git_path && r.is_live).map((r) => [r.git_path, r]));
+const byLiveSlug = new Map(existing.filter((r) => r.live_slug).map((r) => [r.live_slug, r]));
 const bySlug = new Map(existing.map((r) => [r.slug, r]));
 
 const now = Date.now();
@@ -87,13 +92,13 @@ for (const a of articles) {
     body: (a.body ?? "").replace(/\r\n/g, "\n").trim(),
   };
   const json = JSON.stringify(data);
-  const row = byPath.get(a.gitPath) ?? bySlug.get(a.slug);
+  const row = byPath.get(a.gitPath) ?? byLiveSlug.get(a.slug) ?? bySlug.get(a.slug);
 
   if (!row) {
     const id = crypto.randomUUID();
     stmts.push(
-      `INSERT INTO articles (id, slug, collection, git_path, draft_json, draft_rev, state, live_json, live_hash, pub_date, title, category, author, score, featured, thumb, created_at, updated_at) VALUES (${[
-        id, a.slug, a.collection, a.gitPath, json, 1, "published", json, hash, pubMs, data.title, data.category || null, data.author || null,
+      `INSERT INTO articles (id, slug, live_slug, collection, git_path, draft_json, draft_rev, state, live_json, live_hash, pub_date, title, category, author, score, featured, thumb, created_at, updated_at) VALUES (${[
+        id, a.slug, a.slug, a.collection, a.gitPath, json, 1, "published", json, hash, pubMs, data.title, data.category || null, data.author || null,
         data.score, data.featured ? 1 : 0, data.thumb ?? null, Number.isNaN(pubMs) ? now : pubMs, now,
       ].map(q).join(", ")});`,
       `INSERT INTO revisions (article_id, rev, data_json, kind, note, created_at) VALUES (${[id, 1, json, "import", "Imported from git", now].map(q).join(", ")});`,
@@ -105,17 +110,26 @@ for (const a of articles) {
   if (row.live_hash === hash) continue;
   if ((row.publish_commit_time ?? 0) > buildCommitTime) continue; // the studio has something newer
 
-  const editorHasChanges = row.state !== "published" && row.is_live;
-  const sets = [
+  // A working copy that differs from the live one is the editor's: keep it.
+  // That includes a never-published studio draft that happens to share the slug.
+  const editorHasChanges = row.state !== "published" || !row.is_live;
+  // The live copy always follows git. If the working copy already equals it,
+  // nothing is pending any more.
+  const live = [
     `live_json = ${q(json)}`,
     `live_hash = ${q(hash)}`,
+    `live_slug = ${q(a.slug)}`,
     `pub_date = ${q(pubMs)}`,
     `git_path = ${q(a.gitPath)}`,
     `collection = ${q(a.collection)}`,
     `updated_at = ${q(now)}`,
+    `state = CASE WHEN draft_json = ${q(json)} THEN 'published' ELSE state END`,
   ];
+  stmts.push(`UPDATE articles SET ${live.join(", ")} WHERE id = ${q(row.id)};`);
   if (!editorHasChanges) {
-    sets.push(
+    // The working copy follows too — unless someone started editing (or saved)
+    // since the read above: the rev/state guard makes that a no-op.
+    const draft = [
       `draft_json = ${q(json)}`,
       `draft_rev = draft_rev + 1`,
       `state = 'published'`,
@@ -126,10 +140,12 @@ for (const a of articles) {
       `score = ${q(data.score)}`,
       `featured = ${data.featured ? 1 : 0}`,
       `thumb = ${q(data.thumb ?? null)}`,
+    ];
+    stmts.push(
+      `UPDATE articles SET ${draft.join(", ")} WHERE id = ${q(row.id)} AND draft_rev = ${q(row.draft_rev)} AND state = 'published';`,
     );
   }
   stmts.push(
-    `UPDATE articles SET ${sets.join(", ")} WHERE id = ${q(row.id)};`,
     `INSERT INTO revisions (article_id, rev, data_json, kind, note, created_at) VALUES (${[row.id, row.draft_rev + 1, json, "sync", "Changed in git", now].map(q).join(", ")});`,
   );
   updated++;
@@ -139,7 +155,7 @@ for (const row of existing) {
   if (!row.is_live || seenIds.has(row.id) || !row.git_path) continue;
   if ((row.publish_commit_time ?? 0) > buildCommitTime) continue; // published after this commit
   stmts.push(
-    `UPDATE articles SET live_json = NULL, live_hash = NULL, state = 'draft', updated_at = ${now} WHERE id = ${q(row.id)};`,
+    `UPDATE articles SET live_json = NULL, live_hash = NULL, live_slug = NULL, state = 'draft', updated_at = ${now} WHERE id = ${q(row.id)};`,
     `INSERT INTO revisions (article_id, rev, data_json, kind, note, created_at) SELECT id, draft_rev, draft_json, 'sync', 'Removed from git', ${now} FROM articles WHERE id = ${q(row.id)};`,
   );
   removed++;

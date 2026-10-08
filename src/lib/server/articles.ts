@@ -31,7 +31,10 @@ export type ArticleState = "draft" | "in_review" | "changes_requested" | "approv
 
 export interface ArticleRow {
   id: string;
+  /** The working copy's slug (what the editor shows). */
   slug: string;
+  /** The slug the site serves; NULL while unpublished. Public lookups use this. */
+  live_slug: string | null;
   collection: string;
   git_path: string | null;
   draft_json: string;
@@ -212,6 +215,8 @@ export function rowSummary(row: ArticleRow) {
   return {
     id: row.id,
     slug: row.slug,
+    /** Where the site serves it now (differs from `slug` while a rename is unpublished). */
+    liveSlug: row.live_slug ?? null,
     collection: row.collection,
     state: row.state,
     title: row.title,
@@ -261,9 +266,43 @@ async function addRevision(
     .run();
 }
 
+/**
+ * Is this slug used by another article — as its working slug OR as the slug a
+ * live article is still served at (a renamed draft keeps its old URL live)?
+ * Two index lookups (slug, live_slug).
+ */
 export async function slugTaken(env: Env, slug: string, exceptId?: string): Promise<boolean> {
-  const row = await env.DB.prepare("SELECT id FROM articles WHERE slug = ? AND id != ?").bind(slug, exceptId ?? "").first();
+  const except = exceptId ?? "";
+  const row = await env.DB.prepare(
+    `SELECT id FROM articles WHERE slug = ? AND id != ?
+     UNION ALL SELECT id FROM articles WHERE live_slug = ? AND id != ? LIMIT 1`,
+  )
+    .bind(slug, except, slug, except)
+    .first();
   return Boolean(row);
+}
+
+/** Thrown when a save would give an article another article's slug (→ 409 slug_taken). */
+export class SlugTakenError extends Error {
+  constructor(public slug: string) {
+    super(`The slug "${slug}" is already used by another article. Choose a different one.`);
+  }
+}
+
+/**
+ * The markdown file a first publish writes. The frontmatter `slug:` decides the
+ * URL, so the file name only has to be unique among LIVE articles (their files
+ * exist in git); a suffix is added when another article already owns it.
+ */
+export async function freeGitPath(env: Env, slug: string, exceptId: string): Promise<string> {
+  for (let i = 1; i < 50; i++) {
+    const path = `src/content/article/${slug}${i === 1 ? "" : `-${i}`}.md`;
+    const owner = await env.DB.prepare("SELECT id FROM articles WHERE git_path = ? AND live_json IS NOT NULL AND id != ? LIMIT 1")
+      .bind(path, exceptId)
+      .first();
+    if (!owner) return path;
+  }
+  throw new SlugTakenError(slug);
 }
 
 export async function createArticle(env: Env, user: SessionUser, input: Partial<ArticleData>): Promise<ArticleRow> {
@@ -275,15 +314,16 @@ export async function createArticle(env: Env, user: SessionUser, input: Partial<
 
   const id = crypto.randomUUID();
   const t = now();
+  // git_path stays NULL until the first publish picks a free file name from
+  // the final slug (the slug usually changes while drafting).
   await env.DB.prepare(
     `INSERT INTO articles (id, slug, collection, git_path, draft_json, draft_rev, state, title, category, author, score, featured, thumb,
        created_by, updated_by, created_at, updated_at)
-     VALUES (?, ?, 'article', ?, ?, 1, 'draft', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+     VALUES (?, ?, 'article', NULL, ?, 1, 'draft', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
   )
     .bind(
       id,
       slug,
-      `src/content/article/${slug}.md`,
       JSON.stringify(data),
       data.title,
       data.category || null,
@@ -325,9 +365,7 @@ export async function saveDraft(
   if (row.draft_rev !== baseRev) throw new ConflictError(row);
   const data = normaliseData(input);
   if (!data.slug) data.slug = row.slug;
-  if (data.slug !== row.slug && (await slugTaken(env, data.slug, row.id))) {
-    throw new Error(`The slug "${data.slug}" is already used by another article.`);
-  }
+  if (data.slug !== row.slug && (await slugTaken(env, data.slug, row.id))) throw new SlugTakenError(data.slug);
 
   let state: ArticleState = nextState ?? row.state;
   if (!nextState && row.live_json) {
@@ -391,7 +429,11 @@ export async function setState(
   return (await getArticle(env, row.id))!;
 }
 
-/** Record a successful publish (after the git commit landed). */
+/**
+ * Record a successful publish (after the git commit landed). If someone saved
+ * the draft while the commit was being made, their newer working copy is kept
+ * (only the live copy is updated) instead of being replaced by what was published.
+ */
 export async function markPublished(
   env: Env,
   user: SessionUser,
@@ -399,15 +441,26 @@ export async function markPublished(
   data: ArticleData,
   hash: string,
   commit: { sha: string; time: number },
+  gitPath: string,
 ): Promise<ArticleRow> {
   const t = now();
-  await env.DB.prepare(
-    `UPDATE articles SET live_json = ?, live_hash = ?, pub_date = ?, published_at = ?, publish_commit = ?, publish_commit_time = ?,
-       state = 'published', draft_json = ?, slug = ?, updated_by = ?, updated_at = ?, locked_by = NULL, locked_at = NULL
-     WHERE id = ?`,
+  const json = JSON.stringify(data);
+  const live = [json, hash, data.slug, gitPath, Date.parse(data.pubDate), t, commit.sha, commit.time] as const;
+  const res = await env.DB.prepare(
+    `UPDATE articles SET live_json = ?, live_hash = ?, live_slug = ?, git_path = ?, pub_date = ?, published_at = ?, publish_commit = ?,
+       publish_commit_time = ?, state = 'published', draft_json = ?, slug = ?, updated_by = ?, updated_at = ?, locked_by = NULL, locked_at = NULL
+     WHERE id = ? AND draft_rev = ?`,
   )
-    .bind(JSON.stringify(data), hash, Date.parse(data.pubDate), t, commit.sha, commit.time, JSON.stringify(data), data.slug, user.id, t, row.id)
+    .bind(...live, json, data.slug, user.id, t, row.id, row.draft_rev)
     .run();
+  if (!res.meta.changes) {
+    await env.DB.prepare(
+      `UPDATE articles SET live_json = ?, live_hash = ?, live_slug = ?, git_path = ?, pub_date = ?, published_at = ?, publish_commit = ?,
+         publish_commit_time = ?, state = CASE WHEN state = 'published' THEN 'draft' ELSE state END WHERE id = ?`,
+    )
+      .bind(...live, row.id)
+      .run();
+  }
   await addRevision(env, row.id, row.draft_rev, data, "publish", user.id, commit.sha.slice(0, 7));
   await audit(env.DB, user.id, "article.publish", row.id, { commit: commit.sha, slug: data.slug });
   return (await getArticle(env, row.id))!;
@@ -415,7 +468,7 @@ export async function markPublished(
 
 export async function markUnpublished(env: Env, user: SessionUser, row: ArticleRow, commitSha: string): Promise<void> {
   await env.DB.prepare(
-    `UPDATE articles SET live_json = NULL, live_hash = NULL, published_at = NULL, publish_commit = ?, state = 'draft',
+    `UPDATE articles SET live_json = NULL, live_hash = NULL, live_slug = NULL, published_at = NULL, publish_commit = ?, state = 'draft',
        updated_by = ?, updated_at = ? WHERE id = ?`,
   )
     .bind(commitSha, user.id, now(), row.id)

@@ -113,8 +113,22 @@ async function docIdFor(env: Env, slug: string): Promise<{ docId: number; chunkC
     .bind(slug)
     .first<{ doc_id: number | null; chunk_count: number }>();
   if (row?.doc_id) return { docId: row.doc_id, chunkCount: row.chunk_count };
-  const next = await env.DB.prepare("SELECT COALESCE(MAX(doc_id), 0) + 1 AS id FROM search_docs").first<{ id: number }>();
-  return { docId: next?.id ?? 1, chunkCount: row?.chunk_count ?? 0 };
+  // Allocate atomically from a counter (one statement), so two articles indexed
+  // at the same time can't both get MAX(doc_id) + 1. The MAX() term (an index
+  // lookup on the unique doc_id index) keeps the counter ahead of ids written
+  // by scripts/bulk-index.mjs.
+  const next = await env.DB.prepare(
+    `INSERT INTO settings (key, value, updated_at)
+     VALUES ('search_doc_seq', (SELECT COALESCE(MAX(doc_id), 0) + 1 FROM search_docs), ?)
+     ON CONFLICT(key) DO UPDATE SET
+       value = MAX(CAST(settings.value AS INTEGER) + 1, (SELECT COALESCE(MAX(doc_id), 0) + 1 FROM search_docs)),
+       updated_at = excluded.updated_at
+     RETURNING CAST(value AS INTEGER) AS id`,
+  )
+    .bind(now())
+    .first<{ id: number }>();
+  if (!next?.id) throw new Error("Could not allocate a search doc id.");
+  return { docId: next.id, chunkCount: row?.chunk_count ?? 0 };
 }
 
 /** Flag the background job to look for articles to (re-)index. */
@@ -232,7 +246,7 @@ export async function reindexPending(
   // Ordered by pub_date with a LIMIT: while many articles are pending this
   // stops after ~limit rows instead of scanning everything.
   const pending = await env.DB.prepare(
-    `SELECT a.* FROM articles a LEFT JOIN search_docs s ON s.slug = a.slug
+    `SELECT a.* FROM articles a LEFT JOIN search_docs s ON s.slug = a.live_slug
      WHERE a.live_json IS NOT NULL AND (s.slug IS NULL OR s.hash != a.live_hash)
      ORDER BY a.pub_date DESC LIMIT ?`,
   )
@@ -243,13 +257,13 @@ export async function reindexPending(
     const live = liveOf(row);
     if (!live) continue;
     await indexArticle(env, live, row.live_hash || "", { vectors });
-    indexed.push(row.slug);
+    indexed.push(live.slug);
   }
   if (pending.results.length >= limit) return { indexed, removed: [], remaining: 1 };
 
   // Caught up: drop index rows for articles no longer live, then clear the flag.
   const orphans = await env.DB.prepare(
-    `SELECT s.slug FROM search_docs s LEFT JOIN articles a ON a.slug = s.slug AND a.live_json IS NOT NULL
+    `SELECT s.slug FROM search_docs s LEFT JOIN articles a ON a.live_slug = s.slug AND a.live_json IS NOT NULL
      WHERE a.id IS NULL LIMIT 50`,
   ).all<{ slug: string }>();
   for (const o of orphans.results) await removeFromIndex(env, o.slug);

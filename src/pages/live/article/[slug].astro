@@ -24,7 +24,7 @@ async function notFound() {
 }
 
 const row = /^[a-z0-9][a-z0-9-]*$/.test(slug)
-  ? await env.DB.prepare("SELECT * FROM articles WHERE slug = ? AND live_json IS NOT NULL").bind(slug).first<ArticleRow>()
+  ? await env.DB.prepare("SELECT * FROM articles WHERE live_slug = ? AND live_json IS NOT NULL").bind(slug).first<ArticleRow>()
   : null;
 const live = row ? liveOf(row) : null;
 const guards = await getGuards(env);
@@ -40,7 +40,7 @@ if (!ok) return notFound();
 
 const similar = (
   await env.DB.prepare(
-    "SELECT slug, live_json FROM articles WHERE featured = 1 AND live_json IS NOT NULL AND slug != ? AND pub_date <= ? ORDER BY RANDOM() LIMIT 3",
+    "SELECT live_slug AS slug, live_json FROM articles WHERE featured = 1 AND live_json IS NOT NULL AND live_slug != ? AND pub_date <= ? ORDER BY RANDOM() LIMIT 3",
   )
     .bind(slug, Date.now())
     .all<{ slug: string; live_json: string }>()

@@ -9,6 +9,15 @@
 import type { SSRManifest } from "astro";
 import { App } from "astro/app";
 import { handle } from "@astrojs/cloudflare/handler";
+
+// The adapter types request/env with its own workers-types copies; the runtime objects are the same.
+const astroHandle = handle as unknown as (
+  manifest: SSRManifest,
+  app: App,
+  request: Request,
+  env: Env,
+  ctx: ExecutionContext,
+) => Promise<Response>;
 import type { Env } from "./lib/server/env";
 import { isJunkPath, pruneRateLimits } from "./lib/server/guards";
 import { serveStagedImage } from "./lib/server/media";
@@ -37,11 +46,11 @@ export function createExports(manifest: SSRManifest) {
     // 2. JSON APIs (studio + public live features), routed without Astro.
     if (path.startsWith("/api/")) {
       if (path.startsWith("/api/studio/")) return handleStudio(request, env, ctx);
-      if (path === "/api/comments" || path.startsWith("/api/comments/")) return handleComments(request, env);
-      const r = publicRoutes[path.replace(/\/$/, "")];
-      if (!r) return error(404, "Not found.");
-      if (request.method !== r.method && !(request.method === "HEAD" && r.method === "GET")) return error(405, "Method not allowed.");
       try {
+        if (path === "/api/comments" || path.startsWith("/api/comments/")) return await handleComments(request, env);
+        const r = publicRoutes[path.replace(/\/$/, "")];
+        if (!r) return error(404, "Not found.");
+        if (request.method !== r.method && !(request.method === "HEAD" && r.method === "GET")) return error(405, "Method not allowed.");
         return await r.handler(request, env, ctx);
       } catch (e) {
         console.error("api error", path, e);
@@ -51,8 +60,12 @@ export function createExports(manifest: SSRManifest) {
 
     // 3. Images uploaded in the studio that no build includes yet.
     if (path.startsWith("/images/uploads/") && (request.method === "GET" || request.method === "HEAD")) {
-      const staged = await serveStagedImage(env, path);
-      if (staged) return staged;
+      try {
+        const staged = await serveStagedImage(env, path);
+        if (staged) return staged;
+      } catch (e) {
+        console.error("staged image error", path, e);
+      }
     }
 
     // 4. The studio is a single-page app: deep links load its shell.
@@ -70,10 +83,10 @@ export function createExports(manifest: SSRManifest) {
     const article = ARTICLE_PATH.exec(path);
     if (article && (request.method === "GET" || request.method === "HEAD")) {
       const live = new URL(`/live/article/${article[1]}/${url.search}`, url);
-      return handle(manifest, app, new Request(live, request), env, ctx);
+      return astroHandle(manifest, app, new Request(live, request), env, ctx);
     }
 
-    return handle(manifest, app, request, env, ctx);
+    return astroHandle(manifest, app, request, env, ctx);
   };
 
   const scheduled = async (_controller: ScheduledController, env: Env, ctx: ExecutionContext) => {
