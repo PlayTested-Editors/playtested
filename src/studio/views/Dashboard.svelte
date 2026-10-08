@@ -19,6 +19,43 @@
 
   const EMPTY: List = { articles: [], names: {}, total: null };
 
+  // "Getting started" for people who took the welcome tour in the last 30 days,
+  // until they've set a byline, started a draft and sent one for review.
+  let progress = $state<{ drafted: boolean; submitted: boolean } | null>(null);
+  const hideKey = () => `studio.gettingStarted.hidden:${session.user?.id}`;
+  let hidden = $state(false);
+  const newcomer = $derived.by(() => {
+    const u = session.user;
+    return Boolean(u && !u.realRole && u.onboardedAt && Date.now() - u.onboardedAt < 30 * 86_400_000);
+  });
+  $effect(() => {
+    if (!newcomer) return;
+    try {
+      hidden = localStorage.getItem(hideKey()) === "1";
+    } catch {
+      /* storage blocked */
+    }
+    if (!hidden) api.get<{ drafted: boolean; submitted: boolean }>("/me/progress").then((p) => (progress = p)).catch(() => undefined);
+  });
+  function hideChecklist() {
+    hidden = true;
+    try {
+      localStorage.setItem(hideKey(), "1");
+    } catch {
+      /* storage blocked */
+    }
+  }
+  const checklist = $derived(
+    progress
+      ? [
+          { done: Boolean(session.user?.authorName), text: "Set your display name and byline" },
+          { done: progress.drafted, text: "Write your first draft", href: "/studio/articles/new/", cta: "New article" },
+          { done: progress.submitted, text: "Submit it for review" },
+        ]
+      : [],
+  );
+  const showChecklist = $derived(newcomer && !hidden && checklist.length > 0 && checklist.some((c) => !c.done));
+
   onMount(() => {
     // Each panel loads on its own: one failed request shows that panel empty
     // (plus one error toast) instead of leaving every panel loading forever.
@@ -120,6 +157,24 @@
     </div>
     <a href="/studio/articles/new/" class="btn-primary">Write something new</a>
   </div>
+
+  {#if showChecklist}
+    <section class="mb-6 rounded-2xl bg-white p-5 ring-1 ring-indigo-200 dark:bg-slate-900 dark:ring-indigo-500/30">
+      <div class="mb-1 flex items-baseline justify-between gap-3">
+        <h2 class="font-semibold">Getting started</h2>
+        <button type="button" class="text-xs text-slate-500 underline hover:text-slate-800 dark:hover:text-slate-200" onclick={hideChecklist}>Hide</button>
+      </div>
+      <ul>
+        {#each checklist as item, k}
+          <li class="flex items-center gap-3 py-2.5 {k ? 'border-t border-slate-100 dark:border-slate-800' : ''}">
+            <span class="grid h-5 w-5 shrink-0 place-items-center rounded-full text-[11px] font-bold {item.done ? 'bg-emerald-500 text-white' : 'ring-2 ring-inset ring-slate-300 dark:ring-slate-600'}">{item.done ? "✓" : ""}</span>
+            <span class="flex-1 text-sm {item.done ? 'text-slate-400 line-through' : ''}">{item.text}</span>
+            {#if !item.done && item.href}<a href={item.href} class="btn-secondary !py-1.5 text-xs">{item.cta}</a>{/if}
+          </li>
+        {/each}
+      </ul>
+    </section>
+  {/if}
 
   {#if missing.length && isChief()}
     <a href="/studio/settings/#integrations" class="mb-6 flex items-center gap-3 rounded-xl bg-amber-50 px-4 py-3 text-sm text-amber-900 ring-1 ring-amber-200 hover:bg-amber-100 dark:bg-amber-500/10 dark:text-amber-200 dark:ring-amber-500/30">

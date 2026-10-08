@@ -83,6 +83,8 @@ export interface User {
   avatar: string | null;
   role: Role;
   authorName: string | null;
+  /** When they finished the welcome tour; null = show it. */
+  onboardedAt: number | null;
   /** Present while the chief is previewing as a lower role. */
   realRole?: Role;
 }

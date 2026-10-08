@@ -281,7 +281,9 @@ route("PATCH", "/me", "contributor", async (c) => {
   // (in Team), since a byline decides which articles are theirs.
   let byline: string | undefined;
   if (b.byline !== undefined && b.byline.trim() && b.byline.trim() !== user.authorName) {
-    if (user.authorName && (user.realRole ?? user.role) !== "chief") return error(403, "Your byline is set. Ask the chief editor to change it.");
+    // "View as" hides the chief's byline; it must never be overwritten from there.
+    if (user.realRole) return error(403, "Switch back to your own view to change your byline.");
+    if (user.authorName && user.role !== "chief") return error(403, "Your byline is set. Ask the chief editor to change it.");
     byline = b.byline.replace(/\s+/g, " ").trim();
     if (byline.length < 2 || byline.length > 30) return error(400, "Use a byline between 2 and 30 characters.");
     if (!/^[\p{L}\p{N}][\p{L}\p{N} ._-]*$/u.test(byline)) return error(400, "A byline can use letters, numbers, spaces, dots, dashes and underscores.");
@@ -299,6 +301,26 @@ route("PATCH", "/me", "contributor", async (c) => {
     await audit(c.env.DB, user.id, "user.rename", user.id, { name });
   }
   return json({ ok: true, name, authorName: byline ?? user.authorName });
+});
+
+// The welcome tour was finished or skipped: don't show it again.
+route("POST", "/me/onboarded", "contributor", async (c) => {
+  if (c.user!.realRole) return json({ ok: true }); // a "View as" preview changes nothing
+  await c.env.DB.prepare("UPDATE users SET onboarded_at = ? WHERE id = ? AND onboarded_at IS NULL").bind(now(), c.user!.id).run();
+  return json({ ok: true });
+});
+
+// The dashboard's "Getting started" checklist: has this writer started a draft,
+// and sent one for review? (Indexed on created_by; a new writer has a handful of rows.)
+route("GET", "/me/progress", "contributor", async (c) => {
+  const rows = await c.env.DB.prepare("SELECT state, live_json IS NOT NULL AS live FROM articles WHERE created_by = ? LIMIT 50")
+    .bind(c.user!.id)
+    .all<{ state: string; live: number }>();
+  const list = rows.results;
+  return json({
+    drafted: list.length > 0,
+    submitted: list.some((r) => r.state !== "draft" || r.live),
+  });
 });
 
 // ---------------------------------------------------------------------------

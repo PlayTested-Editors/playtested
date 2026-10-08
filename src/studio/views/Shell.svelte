@@ -5,6 +5,7 @@
   import { api, getViewAs, setViewAs } from "../api";
   import { clearReturn, counts as countsSignal, loadSession, navigate, refreshCounts, route, session, toast, toastError, toggleTheme, isEditorOrAbove } from "../state.svelte";
   import Modal from "../ui/Modal.svelte";
+  import Onboarding from "../ui/Onboarding.svelte";
   import { deploys, latestRun, refreshDeploys, stopDeploys } from "../deploys.svelte";
   import { relTime } from "../format";
 
@@ -105,13 +106,18 @@
   }
 
   // ---- Your profile -------------------------------------------------------
+  // The welcome tour, for people who joined after it shipped (see Onboarding.svelte).
+  let tourClosed = $state(false);
+  let showTour = $derived(Boolean(session.user && session.user.onboardedAt === null && !session.user.realRole && !tourClosed));
+
   let profileOpen = $state(false);
   let profileName = $state("");
   let profileByline = $state("");
   let savingProfile = $state(false);
   // First visit without a byline: a welcome version of the same dialog.
   let profileWelcome = $state(false);
-  let canSetByline = $derived(!session.user?.authorName);
+  // Never while previewing another role: "View as" hides the chief's own byline.
+  let canSetByline = $derived(!session.user?.authorName && !session.user?.realRole);
   function openProfile(welcome = false) {
     profileName = session.user?.name ?? "";
     profileByline = session.user?.authorName ?? "";
@@ -119,10 +125,11 @@
     mobileOpen = false;
     profileOpen = true;
   }
-  // Ask once per browser session; not while the chief is previewing another role.
+  // People who joined before the welcome tour (or skipped setting a byline) get
+  // this instead, once per browser session; never during a "View as" preview.
   $effect(() => {
     const u = session.user;
-    if (!u || u.authorName || u.realRole) return;
+    if (!u || u.authorName || u.realRole || u.onboardedAt === null) return;
     try {
       if (sessionStorage.getItem("studio.profilePrompted")) return;
       sessionStorage.setItem("studio.profilePrompted", "1");
@@ -242,6 +249,10 @@
     </div>
   </div>
 {/snippet}
+
+{#if showTour}
+  <Onboarding ondone={() => (tourClosed = true)} />
+{/if}
 
 <Modal bind:open={profileOpen} title={profileWelcome ? "Welcome! Set up your profile" : "Your profile"} size="sm">
   <div class="space-y-4 text-sm">
