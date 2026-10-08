@@ -393,7 +393,7 @@
       <button type="button" class="{btn} {is('blockquote') ? on : ''}" title="Quote" disabled={off} onclick={() => editor?.chain().focus().toggleBlockquote().run()}>“ ”</button>
       <button type="button" class={btn} title="Divider" disabled={off} onclick={() => editor?.chain().focus().setHorizontalRule().run()}>—</button>
       <span class="mx-1 h-5 w-px bg-slate-200 dark:bg-slate-700"></span>
-      <button type="button" class={accent} disabled={off} onclick={() => { picker = "images"; pickerOpen = true; }}>+ Images</button>
+      <button type="button" class={accent} data-tour="images" disabled={off} onclick={() => { picker = "images"; pickerOpen = true; }}>+ Images</button>
       <button type="button" class={accent} disabled={off} title="Image with the text wrapping around it" onclick={() => { picker = "side"; pickerOpen = true; }}>+ Image beside text</button>
       <span class="ml-auto pr-1 text-[11px] tabular-nums text-slate-400">{words.toLocaleString()} words · {Math.max(1, Math.round(words / 230))} min read</span>
     </div>

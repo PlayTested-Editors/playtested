@@ -193,7 +193,7 @@ Write the text that sits beside the image here.
       </button>
     {/each}
     <span class="mx-1 h-5 w-px bg-slate-200 dark:bg-slate-700"></span>
-    <button type="button" class="rounded-md px-2 py-1 text-xs font-semibold text-indigo-600 transition hover:bg-indigo-50 dark:text-indigo-400 dark:hover:bg-indigo-500/10" {disabled} onclick={() => { picker = "image"; pickerOpen = true; }}>+ Images</button>
+    <button type="button" data-tour="images" class="rounded-md px-2 py-1 text-xs font-semibold text-indigo-600 transition hover:bg-indigo-50 dark:text-indigo-400 dark:hover:bg-indigo-500/10" {disabled} onclick={() => { picker = "image"; pickerOpen = true; }}>+ Images</button>
     <button type="button" class="rounded-md px-2 py-1 text-xs font-semibold text-indigo-600 transition hover:bg-indigo-50 dark:text-indigo-400 dark:hover:bg-indigo-500/10" {disabled} onclick={() => { picker = "side"; pickerOpen = true; }} title="Image beside text">+ Image & text</button>
     <button type="button" class="rounded-md px-2 py-1 text-xs font-semibold text-indigo-600 transition hover:bg-indigo-50 dark:text-indigo-400 dark:hover:bg-indigo-500/10" {disabled} onclick={() => { picker = "sized"; pickerOpen = true; }} title="Image with a maximum height">+ Sized image</button>
     <span class="ml-auto pr-1 text-[11px] tabular-nums text-slate-400">{words.toLocaleString()} words · {Math.max(1, Math.round(words / 230))} min read</span>
