@@ -140,7 +140,9 @@
         const res = await fetch(`/api/studio/screenshots/image?url=${encodeURIComponent(url)}`, { credentials: "same-origin" });
         if (!res.ok) throw new Error((await res.text()) || "Couldn't fetch that screenshot.");
         const blob = await res.blob();
-        files.push(new File([blob], `${name}-${found?.current?.source ?? "shot"}-${i + 1}.${blob.type.split("/")[1] || "jpg"}`, { type: blob.type }));
+        // "rawg-1-game-name": the source comes first so the server's 60-character
+        // cut keeps it (articles with RAWG images credit RAWG; see ArticleView).
+        files.push(new File([blob], `${found?.current?.source ?? "shot"}-${i + 1}-${name.slice(0, 40)}.${blob.type.split("/")[1] || "jpg"}`, { type: blob.type }));
       }
       const media = await uploadFiles(files, articleId);
       if (!media.length) throw new Error("The screenshots couldn't be uploaded.");

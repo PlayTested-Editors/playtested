@@ -63,6 +63,9 @@ const hasScore = typeof score !== "undefined" && score !== null;
 const gameName = game?.trim() || shortTitle(title);
 const schemaImage = large || thumb ? new URL((large || thumb)!, Astro.site).href : undefined;
 const tagHref = (tag: string) => `/tag/${tag.toLowerCase().replace(/\s+/g, "-")}/`;
+// Screenshots imported from RAWG in the studio are named "rawg-<n>-<game>-<id>.<ext>";
+// RAWG's terms ask for a credit link on pages that use them.
+const usesRawg = /\/images\/uploads\/rawg-\d+-[a-z0-9-]+\.[a-z]+/.test([thumb, large, ...gallery, body ?? ""].join(" "));
 ---
 
 <BlogLayout title={title} description={description} canonicalPath={canonicalPath} noindex={mode === "preview"} image={large || thumb} type="article">
@@ -266,6 +269,12 @@ const tagHref = (tag: string) => `/tag/${tag.toLowerCase().replace(/\s+/g, "-")}
     }
 
     {html !== undefined ? <Fragment set:html={html} /> : <slot />}
+
+    {usesRawg && (
+      <p class="not-prose clear-both mt-6 text-xs text-gray-500 dark:text-gray-400">
+        Screenshots via <a href="https://rawg.io" target="_blank" rel="noopener" class="underline hover:text-blue-600 dark:hover:text-blue-400">RAWG</a>
+      </p>
+    )}
 
     <div class="mt-8 mb-4">
       <h3 class="text-xl font-bold mb-4 text-gray-800 dark:text-gray-100">Share this review</h3>
