@@ -3,7 +3,7 @@
   import { fly } from "svelte/transition";
   import { api, type Role } from "../api";
   import { relTime } from "../format";
-  import { isChief, session, toast, toastError } from "../state.svelte";
+  import { isChief, isEditorOrAbove, loadSession, navigate, session, toast, toastError } from "../state.svelte";
   import Modal from "../ui/Modal.svelte";
 
   interface Row {
@@ -66,12 +66,22 @@
     }
   }
 
-  async function update(u: Row, patch: Partial<{ role: Role; status: string; authorName: string }>) {
+  /**
+   * `control` is the input/select that made the change: if the server refuses,
+   * it's put back to the saved value (re-rendering the same value won't).
+   */
+  async function update(u: Row, patch: Partial<{ role: Role; status: string; authorName: string }>, control?: HTMLInputElement | HTMLSelectElement) {
     try {
       await api.patch(`/users/${u.id}`, patch);
       toast("Updated", "success", undefined, 1500);
+      // Changing your own role changes what this studio lets you do.
+      if (u.id === session.user?.id) {
+        await loadSession().catch(() => undefined);
+        if (!isEditorOrAbove()) return navigate("/studio/", true);
+      }
       load();
     } catch (e) {
+      if (control) control.value = "role" in patch ? u.role : (u.author_name ?? "");
       toastError(e);
       load();
     }
@@ -128,8 +138,8 @@
               <p class="text-xs text-slate-500">{u.email} · {u.last_login_at ? `active ${relTime(u.last_login_at)}` : "never signed in"}</p>
             </div>
             {#if isChief()}
-              <input class="input !w-40 !py-1.5 !text-xs" placeholder="Byline name" value={u.author_name ?? ""} onchange={(e) => update(u, { authorName: e.currentTarget.value })} title="Name written on their articles" />
-              <select class="input !w-auto !py-1.5 !text-xs" value={u.role} onchange={(e) => update(u, { role: e.currentTarget.value as Role })}>
+              <input class="input !w-40 !py-1.5 !text-xs" placeholder="Byline name" value={u.author_name ?? ""} onchange={(e) => update(u, { authorName: e.currentTarget.value }, e.currentTarget)} title="Name written on their articles" />
+              <select class="input !w-auto !py-1.5 !text-xs" value={u.role} onchange={(e) => update(u, { role: e.currentTarget.value as Role }, e.currentTarget)}>
                 {#each Object.entries(ROLE) as [key, r]}<option value={key}>{r.label}</option>{/each}
               </select>
               <button class="btn-ghost !px-2 !py-1 text-xs" onclick={() => signInLink(u)}>Sign-in link</button>

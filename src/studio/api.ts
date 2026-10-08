@@ -10,6 +10,13 @@ export class ApiError extends Error {
   }
 }
 
+// Called when a signed-in call comes back 401 (session expired or revoked).
+// The session probe (/me) and sign-in endpoints are expected to 401 and skip it.
+let onUnauthorized: (() => void) | null = null;
+export function setUnauthorizedHandler(fn: () => void) {
+  onUnauthorized = fn;
+}
+
 async function request<T>(method: string, path: string, body?: unknown, init: RequestInit = {}): Promise<T> {
   const res = await fetch(`/api/studio${path}`, {
     method,
@@ -28,6 +35,7 @@ async function request<T>(method: string, path: string, body?: unknown, init: Re
   } catch {
     data = { error: text };
   }
+  if (res.status === 401 && path !== "/me" && !path.startsWith("/auth/")) onUnauthorized?.();
   if (!res.ok) throw new ApiError(res.status, data.error || `Request failed (${res.status})`, data);
   return data as T;
 }

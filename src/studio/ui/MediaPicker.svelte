@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { untrack } from "svelte";
   import Modal from "./Modal.svelte";
   import Dropzone from "./Dropzone.svelte";
   import { api, type Media } from "../api";
@@ -25,6 +26,8 @@
   let fresh = $state<Media[]>([]);
   let selected = $state<string[]>([]);
   let loading = $state(false);
+  // Fetched at most once per picker (an empty library is a valid answer).
+  let libraryLoaded = false;
 
   let shown = $derived(
     tab === "article"
@@ -32,23 +35,30 @@
       : library,
   );
 
+  // Reset only when the picker opens — not when articleMedia changes while
+  // it's open (the editor's autosave replaces it), which would drop the picks.
   $effect(() => {
     if (open) {
-      selected = [];
-      fresh = [];
-      if (!articleMedia.length) tab = "library";
+      untrack(() => {
+        selected = [];
+        fresh = [];
+        if (!articleMedia.length) tab = "library";
+      });
     }
   });
 
   $effect(() => {
-    if (open && tab === "library" && !library.length) loadLibrary();
+    if (open && tab === "library" && !libraryLoaded) untrack(loadLibrary);
   });
 
   async function loadLibrary() {
+    if (libraryLoaded) return;
+    libraryLoaded = true;
     loading = true;
     try {
       library = (await api.get<{ media: Media[] }>("/media?pageSize=120")).media;
     } catch (e) {
+      libraryLoaded = false; // let the next open retry
       toastError(e);
     } finally {
       loading = false;
@@ -78,6 +88,7 @@
       compact
       onuploaded={(m) => {
         fresh = [...m, ...fresh];
+        if (libraryLoaded) library = [...m, ...library.filter((x) => !m.some((y) => y.id === x.id))];
         tab = "article";
         if (multiple) selected = [...selected, ...m.map((x) => x.id)];
       }}

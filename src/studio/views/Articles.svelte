@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { onMount, untrack } from "svelte";
   import { fade } from "svelte/transition";
   import { api, type ArticleSummary } from "../api";
   import { navigate, route, toastError } from "../state.svelte";
@@ -22,7 +23,7 @@
   let q = $state(route.query.get("q") || "");
   let searchTimer: ReturnType<typeof setTimeout>;
 
-  let state = $derived(route.query.get("state") || "");
+  let articleState = $derived(route.query.get("state") || "");
   let category = $derived(route.query.get("category") || "");
   let sort = $derived(route.query.get("sort") || "updated");
   let page = $derived(Number(route.query.get("page")) || 1);
@@ -44,27 +45,49 @@
     load(qs);
   });
 
+  // Keep the search box in step with the URL (back/forward, the sidebar link),
+  // except while the user is typing a search that hasn't been applied yet.
+  $effect(() => {
+    const urlQ = route.query.get("q") || "";
+    untrack(() => {
+      if (q.trim() !== urlQ) {
+        clearTimeout(searchTimer);
+        q = urlQ;
+      }
+    });
+  });
+
+  // Only the latest request may write `data`: a slow earlier response must not
+  // replace newer results.
+  let requestSeq = 0;
   async function load(qs: string) {
+    const seq = ++requestSeq;
     loading = true;
     try {
-      data = await api.get(`/articles?pageSize=30&${qs}`);
+      const d = await api.get<NonNullable<typeof data>>(`/articles?pageSize=30&${qs}`);
+      if (seq === requestSeq) data = d;
     } catch (e) {
-      toastError(e);
+      if (seq === requestSeq) toastError(e);
     } finally {
-      loading = false;
+      if (seq === requestSeq) loading = false;
     }
   }
 
-  $effect(() => {
+  onMount(() => {
     api.get<{ categories: { value: string; count: number }[] }>("/meta").then((m) => (categories = m.categories)).catch(() => undefined);
   });
 
+  let creating = $state(false);
   async function createNew() {
+    if (creating) return;
+    creating = true;
     try {
       const d = await api.post<{ article: { id: string } }>("/articles", { data: {} });
       navigate(`/studio/articles/${d.article.id}/`);
     } catch (e) {
       toastError(e);
+    } finally {
+      creating = false;
     }
   }
 
@@ -73,7 +96,7 @@
 <div class="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
   <div class="mb-6 flex flex-wrap items-center justify-between gap-4">
     <h1 class="text-2xl font-bold tracking-tight">Articles</h1>
-    <button class="btn-primary" onclick={createNew}>New article</button>
+    <button class="btn-primary" disabled={creating} onclick={createNew}>New article</button>
   </div>
 
   <div class="-mx-4 mb-4 overflow-x-auto px-4">
@@ -81,7 +104,7 @@
       {#each TABS as [key, label]}
         {@const count = key === "" ? null : data?.counts?.[key]}
         <button
-          class="whitespace-nowrap rounded-lg px-3 py-1.5 text-sm font-medium transition {state === key ? 'bg-white text-slate-900 shadow-sm dark:bg-slate-800 dark:text-white' : 'text-slate-500 hover:text-slate-800 dark:hover:text-slate-200'}"
+          class="whitespace-nowrap rounded-lg px-3 py-1.5 text-sm font-medium transition {articleState === key ? 'bg-white text-slate-900 shadow-sm dark:bg-slate-800 dark:text-white' : 'text-slate-500 hover:text-slate-800 dark:hover:text-slate-200'}"
           onclick={() => setParam({ state: key || null })}
         >
           {label}{#if count}<span class="ml-1.5 text-xs text-slate-400">{count}</span>{/if}

@@ -1,7 +1,7 @@
 <script lang="ts">
   import { fly } from "svelte/transition";
   import { flip } from "svelte/animate";
-  import { toasts } from "../state.svelte";
+  import { dismissToast, toasts } from "../state.svelte";
 
   const tone = {
     success: "bg-emerald-600 text-white",
@@ -22,6 +22,7 @@
       {#if t.action}
         <a class="shrink-0 font-semibold underline underline-offset-2" href={t.action.href} target="_blank" rel="noopener">{t.action.label}</a>
       {/if}
+      <button class="-mr-1 shrink-0 opacity-70 hover:opacity-100" aria-label="Dismiss" onclick={() => dismissToast(t.id)}>✕</button>
     </div>
   {/each}
 </div>

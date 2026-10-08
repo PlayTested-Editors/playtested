@@ -2,7 +2,7 @@
   import { fade } from "svelte/transition";
   import { api } from "../api";
   import { relTime } from "../format";
-  import { isChief, toast, toastError } from "../state.svelte";
+  import { isChief, refreshCounts, toast, toastError } from "../state.svelte";
 
   interface Row {
     id: string;
@@ -35,18 +35,30 @@
     load();
   });
 
+  // Only the latest request may write `data` (quick tab switches).
+  let requestSeq = 0;
   async function load() {
+    const seq = ++requestSeq;
     try {
-      data = await api.get(`/comments${tab ? `?status=${tab}` : ""}`);
+      const d = await api.get<NonNullable<typeof data>>(`/comments${tab ? `?status=${tab}` : ""}`);
+      if (seq === requestSeq) data = d;
     } catch (e) {
-      toastError(e);
+      if (seq === requestSeq) toastError(e);
     }
   }
 
   async function setStatus(c: Row, status: "visible" | "hidden" | "deleted") {
     try {
       await api.patch(`/comments/${c.id}`, { status });
+      const was = c.status;
       c.status = status;
+      if (data) {
+        // Keep the held count (tab + sidebar badge) in step.
+        if (was === "pending" && data.counts.pending) data.counts.pending--;
+        // It no longer belongs in a filtered tab.
+        if (tab && tab !== status) data.comments = data.comments.filter((x) => x.id !== c.id);
+      }
+      if (was === "pending") refreshCounts();
       toast(status === "visible" ? "Comment approved" : status === "hidden" ? "Comment hidden" : "Comment deleted", "success", undefined, 1800);
     } catch (e) {
       toastError(e);
@@ -60,6 +72,7 @@
       await api.patch(`/commenters/${c.commenter_id}`, { status: banning ? "banned" : "active" });
       toast(banning ? `${c.name} is banned` : `${c.name} can comment again`, "success");
       load();
+      refreshCounts();
     } catch (e) {
       toastError(e);
     }

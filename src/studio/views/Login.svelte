@@ -2,7 +2,7 @@
   import { onMount } from "svelte";
   import { fly } from "svelte/transition";
   import { api } from "../api";
-  import { loadSession, navigate, route, session } from "../state.svelte";
+  import { loadSession, navigate, route, session, takeReturn } from "../state.svelte";
 
   let error = $state(route.query.get("error") || "");
   let busy = $state(false);
@@ -11,6 +11,11 @@
   let email = $state("");
   let name = $state("");
 
+  // Signed in: go back to the page that sent us here (App may already have).
+  function done() {
+    if (route.parts[0] === "login") navigate(takeReturn() ?? "/studio/", true);
+  }
+
   onMount(async () => {
     const link = route.query.get("link");
     if (link) {
@@ -18,7 +23,7 @@
       try {
         await api.post("/auth/link", { token: link });
         await loadSession();
-        navigate("/studio/", true);
+        done();
       } catch (e) {
         error = (e as Error).message;
       } finally {
@@ -34,7 +39,7 @@
     try {
       await api.post("/auth/owner", { key, email, name });
       await loadSession();
-      navigate("/studio/", true);
+      done();
     } catch (err) {
       error = (err as Error).message;
     } finally {

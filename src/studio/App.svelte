@@ -2,7 +2,7 @@
   import { onMount } from "svelte";
   import { fade } from "svelte/transition";
   import { api } from "./api";
-  import { applyTheme, loadSession, navigate, route, session, toastError } from "./state.svelte";
+  import { applyTheme, loadSession, navigate, rememberReturn, route, session, takeReturn, toastError } from "./state.svelte";
   import Toasts from "./ui/Toasts.svelte";
   import UploadTray from "./ui/UploadTray.svelte";
   import Shell from "./views/Shell.svelte";
@@ -23,6 +23,12 @@
     applyTheme();
     try {
       await loadSession();
+      // Back from Google sign-in (which always lands on /studio/): resume the
+      // page that sent us to sign in, if any.
+      if (session.user && !route.parts.length) {
+        const back = takeReturn();
+        if (back) navigate(back, true);
+      }
     } catch (e) {
       failed = (e as Error).message;
     }
@@ -33,20 +39,27 @@
 
   $effect(() => {
     if (!session.loaded) return;
-    if (!session.user && !publicView) navigate("/studio/login/", true);
-    if (session.user && view === "login" && !route.query.get("link")) navigate("/studio/", true);
+    if (!session.user && !publicView) {
+      rememberReturn();
+      navigate("/studio/login/", true);
+    }
+    if (session.user && view === "login" && !route.query.get("link")) navigate(takeReturn() ?? "/studio/", true);
   });
 
-  // /studio/articles/new/ creates a draft and opens it.
+  // /studio/articles/new/ creates a draft and opens it (once, even if the
+  // link is clicked twice while the request is in flight).
+  let creating = false;
   $effect(() => {
-    if (session.user && view === "articles" && route.parts[1] === "new") {
+    if (session.user && view === "articles" && route.parts[1] === "new" && !creating) {
+      creating = true;
       api
         .post<{ article: { id: string } }>("/articles", { data: {} })
         .then((d) => navigate(`/studio/articles/${d.article.id}/`, true))
         .catch((e) => {
           toastError(e);
           navigate("/studio/articles/", true);
-        });
+        })
+        .finally(() => (creating = false));
     }
   });
 </script>

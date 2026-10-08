@@ -20,10 +20,29 @@ export const uploads = $state<UploadItem[]>([]);
 
 const MAX_EDGE = 1920;
 const ACCEPT = /^image\/(avif|webp|jpeg|png|gif|heic|heif)$/i;
+// A single encode that takes longer than this is treated as stuck.
+const ENCODE_TIMEOUT_MS = 120_000;
+
+/** Can this file go through the upload queue? (Others are skipped, not failed.) */
+export function isAcceptedImage(f: File): boolean {
+  return ACCEPT.test(f.type) || /\.(avif|webp|jpe?g|png|gif)$/i.test(f.name);
+}
 
 let workers: Worker[] = [];
 let nextId = 0;
-const pending = new Map<number, (r: EncodeResponse) => void>();
+const pending = new Map<number, { resolve: (r: EncodeResponse) => void; worker: Worker; timer: ReturnType<typeof setTimeout> }>();
+
+/** Fail every job on a broken/stuck worker and retire it (the pool respawns on demand). */
+function retire(w: Worker, error: string) {
+  for (const [id, p] of pending) {
+    if (p.worker !== w) continue;
+    clearTimeout(p.timer);
+    pending.delete(id);
+    p.resolve({ id, ok: false, error });
+  }
+  w.terminate();
+  workers = workers.filter((x) => x !== w);
+}
 
 function pool(): Worker[] {
   if (!workers.length) {
@@ -31,9 +50,19 @@ function pool(): Worker[] {
     workers = Array.from({ length: n }, () => {
       const w = new Worker(new URL("./encoder.worker.ts", import.meta.url), { type: "module" });
       w.onmessage = (e: MessageEvent<EncodeResponse>) => {
-        pending.get(e.data.id)?.(e.data);
+        const p = pending.get(e.data.id);
+        if (!p) return;
+        clearTimeout(p.timer);
         pending.delete(e.data.id);
+        p.resolve(e.data);
       };
+      // The worker failed to load (e.g. its wasm chunk) or crashed: without
+      // this its jobs would sit at "Compressing" forever.
+      w.onerror = (e) => {
+        e.preventDefault();
+        retire(w, "The image compressor stopped working. Reload the page and try again.");
+      };
+      w.onmessageerror = () => retire(w, "The image compressor sent back something unreadable.");
       return w;
     });
   }
@@ -43,12 +72,18 @@ function pool(): Worker[] {
 let rr = 0;
 function encode(file: File): Promise<EncodeResponse> {
   const id = ++nextId;
-  const ws = pool();
-  const w = ws[rr++ % ws.length];
   // GIFs keep their animation, so they skip re-encoding.
   if (file.type === "image/gif") return Promise.resolve({ id, ok: true, blob: file, width: 0, height: 0, mime: "image/gif" });
+  let ws: Worker[];
+  try {
+    ws = pool();
+  } catch {
+    return Promise.resolve({ id, ok: false, error: "This browser couldn't start the image compressor." });
+  }
+  const w = ws[rr++ % ws.length];
   return new Promise((resolve) => {
-    pending.set(id, resolve);
+    const timer = setTimeout(() => retire(w, "Compressing took too long. Try a smaller image."), ENCODE_TIMEOUT_MS);
+    pending.set(id, { resolve, worker: w, timer });
     w.postMessage({ id, file, maxEdge: MAX_EDGE, format: "avif" } satisfies EncodeRequest);
   });
 }
@@ -69,7 +104,7 @@ let keySeq = 0;
  * in the same order the files were given.
  */
 export async function uploadFiles(files: File[] | FileList, articleId?: string): Promise<Media[]> {
-  const list = [...files].filter((f) => ACCEPT.test(f.type) || /\.(avif|webp|jpe?g|png|gif)$/i.test(f.name));
+  const list = [...files].filter(isAcceptedImage);
   const items = list.map((file) => {
     const item: UploadItem = {
       key: ++keySeq,
@@ -89,7 +124,13 @@ export async function uploadFiles(files: File[] | FileList, articleId?: string):
   const waiters: (() => void)[] = [];
   const wake = () => waiters.splice(0).forEach((resolve) => resolve());
 
-  const encoding = runLimited(items, Math.max(1, pool().length), async ({ file, item }) => {
+  let encoders = 1;
+  try {
+    encoders = pool().length;
+  } catch {
+    /* encode() reports the failure per file */
+  }
+  const encoding = runLimited(items, Math.max(1, encoders), async ({ file, item }) => {
     item.status = "compressing";
     const r = await encode(file);
     encoded.set(item.key, r);
@@ -147,6 +188,16 @@ export async function uploadFiles(files: File[] | FileList, articleId?: string):
   }, 6000);
 
   return items.map(({ item }) => item.media).filter(Boolean) as Media[];
+}
+
+/** Remove every finished or failed item from the tray. */
+export function clearFinishedUploads() {
+  for (let i = uploads.length - 1; i >= 0; i--) {
+    if (uploads[i].status === "done" || uploads[i].status === "error") {
+      URL.revokeObjectURL(uploads[i].previewUrl);
+      uploads.splice(i, 1);
+    }
+  }
 }
 
 export function dismissUpload(key: number) {

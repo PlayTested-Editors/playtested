@@ -9,22 +9,43 @@
   let media = $state<Media[] | null>(null);
   let page = $state(1);
   let more = $state(false);
+  let loadingMore = $state(false);
+
+  /** Add images without repeating any already shown (paging shifts after an upload). */
+  function merge(list: Media[], extra: Media[], prepend = false): Media[] {
+    const seen = new Set(list.map((m) => m.id));
+    const add = extra.filter((m) => !seen.has(m.id) && seen.add(m.id));
+    return prepend ? [...add, ...list] : [...list, ...add];
+  }
 
   async function load(reset = false) {
     try {
       if (reset) page = 1;
       const r = await api.get<{ media: Media[]; pageSize: number }>(`/media?page=${page}&pageSize=60`);
-      media = reset || !media ? r.media : [...media, ...r.media];
+      media = reset || !media ? merge([], r.media) : merge(media, r.media);
       more = r.media.length === r.pageSize;
     } catch (e) {
+      if (!reset) page--; // retry the same page next time
       toastError(e);
     }
   }
   onMount(() => load(true));
 
+  async function loadMore() {
+    if (loadingMore) return;
+    loadingMore = true;
+    page++;
+    await load();
+    loadingMore = false;
+  }
+
   async function copy(url: string) {
-    await navigator.clipboard.writeText(url).catch(() => undefined);
-    toast("Image path copied", "info", undefined, 1500);
+    try {
+      await navigator.clipboard.writeText(url);
+      toast("Image path copied", "info", undefined, 1500);
+    } catch {
+      toast(`Couldn't copy — the path is ${url}`, "error");
+    }
   }
 </script>
 
@@ -33,7 +54,7 @@
     <h1 class="text-2xl font-bold tracking-tight">Media</h1>
     <p class="mt-1 text-sm text-slate-500">Images uploaded through the studio. Older images from before the studio live in the site's repository.</p>
   </div>
-  <div class="mb-6"><Dropzone onuploaded={(m) => (media = [...m, ...(media ?? [])])} /></div>
+  <div class="mb-6"><Dropzone onuploaded={(m) => (media = merge(media ?? [], m, true))} /></div>
   {#if !media}
     <div class="grid grid-cols-2 gap-4 sm:grid-cols-4 lg:grid-cols-6">{#each Array(12) as _}<div class="aspect-square animate-pulse rounded-xl bg-slate-200/60 dark:bg-slate-800"></div>{/each}</div>
   {:else if !media.length}
@@ -52,7 +73,7 @@
       {/each}
     </ul>
     {#if more}
-      <div class="mt-6 text-center"><button class="btn-secondary" onclick={() => { page++; load(); }}>Load more</button></div>
+      <div class="mt-6 text-center"><button class="btn-secondary" disabled={loadingMore} onclick={loadMore}>{loadingMore ? "Loading…" : "Load more"}</button></div>
     {/if}
   {/if}
 </div>

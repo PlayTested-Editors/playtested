@@ -3,14 +3,16 @@
   import { onMount } from "svelte";
   import { fade, fly } from "svelte/transition";
   import { api } from "../api";
-  import { navigate, route, session, toggleTheme, isEditorOrAbove } from "../state.svelte";
-  import { deploys, latestRun, refreshDeploys } from "../deploys.svelte";
+  import { clearReturn, counts as countsSignal, navigate, route, session, toggleTheme, isEditorOrAbove } from "../state.svelte";
+  import { deploys, latestRun, refreshDeploys, stopDeploys } from "../deploys.svelte";
   import { relTime } from "../format";
 
   let { children }: { children: Snippet } = $props();
   let counts = $state<Record<string, number>>({});
   let commentsHeld = $state(0);
   let mobileOpen = $state(false);
+  let menuButton = $state<HTMLButtonElement>();
+  let drawer = $state<HTMLElement>();
   // The editor gets the whole width (writing + live preview side by side).
   let focus = $derived(route.parts[0] === "articles" && Boolean(route.parts[1]) && route.parts[1] !== "new");
 
@@ -28,18 +30,31 @@
   }
 
   onMount(() => {
-    loadCounts();
     refreshDeploys();
     // Counts are cheap but not free; refresh every 5 minutes while visible.
     const t = setInterval(() => document.visibilityState === "visible" && loadCounts(), 300_000);
-    return () => clearInterval(t);
+    return () => {
+      clearInterval(t);
+      stopDeploys();
+    };
   });
 
   $effect(() => {
-    // Refresh counts when moving between views.
+    // Refresh counts when moving between views (the path, not its ?filters)
+    // or when a view asks (refreshCounts()). Also runs once on mount.
     void route.parts.join("/");
+    void countsSignal.version;
     loadCounts();
     mobileOpen = false;
+  });
+
+  // Mobile drawer: focus moves into it on open and back to the menu button on close.
+  $effect(() => {
+    if (!mobileOpen) return;
+    queueMicrotask(() => drawer?.querySelector<HTMLElement>("a[href], button")?.focus({ preventScroll: true }));
+    return () => {
+      if (!document.activeElement || document.activeElement === document.body || drawer?.contains(document.activeElement)) menuButton?.focus({ preventScroll: true });
+    };
   });
 
   const nav = $derived([
@@ -69,10 +84,14 @@
 
   async function signOut() {
     await api.post("/auth/logout").catch(() => undefined);
+    stopDeploys();
+    clearReturn();
     session.user = null;
     navigate("/studio/login/", true);
   }
 </script>
+
+<svelte:window onkeydown={(e) => mobileOpen && e.key === "Escape" && (mobileOpen = false)} />
 
 {#snippet sidebar()}
   <div class="flex h-full flex-col">
@@ -140,16 +159,16 @@
   </aside>
 
   <header class="sticky top-0 z-20 flex items-center gap-3 border-b border-slate-200/70 bg-white/80 px-4 py-3 backdrop-blur dark:border-slate-800 dark:bg-slate-900/80 {focus ? 'hidden' : 'lg:hidden'}">
-    <button class="btn-ghost !p-1.5" aria-label="Open menu" onclick={() => (mobileOpen = true)}>
+    <button class="btn-ghost !p-1.5" aria-label="Open menu" aria-expanded={mobileOpen} bind:this={menuButton} onclick={() => (mobileOpen = true)}>
       <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" /></svg>
     </button>
     <p class="text-sm font-bold">PlayTested Studio</p>
   </header>
 
   {#if mobileOpen}
-    <div class="fixed inset-0 z-40 lg:hidden">
-      <button class="absolute inset-0 bg-slate-950/50" aria-label="Close menu" onclick={() => (mobileOpen = false)} transition:fade={{ duration: 150 }}></button>
-      <aside class="absolute inset-y-0 left-0 w-72 bg-white dark:bg-slate-900 shadow-xl" transition:fly={{ x: -280, duration: 200 }}>
+    <div class="fixed inset-0 z-40 lg:hidden" role="dialog" aria-modal="true" aria-label="Menu">
+      <button class="absolute inset-0 bg-slate-950/50" tabindex="-1" aria-label="Close menu" onclick={() => (mobileOpen = false)} transition:fade={{ duration: 150 }}></button>
+      <aside class="absolute inset-y-0 left-0 w-72 max-w-[85vw] overflow-y-auto bg-white dark:bg-slate-900 shadow-xl" bind:this={drawer} transition:fly={{ x: -280, duration: 200 }}>
         {@render sidebar()}
       </aside>
     </div>

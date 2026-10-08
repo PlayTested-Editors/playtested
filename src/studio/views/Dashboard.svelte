@@ -14,21 +14,31 @@
   let recent = $state<List | null>(null);
   let guards = $state<{ settings: any; level: number; integrations: Record<string, boolean> } | null>(null);
 
-  onMount(async () => {
-    try {
-      const q = (s: string) => api.get<List>(`/articles?${s}`);
-      [review, changes, mine, scheduled, recent] = await Promise.all([
-        q("state=in_review&pageSize=8"),
-        q(`state=changes_requested&pageSize=8${isChief() ? "" : "&mine=1"}`),
-        q("mine=1&state=draft&pageSize=8"),
-        q("state=scheduled&sort=pub&pageSize=6"),
-        q("state=published&sort=pub&pageSize=6"),
-      ]);
-      if (isEditorOrAbove()) {
-        guards = await api.get<any>("/guards");
-      }
-    } catch (e) {
-      toastError(e);
+  const EMPTY: List = { articles: [], names: {}, total: null };
+
+  onMount(() => {
+    // Each panel loads on its own: one failed request shows that panel empty
+    // (plus one error toast) instead of leaving every panel loading forever.
+    let reported = false;
+    const q = (s: string, set: (l: List) => void) =>
+      api
+        .get<List>(`/articles?${s}`)
+        .then(set)
+        .catch((e) => {
+          set(EMPTY);
+          if (!reported) toastError(e);
+          reported = true;
+        });
+    q("state=in_review&pageSize=8", (l) => (review = l));
+    q(`state=changes_requested&pageSize=8${isChief() ? "" : "&mine=1"}`, (l) => (changes = l));
+    q("mine=1&state=draft&pageSize=8", (l) => (mine = l));
+    q("state=scheduled&sort=pub&pageSize=6", (l) => (scheduled = l));
+    q("state=published&sort=pub&pageSize=6", (l) => (recent = l));
+    if (isEditorOrAbove()) {
+      api
+        .get<any>("/guards")
+        .then((g) => (guards = g))
+        .catch(() => undefined);
     }
   });
 

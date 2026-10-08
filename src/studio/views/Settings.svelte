@@ -3,7 +3,7 @@
   import { fly } from "svelte/transition";
   import { api } from "../api";
   import { dateTime, relTime } from "../format";
-  import { isChief, session, toast, toastError } from "../state.svelte";
+  import { isChief, scrollToHash, session, toast, toastError } from "../state.svelte";
   import { deploys, refreshDeploys } from "../deploys.svelte";
 
   type Feature = "chat" | "summary" | "search" | "recommend" | "compare" | "askReview" | "comments" | "liveFallback";
@@ -77,7 +77,8 @@
   onMount(() => {
     load();
     refreshDeploys();
-    if (location.hash) setTimeout(() => document.querySelector(location.hash)?.scrollIntoView({ behavior: "smooth" }), 300);
+    // Sections render once the guards load; scrollToHash waits for them.
+    scrollToHash();
   });
 
   async function saveSettings() {
@@ -104,8 +105,10 @@
   async function checkNow() {
     checking = true;
     try {
+      const unsaved = changed;
       g = await api.post<Guards>("/guards/check");
-      draft = structuredClone($state.snapshot(g.settings));
+      // Fresh usage numbers only — keep any edits the chief hasn't saved yet.
+      if (!unsaved) draft = structuredClone($state.snapshot(g.settings));
     } catch (e) {
       toastError(e);
     } finally {
@@ -113,15 +116,29 @@
     }
   }
 
+  // Writing the search index is read-heavy on D1 (~3k rows per article), and the
+  // daily allowance is shared account-wide. The background job holds off past
+  // half of it; "Index now" bypasses that check on the server, so respect it here.
+  let d1Read = $derived(g?.settings.usage?.metrics?.d1Read);
+  let indexBlocked = $derived(d1Read && d1Read.limit ? d1Read.used / d1Read.limit > 0.5 : false);
+
   async function runIndex() {
+    if (indexBlocked) {
+      toast(`D1 reads are at ${Math.round((d1Read!.used / d1Read!.limit) * 100)}% of today's free allowance. Indexing waits until tomorrow's reset; the 10-minute job picks it up then.`, "error", undefined, 9000);
+      return;
+    }
     indexing = true;
     try {
-      for (let i = 0; i < 200; i++) {
-        const r = await api.post<{ remaining: number }>("/index/run");
-        index = await api.get("/index");
-        if (!r.remaining) break;
+      let caughtUp = false;
+      // A few passes at most (each indexes a handful of articles); the
+      // 10-minute job finishes anything left.
+      for (let i = 0; i < 10; i++) {
+        const r = await api.post<{ indexed?: string[]; removed?: string[]; remaining: number }>("/index/run");
+        if (!r.remaining) caughtUp = true;
+        if (caughtUp || (!r.indexed?.length && !r.removed?.length)) break;
       }
-      toast("Search index is up to date", "success");
+      index = await api.get("/index");
+      toast(caughtUp ? "Search index is up to date" : "Indexed a batch — the background job will finish the rest", "success");
     } catch (e) {
       toastError(e);
     } finally {
@@ -143,7 +160,9 @@
   }
 
   let usage = $derived(g?.settings.usage);
-  let changed = $derived(Boolean(g && draft && JSON.stringify(draft) !== JSON.stringify($state.snapshot(g.settings))));
+  // Only the editable fields count (usage numbers change on every check).
+  const editable = (x: Guards["settings"]) => JSON.stringify([x.mode, x.dailyLimit, x.thresholds, x.liveFallbackMinutes, x.features, x.caps]);
+  let changed = $derived(Boolean(g && draft && editable(draft) !== editable($state.snapshot(g.settings) as Guards["settings"])));
   const levelName = ["Normal", "Conserve", "Essential only"];
   const chief = isChief();
 </script>
@@ -286,7 +305,7 @@
               {#if index}{index.indexed.toLocaleString()} articles · {index.chunks.toLocaleString()} passages · {index.pending} waiting · last indexed {relTime(index.lastIndexedAt)}{/if}
             </p>
           </div>
-          {#if chief && index?.pending}<button class="btn-secondary !py-1 text-xs" disabled={indexing} onclick={runIndex}>{indexing ? "Indexing…" : "Index now"}</button>{/if}
+          {#if chief && index?.pending}<button class="btn-secondary !py-1 text-xs" disabled={indexing} title={indexBlocked ? "Paused: today's D1 reads are past half the free allowance" : undefined} onclick={runIndex}>{indexing ? "Indexing…" : "Index now"}</button>{/if}
         </div>
         <p class="mt-2 text-xs text-slate-500">Published articles are indexed immediately; anything changed in git is picked up by the 10-minute job.</p>
       </section>

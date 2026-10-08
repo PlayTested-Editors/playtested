@@ -19,6 +19,11 @@
   html {
     -webkit-font-smoothing: antialiased;
     font-feature-settings: "cv11", "ss01";
+    color-scheme: light;
+  }
+  /* Native controls (date/number pickers, select popups, scrollbars) follow the theme. */
+  html.dark {
+    color-scheme: dark;
   }
   body {
     @apply bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100;

@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { Media } from "../api";
-  import { uploadFiles } from "../images.svelte";
-  import { toast } from "../state.svelte";
+  import { isAcceptedImage, uploadFiles } from "../images.svelte";
+  import { toast, toastError } from "../state.svelte";
 
   let {
     articleId,
@@ -15,12 +15,23 @@
   async function handle(files: FileList | File[] | null | undefined) {
     if (!files || !files.length) return;
     const list = [...files];
-    const done = await uploadFiles(list, articleId);
+    const accepted = list.filter(isAcceptedImage);
+    const skipped = list.length - accepted.length;
+    if (skipped) toast(`${skipped} file${skipped === 1 ? " isn't a supported image" : "s aren't supported images"} (use JPEG, PNG, WebP, AVIF or GIF)`, "error");
+    if (!accepted.length) return;
+    let done: Media[] = [];
+    try {
+      done = await uploadFiles(accepted, articleId);
+    } catch (e) {
+      toastError(e);
+      return;
+    }
     if (done.length) {
       toast(`${done.length} image${done.length === 1 ? "" : "s"} uploaded`, "success");
       onuploaded?.(done);
     }
-    if (done.length < list.length) toast(`${list.length - done.length} image(s) failed — see the upload tray`, "error");
+    const failed = accepted.length - done.length;
+    if (failed) toast(`${failed} image${failed === 1 ? "" : "s"} failed — see the upload tray`, "error");
   }
 </script>
 
