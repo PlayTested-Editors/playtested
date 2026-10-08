@@ -1,9 +1,10 @@
 <script lang="ts">
-  import { tick } from "svelte";
+  import { onDestroy, tick } from "svelte";
   import type { Media } from "../api";
   import { uploadFiles } from "../images.svelte";
   import { toast } from "../state.svelte";
   import MediaPicker from "../ui/MediaPicker.svelte";
+  import { imageMarkdown } from "./rich-extensions";
 
   let {
     value = $bindable(""),
@@ -23,6 +24,10 @@
   let picker = $state<null | "image" | "side" | "sized">(null);
   let pickerOpen = $state(false);
   let dragging = $state(false);
+  let alive = true;
+  onDestroy(() => (alive = false));
+  // Tab indents; after Esc it moves focus on as usual, so keyboard users aren't trapped here.
+  let tabLeaves = false;
 
   let words = $derived(value.replace(/<[^>]+>/g, " ").replace(/[#*_>`\[\]()!-]/g, " ").split(/\s+/).filter(Boolean).length);
 
@@ -32,7 +37,15 @@
     const selected = value.slice(start, end);
     const { text, selectFrom, selectTo } = fn(selected);
     ta.focus();
-    ta.setRangeText(text, start, end, "end");
+    ta.setSelectionRange(start, end);
+    // insertText keeps the change on the browser's undo stack (Ctrl+Z); setRangeText is the fallback.
+    let inserted = false;
+    try {
+      inserted = document.execCommand("insertText", false, text);
+    } catch {
+      inserted = false;
+    }
+    if (!inserted || ta.value.slice(start, start + text.length) !== text) ta.setRangeText(text, start, end, "end");
     value = ta.value;
     await tick();
     if (selectFrom !== undefined) ta.setSelectionRange(start + selectFrom, start + (selectTo ?? selectFrom));
@@ -71,9 +84,8 @@
     return `${pad}${text}\n\n`;
   };
 
-  function insertImages(media: Media[], kind: "image" | "side" | "sized" = "image") {
-    if (!media.length) return;
-    const alt = (m: Media) => (m.alt || m.filename.replace(/\.[a-z0-9]+$/i, "").replace(/[-_]+/g, " ")).replace(/"/g, "'");
+  function imagesText(media: Media[], kind: "image" | "side" | "sized"): string {
+    const alt =(m: Media) => (m.alt || m.filename.replace(/\.[a-z0-9]+$/i, "").replace(/[-_]+/g, " ")).replace(/"/g, "'");
     let text: string;
     if (kind === "side") {
       const m = media[0];
@@ -91,9 +103,19 @@ Write the text that sits beside the image here.
   <img src="${m.url}" alt="${alt(m)}" class="mx-auto block rounded shadow" style="max-height: 600px;" />
 </div>`;
     } else {
-      text = media.map((m) => `![${alt(m)}](${m.url})`).join("\n\n");
+      text = media.map((m) => imageMarkdown(m.url, alt(m))).join("\n\n");
     }
-    replaceSelection(() => ({ text: block(text) }));
+    return text;
+  }
+
+  function insertImages(media: Media[], kind: "image" | "side" | "sized" = "image") {
+    if (!media.length) return;
+    if (!alive || !ta) {
+      // The editor closed meanwhile (mode or tab switch): add them to the end instead.
+      value = `${value.replace(/\s+$/, "")}\n\n${imagesText(media, kind)}\n`;
+      return;
+    }
+    replaceSelection(() => ({ text: block(imagesText(media, kind)) }));
   }
 
   async function uploadAndInsert(files: File[]) {
@@ -101,8 +123,10 @@ Write the text that sits beside the image here.
     const media = await uploadFiles(files, articleId);
     if (media.length) {
       onmediaadded?.(media);
+      const closed = !alive || !ta;
       insertImages(media);
-      toast(`Inserted ${media.length} image${media.length === 1 ? "" : "s"}`, "success");
+      const n = `${media.length} image${media.length === 1 ? "" : "s"}`;
+      toast(closed ? `Added ${n} to the end of the article` : `Inserted ${n}`, "success");
     }
   }
 
@@ -119,6 +143,12 @@ Write the text that sits beside the image here.
 
   function onkeydown(e: KeyboardEvent) {
     const mod = e.metaKey || e.ctrlKey;
+    if (e.key === "Escape") {
+      tabLeaves = true;
+      return;
+    }
+    const leave = tabLeaves;
+    tabLeaves = false;
     if (mod && e.key.toLowerCase() === "b") {
       e.preventDefault();
       wrap("**");
@@ -128,7 +158,7 @@ Write the text that sits beside the image here.
     } else if (mod && e.key.toLowerCase() === "k") {
       e.preventDefault();
       link();
-    } else if (e.key === "Tab" && !e.shiftKey && !mod) {
+    } else if (e.key === "Tab" && !e.shiftKey && !mod && !leave) {
       e.preventDefault();
       replaceSelection(() => ({ text: "  " }));
     }
@@ -173,6 +203,9 @@ Write the text that sits beside the image here.
     bind:value
     {disabled}
     spellcheck="true"
+    aria-label="Article body (Markdown)"
+    title="Tab inserts spaces. Press Esc, then Tab, to move on."
+    onblur={() => (tabLeaves = false)}
     placeholder="Start writing your review… Markdown works: ## headings, **bold**, _italic_, > quotes, - lists. Drop or paste images anywhere."
     class="block w-full resize-none rounded-b-xl border-0 bg-transparent px-5 py-4 font-[ui-serif,Georgia,serif] text-[16px] leading-7 text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-0 dark:text-slate-200"
     {onkeydown}

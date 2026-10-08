@@ -1,7 +1,8 @@
 <script lang="ts">
-  import { onDestroy, onMount } from "svelte";
+  import { onDestroy, onMount, untrack } from "svelte";
   import { Editor } from "@tiptap/core";
-  import { NodeSelection } from "@tiptap/pm/state";
+  import type { Node as PMNode } from "@tiptap/pm/model";
+  import { EditorState, NodeSelection, type Transaction } from "@tiptap/pm/state";
   import StarterKit from "@tiptap/starter-kit";
   import { Placeholder } from "@tiptap/extensions";
   import { Markdown } from "tiptap-markdown";
@@ -9,7 +10,8 @@
   import { uploadFiles } from "../images.svelte";
   import { toast } from "../state.svelte";
   import MediaPicker from "../ui/MediaPicker.svelte";
-  import { Br, Caption, ImageText, RawHtml, SideDrop, SizedImage, WRAP_DEFAULT_WIDTH, setSideZone, sideZoneAt, wrapBeside, type SideZone } from "./rich-extensions";
+  import { Br, Caption, ImageText, PlainText, RawHtml, SideDrop, SizedImage, WRAP_DEFAULT_WIDTH, imageMarkdown, setSideZone, sideZoneAt, wrapBeside, type SideZone } from "./rich-extensions";
+  import { roundTripProblems } from "./roundtrip";
 
   let {
     value = $bindable(""),
@@ -17,12 +19,15 @@
     articleMedia = [],
     disabled = false,
     onmediaadded,
+    onmarkdown,
   }: {
     value?: string;
     articleId: string;
     articleMedia?: Media[];
     disabled?: boolean;
     onmediaadded?: (m: Media[]) => void;
+    /** Switch the article to the markdown editor. */
+    onmarkdown?: () => void;
   } = $props();
 
   let host: HTMLDivElement;
@@ -30,17 +35,35 @@
   let tick = $state(0); // bumps on every transaction so toolbar state re-renders
   let lastEmitted = "";
   let emitTimer: ReturnType<typeof setTimeout>;
+  let pendingEmit = false;
+  let destroyed = false;
   let picker = $state<null | "images" | "side" | "swap">(null);
   let pickerOpen = $state(false);
+  // The document as loaded, and the markdown it came from. While the document is
+  // still equal to it, the body is handed back byte-for-byte: opening, clicking or
+  // undoing back to the start never rewrites the article.
+  let baseDoc: PMNode | null = null;
+  let baseValue = "";
+  // Markdown this editor can't keep (see roundtrip.ts): editing stays off until the
+  // writer switches to Markdown or explicitly chooses to edit here anyway.
+  let problems = $state<string[]>([]);
+  let editAnyway = $state(false);
+  let locked = $derived(problems.length > 0 && !editAnyway);
+  let off = $derived(disabled || locked);
+  // Positions waiting on an upload, kept in step with every edit made meanwhile.
+  type Tracked = { pos: number; gone: boolean; blockStart: boolean };
+  const tracked = new Set<Tracked>();
 
   const markdownOf = (e: Editor) => (e.storage as any).markdown.getMarkdown() as string;
 
   onMount(() => {
     editor = new Editor({
       element: host,
-      editable: !disabled,
+      editable: false, // turned on by the effect below once the content has been checked
       extensions: [
-        StarterKit.configure({ hardBreak: false, codeBlock: false, code: false, link: { openOnClick: false, autolink: true } }),
+        // No trailing-node plugin: it appends a paragraph on the first click, which counts as an edit.
+        StarterKit.configure({ hardBreak: false, text: false, trailingNode: false, link: { openOnClick: false, autolink: true } }),
+        PlainText,
         Br,
         SizedImage,
         ImageText,
@@ -63,48 +86,104 @@
           uploadAndInsert(files, pos, zone);
           return true;
         },
-        handlePaste: (_view, event) => {
+        handlePaste: (view, event) => {
           const files = [...(event.clipboardData?.files ?? [])].filter((f) => f.type.startsWith("image/"));
           if (!files.length) return false;
           event.preventDefault();
-          uploadAndInsert(files);
+          uploadAndInsert(files, view.state.selection.to);
           return true;
         },
       },
-      onTransaction: () => tick++,
-      onUpdate: ({ editor: e }) => {
+      onTransaction: ({ transaction, appendedTransactions }) => {
+        mapTracked([transaction, ...(appendedTransactions ?? [])]);
+        // untrack: a blur transaction can fire while Svelte is removing the editor's DOM.
+        untrack(() => tick++);
+      },
+      onUpdate: () => {
+        pendingEmit = true;
         clearTimeout(emitTimer);
-        emitTimer = setTimeout(() => {
-          lastEmitted = markdownOf(e);
-          value = lastEmitted;
-        }, 250);
+        emitTimer = setTimeout(flush, 250);
       },
     });
-    lastEmitted = value;
+    loaded(value);
   });
 
-  onDestroy(() => {
+  /** Hand the latest edits to `value` now instead of after the 250ms debounce. */
+  export function flush() {
     clearTimeout(emitTimer);
+    if (!editor || editor.isDestroyed || !pendingEmit) return;
+    pendingEmit = false;
+    const md = baseDoc && editor.state.doc.eq(baseDoc) ? baseValue : markdownOf(editor);
+    if (md !== lastEmitted) {
+      lastEmitted = md;
+      value = md;
+    }
+  }
+
+  /** Remember what was just loaded and check whether this editor can keep it. */
+  function loaded(v: string) {
+    if (!editor) return;
+    baseDoc = editor.state.doc;
+    baseValue = v;
+    lastEmitted = v;
+    try {
+      problems = roundTripProblems(v, markdownOf(editor), (editor.storage as any).markdown.parser.md);
+    } catch {
+      problems = ["formatting the visual editor can't read"];
+    }
+    editAnyway = false;
+  }
+
+  onDestroy(() => {
+    destroyed = true;
     if (editor) {
       // Flush the last keystrokes before leaving.
-      const md = markdownOf(editor);
-      if (md !== lastEmitted) value = md;
+      flush();
       editor.destroy();
     }
   });
 
-  // Content changed from outside (restore, switching modes): load it.
+  // Content changed from outside (restore, discard, someone else's version): load it.
   $effect(() => {
     const v = value;
-    if (editor && v !== lastEmitted) {
-      lastEmitted = v;
-      editor.commands.setContent(v, { emitUpdate: false });
-    }
+    if (editor && v !== lastEmitted) untrack(() => reload(v));
   });
 
+  function reload(v: string) {
+    if (!editor) return;
+    clearTimeout(emitTimer);
+    pendingEmit = false;
+    for (const t of tracked) t.gone = true;
+    editor.commands.setContent(v, { emitUpdate: false });
+    // Not an edit: start a fresh undo history, so Ctrl+Z can't bring the replaced text back.
+    const s = editor.state;
+    editor.view.updateState(EditorState.create({ doc: s.doc, plugins: s.plugins }));
+    tick++;
+    loaded(v);
+  }
+
   $effect(() => {
-    editor?.setEditable(!disabled);
+    editor?.setEditable(!off, false); // false: changing editability is not an edit
   });
+
+  function mapTracked(trs: readonly Transaction[]) {
+    if (!tracked.size) return;
+    for (const tr of trs) {
+      if (!tr.docChanged) continue;
+      for (const t of tracked) {
+        if (t.gone) continue;
+        const r = tr.mapping.mapResult(t.pos);
+        t.pos = r.pos;
+        if (t.blockStart ? r.deletedAfter : r.deleted) t.gone = true;
+      }
+    }
+  }
+
+  function track(pos: number, blockStart = false): Tracked {
+    const t = { pos, gone: false, blockStart };
+    tracked.add(t);
+    return t;
+  }
 
   // ---- Selection helpers ---------------------------------------------------
   function selectedImage() {
@@ -134,28 +213,28 @@
   // ---- Commands ------------------------------------------------------------
   function setImageHeight(height: number | null) {
     const sel = selectedImage();
-    if (!sel || !editor) return;
+    if (!sel || !editor || off) return;
     editor.view.dispatch(editor.state.tr.setNodeMarkup(sel.from, undefined, { ...sel.node.attrs, height }));
   }
 
   /** Text flows around the image (side = where the image sits), or back to a normal image. */
   function setWrap(wrap: "left" | "right" | null) {
     const sel = selectedImage();
-    if (!sel || !editor) return;
+    if (!sel || !editor || off) return;
     const width = wrap ? sel.node.attrs.width || WRAP_DEFAULT_WIDTH : null;
     editor.view.dispatch(editor.state.tr.setNodeMarkup(sel.from, undefined, { ...sel.node.attrs, wrap, width, height: null }));
   }
 
   function setWrapWidth(width: number) {
     const sel = selectedImage();
-    if (!sel || !editor) return;
+    if (!sel || !editor || off) return;
     editor.view.dispatch(editor.state.tr.setNodeMarkup(sel.from, undefined, { ...sel.node.attrs, width }));
   }
 
   /** Wrap the selected image + the block after it into a two-column block. */
   function putBesideText(side: "left" | "right" = "right") {
     const sel = selectedImage();
-    if (!sel || !editor) return;
+    if (!sel || !editor || off) return;
     const { state } = editor;
     const schema = state.schema;
     const imgEnd = sel.from + sel.node.nodeSize;
@@ -170,7 +249,7 @@
 
   function flipSide() {
     const b = sideBlock();
-    if (!b || !editor) return;
+    if (!b || !editor || off) return;
     editor.view.dispatch(
       editor.state.tr.setNodeMarkup(b.pos, undefined, { ...b.node.attrs, side: b.node.attrs.side === "left" ? "right" : "left" }),
     );
@@ -179,7 +258,7 @@
   /** Back to a normal image followed by the text. */
   function unwrapSide() {
     const b = sideBlock();
-    if (!b || !editor) return;
+    if (!b || !editor || off) return;
     const schema = editor.state.schema;
     const nodes = [schema.nodes.image.create({ src: b.node.attrs.src, alt: b.node.attrs.alt })];
     b.node.forEach((child: any) => nodes.push(child));
@@ -189,7 +268,7 @@
   /** Columns block -> image the text wraps around. */
   function sideToWrap() {
     const b = sideBlock();
-    if (!b || !editor) return;
+    if (!b || !editor || off) return;
     const schema = editor.state.schema;
     const nodes = [schema.nodes.image.create({ src: b.node.attrs.src, alt: b.node.attrs.alt, wrap: b.node.attrs.side, width: WRAP_DEFAULT_WIDTH })];
     b.node.forEach((child: any) => nodes.push(child));
@@ -197,11 +276,12 @@
   }
 
   function removeSelectedImage() {
+    if (off) return;
     editor?.chain().focus().deleteSelection().run();
   }
 
   function setLink() {
-    if (!editor) return;
+    if (!editor || off) return;
     const prev = editor.getAttributes("link").href as string | undefined;
     const url = prompt("Link address (leave empty to remove)", prev || "https://");
     if (url === null) return;
@@ -212,16 +292,21 @@
   function insertImages(media: Media[], at?: number) {
     if (!editor || !media.length) return;
     const nodes = media.map((m) => ({ type: "image", attrs: { src: m.url, alt: m.alt || "" } }));
-    if (typeof at === "number") editor.chain().focus().insertContentAt(at, nodes).run();
+    const sel = editor.state.selection;
+    // A selected image or block stays: the new ones go after it instead of replacing it.
+    if (typeof at !== "number" && sel instanceof NodeSelection) at = sel.to;
+    if (typeof at === "number") editor.chain().focus().insertContentAt(Math.max(0, Math.min(at, editor.state.doc.content.size)), nodes).run();
     else editor.chain().focus().insertContent(nodes).run();
   }
 
   /** Image with text wrapping around it, placed at the start of the block the cursor is in. */
   function insertSide(m: Media) {
     if (!editor) return;
-    const rf = editor.state.selection.$from;
+    const sel = editor.state.selection;
+    const rf = sel.$from;
     const node = { type: "image", attrs: { src: m.url, alt: m.alt || "", wrap: "right", width: WRAP_DEFAULT_WIDTH } };
     if (rf.depth >= 1 && rf.node(1).type.name !== "imageText") editor.chain().focus().insertContentAt(rf.before(1), node).run();
+    else if (sel instanceof NodeSelection) editor.chain().focus().insertContentAt(sel.to, node).run();
     else editor.chain().focus().insertContent(node).run();
   }
 
@@ -232,15 +317,36 @@
   }
 
   async function uploadAndInsert(files: File[], at?: number, zone?: SideZone | null) {
-    const media = await uploadFiles(files, articleId);
-    if (media.length) {
-      onmediaadded?.(media);
-      // Dropped on a paragraph's edge: the first image goes beside it.
-      if (zone && editor && wrapBeside(editor.view, zone, { src: media[0].url, alt: media[0].alt || "" })) {
-        if (media.length > 1) insertImages(media.slice(1), zone.pos + editor.state.doc.nodeAt(zone.pos)!.nodeSize);
-      } else insertImages(media, at);
-      toast(`Inserted ${media.length} image${media.length === 1 ? "" : "s"}`, "success");
+    // Uploads take a while; keep the drop/paste spot in step with edits made meanwhile.
+    const atT = typeof at === "number" ? track(at) : null;
+    const zoneT = zone ? track(zone.pos, true) : null;
+    let media: Media[] = [];
+    try {
+      media = await uploadFiles(files, articleId);
+    } finally {
+      if (atT) tracked.delete(atT);
+      if (zoneT) tracked.delete(zoneT);
     }
+    if (!media.length) return;
+    onmediaadded?.(media);
+    const n = `${media.length} image${media.length === 1 ? "" : "s"}`;
+    if (destroyed || !editor || editor.isDestroyed) {
+      // The visual editor closed while uploading (mode or tab switch): add them to the end of the text.
+      value = `${value.replace(/\s+$/, "")}\n\n${media.map((m) => imageMarkdown(m.url, m.alt)).join("\n\n")}\n`;
+      toast(`Added ${n} to the end of the article`, "success");
+      return;
+    }
+    const z = zone && zoneT && !zoneT.gone ? { pos: zoneT.pos, side: zone.side } : null;
+    // Dropped on a paragraph's edge: the first image goes beside it, any others after the paragraph.
+    if (z && wrapBeside(editor.view, z, { src: media[0].url, alt: media[0].alt || "" })) {
+      if (media.length > 1) {
+        const doc = editor.state.doc;
+        const blockPos = z.pos + doc.nodeAt(z.pos)!.nodeSize; // the paragraph, now just after the image
+        const block = doc.nodeAt(blockPos);
+        insertImages(media.slice(1), block ? blockPos + block.nodeSize : undefined);
+      }
+    } else insertImages(media, atT && !atT.gone ? atT.pos : undefined);
+    toast(`Inserted ${n}`, "success");
   }
 
   let words = $derived.by(() => {
@@ -253,32 +359,46 @@
     "min-w-8 rounded-md px-2 py-1 text-xs font-semibold text-slate-600 transition hover:bg-slate-100 hover:text-slate-900 disabled:opacity-40 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white";
   const on = "bg-indigo-50 text-indigo-700 dark:bg-indigo-500/15 dark:text-indigo-300";
   const accent =
-    "rounded-md px-2 py-1 text-xs font-semibold text-indigo-600 transition hover:bg-indigo-50 dark:text-indigo-400 dark:hover:bg-indigo-500/10";
+    "rounded-md px-2 py-1 text-xs font-semibold text-indigo-600 transition hover:bg-indigo-50 disabled:opacity-40 dark:text-indigo-400 dark:hover:bg-indigo-500/10";
 </script>
+
+{#if locked && !disabled}
+  <div class="mb-3 rounded-lg bg-amber-50 px-3 py-2.5 text-sm text-amber-900 ring-1 ring-amber-200 dark:bg-amber-500/10 dark:text-amber-100 dark:ring-amber-500/25" role="status">
+    <p>
+      <span class="font-semibold">This article uses formatting the visual editor can't keep</span> — {problems.join("; ")}. Edit it in Markdown so nothing is lost.
+    </p>
+    <div class="mt-2 flex flex-wrap gap-2">
+      {#if onmarkdown}
+        <button type="button" class="rounded-md bg-amber-600 px-2.5 py-1 text-xs font-semibold text-white transition hover:bg-amber-700" onclick={() => onmarkdown?.()}>Switch to Markdown</button>
+      {/if}
+      <button type="button" class="rounded-md px-2.5 py-1 text-xs font-semibold ring-1 ring-amber-300 transition hover:bg-amber-100 dark:ring-amber-500/40 dark:hover:bg-amber-500/20" onclick={() => (editAnyway = true)}>Edit here anyway (that formatting may change)</button>
+    </div>
+  </div>
+{/if}
 
 <div class="rounded-xl bg-white ring-1 ring-slate-200 dark:bg-slate-900 dark:ring-slate-800">
   <div class="sticky top-[57px] z-10 rounded-t-xl border-b border-slate-100 bg-white/95 px-2 py-1.5 backdrop-blur dark:border-slate-800 dark:bg-slate-900/95">
     <div class="flex flex-wrap items-center gap-0.5">
-      <button type="button" class="{btn} {is('paragraph') ? on : ''}" title="Normal text" {disabled} onclick={() => editor?.chain().focus().setParagraph().run()}>¶</button>
-      <button type="button" class="{btn} {is('heading', { level: 2 }) ? on : ''}" title="Heading" {disabled} onclick={() => editor?.chain().focus().toggleHeading({ level: 2 }).run()}>H2</button>
-      <button type="button" class="{btn} {is('heading', { level: 3 }) ? on : ''}" title="Subheading" {disabled} onclick={() => editor?.chain().focus().toggleHeading({ level: 3 }).run()}>H3</button>
+      <button type="button" class="{btn} {is('paragraph') ? on : ''}" title="Normal text" disabled={off} onclick={() => editor?.chain().focus().setParagraph().run()}>¶</button>
+      <button type="button" class="{btn} {is('heading', { level: 2 }) ? on : ''}" title="Heading" disabled={off} onclick={() => editor?.chain().focus().toggleHeading({ level: 2 }).run()}>H2</button>
+      <button type="button" class="{btn} {is('heading', { level: 3 }) ? on : ''}" title="Subheading" disabled={off} onclick={() => editor?.chain().focus().toggleHeading({ level: 3 }).run()}>H3</button>
       <span class="mx-1 h-5 w-px bg-slate-200 dark:bg-slate-700"></span>
-      <button type="button" class="{btn} font-black {is('bold') ? on : ''}" title="Bold (Ctrl+B)" {disabled} onclick={() => editor?.chain().focus().toggleBold().run()}>B</button>
-      <button type="button" class="{btn} italic font-serif {is('italic') ? on : ''}" title="Italic (Ctrl+I)" {disabled} onclick={() => editor?.chain().focus().toggleItalic().run()}>I</button>
-      <button type="button" class="{btn} line-through {is('strike') ? on : ''}" title="Strikethrough" {disabled} onclick={() => editor?.chain().focus().toggleStrike().run()}>S</button>
-      <button type="button" class="{btn} {is('link') ? on : ''}" title="Link" {disabled} onclick={setLink}>Link</button>
+      <button type="button" class="{btn} font-black {is('bold') ? on : ''}" title="Bold (Ctrl+B)" disabled={off} onclick={() => editor?.chain().focus().toggleBold().run()}>B</button>
+      <button type="button" class="{btn} italic font-serif {is('italic') ? on : ''}" title="Italic (Ctrl+I)" disabled={off} onclick={() => editor?.chain().focus().toggleItalic().run()}>I</button>
+      <button type="button" class="{btn} line-through {is('strike') ? on : ''}" title="Strikethrough" disabled={off} onclick={() => editor?.chain().focus().toggleStrike().run()}>S</button>
+      <button type="button" class="{btn} {is('link') ? on : ''}" title="Link" disabled={off} onclick={setLink}>Link</button>
       <span class="mx-1 h-5 w-px bg-slate-200 dark:bg-slate-700"></span>
-      <button type="button" class="{btn} {is('bulletList') ? on : ''}" title="Bulleted list" {disabled} onclick={() => editor?.chain().focus().toggleBulletList().run()}>• List</button>
-      <button type="button" class="{btn} {is('orderedList') ? on : ''}" title="Numbered list" {disabled} onclick={() => editor?.chain().focus().toggleOrderedList().run()}>1. List</button>
-      <button type="button" class="{btn} {is('blockquote') ? on : ''}" title="Quote" {disabled} onclick={() => editor?.chain().focus().toggleBlockquote().run()}>“ ”</button>
-      <button type="button" class={btn} title="Divider" {disabled} onclick={() => editor?.chain().focus().setHorizontalRule().run()}>—</button>
+      <button type="button" class="{btn} {is('bulletList') ? on : ''}" title="Bulleted list" disabled={off} onclick={() => editor?.chain().focus().toggleBulletList().run()}>• List</button>
+      <button type="button" class="{btn} {is('orderedList') ? on : ''}" title="Numbered list" disabled={off} onclick={() => editor?.chain().focus().toggleOrderedList().run()}>1. List</button>
+      <button type="button" class="{btn} {is('blockquote') ? on : ''}" title="Quote" disabled={off} onclick={() => editor?.chain().focus().toggleBlockquote().run()}>“ ”</button>
+      <button type="button" class={btn} title="Divider" disabled={off} onclick={() => editor?.chain().focus().setHorizontalRule().run()}>—</button>
       <span class="mx-1 h-5 w-px bg-slate-200 dark:bg-slate-700"></span>
-      <button type="button" class={accent} {disabled} onclick={() => { picker = "images"; pickerOpen = true; }}>+ Images</button>
-      <button type="button" class={accent} {disabled} title="Image with the text wrapping around it" onclick={() => { picker = "side"; pickerOpen = true; }}>+ Image beside text</button>
+      <button type="button" class={accent} disabled={off} onclick={() => { picker = "images"; pickerOpen = true; }}>+ Images</button>
+      <button type="button" class={accent} disabled={off} title="Image with the text wrapping around it" onclick={() => { picker = "side"; pickerOpen = true; }}>+ Image beside text</button>
       <span class="ml-auto pr-1 text-[11px] tabular-nums text-slate-400">{words.toLocaleString()} words · {Math.max(1, Math.round(words / 230))} min read</span>
     </div>
 
-    {#if selectedImage()}
+    {#if selectedImage() && !off}
       {@const a = selectedImage()!.node.attrs}
       <div class="mt-1.5 flex flex-wrap items-center gap-1 rounded-lg bg-indigo-50/80 px-2 py-1.5 text-xs dark:bg-indigo-500/10">
         <span class="mr-1 font-semibold text-indigo-800 dark:text-indigo-200">Text:</span>
@@ -302,7 +422,7 @@
         <button type="button" class="{btn} ml-auto text-rose-600" onclick={removeSelectedImage}>Remove</button>
         <span class="w-full text-[11px] text-indigo-700/70 dark:text-indigo-300/70">Tip: drag the corner handle to resize. Drag the image onto the left or right edge of a paragraph to wrap the text around it. On phones it sits above the text.</span>
       </div>
-    {:else if sideBlock()}
+    {:else if sideBlock() && !off}
       <div class="mt-1.5 flex flex-wrap items-center gap-1 rounded-lg bg-indigo-50/80 px-2 py-1.5 text-xs dark:bg-indigo-500/10">
         <span class="mr-1 font-semibold text-indigo-800 dark:text-indigo-200">Columns:</span>
         <button type="button" class={accent} onclick={sideToWrap}>Wrap text around the image instead</button>
@@ -324,6 +444,7 @@
   title={picker === "side" ? "Image beside text" : picker === "swap" ? "Change image" : "Insert images"}
   onpick={(m) => {
     onmediaadded?.(m);
+    if (off) return;
     if (picker === "images") insertImages(m);
     else if (picker === "side" && m[0]) insertSide(m[0]);
     else if (picker === "swap" && m[0]) swapSideImage(m[0]);
@@ -372,8 +493,12 @@
     background: rgb(99 102 241);
     border: 2px solid white;
     cursor: nwse-resize;
+    touch-action: none;
     opacity: 0;
     transition: opacity 0.15s;
+  }
+  :global(.ProseMirror[contenteditable="false"] .pt-img-handle) {
+    display: none;
   }
   :global(.pt-img-badge) {
     position: absolute;
@@ -481,6 +606,12 @@
     letter-spacing: 0.04em;
     text-transform: uppercase;
     color: rgb(148 163 184);
+  }
+  :global(.pt-raw-comment) {
+    font-size: 0.85em;
+    font-style: italic;
+    color: rgb(100 116 139);
+    white-space: pre-wrap;
   }
   :global(.dark .pt-side),
   :global(.dark .pt-raw) {
