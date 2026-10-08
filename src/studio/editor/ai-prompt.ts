@@ -60,7 +60,7 @@ export function buildPrompt(input: { game: string; score: string; notes: string 
 
 /** Splits an AI reply into title, score and body. */
 export function parseReply(reply: string): { title: string; score: number | null; body: string } {
-  let text = reply.replace(/\r\n/g, "\n").trim();
+  let text = reply.replace(/\r\n/g, "\n").replace(/[ \t]+$/gm, "").trim();
   // Copied as plain text from the AI's page: no markdown at all and one block
   // per line. Markdown would run those lines together, so separate them.
   const hasMarkdown = /^\s{0,3}(#{1,6}\s|[-*+]\s|\d+[.)]\s|>|```)/m.test(text);
