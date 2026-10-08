@@ -2,6 +2,13 @@
 @plugin '@tailwindcss/typography';
 @custom-variant dark (&:where(.dark, .dark *));
 
+/* Loading placeholders stay still. Tailwind's pulse fades large areas between
+   100% and 50% opacity every second, which reads as flashing (and is hard on
+   light-sensitive eyes); a static placeholder plus "Loading…" text is enough. */
+.animate-pulse {
+  animation: none !important;
+}
+
 /* Visual editor: wrapped images stack when the column is too narrow for text beside them. */
 .pt-rich {
   container-type: inline-size;

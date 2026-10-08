@@ -173,7 +173,10 @@
 
   <div class="card overflow-hidden">
     {#if !data}
-      <div class="space-y-px">{#each Array(8) as _}<div class="h-16 animate-pulse bg-slate-50 dark:bg-slate-800/50"></div>{/each}</div>
+      <div class="relative space-y-px" aria-busy="true">
+        {#each Array(8) as _}<div class="h-16 bg-slate-50 dark:bg-slate-800/40"></div>{/each}
+        <p class="absolute inset-x-0 top-6 text-center text-sm text-slate-400" role="status">Loading articles…</p>
+      </div>
     {:else if !data.articles.length}
       <div class="px-6 py-16 text-center">
         <p class="text-sm text-slate-500">No articles match.</p>
