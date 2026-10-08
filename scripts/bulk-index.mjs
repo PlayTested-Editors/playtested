@@ -28,13 +28,15 @@ const WRANGLER = path.resolve("node_modules/wrangler/bin/wrangler.js");
 const EMBED_MODEL = "@cf/baai/bge-small-en-v1.5";
 const ROWS_PER_DOC = 100;
 
-const config = fs.readFileSync("wrangler.jsonc", "utf8");
+// WRANGLER_CONFIG=wrangler.production.jsonc targets production; default is dev.
+const CONFIG_FILE = process.env.WRANGLER_CONFIG || "wrangler.jsonc";
+const config = fs.readFileSync(CONFIG_FILE, "utf8");
 const ACCOUNT_ID = /"account_id":\s*"([0-9a-f]{32})"/.exec(config)?.[1];
 const INDEX = /"index_name":\s*"([^"]+)"/.exec(config)?.[1];
-if (!ACCOUNT_ID || !INDEX) throw new Error("account_id / vectorize index_name not found in wrangler.jsonc");
+if (!ACCOUNT_ID || !INDEX) throw new Error(`account_id / vectorize index_name not found in ${CONFIG_FILE}`);
 
 const wrangler = (a) =>
-  execFileSync(process.execPath, [WRANGLER, ...a], { encoding: "utf8", stdio: ["ignore", "pipe", "inherit"], maxBuffer: 512 * 1024 * 1024 });
+  execFileSync(process.execPath, [WRANGLER, ...a, "--config", CONFIG_FILE], { encoding: "utf8", stdio: ["ignore", "pipe", "inherit"], maxBuffer: 512 * 1024 * 1024 });
 const query = (sql) => {
   const out = wrangler(["d1", "execute", "DB", "--remote", "--json", "--command", sql]);
   return JSON.parse(out.slice(out.indexOf("[")))[0];

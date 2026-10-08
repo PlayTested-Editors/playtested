@@ -1,0 +1,46 @@
+// Cloudflare Workers config for PRODUCTION (playtested.net), deployed from `main`.
+// Same app as wrangler.jsonc (dev); only the name, resources and branch differ.
+// Use it with `--config wrangler.production.jsonc` (scripts read WRANGLER_CONFIG).
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "playtested",
+  "account_id": "3290294832f56e48f5c04f91d5d87634",
+  "main": "./dist/_worker.js/index.js",
+  "compatibility_date": "2025-12-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "workers_dev": true,
+  "preview_urls": false,
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS",
+    "html_handling": "auto-trailing-slash",
+    "not_found_handling": "none"
+  },
+  "observability": { "enabled": true },
+  "vars": {
+    "SITE_ENV": "production",
+    "GITHUB_REPO": "PlayTested-Editors/playtested",
+    "GITHUB_BRANCH": "main",
+    "GITHUB_DEPLOY_WORKFLOW": "deploy-prod.yml",
+    "CF_ACCOUNT_ID": "3290294832f56e48f5c04f91d5d87634"
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "playtested",
+      "database_id": "7fa57cd5-1eb2-4af8-b86b-334e2d6f6ec7",
+      "migrations_dir": "migrations"
+    }
+  ],
+  "kv_namespaces": [
+    { "binding": "CACHE", "id": "17919524db98458aa54940bfc8db35a4" }
+  ],
+  // Uploads are staged in KV until R2 is enabled (see wrangler.jsonc).
+  "vectorize": [
+    { "binding": "VECTORS", "index_name": "playtested-chunks" }
+  ],
+  "ai": { "binding": "AI" },
+  "triggers": { "crons": ["*/10 * * * *"] }
+  // playtested.net is attached here (as "routes" with custom_domain) once the
+  // domain has moved into this account; see docs/GO-LIVE.md.
+}

@@ -26,8 +26,10 @@ const SITE_OFFSET_MS = 8 * 3600_000;
 // Run wrangler's JS entry with node directly: no shell, so SQL arguments with
 // spaces and quotes pass through intact on every platform.
 const WRANGLER = path.resolve("node_modules/wrangler/bin/wrangler.js");
+// WRANGLER_CONFIG=wrangler.production.jsonc targets production; default is dev.
+const CONFIG_ARGS = process.env.WRANGLER_CONFIG ? ["--config", process.env.WRANGLER_CONFIG] : [];
 const wrangler = (args) =>
-  execFileSync(process.execPath, [WRANGLER, ...args], {
+  execFileSync(process.execPath, [WRANGLER, ...args, ...CONFIG_ARGS], {
     encoding: "utf8",
     stdio: ["ignore", "pipe", "inherit"],
     maxBuffer: 256 * 1024 * 1024,
