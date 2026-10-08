@@ -40,7 +40,10 @@
     { "binding": "VECTORS", "index_name": "playtested-chunks" }
   ],
   "ai": { "binding": "AI" },
-  "triggers": { "crons": ["*/10 * * * *"] }
-  // playtested.net is attached here (as "routes" with custom_domain) once the
-  // domain has moved into this account; see docs/GO-LIVE.md.
+  "triggers": { "crons": ["*/10 * * * *"] },
+  // The live domain (its zone lives in this account).
+  "routes": [
+    { "pattern": "playtested.net", "custom_domain": true },
+    { "pattern": "www.playtested.net", "custom_domain": true }
+  ]
 }
