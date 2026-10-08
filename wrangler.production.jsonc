@@ -17,6 +17,10 @@
     "not_found_handling": "none"
   },
   "observability": { "enabled": true },
+  // Studio notifications (e.g. "an article was submitted for review") to the
+  // chief editor. Email Routing only delivers to its verified destination
+  // addresses, so this can only ever email the team's own inboxes.
+  "send_email": [{ "name": "NOTIFY_EMAIL" }],
   "vars": {
     "SITE_ENV": "production",
     "GITHUB_REPO": "PlayTested-Editors/playtested",

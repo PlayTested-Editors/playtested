@@ -7,6 +7,8 @@ export interface Env {
   MEDIA?: R2Bucket;
   VECTORS: Vectorize;
   AI: Ai;
+  /** Production only: email via Email Routing (see notify.ts). */
+  NOTIFY_EMAIL?: SendEmail;
 
   SITE_ENV: string;
   GITHUB_REPO: string;

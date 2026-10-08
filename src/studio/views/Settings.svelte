@@ -63,7 +63,21 @@
     { key: "openrouter", label: "OpenRouter (AI)", how: "Worker secret OPENROUTER_API_KEY." },
     { key: "rawg", label: "RAWG (game data)", how: "Worker secret RAWG_API_KEY." },
     { key: "alerts", label: "Usage alerts", how: "Optional Worker secret ALERT_WEBHOOK_URL (Discord or Slack webhook)." },
+    { key: "email", label: "Email notifications (review needed)", how: "Production only: the send_email binding plus Email Routing on playtested.net, with your sign-in email as a verified destination." },
   ];
+
+  let testing = $state(false);
+  async function testEmail() {
+    testing = true;
+    try {
+      const r = await api.post<{ sent: number }>("/notify/test");
+      toast(r.sent ? `Test email sent to ${r.sent === 1 ? "your inbox" : `${r.sent} chief editors`}. It can take a minute.` : "No chief editor email to send to.", r.sent ? "success" : "error");
+    } catch (e) {
+      toastError(e);
+    } finally {
+      testing = false;
+    }
+  }
 
   async function load() {
     try {
@@ -320,6 +334,10 @@
               <div>
                 <p class="text-sm font-medium">{i.label}</p>
                 {#if !g.integrations[i.key]}<p class="text-xs text-slate-500">{i.how}</p>{/if}
+                {#if i.key === "email" && g.integrations.email}
+                  <p class="text-xs text-slate-500">Emails you when a writer submits an article for review.</p>
+                  <button type="button" class="btn-secondary mt-1.5 !py-1 text-xs" disabled={testing} onclick={testEmail}>{testing ? "Sending…" : "Send test email"}</button>
+                {/if}
               </div>
             </li>
           {/each}

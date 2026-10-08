@@ -54,6 +54,7 @@ import { DEFAULT_GUARDS, currentLevel, getGuards, saveGuards, withinRate, type G
 import { ensureBlob, mediaForPaths, mediaJson, stageDelete, storeUpload, type MediaRow } from "../media";
 import { getBuildInfo, isBuilt, recordDeploy } from "../deploys";
 import { findScreenshots, proxyScreenshot, type ShotSource } from "../screenshots";
+import { notifySubmitted, notifyTest } from "../notify";
 import { indexArticle, markIndexDirty, reindexPending, removeFromIndex } from "../search";
 import { runWatchdog } from "../watchdog";
 import { audit, clientIp, error, json, now, parseJson, utcDay } from "../util";
@@ -108,6 +109,7 @@ function integrations(env: Env) {
     openrouter: Boolean(env.OPENROUTER_API_KEY),
     rawg: Boolean(env.RAWG_API_KEY),
     alerts: Boolean(env.ALERT_WEBHOOK_URL),
+    email: Boolean(env.NOTIFY_EMAIL),
     ownerKey: Boolean(env.STUDIO_OWNER_KEY),
   };
 }
@@ -301,6 +303,13 @@ route("PATCH", "/me", "contributor", async (c) => {
     await audit(c.env.DB, user.id, "user.rename", user.id, { name });
   }
   return json({ ok: true, name, authorName: byline ?? user.authorName });
+});
+
+route("POST", "/notify/test", "chief", async (c) => {
+  if (!c.env.NOTIFY_EMAIL) return error(400, "Email isn't set up on this environment (production only).");
+  const r = await notifyTest(c.env);
+  if (r.errors.length) return error(502, `Couldn't send: ${r.errors[0]}. Is your sign-in email a verified destination in Email Routing?`);
+  return json({ sent: r.sent });
 });
 
 // The welcome tour was finished or skipped: don't show it again.
@@ -513,7 +522,9 @@ route("POST", "/articles/:id/submit", "contributor", async (c, m) => {
     );
   }
   const { note } = await body<{ note?: string }>(c.request);
-  return json(await articleDetail(c, await setState(c.env, c.user!, row, "in_review", "submit", note?.trim() || null)));
+  const updated = await setState(c.env, c.user!, row, "in_review", "submit", note?.trim() || null);
+  c.waitUntil(notifySubmitted(c.env, { id: row.id, title: row.title, author: row.author }, c.user!, note?.trim() || null).catch(() => undefined));
+  return json(await articleDetail(c, updated));
 });
 
 route("POST", "/articles/:id/request-changes", "chief", async (c, m) => {
