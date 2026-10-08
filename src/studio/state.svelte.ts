@@ -220,6 +220,16 @@ export function applyTheme() {
 export function toggleTheme() {
   const dark = !document.documentElement.classList.contains("dark");
   document.documentElement.classList.toggle("dark", dark);
+  // The editor's live preview is a same-origin page: switch it too.
+  for (const f of document.querySelectorAll("iframe")) {
+    try {
+      const root = f.contentDocument?.documentElement;
+      root?.classList.toggle("dark", dark);
+      root?.setAttribute("data-theme", dark ? "dark" : "light");
+    } catch {
+      /* cross-origin */
+    }
+  }
   try {
     localStorage.setItem("theme", dark ? "dark" : "light");
   } catch {
