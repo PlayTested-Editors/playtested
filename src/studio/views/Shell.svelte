@@ -181,7 +181,7 @@
         New article
       </a>
     </div>
-    <nav class="mt-5 flex-1 space-y-0.5 px-3">
+    <nav class="mt-5 min-h-0 flex-1 space-y-0.5 overflow-y-auto px-3">
       {#each nav as item (item.href)}
         {@const active = item.match(route.parts)}
         <a
@@ -208,7 +208,7 @@
         <span class="text-xs text-slate-400" aria-hidden="true">↗</span>
       </a>
     </nav>
-    <div class="space-y-3 border-t border-slate-200/70 dark:border-slate-800 p-3">
+    <div class="shrink-0 space-y-3 border-t border-slate-200/70 dark:border-slate-800 p-3">
       <a href="/studio/settings/#deploys" class="flex items-center gap-2 rounded-lg px-3 py-2 text-xs text-slate-600 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800">
         <span class="h-2 w-2 rounded-full {dot[deployLabel.tone]}"></span>
         <span class="truncate">{deployLabel.text}</span>
