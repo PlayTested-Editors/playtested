@@ -9,7 +9,7 @@ Where this project stands and how to pick it up on any machine (PC or laptop), f
 
 ## 1. Work from any machine
 
-GitHub holds all the code and content. The only things that are **not** in GitHub are local secrets, and they travel through Syncthing (see 1.3). Never sync the project folder itself.
+GitHub holds everything you need to work on the site: code, content, docs and design mocks (`docs/mocks/`). The only things not in GitHub are local secrets (`.dev.vars`, `.env`), and you rarely need them (see 1.3).
 
 ### 1.1 Daily routine (same on every machine)
 
@@ -25,33 +25,26 @@ Install:
 - **Git**: <https://git-scm.com> (it includes Git Credential Manager, so GitHub sign-in is a browser click).
 - **Node.js 22 LTS**: <https://nodejs.org>
 - **VS Code** and the **Claude Code** extension.
-- **Syncthing** (you already use it).
 
 Then:
 1. Clone: `git clone https://github.com/PlayTested-Editors/playtested.git storyteller-astro`. Any folder works; matching the PC path (`...\Project\reviews\storyteller-astro`) keeps things simple.
-2. Share the Syncthing folder **PlayTested-private** with this machine (see 1.3).
-3. In the project folder, run `powershell -ExecutionPolicy Bypass -File scripts/setup-machine.ps1`. It checks Git and Node, installs packages, copies `.dev.vars` and `.env` from the Syncthing folder, and tells you what's missing.
-4. Sign in to Cloudflare: `npx wrangler login` with the **rebutoclyndon02@gmail.com** account. It's Super Admin on the PlayTested and Kasama accounts, so one login works for both.
-5. Open the folder in VS Code and start Claude Code. It reads `CLAUDE.md` automatically.
+2. In the project folder, run `powershell -ExecutionPolicy Bypass -File scripts/setup-machine.ps1`. It checks Git and Node, switches to `dev`, installs packages, and tells you what's missing.
+3. Sign in to Cloudflare: `npx wrangler login` with the **rebutoclyndon02@gmail.com** account. It's Super Admin on the PlayTested and Kasama accounts, so one login works for both.
+4. Open the folder in VS Code and start Claude Code. It reads `CLAUDE.md` automatically.
 
-### 1.3 Syncthing: only the private files
+### 1.3 Local secrets (usually not needed)
 
-Share **one** Syncthing folder for private files between your devices: `I:\Lyndon\AI ML\Project\reviews\PlayTested-private` on the PC. It's already created, with `.dev.vars`, `.env`, `mocks\` and a README in it. On the laptop, put it next to the repo folder too, so the setup script finds it.
+Normal work doesn't need them: Claude edits, pushes to `dev`, and GitHub builds and deploys the dev site with its own stored secrets, so you test on the dev site. They're only needed to run the site locally (`npm run dev`) or for a few maintenance scripts (for example `scripts/bulk-index.mjs`).
 
-| Put in it | Why |
-|---|---|
-| `.dev.vars`, `.env` (copies) | Local secrets: never in git. The setup script copies them into the project. |
-| The token notes (`playtested cloudflare key token.txt`, GitHub, Google, OpenRouter) | They're loose in the `reviews` folder now. Keep them in one private place. |
-| `mocks\` (design mocks, e.g. the onboarding and editor-tour mocks) | Claude writes UI mocks here, outside the repo. |
-| Your VS Code `.code-workspace` file, if you use one | So both machines open the same workspace. |
+When a machine does need them:
+- Keep `.dev.vars` and `.env` in a password manager (Bitwarden is free) or copy them over by USB, then put them in the project folder. The setup script also copies them from a folder named `PlayTested-private` next to the repo, if one exists (`-Private <path>` points it elsewhere).
+- **Never commit them**, not even to a private repo. The live site's secrets live in Cloudflare and GitHub, not in these files.
 
-**Don't** sync the repo folder (`storyteller-astro`): `node_modules`, `.git` and build output change constantly, and two machines editing the same files would conflict. Git already handles that properly.
-
-Syncthing is device-to-device and encrypted, so it's fine for these secrets. Only share that folder with your own devices.
+Don't sync the project folder with a file-sync tool: `node_modules`, `.git` and build output change constantly and two machines would conflict. Git already keeps the project in sync.
 
 ### 1.4 Claude's memory
 
-Claude Code keeps per-machine notes in `C:\Users\<you>\.claude\projects\<folder-name>\memory\`. The important ones are now written into `CLAUDE.md` and this file, which travel with git, so the laptop doesn't need them. If you want them anyway, copy that `memory` folder to the same place on the laptop after its first Claude session there. The folder name comes from the project path.
+Claude Code keeps per-machine notes in `C:\Users\<you>\.claude\projects\<folder-name>\memory\`. The important ones are written into `CLAUDE.md` and this file, which travel with git, so the laptop doesn't need them. If you want them anyway, copy that `memory` folder to the same place on the laptop after its first Claude session there. The folder name comes from the project path.
 
 ---
 

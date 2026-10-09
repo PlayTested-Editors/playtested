@@ -1,0 +1,421 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Studio Onboarding Mock</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@600;700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #f1f5f9; --panel: #ffffff; --panel-2: #f8fafc; --line: #e2e8f0; --text: #0f172a; --muted: #64748b; --soft: #94a3b8;
+    --indigo: #4f46e5; --indigo-soft: #eef2ff; --indigo-text: #4338ca; --green: #16a34a; --green-soft: #dcfce7; --amber: #b45309; --amber-soft: #fef3c7;
+    --sky-soft: #e0f2fe; --sky-text: #075985; --overlay: rgba(15, 23, 42, .45); --shadow: 0 24px 60px -12px rgba(15, 23, 42, .35);
+    --brand-a: #6CB8FF; --brand-b: #2373D8; --lime: #B6F03C;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #020617; --panel: #0f172a; --panel-2: #111c33; --line: #1e293b; --text: #e2e8f0; --muted: #94a3b8; --soft: #64748b;
+      --indigo: #6366f1; --indigo-soft: rgba(99,102,241,.14); --indigo-text: #a5b4fc; --green: #4ade80; --green-soft: rgba(74,222,128,.12); --amber: #fbbf24; --amber-soft: rgba(251,191,36,.12);
+      --sky-soft: rgba(56,189,248,.12); --sky-text: #bae6fd; --overlay: rgba(2, 6, 23, .7); --shadow: 0 24px 60px -12px rgba(0,0,0,.7);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #020617; --panel: #0f172a; --panel-2: #111c33; --line: #1e293b; --text: #e2e8f0; --muted: #94a3b8; --soft: #64748b;
+    --indigo: #6366f1; --indigo-soft: rgba(99,102,241,.14); --indigo-text: #a5b4fc; --green: #4ade80; --green-soft: rgba(74,222,128,.12); --amber: #fbbf24; --amber-soft: rgba(251,191,36,.12);
+    --sky-soft: rgba(56,189,248,.12); --sky-text: #bae6fd; --overlay: rgba(2, 6, 23, .7); --shadow: 0 24px 60px -12px rgba(0,0,0,.7);
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body { background: var(--bg); color: var(--text); font: 14px/1.5 "Segoe UI", system-ui, -apple-system, sans-serif; min-height: 100vh; }
+  button, input { font: inherit; color: inherit; }
+  .brand { font-family: "Chakra Petch", "Segoe UI", sans-serif; letter-spacing: 0; }
+
+  /* ---- Mock controls (not part of the design) ---- */
+  .mockbar { position: sticky; top: 0; z-index: 50; display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; padding: 8px 16px;
+    background: #fde68a; color: #422006; font-size: 12px; border-bottom: 1px solid #f59e0b; }
+  .mockbar b { font-weight: 700; }
+  .seg { display: inline-flex; background: rgba(0,0,0,.08); border-radius: 8px; padding: 2px; }
+  .seg button { border: 0; background: transparent; padding: 3px 10px; border-radius: 6px; cursor: pointer; font-weight: 600; }
+  .seg button[aria-pressed="true"] { background: #fff; box-shadow: 0 1px 2px rgba(0,0,0,.15); }
+  .mockbar .link { border: 0; background: none; text-decoration: underline; cursor: pointer; font-weight: 600; padding: 0; }
+
+  /* ---- Fake studio behind the dialog ---- */
+  .studio { display: grid; grid-template-columns: 240px 1fr; min-height: calc(100vh - 41px); }
+  .side { border-right: 1px solid var(--line); background: var(--panel); padding: 16px 12px; display: flex; flex-direction: column; gap: 4px; }
+  .side .logo { display: flex; gap: 10px; align-items: center; padding: 4px 8px 16px; font-weight: 700; }
+  .side .logo svg { width: 28px; height: 28px; }
+  .side .new { background: var(--indigo); color: #fff; border: 0; border-radius: 10px; padding: 9px; font-weight: 600; margin-bottom: 14px; }
+  .side .nav { padding: 8px 12px; border-radius: 8px; color: var(--muted); font-weight: 500; }
+  .side .nav.on { background: var(--indigo-soft); color: var(--indigo-text); }
+  .main { padding: 28px 32px; }
+  .main h1 { margin: 0; font-size: 26px; }
+  .main .sub { color: var(--muted); margin: 2px 0 22px; }
+  .cards { display: grid; grid-template-columns: 2fr 1fr; gap: 16px; }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: 18px; }
+  .card h3 { margin: 0 0 12px; font-size: 14px; }
+  .ph { height: 40px; border-radius: 10px; background: var(--panel-2); margin-top: 8px; }
+
+  /* Getting-started checklist that stays on the dashboard after the tour */
+  .getting { display: none; border-color: color-mix(in srgb, var(--indigo) 40%, var(--line)); margin-bottom: 16px; }
+  .getting.show { display: block; }
+  .getting .row { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-top: 1px solid var(--line); }
+  .getting .row:first-of-type { border-top: 0; }
+  .tick { width: 20px; height: 20px; border-radius: 50%; display: grid; place-items: center; border: 2px solid var(--soft); flex: none; font-size: 11px; }
+  .tick.done { background: var(--green); border-color: var(--green); color: #fff; }
+  .getting .row span.t { flex: 1; }
+  .getting .row.done span.t { color: var(--muted); text-decoration: line-through; }
+  .getting .head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+  .getting .head small { color: var(--muted); }
+
+  /* ---- Onboarding dialog ---- */
+  .overlay { position: fixed; inset: var(--bar, 41px) 0 0 0; background: var(--overlay); display: grid; place-items: center; padding: 16px; z-index: 40; transition: opacity .18s ease; }
+  .overlay.hidden { opacity: 0; pointer-events: none; }
+  .dialog { width: min(600px, 100%); max-height: calc(100vh - 80px); overflow: auto; background: var(--panel); border-radius: 20px; box-shadow: var(--shadow);
+    border: 1px solid var(--line); display: flex; flex-direction: column; }
+  .progress { height: 4px; background: var(--line); border-radius: 20px 20px 0 0; overflow: hidden; }
+  .progress i { display: block; height: 100%; background: linear-gradient(90deg, var(--brand-a), var(--brand-b)); transition: width .25s ease; }
+  .dhead { display: flex; justify-content: space-between; align-items: center; padding: 14px 22px 0; color: var(--muted); font-size: 12px; }
+  .dhead .skip { border: 0; background: none; color: var(--muted); cursor: pointer; text-decoration: underline; }
+  .step { padding: 8px 28px 4px; display: none; }
+  .step.on { display: block; animation: enter .18s ease both; }
+  @keyframes enter { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+  @media (prefers-reduced-motion: reduce) { .step.on { animation: none; } .progress i, .overlay { transition: none; } }
+  .step h2 { font-size: 24px; margin: 6px 0 6px; line-height: 1.2; }
+  .step p.lead { color: var(--muted); margin: 0 0 18px; }
+  .hero { display: flex; align-items: center; gap: 14px; margin: 10px 0 4px; }
+  .hero svg { width: 56px; height: 56px; flex: none; }
+  .pill { display: inline-block; font-size: 11px; font-weight: 700; padding: 2px 9px; border-radius: 99px; background: var(--indigo-soft); color: var(--indigo-text); text-transform: uppercase; letter-spacing: .04em; }
+  .can { list-style: none; padding: 0; margin: 0 0 8px; display: grid; gap: 10px; }
+  .can li { display: flex; gap: 12px; align-items: flex-start; background: var(--panel-2); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; }
+  .can .ico { width: 30px; height: 30px; border-radius: 9px; display: grid; place-items: center; background: var(--indigo-soft); color: var(--indigo-text); flex: none; }
+  .can .ico svg { width: 17px; height: 17px; }
+  .can b { display: block; }
+  .can span { color: var(--muted); font-size: 13px; }
+
+  label.l { display: block; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); margin: 14px 0 6px; }
+  .input { width: 100%; padding: 10px 12px; border-radius: 10px; border: 1px solid var(--line); background: var(--panel-2); outline: none; }
+  .input:focus { border-color: var(--indigo); box-shadow: 0 0 0 3px var(--indigo-soft); }
+  .hint { font-size: 12px; color: var(--muted); margin-top: 5px; }
+  .hint.err { color: #e11d48; }
+  .hint.ok { color: var(--green); }
+  .preview { margin-top: 16px; border: 1px dashed var(--line); border-radius: 12px; padding: 12px 14px; background: var(--panel-2); }
+  .preview .cap { font-size: 11px; color: var(--soft); text-transform: uppercase; letter-spacing: .05em; font-weight: 700; margin-bottom: 8px; }
+  .preview .by { font-weight: 700; font-size: 17px; }
+  .preview .meta { color: var(--muted); font-size: 12px; }
+  .preview .studio-line { margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--line); font-size: 13px; color: var(--muted); }
+  .preview .studio-line b { color: var(--text); }
+  .warn { margin-top: 12px; font-size: 12px; background: var(--amber-soft); color: var(--amber); border-radius: 10px; padding: 8px 12px; }
+
+  .flow { display: grid; gap: 0; margin: 4px 0 12px; }
+  .flow .st { display: grid; grid-template-columns: 34px 1fr; gap: 12px; position: relative; padding-bottom: 14px; }
+  .flow .st:not(:last-child)::before { content: ""; position: absolute; left: 16px; top: 34px; bottom: 0; width: 2px; background: var(--line); }
+  .flow .n { width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; font-weight: 700; background: var(--indigo-soft); color: var(--indigo-text); }
+  .flow .st.you .n { background: var(--indigo); color: #fff; }
+  .flow .st.live .n { background: var(--green); color: #fff; }
+  .flow b { display: block; margin-top: 6px; }
+  .flow span { color: var(--muted); font-size: 13px; }
+  .tag { font-size: 10px; font-weight: 700; padding: 1px 7px; border-radius: 99px; margin-left: 6px; vertical-align: 1px; text-transform: uppercase; }
+  .tag.you { background: var(--indigo-soft); color: var(--indigo-text); }
+  .tag.chief { background: var(--amber-soft); color: var(--amber); }
+  .note { font-size: 13px; background: var(--sky-soft); color: var(--sky-text); border-radius: 10px; padding: 9px 12px; margin-bottom: 8px; }
+
+  .tools { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 8px; }
+  .tool { border: 1px solid var(--line); border-radius: 12px; padding: 12px; background: var(--panel-2); }
+  .tool .ico { width: 30px; height: 30px; border-radius: 9px; display: grid; place-items: center; margin-bottom: 8px; color: #fff; }
+  .tool .ico svg { width: 17px; height: 17px; }
+  .tool b { display: block; font-size: 13.5px; }
+  .tool span { color: var(--muted); font-size: 12.5px; }
+
+  .done-art { display: grid; place-items: center; margin: 12px 0 6px; }
+  .done-art svg { width: 72px; height: 72px; }
+  .center { text-align: center; }
+  .ctas { display: flex; flex-direction: column; gap: 8px; margin: 18px 0 6px; }
+
+  .dfoot { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 16px 22px 20px; }
+  .dots { display: flex; gap: 6px; }
+  .dots i { width: 7px; height: 7px; border-radius: 50%; background: var(--line); }
+  .dots i.on { background: var(--indigo); width: 18px; border-radius: 99px; }
+  .btn { border: 0; border-radius: 10px; padding: 9px 16px; font-weight: 600; cursor: pointer; }
+  .btn.primary { background: var(--indigo); color: #fff; }
+  .btn.primary:disabled { opacity: .45; cursor: not-allowed; }
+  .btn.ghost { background: transparent; color: var(--muted); }
+  .btn.secondary { background: var(--panel-2); border: 1px solid var(--line); }
+  .btn.big { padding: 12px 16px; font-size: 15px; width: 100%; }
+
+  @media (max-width: 760px) {
+    .studio { grid-template-columns: 1fr; }
+    .side { display: none; }
+    .main { padding: 20px 16px; }
+    .cards { grid-template-columns: 1fr; }
+    .tools { grid-template-columns: 1fr; }
+    .step { padding: 8px 18px 4px; }
+    .dfoot { padding: 14px 16px 16px; }
+    .step h2 { font-size: 21px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="mockbar">
+  <b>MOCK</b>
+  <span>Role:
+    <span class="seg" id="role"><button data-v="contributor" aria-pressed="true">Contributor</button><button data-v="editor" aria-pressed="false">Editor</button></span>
+  </span>
+  <span>Theme:
+    <span class="seg" id="theme"><button data-v="auto" aria-pressed="true">Auto</button><button data-v="light" aria-pressed="false">Light</button><button data-v="dark" aria-pressed="false">Dark</button></span>
+  </span>
+  <button class="link" id="restart">Restart tour</button>
+  <span style="opacity:.75">Shown once, only to people who join after it ships. Try the bylines "lyndonguitar" or "mcytg" to see the "taken" message.</span>
+</div>
+
+<div class="studio" aria-hidden="true" id="bg">
+  <aside class="side">
+    <div class="logo"><svg viewBox="0 0 100 100"><use href="#pt-logo"/></svg>PlayTested Studio</div>
+    <button class="new">+ New article</button>
+    <div class="nav on">Dashboard</div>
+    <div class="nav">Articles</div>
+    <div class="nav">Review queue</div>
+    <div class="nav">Media</div>
+    <div class="nav editor-only">Comments</div>
+    <div class="nav editor-only">Team</div>
+    <div class="nav editor-only">Activity</div>
+  </aside>
+  <main class="main">
+    <h1>Good evening, <span class="js-name">Juan</span></h1>
+    <p class="sub">Here's what's happening on PlayTested.</p>
+    <div class="card getting" id="getting">
+      <div class="head"><h3>Getting started</h3><small>Disappears once you've done all three</small></div>
+      <div class="row done"><span class="tick done">✓</span><span class="t">Set your display name and byline</span></div>
+      <div class="row"><span class="tick"></span><span class="t">Write your first draft</span><button class="btn secondary">New article</button></div>
+      <div class="row"><span class="tick"></span><span class="t">Submit it for review</span></div>
+    </div>
+    <div class="cards">
+      <div class="card"><h3>My drafts</h3><div class="ph"></div><div class="ph"></div><div class="ph"></div></div>
+      <div class="card"><h3>Recently published</h3><div class="ph"></div><div class="ph"></div></div>
+    </div>
+  </main>
+</div>
+
+<div class="overlay" id="overlay">
+  <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="dlg-title">
+    <div class="progress"><i id="bar" style="width:20%"></i></div>
+    <div class="dhead"><span id="count">Step 1 of 5</span><button class="skip" id="skip">Skip tour</button></div>
+
+    <!-- 1. Welcome -->
+    <section class="step on" data-step="welcome">
+      <div class="hero">
+        <svg viewBox="0 0 100 100"><use href="#pt-logo"/></svg>
+        <div>
+          <span class="pill js-role">Contributor</span>
+          <h2 class="brand" id="dlg-title">Welcome to PlayTested Studio, <span class="js-first">Juan</span>!</h2>
+        </div>
+      </div>
+      <p class="lead">This is where reviews get written, edited and published. A quick tour (about a minute) and you're ready to write.</p>
+      <ul class="can" id="can-list"></ul>
+    </section>
+
+    <!-- 2. Names -->
+    <section class="step" data-step="names">
+      <h2 class="brand">How you'll appear</h2>
+      <p class="lead">Two names: one for the team, one for readers.</p>
+      <label class="l" for="dn">Display name</label>
+      <input class="input" id="dn" maxlength="40" value="Juan Dela Cruz" />
+      <div class="hint">Shown inside the studio (notes, "edited by"). You can change it any time.</div>
+      <label class="l" for="bl">Byline</label>
+      <input class="input" id="bl" maxlength="30" placeholder="e.g. pixelknight" autocomplete="off" />
+      <div class="hint" id="bl-hint">Printed on your articles, like a gamer tag. Letters, numbers, spaces, dots, dashes.</div>
+      <div class="preview">
+        <div class="cap">Preview</div>
+        <div class="by">By <span id="pv-by" style="color:var(--soft)">your byline</span></div>
+        <div class="meta">Published on October 9, 2026 · REVIEW</div>
+        <div class="studio-line">In the studio: <b id="pv-dn">Juan Dela Cruz</b> left a note</div>
+      </div>
+      <div class="warn">Pick your byline carefully: after this, only the chief editor can change it.</div>
+    </section>
+
+    <!-- 3. Workflow -->
+    <section class="step" data-step="flow">
+      <h2 class="brand">How an article goes live</h2>
+      <p class="lead" id="flow-lead">You write; the chief editor checks it and publishes.</p>
+      <div class="flow">
+        <div class="st you"><div class="n">1</div><div><b>Write <em class="tag you">you</em></b><span>Start a new article. Everything saves automatically, and History keeps every version.</span></div></div>
+        <div class="st you"><div class="n">2</div><div><b>Submit for review <em class="tag you">you</em></b><span>When it's ready, press <b style="display:inline">Submit for review</b>. Images are optional; the chief can add them.</span></div></div>
+        <div class="st"><div class="n">3</div><div><b>Review <em class="tag chief">chief editor</em></b><span>The chief either publishes it or asks for changes. Notes show at the top of your article, and it appears under "Changes requested".</span></div></div>
+        <div class="st live"><div class="n">✓</div><div><b>Live on PlayTested.net</b><span>With your byline on it. You can still suggest edits later; they go through review again.</span></div></div>
+      </div>
+      <div class="note editor-only">As an editor you can also open and improve anyone's draft, then submit it for review on their behalf.</div>
+    </section>
+
+    <!-- 4. Toolkit -->
+    <section class="step" data-step="tools">
+      <h2 class="brand">Your writing toolkit</h2>
+      <p class="lead">All inside the editor. None of it is required.</p>
+      <div class="tools">
+        <div class="tool"><div class="ico" style="background:linear-gradient(135deg,#6366f1,#a855f7)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9.8 3.5 11 7l3.5 1.2L11 9.4 9.8 13 8.6 9.4 5 8.2 8.6 7zM17 12l.8 2.2L20 15l-2.2.8L17 18l-.8-2.2L14 15l2.2-.8z"/></svg></div><b>Write with AI</b><span>Turn your rough notes into a structured draft with your favourite AI, then make it yours.</span></div>
+        <div class="tool"><div class="ico" style="background:linear-gradient(135deg,#0ea5e9,#2563eb)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 6h16M4 12h10M4 18h7"/></svg></div><b>Tidy formatting</b><span>Cleans pasted text: fixes Pros &amp; Cons lists and strips stray styles from Google Docs.</span></div>
+        <div class="tool"><div class="ico" style="background:linear-gradient(135deg,#22c55e,#15803d)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="1.6"/><path d="m21 16-5-5-8 8"/></svg></div><b>Find screenshots</b><span>Official screenshots from Steam (or RAWG for console games), right in the image picker.</span></div>
+        <div class="tool"><div class="ico" style="background:linear-gradient(135deg,#f59e0b,#ea580c)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="13" height="10" rx="1.5"/><rect x="17" y="8" width="4" height="9" rx="1"/><path d="M7 20h5"/></svg></div><b>Live preview</b><span>See exactly how it will look on the site, on desktop or phone, as you type.</span></div>
+      </div>
+    </section>
+
+    <!-- 5. Editor powers (editors only) -->
+    <section class="step editor-step" data-step="editor">
+      <h2 class="brand">Your editor tools</h2>
+      <p class="lead">Editors help keep the site in shape. These are in the sidebar.</p>
+      <ul class="can">
+        <li><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m16.9 4.5 2.6 2.6L9 17.6 6 18l.4-3z"/></svg></span><div><b>Edit any article</b><span>Fix typos or polish anyone's draft. Changes still go to the chief before they're live.</span></div></li>
+        <li><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 12c0 4.4-4 8-9 8a9.8 9.8 0 0 1-3.6-.7L3 20l1.4-4A7.5 7.5 0 0 1 3 12c0-4.4 4-8 9-8s9 3.6 9 8z"/></svg></span><div><b>Comments</b><span>Approve or remove reader comments held for moderation.</span></div></li>
+        <li><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="8" r="3"/><path d="M3 20a6 6 0 0 1 12 0M16 4a3 3 0 0 1 0 6M18 14a5 5 0 0 1 3 6"/></svg></span><div><b>Team &amp; Activity</b><span>See who's on the team and what changed recently.</span></div></li>
+      </ul>
+    </section>
+
+    <!-- 6. Done -->
+    <section class="step" data-step="done">
+      <div class="done-art"><svg viewBox="0 0 100 100"><use href="#pt-logo"/></svg></div>
+      <h2 class="brand center">You're all set, <span class="js-first">Juan</span>!</h2>
+      <p class="lead center">Your byline: <b id="done-by">—</b>. A short checklist stays on your dashboard until you've posted your first draft.</p>
+      <div class="ctas">
+        <button class="btn primary big" id="cta-write">Write my first article</button>
+        <button class="btn secondary big" id="cta-explore">Explore the studio</button>
+      </div>
+    </section>
+
+    <div class="dfoot">
+      <button class="btn ghost" id="back">Back</button>
+      <div class="dots" id="dots"></div>
+      <button class="btn primary" id="next">Let's go</button>
+    </div>
+  </div>
+</div>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <linearGradient id="pt-g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6CB8FF"/><stop offset="1" stop-color="#2373D8"/></linearGradient>
+    <mask id="pt-m"><rect width="100" height="100" fill="#fff"/><path d="M36 44 L46 54 L65 33" fill="none" stroke="#000" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/></mask>
+    <g id="pt-logo">
+      <path d="M28 20 H72 C86 20 92 34 95 52 C98 70 92 80 84 80 C76 80 72 68 64 64 H36 C28 68 24 80 16 80 C8 80 2 70 5 52 C8 34 14 20 28 20 Z" fill="url(#pt-g)" mask="url(#pt-m)"/>
+      <path d="M36 44 L46 54 L65 33" fill="none" stroke="#B6F03C" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+  </defs>
+</svg>
+
+<script>
+(() => {
+  const $ = (s, el = document) => el.querySelector(s);
+  const $$ = (s, el = document) => [...el.querySelectorAll(s)];
+  let role = "contributor";
+  let i = 0;
+  const TAKEN = ["lyndonguitar", "mcytg"];
+
+  const CAN = {
+    contributor: [
+      ["Write reviews and articles", "Your own drafts, with autosave and a live preview.", "M16.9 4.5l2.6 2.6L9 17.6 6 18l.4-3z"],
+      ["Send them for review", "The chief editor checks and publishes them under your byline.", "M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"],
+      ["Get feedback", "Notes from the chief appear right on your article.", "M21 12c0 4.4-4 8-9 8a9.8 9.8 0 0 1-3.6-.7L3 20l1.4-4A7.5 7.5 0 0 1 3 12c0-4.4 4-8 9-8s9 3.6 9 8z"],
+    ],
+    editor: [
+      ["Write and edit", "Your own articles, and anyone's drafts when they need a hand.", "M16.9 4.5l2.6 2.6L9 17.6 6 18l.4-3z"],
+      ["Send work for review", "The chief editor gives the final OK and publishes.", "M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"],
+      ["Help run the site", "Moderate comments and keep an eye on team activity.", "M21 12c0 4.4-4 8-9 8a9.8 9.8 0 0 1-3.6-.7L3 20l1.4-4A7.5 7.5 0 0 1 3 12c0-4.4 4-8 9-8s9 3.6 9 8z"],
+    ],
+  };
+
+  const steps = () => $$(".step").filter((s) => role === "editor" || !s.classList.contains("editor-step"));
+
+  function bylineState() {
+    const v = $("#bl").value.replace(/\s+/g, " ").trim();
+    if (!v) return { ok: false, msg: "Printed on your articles, like a gamer tag. Letters, numbers, spaces, dots, dashes.", cls: "" };
+    if (v.length < 2) return { ok: false, msg: "At least 2 characters.", cls: "err" };
+    if (!/^[\p{L}\p{N}][\p{L}\p{N} ._-]*$/u.test(v)) return { ok: false, msg: "Use letters, numbers, spaces, dots, dashes or underscores.", cls: "err" };
+    if (TAKEN.includes(v.toLowerCase())) return { ok: false, msg: "That byline is already used by another writer. Try a different one.", cls: "err" };
+    return { ok: true, msg: "Looks good. It's available.", cls: "ok" };
+  }
+
+  function render() {
+    const list = steps();
+    i = Math.max(0, Math.min(i, list.length - 1));
+    $$(".step").forEach((s) => s.classList.remove("on"));
+    const cur = list[i];
+    cur.classList.add("on");
+    const last = i === list.length - 1;
+    $("#count").textContent = last ? "Done" : `Step ${i + 1} of ${list.length - 1}`;
+    $("#bar").style.width = `${((i + 1) / list.length) * 100}%`;
+    $("#dots").innerHTML = list.map((_, k) => `<i class="${k === i ? "on" : ""}"></i>`).join("");
+    $("#back").style.visibility = i === 0 || last ? "hidden" : "visible";
+    $("#skip").style.visibility = last ? "hidden" : "visible";
+    const next = $("#next");
+    next.style.display = last ? "none" : "";
+    next.textContent = i === 0 ? "Let's go" : cur.dataset.step === "names" ? "Save and continue" : i === list.length - 2 ? "Finish" : "Next";
+    const b = bylineState();
+    next.disabled = cur.dataset.step === "names" && (!b.ok || $("#dn").value.trim().length < 2);
+    if (cur.dataset.step === "names") setTimeout(() => $("#bl").focus(), 50);
+  }
+
+  function setRole(r) {
+    role = r;
+    $$("#role button").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.v === r)));
+    $$(".js-role").forEach((el) => (el.textContent = r === "editor" ? "Editor" : "Contributor"));
+    $$(".editor-only").forEach((el) => (el.style.display = r === "editor" ? "" : "none"));
+    $("#flow-lead").textContent = r === "editor" ? "Everyone's work, yours included, gets a final check from the chief editor." : "You write; the chief editor checks it and publishes.";
+    $("#can-list").innerHTML = CAN[r].map(([t, d, p]) => `<li><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="${p}"/></svg></span><div><b>${t}</b><span>${d}</span></div></li>`).join("");
+    render();
+  }
+
+  function syncNames() {
+    const dn = $("#dn").value.trim() || "Your name";
+    const first = dn.split(" ")[0];
+    $$(".js-first").forEach((el) => (el.textContent = first));
+    $$(".js-name").forEach((el) => (el.textContent = first));
+    $("#pv-dn").textContent = dn;
+    const v = $("#bl").value.replace(/\s+/g, " ").trim();
+    const pv = $("#pv-by");
+    pv.textContent = v || "your byline";
+    pv.style.color = v ? "" : "var(--soft)";
+    $("#done-by").textContent = v || "—";
+    const b = bylineState();
+    const h = $("#bl-hint");
+    h.textContent = b.msg;
+    h.className = "hint " + b.cls;
+    render();
+  }
+
+  function close(goWrite) {
+    $("#overlay").classList.add("hidden");
+    $("#getting").classList.add("show");
+    $("#bg").removeAttribute("aria-hidden");
+    if (goWrite) alert("In the real studio this opens a new article in the editor.");
+  }
+
+  $("#next").onclick = () => { i++; render(); };
+  $("#back").onclick = () => { i--; render(); };
+  $("#skip").onclick = () => {
+    // Skipping still needs a byline: jump to that step if it's missing.
+    if (!bylineState().ok) { i = steps().findIndex((s) => s.dataset.step === "names"); render(); return; }
+    close(false);
+  };
+  $("#cta-write").onclick = () => close(true);
+  $("#cta-explore").onclick = () => close(false);
+  $("#dn").oninput = syncNames;
+  $("#bl").oninput = syncNames;
+  document.addEventListener("keydown", (e) => {
+    if ($("#overlay").classList.contains("hidden")) return;
+    if (e.key === "Enter" && !$("#next").disabled && $("#next").style.display !== "none") { e.preventDefault(); $("#next").click(); }
+  });
+  $("#restart").onclick = () => { i = 0; $("#overlay").classList.remove("hidden"); $("#getting").classList.remove("show"); render(); };
+  $$("#role button").forEach((b) => (b.onclick = () => { setRole(b.dataset.v); }));
+  $$("#theme button").forEach((b) => (b.onclick = () => {
+    $$("#theme button").forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
+    if (b.dataset.v === "auto") document.documentElement.removeAttribute("data-theme");
+    else document.documentElement.setAttribute("data-theme", b.dataset.v);
+  }));
+
+  const fitBar = () => document.documentElement.style.setProperty("--bar", $(".mockbar").offsetHeight + "px");
+  addEventListener("resize", fitBar);
+  fitBar();
+  setRole("contributor");
+  syncNames();
+})();
+</script>
+</body>
+</html>

@@ -3,10 +3,11 @@
 #   powershell -ExecutionPolicy Bypass -File scripts/setup-machine.ps1
 #   powershell -ExecutionPolicy Bypass -File scripts/setup-machine.ps1 -Private "D:\Sync\PlayTested-private"
 #
-# Checks Git and Node, switches to the dev branch, installs packages, and copies
-# the local secret files (.dev.vars, .env) from the Syncthing folder
-# "PlayTested-private" (by default next to this repo's folder). Existing files
-# are never overwritten. See HANDOFF.md, section 1.
+# Checks Git and Node, switches to the dev branch and installs packages. If a
+# folder "PlayTested-private" sits next to this repo's folder (or -Private
+# points to one), it also copies the local secret files (.dev.vars, .env) from
+# it. They're optional: only local dev and a few maintenance scripts need them.
+# Existing files are never overwritten. See HANDOFF.md, section 1.
 
 param(
   [string]$Private = (Join-Path (Split-Path -Parent (Split-Path -Parent $PSScriptRoot)) "PlayTested-private")
@@ -45,19 +46,13 @@ if ($branch -ne "dev") {
 git pull --ff-only --quiet
 Ok "Up to date with GitHub"
 
-# 3. Local secrets from the Syncthing folder
-if (Test-Path $Private) {
-  Ok "Private folder: $Private"
-  foreach ($f in ".dev.vars", ".env") {
-    $src = Join-Path $Private $f
-    $dst = Join-Path $repo $f
-    if (Test-Path $dst) { Ok "$f already here (left as is)" }
-    elseif (Test-Path $src) { Copy-Item $src $dst; Ok "$f copied from the private folder" }
-    else { Warn "$f is not in the private folder"; $todo += "Put a copy of $f in $Private (from the other machine)" }
-  }
-} else {
-  Warn "Private folder not found: $Private"
-  $todo += "Share the Syncthing folder PlayTested-private to this machine (or pass -Private <path>)"
+# 3. Local secrets (optional: only local dev and some maintenance scripts need them)
+foreach ($f in ".dev.vars", ".env") {
+  $dst = Join-Path $repo $f
+  $src = Join-Path $Private $f
+  if (Test-Path $dst) { Ok "$f already here (left as is)" }
+  elseif (Test-Path $src) { Copy-Item $src $dst; Ok "$f copied from $Private" }
+  else { Write-Host "  --   $f not here (fine for normal work; add it from your password manager if you run the site locally)" }
 }
 
 # 4. Packages

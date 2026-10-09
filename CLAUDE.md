@@ -6,7 +6,10 @@ Read [HANDOFF.md](HANDOFF.md) first (project state, machines, release flow). Rea
 - Work on `dev`. It deploys the dev site on push.
 - Production = `git push origin dev:main`, and only when the user asks or has approved shipping.
   - First check `git rev-list --count HEAD..origin/main` is 0. The live studio commits publishes to `main`; merge `origin/main` into `dev` if it's ahead.
-- The user works from more than one machine: start with `git pull`, and push before stopping.
+- The user works from more than one machine (PC and laptop). **Before the first edit of a session**, run `git fetch` and `git status`.
+  - If `dev` is behind `origin/dev`, run `git pull --ff-only` first and tell the user what came in (`git log --oneline HEAD..origin/dev`).
+  - If the working tree has uncommitted changes, ask before pulling.
+  - Push before stopping.
 
 ## Cloudflare free plan (hard $0 limit)
 - D1 allows 5M rows read and 100k written per day, for the whole account. "Rows read" counts scanned rows, so **every query must use an index**. Check new queries with `EXPLAIN QUERY PLAN` (node:sqlite against `migrations/` works).
@@ -17,14 +20,14 @@ Read [HANDOFF.md](HANDOFF.md) first (project state, machines, release flow). Rea
 - R2 isn't available (it needs a card): uploads stage in KV.
 
 ## Security and privacy
-- Never read `.env`, `.dev.vars` values, or the token `.txt` files (in the parent folder or `PlayTested-private`). Use wrangler commands for anything that needs credentials.
+- Never read `.env`, `.dev.vars` values, or the token `.txt` files in the parent folder. Never commit secrets. Use wrangler commands for anything that needs credentials.
 - Drafts are private until submitted: any article read must go through `canView()` / `visibleSql()` (articles.ts). Hidden = 404.
 - "View as" lowers the chief's role and hides their byline. Nothing may change the chief's real byline from that view.
 
 ## UI rules (the user is light-sensitive)
 - No pulsing or flashing: no `animate-pulse` skeletons, no dim/undim on quick refreshes, no fade-in on re-rendered rows. Use still placeholders with "Loading…". Keep motion short and behind `prefers-reduced-motion`.
 - Headings use Chakra Petch (`.font-brand`); body text stays the system font.
-- Prefer a mock before a big UI change: a self-contained `.html` file in `...\Project\reviews\PlayTested-private\mocks\` (next to the repo, synced between the user's machines by Syncthing). **Never publish claude.ai Artifacts** for this user.
+- Prefer a mock before a big UI change: a self-contained `.html` file in `docs/mocks/` (committed, so it reaches the user's other machine through GitHub; outside `src/` and `public/`, so it's never published). **Never publish claude.ai Artifacts** for this user.
 
 ## Practical notes (Windows)
 - Shell heredocs and `node -e` often swallow backslashes in regexes (`\s`, `\b`, `\n`), and the Edit tool can turn `﻿` into a literal character. Use the Edit/Write tools for code with escapes, then grep the result.

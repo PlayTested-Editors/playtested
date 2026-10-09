@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Editor Tour Mock</title>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #f1f5f9; --panel: #ffffff; --panel-2: #f8fafc; --line: #e2e8f0; --text: #0f172a; --muted: #64748b; --soft: #94a3b8;
+    --indigo: #4f46e5; --indigo-soft: #eef2ff; --indigo-text: #4338ca; --green: #059669; --amber-soft: #fef3c7; --amber: #92400e;
+    --dim: rgba(15, 23, 42, .55); --shadow: 0 20px 50px -10px rgba(15, 23, 42, .35); --ring: #818cf8;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #020617; --panel: #0f172a; --panel-2: #111c33; --line: #1e293b; --text: #e2e8f0; --muted: #94a3b8; --soft: #64748b;
+      --indigo: #6366f1; --indigo-soft: rgba(99,102,241,.15); --indigo-text: #a5b4fc; --green: #34d399; --amber-soft: rgba(251,191,36,.12); --amber: #fcd34d;
+      --dim: rgba(2, 6, 23, .7); --shadow: 0 20px 50px -10px rgba(0,0,0,.75); --ring: #a5b4fc;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #020617; --panel: #0f172a; --panel-2: #111c33; --line: #1e293b; --text: #e2e8f0; --muted: #94a3b8; --soft: #64748b;
+    --indigo: #6366f1; --indigo-soft: rgba(99,102,241,.15); --indigo-text: #a5b4fc; --green: #34d399; --amber-soft: rgba(251,191,36,.12); --amber: #fcd34d;
+    --dim: rgba(2, 6, 23, .7); --shadow: 0 20px 50px -10px rgba(0,0,0,.75); --ring: #a5b4fc;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body { background: var(--bg); color: var(--text); font: 14px/1.5 "Segoe UI", system-ui, -apple-system, sans-serif; }
+  button, input, textarea { font: inherit; color: inherit; }
+  .brand { font-family: "Chakra Petch", "Segoe UI", sans-serif; }
+
+  /* ---- Mock controls ---- */
+  .mockbar { position: sticky; top: 0; z-index: 80; display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; padding: 8px 16px;
+    background: #fde68a; color: #422006; font-size: 12px; border-bottom: 1px solid #f59e0b; }
+  .seg { display: inline-flex; background: rgba(0,0,0,.08); border-radius: 8px; padding: 2px; }
+  .seg button { border: 0; background: transparent; padding: 3px 10px; border-radius: 6px; cursor: pointer; font-weight: 600; }
+  .seg button[aria-pressed="true"] { background: #fff; box-shadow: 0 1px 2px rgba(0,0,0,.15); }
+  .mockbar .link { border: 0; background: none; text-decoration: underline; cursor: pointer; font-weight: 600; padding: 0; }
+
+  /* ---- Faux editor (mirrors the real one) ---- */
+  .top { position: sticky; top: var(--bar, 41px); z-index: 10; display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding: 10px 16px;
+    background: color-mix(in srgb, var(--panel) 88%, transparent); backdrop-filter: blur(6px); border-bottom: 1px solid var(--line); }
+  .badge { border: 1px solid var(--line); border-radius: 99px; padding: 1px 9px; font-size: 12px; color: var(--muted); }
+  .saved { font-size: 12px; color: var(--muted); flex: 1; min-width: 0; }
+  .btn { border: 0; border-radius: 9px; padding: 7px 12px; font-weight: 600; cursor: pointer; background: transparent; }
+  .btn.ghost { color: var(--muted); }
+  .btn.sec { background: var(--panel-2); border: 1px solid var(--line); }
+  .btn.pri { background: var(--indigo); color: #fff; }
+  .wrap { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); min-height: calc(100vh - 100px); }
+  .left { padding: 18px 20px 40px; min-width: 0; }
+  .tabs { display: flex; gap: 2px; border-bottom: 1px solid var(--line); margin-bottom: 16px; }
+  .tabs span { padding: 8px 12px; font-weight: 500; color: var(--muted); border-bottom: 2px solid transparent; margin-bottom: -1px; }
+  .tabs span.on { color: var(--indigo-text); border-color: var(--indigo); }
+  .lbl { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); margin-bottom: 6px; }
+  .title { width: 100%; border: 1px solid var(--line); background: var(--panel); border-radius: 12px; padding: 12px 16px; font-size: 22px; font-weight: 700; }
+  .hint { font-size: 12px; color: var(--muted); margin: 6px 0 14px; }
+  .row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-bottom: 10px; }
+  .ai { background: linear-gradient(90deg, #6366f1, #9333ea); color: #fff; border: 0; border-radius: 9px; padding: 6px 11px; font-size: 12px; font-weight: 600; }
+  .tidy { border: 1px solid var(--line); background: transparent; border-radius: 9px; padding: 6px 10px; font-size: 12px; font-weight: 600; color: var(--muted); margin-right: auto; }
+  .mode { display: inline-flex; background: var(--panel-2); border: 1px solid var(--line); border-radius: 9px; padding: 2px; font-size: 12px; font-weight: 600; }
+  .mode span { padding: 3px 10px; border-radius: 7px; color: var(--muted); }
+  .mode span.on { background: var(--panel); color: var(--text); box-shadow: 0 1px 2px rgba(0,0,0,.12); }
+  .ed { border: 1px solid var(--line); border-radius: 12px; background: var(--panel); overflow: hidden; }
+  .tb { display: flex; flex-wrap: wrap; gap: 2px; align-items: center; padding: 6px; border-bottom: 1px solid var(--line); background: var(--panel-2); font-size: 12px; }
+  .tb span { padding: 4px 7px; border-radius: 6px; color: var(--muted); font-weight: 600; }
+  .tb .sep { width: 1px; height: 18px; background: var(--line); padding: 0; margin: 0 4px; }
+  .tb .acc { background: var(--indigo-soft); color: var(--indigo-text); }
+  .tb .wc { margin-left: auto; font-weight: 400; color: var(--soft); }
+  .body { padding: 18px 20px; min-height: 340px; color: var(--muted); font-size: 15px; line-height: 1.7; }
+  .body h3 { color: var(--text); margin: 18px 0 6px; font-size: 17px; }
+  .right { border-left: 1px solid var(--line); background: var(--panel-2); display: flex; flex-direction: column; min-width: 0; }
+  .pvbar { display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; border-bottom: 1px solid var(--line); background: var(--panel); font-size: 12px; color: var(--muted); }
+  .pvbar .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #10b981; margin-right: 6px; }
+  .page { margin: 16px; background: var(--panel); border-radius: 10px; padding: 18px; border: 1px solid var(--line); }
+  .page .hdr { display: flex; gap: 12px; align-items: center; background: var(--panel-2); border-radius: 8px; padding: 12px; }
+  .page .score { background: linear-gradient(180deg, #8ccbff, #3e9df8); color: #0b1020; border-radius: 9px; padding: 8px 10px; font-weight: 700; text-align: center; font-family: "Chakra Petch", sans-serif; }
+  .page .score small { display: block; font-size: 9px; letter-spacing: .08em; opacity: .75; }
+  .page h2 { margin: 0; font-size: 18px; line-height: 1.25; }
+  .ln { height: 9px; border-radius: 5px; background: var(--line); margin-top: 10px; }
+
+  @media (max-width: 1023px) {
+    .wrap { grid-template-columns: 1fr; }
+    .right, .hide-sm { display: none; }
+  }
+
+  /* ---- The tour ---- */
+  .offer { position: fixed; right: 20px; bottom: 20px; z-index: 60; width: min(340px, calc(100vw - 32px)); background: var(--panel); border: 1px solid var(--line);
+    border-radius: 16px; box-shadow: var(--shadow); padding: 16px; transition: opacity .15s ease; }
+  .offer.hidden { opacity: 0; pointer-events: none; }
+  .offer h4 { margin: 0 0 4px; font-size: 15px; }
+  .offer p { margin: 0 0 12px; color: var(--muted); font-size: 13px; }
+  .offer .acts { display: flex; gap: 8px; justify-content: flex-end; }
+
+  .blocker { position: fixed; inset: 0; z-index: 69; display: none; }
+  .blocker.on { display: block; }
+  /* One cut-out that moves between stops. The dim never switches off between
+     steps (no flashing); only the hole moves, quickly. */
+  .spot { position: fixed; z-index: 70; border-radius: 12px; pointer-events: none; display: none;
+    box-shadow: 0 0 0 2px var(--ring), 0 0 0 200vmax var(--dim);
+    transition: top .18s ease, left .18s ease, width .18s ease, height .18s ease; }
+  .spot.on { display: block; }
+  .pop { position: fixed; z-index: 71; width: min(320px, calc(100vw - 24px)); background: var(--panel); border: 1px solid var(--line); border-radius: 14px;
+    box-shadow: var(--shadow); padding: 14px 16px 12px; display: none; }
+  .pop.on { display: block; }
+  .pop .k { font-size: 11px; font-weight: 700; color: var(--indigo-text); text-transform: uppercase; letter-spacing: .05em; }
+  .pop h4 { margin: 2px 0 4px; font-size: 16px; }
+  .pop p { margin: 0; color: var(--muted); font-size: 13px; }
+  .pop .acts { display: flex; align-items: center; gap: 6px; margin-top: 12px; }
+  .pop .acts .skip { margin-right: auto; border: 0; background: none; color: var(--muted); text-decoration: underline; cursor: pointer; padding: 0; font-size: 12px; }
+  .pop .arrow { position: absolute; width: 12px; height: 12px; background: var(--panel); border: 1px solid var(--line); transform: rotate(45deg); }
+  .pop.below .arrow { top: -7px; border-right: 0; border-bottom: 0; }
+  .pop.above .arrow { bottom: -7px; border-left: 0; border-top: 0; }
+  /* Phones: the card sits at the bottom of the screen like a sheet. */
+  @media (max-width: 640px) {
+    .pop { left: 12px !important; right: 12px; bottom: 12px; top: auto !important; width: auto; }
+    .pop .arrow { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) { .spot, .offer { transition: none; } }
+</style>
+</head>
+<body>
+
+<div class="mockbar">
+  <b>MOCK</b>
+  <span>Theme:
+    <span class="seg" id="theme"><button data-v="auto" aria-pressed="true">Auto</button><button data-v="light" aria-pressed="false">Light</button><button data-v="dark" aria-pressed="false">Dark</button></span>
+  </span>
+  <button class="link" id="restart">Restart (first visit)</button>
+  <span style="opacity:.75">The offer appears the first time someone opens the editor. "Editor tour" in the ⋯ menu replays it any time. Narrow the window to see the phone layout.</span>
+</div>
+
+<div class="top">
+  <button class="btn ghost" aria-label="Back">←</button>
+  <span class="badge">Draft</span>
+  <span class="saved">All changes saved</span>
+  <button class="btn ghost">Notes</button>
+  <button class="btn ghost" id="t-history">History</button>
+  <button class="btn ghost hide-sm">Hide preview</button>
+  <button class="btn sec">Save</button>
+  <button class="btn pri" id="t-submit">Submit for review</button>
+  <button class="btn ghost" id="t-more" title="More">⋯</button>
+</div>
+
+<div class="wrap">
+  <div class="left">
+    <div class="tabs"><span class="on">Write</span><span id="t-details">Details</span><span>Media</span></div>
+    <div id="t-title">
+      <div class="lbl">Title</div>
+      <input class="title" placeholder="Review Title | Game Name Review" value="A Berserker Barrage | Marvel's Wolverine Review" />
+    </div>
+    <div class="hint">Review Title | Game Name Review (e.g. <i>Best Game Ever | Half-Life Review</i>).</div>
+    <div class="row">
+      <button class="ai" id="t-ai">✦ Write with AI</button>
+      <button class="tidy" id="t-tidy">Tidy formatting</button>
+      <span class="mode"><span class="on">Visual</span><span>Markdown</span></span>
+    </div>
+    <div class="ed">
+      <div class="tb">
+        <span>¶</span><span>H2</span><span>H3</span><span class="sep"></span><span>B</span><span><i>I</i></span><span>S</span><span>Link</span><span class="sep"></span><span>• List</span><span>1. List</span><span>“ ”</span><span>—</span><span class="sep"></span>
+        <span id="t-images" style="display:inline-flex;gap:2px"><span class="acc">+ Images</span><span class="acc">+ Image beside text</span></span>
+        <span class="wc">412 words · 2 min read</span>
+      </div>
+      <div class="body">
+        It's hard to completely ignore the internet chatter leading up to a flagship PlayStation exclusive...
+        <h3>The Most Iconic Mutant, Now Playable</h3>
+        Marvel's Wolverine drops you straight into the adamantium-laced skeleton of Marvel's most iconic mutant...
+      </div>
+    </div>
+  </div>
+  <aside class="right" id="t-preview">
+    <div class="pvbar"><span><i class="dot"></i>Live preview</span><span class="mode"><span class="on">Desktop</span><span>Phone</span></span></div>
+    <div class="page">
+      <div class="hdr"><div class="score">7.8<small>SCORE</small></div><h2 class="brand">A Berserker Barrage<br />Marvel's Wolverine Review</h2></div>
+      <div class="ln" style="width:92%"></div><div class="ln" style="width:85%"></div><div class="ln" style="width:88%"></div><div class="ln" style="width:60%"></div>
+    </div>
+  </aside>
+</div>
+
+<!-- First visit: an offer, not a forced tour -->
+<div class="offer hidden" id="offer" role="dialog" aria-labelledby="offer-h">
+  <h4 id="offer-h">New to the editor?</h4>
+  <p>Take a 1-minute tour of where everything is. You can replay it later from the ⋯ menu.</p>
+  <div class="acts"><button class="btn ghost" id="offer-no">No thanks</button><button class="btn pri" id="offer-yes">Show me around</button></div>
+</div>
+
+<div class="blocker" id="blocker"></div>
+<div class="spot" id="spot"></div>
+<div class="pop" id="pop" role="dialog" aria-live="polite">
+  <i class="arrow" id="arrow"></i>
+  <div class="k" id="pop-k">1 of 7</div>
+  <h4 id="pop-h"></h4>
+  <p id="pop-p"></p>
+  <div class="acts"><button class="skip" id="pop-skip">Skip tour</button><button class="btn ghost" id="pop-back">Back</button><button class="btn pri" id="pop-next">Next</button></div>
+</div>
+
+<script>
+(() => {
+  const $ = (s) => document.querySelector(s);
+  const STOPS = [
+    { el: "#t-title", h: "Start with the title", p: "Use \"Review Title | Game Name Review\". The part before | is the headline, the part after names the game." },
+    { el: "#t-ai", h: "Write with AI (optional)", p: "Got rough notes? This gives you a ready prompt for ChatGPT, Gemini or any AI. Paste its reply back and it's formatted for you. Then make it your own." },
+    { el: "#t-tidy", h: "Tidy formatting", p: "Pasted from Google Docs or an AI? One click fixes Pros & Cons lists and strips stray colours and fonts. You can undo it." },
+    { el: "#t-images", h: "Add images (optional)", p: "Upload your own, or open Find screenshots for official ones from Steam or RAWG. Skip it if you like: the chief editor can add images." },
+    { el: "#t-details", h: "Details", p: "Game name, score, a short description and the thumbnail live here. Filling in the game name helps Find screenshots." },
+    { el: "#t-preview", h: "Live preview", p: "Exactly how it will look on PlayTested.net, updated as you type. Switch to Phone to check the mobile view." },
+    { el: "#t-history", h: "Autosave and History", p: "Everything saves as you go. History keeps every version, so nothing you write is lost." },
+    { el: "#t-submit", h: "Submit for review", p: "When it's ready, send it to the chief editor. They publish it or leave notes, which show at the top of this page." },
+  ];
+  let stops = [];
+  let i = 0;
+
+  const visible = (sel) => { const el = $(sel); if (!el) return false; const r = el.getBoundingClientRect(); return r.width > 0 && r.height > 0; };
+
+  function place() {
+    const s = stops[i];
+    const el = $(s.el);
+    el.scrollIntoView({ block: "nearest", inline: "nearest" });
+    const r = el.getBoundingClientRect();
+    const pad = 6;
+    const spot = $("#spot");
+    // Keep the hole on screen for tall targets like the preview pane.
+    const top = Math.max(r.top - pad, ($(".mockbar").offsetHeight || 0) + 4);
+    const bottom = Math.min(r.bottom + pad, innerHeight - 8);
+    Object.assign(spot.style, { left: `${r.left - pad}px`, top: `${top}px`, width: `${r.width + pad * 2}px`, height: `${bottom - top}px` });
+
+    $("#pop-k").textContent = `${i + 1} of ${stops.length}`;
+    $("#pop-h").textContent = s.h;
+    $("#pop-p").textContent = s.p;
+    $("#pop-back").style.visibility = i ? "visible" : "hidden";
+    $("#pop-next").textContent = i === stops.length - 1 ? "Done" : "Next";
+    const pop = $("#pop");
+    pop.classList.add("on");
+    if (innerWidth <= 640) { pop.classList.remove("above", "below"); return; }
+    const pw = pop.offsetWidth, ph = pop.offsetHeight, gap = 14;
+    const below = bottom + gap + ph < innerHeight;
+    const fitsSide = r.height > innerHeight * 0.5; // tall target: put the card beside it
+    let x, y;
+    if (fitsSide) { x = Math.max(12, r.left - pw - gap); y = Math.max(top + 20, 60); pop.classList.remove("above", "below"); $("#arrow").style.display = "none"; }
+    else {
+      $("#arrow").style.display = "";
+      y = below ? bottom + gap : top - gap - ph;
+      x = Math.min(Math.max(12, r.left + r.width / 2 - pw / 2), innerWidth - pw - 12);
+      pop.classList.toggle("below", below);
+      pop.classList.toggle("above", !below);
+      $("#arrow").style.left = `${Math.min(Math.max(14, r.left + r.width / 2 - x - 6), pw - 26)}px`;
+    }
+    Object.assign(pop.style, { left: `${x}px`, top: `${y}px` });
+    $("#pop-next").focus({ preventScroll: true });
+  }
+
+  function start() {
+    $("#offer").classList.add("hidden");
+    stops = STOPS.filter((s) => visible(s.el)); // e.g. no preview pane on phones
+    i = 0;
+    $("#blocker").classList.add("on");
+    $("#spot").classList.add("on");
+    place();
+  }
+  function end() {
+    $("#blocker").classList.remove("on");
+    $("#spot").classList.remove("on");
+    $("#pop").classList.remove("on");
+  }
+  $("#offer-yes").onclick = start;
+  $("#offer-no").onclick = () => $("#offer").classList.add("hidden");
+  $("#pop-next").onclick = () => { if (i === stops.length - 1) end(); else { i++; place(); } };
+  $("#pop-back").onclick = () => { i = Math.max(0, i - 1); place(); };
+  $("#pop-skip").onclick = end;
+  $("#t-more").onclick = start; // stands in for "⋯ → Editor tour"
+  document.addEventListener("keydown", (e) => {
+    if (!$("#pop").classList.contains("on")) return;
+    if (e.key === "Escape") end();
+    if (e.key === "ArrowRight") $("#pop-next").click();
+    if (e.key === "ArrowLeft" && i) $("#pop-back").click();
+  });
+  addEventListener("resize", () => { if ($("#pop").classList.contains("on")) { stops = STOPS.filter((s) => visible(s.el)); i = Math.min(i, stops.length - 1); place(); } });
+  const fitBar = () => document.documentElement.style.setProperty("--bar", $(".mockbar").offsetHeight + "px");
+  addEventListener("resize", fitBar);
+  fitBar();
+  $("#restart").onclick = () => { end(); $("#offer").classList.remove("hidden"); };
+  document.querySelectorAll("#theme button").forEach((b) => (b.onclick = () => {
+    document.querySelectorAll("#theme button").forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
+    if (b.dataset.v === "auto") document.documentElement.removeAttribute("data-theme");
+    else document.documentElement.setAttribute("data-theme", b.dataset.v);
+    if ($("#pop").classList.contains("on")) place();
+  }));
+  setTimeout(() => $("#offer").classList.remove("hidden"), 600);
+})();
+</script>
+</body>
+</html>
