@@ -52,11 +52,12 @@ import {
   type ArticleRow,
 } from "../articles";
 import { commitFiles, dispatchDeploy, GitHubError, githubConfigured, listDeployRuns, type TreeEntry } from "../github";
-import { DEFAULT_GUARDS, currentLevel, getGuards, saveGuards, withinRate, type GuardSettings } from "../guards";
+import { DEFAULT_GUARDS, bump, currentLevel, getGuards, saveGuards, withinRate, type GuardSettings } from "../guards";
 import { ensureBlob, mediaForPaths, mediaJson, stageDelete, storeUpload, type MediaRow } from "../media";
 import { getBuildInfo, isBuilt, recordDeploy } from "../deploys";
 import { findScreenshots, proxyScreenshot, type ShotSource } from "../screenshots";
 import { notifySubmitted, notifyTest } from "../notify";
+import { ALERT_KINDS, alert, testAlert } from "../alerts";
 import { indexArticle, markIndexDirty, reindexPending, removeFromIndex } from "../search";
 import { runWatchdog } from "../watchdog";
 import { audit, clientIp, error, json, now, parseJson, utcDay } from "../util";
@@ -96,6 +97,16 @@ function withCookie(res: Response, cookie: string): Response {
   const out = new Response(res.body, res);
   out.headers.append("Set-Cookie", cookie);
   return out;
+}
+
+/** "Juan (pixelknight)": a person in alert messages. */
+const who = (u: { name: string; authorName: string | null }) => (u.authorName && u.authorName !== u.name ? `${u.name} (${u.authorName})` : u.name);
+
+/** Someone accepted an invite: tell the team channel. */
+async function alertJoined(env: Env, userId: string): Promise<void> {
+  const u = await env.DB.prepare("SELECT name, role, author_name FROM users WHERE id = ?").bind(userId).first<{ name: string; role: string; author_name: string | null }>();
+  if (!u) return;
+  await alert(env, "team", { title: `👋 ${u.name} joined the team`, url: "/studio/team/", color: "indigo", fields: [{ name: "Role", value: u.role }, { name: "Byline", value: u.author_name ?? "not set yet" }] });
 }
 
 async function limitAuth(c: Ctx): Promise<Response | null> {
@@ -220,7 +231,15 @@ route("POST", "/auth/owner", "public", async (c) => {
   if (limited) return limited;
   const b = await body<{ key?: string; email?: string; name?: string }>(c.request);
   const result = await ownerSignIn(c.env, String(b.key || ""), String(b.email || ""), String(b.name || ""));
-  if ("error" in result) return error(401, result.error);
+  const country = c.request.headers.get("cf-ipcountry") || "?";
+  if ("error" in result) {
+    // Five wrong owner keys in a day is worth knowing about (one alert a day).
+    if ((await bump(c.env, "ownerkey-fail")) === 5) {
+      c.waitUntil(alert(c.env, "security", { title: "🔐 5 failed owner-key sign-ins today", description: "Someone is trying the owner key. If it isn't you, rotate STUDIO_OWNER_KEY.", color: "red", fields: [{ name: "Latest from", value: country }] }));
+    }
+    return error(401, result.error);
+  }
+  c.waitUntil(alert(c.env, "security", { title: "🔐 Owner-key sign-in", description: "Someone signed in to the studio with the owner key.", color: "amber", fields: [{ name: "Email", value: String(b.email || "") }, { name: "Country", value: country }] }));
   return withCookie(json({ ok: true }), await startSession(c.env, result.userId, c.request));
 });
 
@@ -239,6 +258,7 @@ route("GET", "/auth/google/callback", "public", async (c) => {
     const accepted = await acceptInvite(c.env, result.invite, { email: result.email, name: result.name, avatar: result.picture });
     if ("error" in accepted) return fail(accepted.error);
     userId = accepted.userId;
+    c.waitUntil(alertJoined(c.env, accepted.userId).catch(() => undefined));
   } else {
     const existing = await findUserByEmail(c.env, result.email);
     if (!existing || existing.status !== "active") {
@@ -276,6 +296,7 @@ route("POST", "/auth/invite", "public", async (c) => {
   if (!token) return error(400, "Missing invite.");
   const accepted = await acceptInvite(c.env, token, { name: name ? String(name).slice(0, 100) : undefined });
   if ("error" in accepted) return error(400, accepted.error);
+  c.waitUntil(alertJoined(c.env, accepted.userId).catch(() => undefined));
   return withCookie(json({ ok: true }), await startSession(c.env, accepted.userId, c.request));
 });
 
@@ -313,6 +334,13 @@ route("PATCH", "/me", "contributor", async (c) => {
   }
   return json({ ok: true, name, authorName: byline ?? user.authorName });
 });
+
+route("POST", "/alerts/test", "chief", async (c) => {
+  if (!c.env.ALERT_WEBHOOK_URL) return error(400, "Set the ALERT_WEBHOOK_URL secret first (a Discord webhook URL).");
+  return (await testAlert(c.env)) ? json({ ok: true }) : error(502, "The webhook didn't accept the message. Check the URL.");
+});
+
+route("GET", "/alerts/kinds", "editor", async () => json({ kinds: ALERT_KINDS }));
 
 route("POST", "/notify/test", "chief", async (c) => {
   if (!c.env.NOTIFY_EMAIL) return error(400, "Email isn't set up on this environment (production only).");
@@ -540,6 +568,15 @@ route("POST", "/articles/:id/submit", "contributor", async (c, m) => {
   const { note } = await body<{ note?: string }>(c.request);
   const updated = await setState(c.env, c.user!, row, "in_review", "submit", note?.trim() || null);
   c.waitUntil(notifySubmitted(c.env, { id: row.id, title: row.title, author: row.author }, c.user!, note?.trim() || null).catch(() => undefined));
+  c.waitUntil(
+    alert(c.env, "submitted", {
+      title: `📝 Submitted for review: ${row.title || "Untitled article"}`,
+      description: note?.trim() ? `“${note.trim()}”` : undefined,
+      url: `/studio/articles/${row.id}/`,
+      color: "blue",
+      fields: [{ name: "By", value: who(c.user!) }],
+    }),
+  );
   return json(await articleDetail(c, updated));
 });
 
@@ -550,7 +587,9 @@ route("POST", "/articles/:id/request-changes", "chief", async (c, m) => {
   // A verdict on text the reviewer hasn't seen is refused (→ 409, reload first).
   if (rev !== row.draft_rev) throw new ConflictError(row);
   if (!note?.trim()) return error(400, "Say what needs to change.");
-  return json(await articleDetail(c, await setState(c.env, c.user!, row, "changes_requested", "request_changes", note.trim())));
+  const updated = await setState(c.env, c.user!, row, "changes_requested", "request_changes", note.trim());
+  c.waitUntil(alert(c.env, "reviewed", { title: `↩️ Changes requested: ${row.title || "Untitled article"}`, description: `“${note.trim()}”`, url: `/studio/articles/${row.id}/`, color: "amber", fields: [{ name: "Writer", value: row.author || "—" }] }));
+  return json(await articleDetail(c, updated));
 });
 
 route("POST", "/articles/:id/approve", "chief", async (c, m) => {
@@ -558,7 +597,9 @@ route("POST", "/articles/:id/approve", "chief", async (c, m) => {
   if (row instanceof Response) return row;
   const { note, rev } = await body<{ note?: string; rev?: number }>(c.request);
   if (rev !== row.draft_rev) throw new ConflictError(row);
-  return json(await articleDetail(c, await setState(c.env, c.user!, row, "approved", "approve", note?.trim() || null)));
+  const updated = await setState(c.env, c.user!, row, "approved", "approve", note?.trim() || null);
+  c.waitUntil(alert(c.env, "reviewed", { title: `✅ Approved: ${row.title || "Untitled article"}`, url: `/studio/articles/${row.id}/`, color: "green", fields: [{ name: "Writer", value: row.author || "—" }] }));
+  return json(await articleDetail(c, updated));
 });
 
 /** Images the article references that still need uploading to GitHub. */
@@ -617,6 +658,21 @@ route("POST", "/articles/:id/publish", "chief", async (c, m) => {
   const oldLiveSlug = row.live_json ? (row.live_slug ?? liveOf(row)?.slug ?? null) : null;
   const published = await markPublished(c.env, c.user!, row, data, hash, commit, gitPath);
   await recordDeploy(c.env, "publish", "requested", { commit: commit.sha, userId: c.user!.id, message: data.title });
+  {
+    const at = Date.parse(data.pubDate);
+    const scheduled = at > Date.now();
+    c.waitUntil(
+      alert(c.env, "published", {
+        title: `${scheduled ? "⏰ Scheduled" : row.live_json ? "✏️ Updated" : "📰 Published"}: ${data.title}`,
+        description: scheduled
+          ? `Goes live ${new Date(at).toLocaleString("en-PH", { timeZone: "Asia/Manila", dateStyle: "medium", timeStyle: "short" })} (PH time).`
+          : "On the site in about 2 minutes, once the build finishes.",
+        url: `/article/${data.slug}/`,
+        color: "green",
+        fields: [{ name: "Byline", value: data.author || "—" }, ...(data.score != null ? [{ name: "Score", value: `${data.score}/10` }] : [])],
+      }),
+    );
+  }
   c.waitUntil(c.env.CACHE.delete(META_CACHE_KEY));
   c.waitUntil(
     (async () => {
@@ -964,6 +1020,7 @@ route("PUT", "/guards", "chief", async (c) => {
   }
   if (b.features) patch.features = Object.fromEntries(Object.entries(b.features).map(([k, v]) => [k, Boolean(v)])) as GuardSettings["features"];
   if (b.caps) patch.caps = Object.fromEntries(Object.entries(b.caps).map(([k, v]) => [k, clamp(v, 0, 1_000_000)])) as GuardSettings["caps"];
+  if (b.alerts) patch.alerts = Object.fromEntries(Object.entries(b.alerts).filter(([k]) => k in ALERT_KINDS).map(([k, v]) => [k, Boolean(v)]));
   const next = await saveGuards(c.env, patch, c.user!.id);
   await audit(c.env.DB, c.user!.id, "guards.update", null, patch);
   return json(await guardsPayload(c, next));

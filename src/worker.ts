@@ -22,7 +22,7 @@ import type { Env } from "./lib/server/env";
 import { isJunkPath, pruneRateLimits } from "./lib/server/guards";
 import { serveStagedImage } from "./lib/server/media";
 import { runWatchdog } from "./lib/server/watchdog";
-import { runScheduler } from "./lib/server/deploys";
+import { runScheduler, watchBuilds } from "./lib/server/deploys";
 import { reindexPending } from "./lib/server/search";
 import { handleStudio } from "./lib/server/api/studio";
 import { publicRoutes } from "./lib/server/api/public";
@@ -91,7 +91,7 @@ export function createExports(manifest: SSRManifest) {
 
   const scheduled = async (_controller: ScheduledController, env: Env, ctx: ExecutionContext) => {
     ctx.waitUntil(
-      Promise.allSettled([runWatchdog(env), runScheduler(env), reindexPending(env, 8), pruneRateLimits(env)]).then((results) => {
+      Promise.allSettled([runWatchdog(env), runScheduler(env), watchBuilds(env), reindexPending(env, 8), pruneRateLimits(env)]).then((results) => {
         for (const r of results) if (r.status === "rejected") console.error("cron task failed:", r.reason);
       }),
     );

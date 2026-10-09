@@ -16,6 +16,8 @@
       liveFallbackMinutes: number;
       features: Record<Feature, boolean>;
       caps: Record<Feature, number>;
+      /** Discord alert switches by kind; missing = on. */
+      alerts?: Record<string, boolean>;
       usage?: {
         day: string;
         total: number;
@@ -62,7 +64,7 @@
     { key: "google", label: "Google sign-in", how: "Worker secrets GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET." },
     { key: "openrouter", label: "OpenRouter (AI)", how: "Worker secret OPENROUTER_API_KEY." },
     { key: "rawg", label: "RAWG (game data)", how: "Worker secret RAWG_API_KEY." },
-    { key: "alerts", label: "Usage alerts", how: "Optional Worker secret ALERT_WEBHOOK_URL (Discord or Slack webhook)." },
+    { key: "alerts", label: "Discord alerts", how: "Optional Worker secret ALERT_WEBHOOK_URL: in Discord, Server settings → Integrations → Webhooks → New webhook → Copy URL." },
     { key: "email", label: "Email notifications (review needed)", how: "Production only: the send_email binding plus Email Routing on playtested.net, with your sign-in email as a verified destination." },
   ];
 
@@ -79,9 +81,29 @@
     }
   }
 
+  // Discord alerts: the kinds come from the server (alerts.ts); a missing switch means on.
+  let alertKinds = $state<Record<string, string>>({});
+  let testingAlert = $state(false);
+  async function testDiscord() {
+    testingAlert = true;
+    try {
+      await api.post("/alerts/test");
+      toast("Test alert sent. Check your Discord channel.", "success");
+    } catch (e) {
+      toastError(e);
+    } finally {
+      testingAlert = false;
+    }
+  }
+  function setAlert(kind: string, on: boolean) {
+    if (!draft) return;
+    draft.alerts = { ...(draft.alerts ?? {}), [kind]: on };
+  }
+
   async function load() {
     try {
       g = await api.get<Guards>("/guards");
+      api.get<{ kinds: Record<string, string> }>("/alerts/kinds").then((r) => (alertKinds = r.kinds)).catch(() => undefined);
       draft = structuredClone($state.snapshot(g.settings));
       index = await api.get("/index");
     } catch (e) {
@@ -106,6 +128,7 @@
         liveFallbackMinutes: draft.liveFallbackMinutes,
         features: draft.features,
         caps: draft.caps,
+        alerts: draft.alerts ?? {},
       });
       draft = structuredClone($state.snapshot(g.settings));
       toast("Site limits saved", "success");
@@ -277,6 +300,35 @@
                   <input class="input !w-24 !py-1" type="number" min="0" disabled={!chief} bind:value={draft.caps[f.key]} />
                 </div>
               {/if}
+            </li>
+          {/each}
+        </ul>
+      </section>
+
+      <!-- Discord alerts -->
+      <section id="alerts" class="card p-6">
+        <div class="flex flex-wrap items-start justify-between gap-3">
+          <div>
+            <h2 class="font-semibold">Discord alerts</h2>
+            <p class="text-xs text-slate-500">
+              {g.integrations.alerts ? "Posts to your Discord channel when these happen. Busy ones are grouped so a burst sends one message." : "Not connected: set the ALERT_WEBHOOK_URL secret (see Integrations below)."}
+            </p>
+          </div>
+          {#if chief && g.integrations.alerts}<button class="btn-secondary !py-1 text-xs" disabled={testingAlert} onclick={testDiscord}>{testingAlert ? "Sending…" : "Send test alert"}</button>{/if}
+        </div>
+        <ul class="mt-3 grid gap-x-6 sm:grid-cols-2">
+          {#each Object.entries(alertKinds) as [kind, label] (kind)}
+            <li class="py-1.5">
+              <label class="flex cursor-pointer items-center gap-3 text-sm">
+                <input
+                  type="checkbox"
+                  class="h-5 w-9 shrink-0 cursor-pointer appearance-none rounded-full bg-slate-300 transition before:block before:h-4 before:w-4 before:translate-x-0.5 before:rounded-full before:bg-white before:shadow before:transition checked:bg-indigo-600 checked:before:translate-x-[18px] dark:bg-slate-600"
+                  disabled={!chief}
+                  checked={draft.alerts?.[kind] !== false}
+                  onchange={(e) => setAlert(kind, e.currentTarget.checked)}
+                />
+                {label}
+              </label>
             </li>
           {/each}
         </ul>

@@ -10,6 +10,7 @@
 import type { Env } from "./env";
 import { getGuards, saveGuards, type Level, type UsageMetric, type UsageSnapshot } from "./guards";
 import { audit, now, utcDay } from "./util";
+import { alert } from "./alerts";
 
 /** Workers Free plan daily allowances. Going over means errors, never bills. */
 const FREE_LIMITS = {
@@ -24,7 +25,7 @@ const QUERY = `query ($accountTag: string!, $start: Time!, $end: Time!, $date: D
   viewer {
     accounts(filter: { accountTag: $accountTag }) {
       workers: workersInvocationsAdaptive(limit: 1000, filter: { datetime_geq: $start, datetime_leq: $end }) {
-        sum { requests }
+        sum { requests errors }
         dimensions { scriptName }
       }
       pages: pagesFunctionsInvocationsAdaptiveGroups(limit: 1000, filter: { datetime_geq: $start, datetime_leq: $end }) {
@@ -46,7 +47,7 @@ const QUERY = `query ($accountTag: string!, $start: Time!, $end: Time!, $date: D
 }`;
 
 interface Account {
-  workers?: { sum: { requests: number }; dimensions: { scriptName: string } }[];
+  workers?: { sum: { requests: number; errors?: number }; dimensions: { scriptName: string } }[];
   pages?: { sum: { requests: number }; dimensions: { scriptName: string } }[];
   d1?: { sum: { rowsRead: number; rowsWritten: number } }[];
   kv?: { sum: { requests: number }; dimensions: { actionType: string } }[];
@@ -102,8 +103,13 @@ export async function fetchUsage(env: Env, dailyRequestLimit: number): Promise<U
   for (const [key, { label, limit }] of Object.entries(FREE_LIMITS)) {
     metrics[key] = { label, used: used[key as keyof typeof FREE_LIMITS], limit };
   }
-  return { day, total, byScript, metrics, checkedAt: now() };
+  // Worker invocations that threw or returned an error today (this account's Workers).
+  const errors = (a.workers ?? []).reduce((acc, r) => acc + (r.sum.errors ?? 0), 0);
+  return { day, total, byScript, metrics, errors, checkedAt: now() };
 }
+
+/** Error spike: at least this many failed requests, making up this share of all requests today. */
+const ERROR_ALERT = { min: 200, share: 0.02 };
 
 export async function runWatchdog(env: Env): Promise<void> {
   const g = await getGuards(env, 0);
@@ -111,7 +117,34 @@ export async function runWatchdog(env: Env): Promise<void> {
   if (usage.error) {
     // Keep the last good level; just record why the check failed.
     await saveGuards(env, { usage: { ...(g.usage ?? usage), error: usage.error, checkedAt: usage.checkedAt } }, null);
+    if (usage.error !== "CF_ANALYTICS_TOKEN is not set") {
+      await alert(
+        env,
+        "watchdogError",
+        {
+          title: "⚠️ The usage check is failing",
+          description: `${usage.error}\nThe site keeps its last known mode until this is fixed. A common cause is an expired CF_ANALYTICS_TOKEN.`,
+          url: "/studio/settings/",
+          color: "amber",
+        },
+        "watchdog-error",
+      );
+    }
     return;
+  }
+  const errors = usage.errors ?? 0;
+  if (errors >= ERROR_ALERT.min && errors >= usage.total * ERROR_ALERT.share) {
+    await alert(
+      env,
+      "errors",
+      {
+        title: "🔥 Error spike on the site",
+        description: `${errors.toLocaleString()} failed requests today (${((errors / Math.max(usage.total, 1)) * 100).toFixed(1)}% of ${usage.total.toLocaleString()}). Check the Worker's logs in Cloudflare.`,
+        url: "https://dash.cloudflare.com/",
+        color: "red",
+      },
+      "error-spike",
+    );
   }
 
   // The tightest quota decides the level.
@@ -134,14 +167,13 @@ export async function runWatchdog(env: Env): Promise<void> {
       `Switched to ${label} mode${g.mode === "auto" ? "" : " (auto mode is overridden in the studio, so nothing changed)"}. ` +
       `Resets at 00:00 UTC (8 AM PH).`;
     await audit(env.DB, null, "watchdog.level", String(autoLevel), { metric: worst.key, pct: worst.pct, used: m.used });
-    if (env.ALERT_WEBHOOK_URL) {
-      // Works with Discord ("content") and Slack ("text") incoming webhooks.
-      await fetch(env.ALERT_WEBHOOK_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ content: message, text: message }),
-      }).catch(() => undefined);
-    }
+    await alert(env, "usage", {
+      title: autoLevel === 2 ? "🟥 Essential-only mode" : "🟧 Conserve mode",
+      description: message,
+      url: "/studio/settings/",
+      color: autoLevel === 2 ? "red" : "amber",
+      fields: [{ name: m.label, value: `${m.used.toLocaleString()} / ${m.limit.toLocaleString()} (${worst.pct.toFixed(0)}%)` }],
+    });
   }
   await saveGuards(env, patch, null);
 }

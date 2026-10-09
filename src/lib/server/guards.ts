@@ -31,6 +31,8 @@ export interface UsageSnapshot {
   metrics?: Record<string, UsageMetric>;
   /** The quota closest to its limit. */
   worst?: { key: string; pct: number };
+  /** Failed Worker invocations today (account-wide). */
+  errors?: number;
   checkedAt: number;
   error?: string;
 }
@@ -48,6 +50,8 @@ export interface GuardSettings {
   caps: Record<Feature, number>;
   usage?: UsageSnapshot;
   alerted?: { day: string; level: Level };
+  /** Discord alert switches by kind (see alerts.ts); missing = on. */
+  alerts?: Record<string, boolean>;
 }
 
 export const DEFAULT_GUARDS: GuardSettings = {
@@ -142,6 +146,7 @@ function merge(base: GuardSettings, over: Partial<GuardSettings>): GuardSettings
     thresholds: { ...base.thresholds, ...(over.thresholds ?? {}) },
     features: { ...base.features, ...(over.features ?? {}) },
     caps: { ...base.caps, ...(over.caps ?? {}) },
+    alerts: { ...(base.alerts ?? {}), ...(over.alerts ?? {}) },
   };
 }
 

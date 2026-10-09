@@ -9,6 +9,7 @@ import type { Env } from "./env";
 import { clearOAuthCookie, cookie, getCookie, googleConfigured, googleFinish, googleStart, type GoogleFlow } from "./auth";
 import { bump, featureOn, gate, getGuards, withinRate } from "./guards";
 import { clientIp, error, json, now, sha256Hex, uid } from "./util";
+import { alert } from "./alerts";
 
 const READER_COOKIE = "pt_reader";
 const READER_DAYS = 90;
@@ -140,6 +141,21 @@ async function post(request: Request, env: Env): Promise<Response> {
   const row = await env.DB.prepare("SELECT m.*, c.name, c.avatar FROM comments m JOIN commenters c ON c.id = m.commenter_id WHERE m.id = ?")
     .bind(id)
     .first<CommentRow>();
+  if (status === "pending") {
+    // At most one message an hour, however many get held.
+    await alert(
+      env,
+      "comments",
+      {
+        title: "💬 A comment is waiting for moderation",
+        description: body.slice(0, 300),
+        url: "/studio/comments/?status=pending",
+        color: "amber",
+        fields: [{ name: "On", value: `/article/${slug}/` }, { name: "From", value: me.name }],
+      },
+      `comments:${new Date().toISOString().slice(0, 13)}`,
+    );
+  }
   return json({ comment: shape(row!, me), held: status === "pending" }, { status: 201 });
 }
 

@@ -6,8 +6,9 @@
  */
 import type { Env } from "./env";
 import { bump } from "./guards";
-import { dispatchDeploy, githubConfigured } from "./github";
+import { dispatchDeploy, githubConfigured, listDeployRuns } from "./github";
 import { audit, now, utcDay } from "./util";
+import { alert } from "./alerts";
 
 export interface BuildInfo {
   builtAt: number;
@@ -89,4 +90,36 @@ export async function runScheduler(env: Env): Promise<void> {
   await dispatchDeploy(env, "schedule");
   await recordDeploy(env, "schedule", "requested", { message: slugs.join(", ") });
   await audit(env.DB, null, "deploy.schedule", null, { slugs, day: utcDay() });
+  await alert(env, "published", {
+    title: `⏰ Scheduled post${slugs.length > 1 ? "s" : ""} going live`,
+    description: "Their publish time has passed, so the site is rebuilding (about 2 minutes).",
+    url: `/article/${slugs[0]}/`,
+    color: "green",
+    fields: [{ name: "Articles", value: slugs.map((s) => `/article/${s}/`).join("\n"), inline: false }],
+  });
+}
+
+/**
+ * Cron: tell the team channel when a site build fails (one message per failed
+ * run). One GitHub API call every 10 minutes, and only when alerts are set up.
+ */
+export async function watchBuilds(env: Env): Promise<void> {
+  if (!env.ALERT_WEBHOOK_URL || !githubConfigured(env)) return;
+  const runs = await listDeployRuns(env, 3);
+  for (const r of runs) {
+    if (r.status !== "completed" || r.conclusion !== "failure") continue;
+    if (Date.now() - Date.parse(r.updated_at) > 6 * 3600_000) continue;
+    await alert(
+      env,
+      "deployFailed",
+      {
+        title: "🔴 Site build failed",
+        description: `${r.display_title}\nThe live site still shows the previous build. Open the run to see what broke.`,
+        url: r.html_url,
+        color: "red",
+        fields: [{ name: "Commit", value: r.head_sha.slice(0, 7) }, { name: "Trigger", value: r.event }],
+      },
+      `deploy:${r.id}`,
+    );
+  }
 }
