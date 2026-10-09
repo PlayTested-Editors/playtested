@@ -65,7 +65,8 @@ export async function testAlert(env: Env): Promise<boolean> {
 async function post(env: Env, msg: AlertMessage): Promise<boolean> {
   const url = msg.url ? (msg.url.startsWith("http") ? msg.url : SITE + msg.url) : undefined;
   const tag = env.SITE_ENV === "production" ? "" : ` (${env.SITE_ENV})`;
-  const hook = env.ALERT_WEBHOOK_URL!;
+  // Secrets pasted through a Windows pipe can carry a byte-order mark or a newline.
+  const hook = env.ALERT_WEBHOOK_URL!.replace(/^﻿/, "").trim();
   const body = hook.includes("hooks.slack.com")
     ? {
         text: [`*${msg.title}*${tag}`, msg.description, ...(msg.fields ?? []).map((f) => `${f.name}: ${f.value}`), url]
