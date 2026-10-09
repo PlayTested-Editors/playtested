@@ -37,8 +37,8 @@ The studio resizes images to 1920 px and encodes them to AVIF in the browser (We
 | Role | Can |
 |---|---|
 | Chief editor | Everything: approve, request changes, publish/schedule/unpublish, team, site limits |
-| Editor | Edit any article, notes, submit for review, restore revisions |
-| Contributor | Write and edit their own articles, submit for review |
+| Editor | Their own work plus anything submitted or published: edit, notes, submit for review, restore revisions. Never other people's unsubmitted drafts |
+| Contributor | Only their own articles: write, edit, submit for review |
 
 The team is invite-only (Team → Invite someone). People sign in with Google, or with a one-time link from the chief editor.
 
