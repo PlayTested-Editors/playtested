@@ -766,7 +766,7 @@
         <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M17 10a.75.75 0 0 1-.75.75H5.612l4.158 3.96a.75.75 0 1 1-1.04 1.08l-5.5-5.25a.75.75 0 0 1 0-1.08l5.5-5.25a.75.75 0 1 1 1.04 1.08L5.612 9.25H16.25A.75.75 0 0 1 17 10Z" clip-rule="evenodd" /></svg>
       </a>
       <div class="flex min-w-0 flex-1 items-center gap-2">
-        <StateBadge state={articleState} live={detail.article.isLive} pending={detail.article.hasPendingChanges} />
+        <StateBadge state={articleState} live={detail.article.isLive} pending={detail.article.hasPendingChanges} pubDate={detail.article.pubDate} />
         <span class="hidden truncate text-xs sm:inline {saveError || conflict ? 'text-rose-600' : 'text-slate-500'}" title={saveError ?? ""}>
           {#if saving}<span class="mr-1 inline-block h-1.5 w-1.5 animate-pulse rounded-full bg-amber-400"></span>{/if}{saveLabel}
         </span>

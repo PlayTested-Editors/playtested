@@ -115,7 +115,7 @@
           {showDate ? dateTime(a.pubDate) : `${names[a.updatedBy ?? ""] ?? a.author ?? ""} · ${relTime(a.updatedAt)}`}
         </p>
       </div>
-      <StateBadge state={a.state} live={a.isLive} pending={a.hasPendingChanges} />
+      <StateBadge state={a.state} live={a.isLive} pending={a.hasPendingChanges} pubDate={a.pubDate} />
     </a>
   </li>
 {/snippet}

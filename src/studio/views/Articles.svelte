@@ -200,7 +200,7 @@
               {#if a.score !== null}
                 <span class="hidden sm:inline-flex h-8 w-8 items-center justify-center rounded-lg bg-slate-900 text-xs font-bold text-white dark:bg-slate-700">{formatScore(a.score)}</span>
               {/if}
-              <div class="hidden md:block"><StateBadge state={a.state} live={a.isLive} pending={a.hasPendingChanges} /></div>
+              <div class="hidden md:block"><StateBadge state={a.state} live={a.isLive} pending={a.hasPendingChanges} pubDate={a.pubDate} /></div>
             </a>
             {#if canDelete(a)}
               <button
