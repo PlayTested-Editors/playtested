@@ -24,15 +24,13 @@ score: 8
 game: Halo Campaign Evolved
 ---
 
-I finally jumped into *Halo Campaign Evolved*, and let me tell you, it was an absolute 
-
-<img src="/images/uploads/medaltvhalocampaignevolved20260731171052820-25af25.avif" alt="" class="img-wrap img-wrap-right rounded shadow" style="width: 40%;" />
+I finally jumped into *Halo Campaign Evolved*, and let me tell you, it was an absolute
 
 blast just like old times, but with a visual makeover. Having played through the original and the *Master Chief Collection* campaigns just for the pure fun of it, returning to where it all began — rebuilt from the ground up — felt like slipping into a familiar, upgraded suit of Mjolnir armor.
 
 *Halo* is probably the quintessential sci-fi console first-person shooter, for a lot of people at least. You step into the boots of the Master Chief, a hulking, green-armored astronaut looking super-soldier, as you crash-land on a mysterious, massive ringworld known as the **Halo**. Along with an AI companion named Cortana, your mission is to rally scattered human marines, uncover the secrets of the ring, and fight off an alliance of alien zealots known as the Covenant — and eventually, something far worse.
 
-<img src="/images/uploads/rawg-1-halo-campaign-evolved-d8c4ca.avif" alt="" class="img-wrap img-wrap-left rounded shadow" style="width: 40%;" />
+![](/images/uploads/medaltvhalocampaignevolved20260731171052820-25af25.avif)
 
 The moment-to-moment gameplay loop revolves around a delicate dance of shooting, melee, and grenade-tossing, commonly referred to as the "golden triangle" of *Halo*. You scavenge alien weapons, hijack enemy vehicles, and navigate semi-massive sandboxes filled with dynamic AI enemies that actually react to your tactics. They throw grenades, try to flank, and coordinate against you. It’s a formula that revolutionized console shooters, and this remake aims to present that core loop with a thoroughly modern coat of paint.
 
@@ -65,7 +63,7 @@ That said, the visual and mechanical shifts allow for some brilliant additions, 
 
 ### Mission Design and Additions
 
-The developers didn't just stop at the engine nor the mechanics; they actively 
+The developers didn't just stop at the engine nor the mechanics; they actively
 
 <img src="/images/uploads/medaltvhalocampaignevolved20260827152614815-2d9131.avif" alt="" class="img-wrap img-wrap-right rounded shadow" style="width: 40%;" />
 
