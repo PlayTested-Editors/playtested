@@ -13,6 +13,7 @@
     multiple = false,
     title = "Choose an image",
     articleMedia = [],
+    start,
     onpick,
   }: {
     open?: boolean;
@@ -20,6 +21,8 @@
     multiple?: boolean;
     title?: string;
     articleMedia?: Media[];
+    /** Open on this tab (e.g. "find" for the Media tab's Find screenshots). */
+    start?: "article" | "library" | "find";
     onpick: (media: Media[]) => void;
   } = $props();
 
@@ -45,6 +48,8 @@
         selected = [];
         fresh = [];
         if (!articleMedia.length) tab = "library";
+        if (start === "find") openFind();
+        else if (start) tab = start;
       });
     }
   });

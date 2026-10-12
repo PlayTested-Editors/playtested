@@ -4,10 +4,11 @@
   import { api, ApiError, type ArticleData, type ArticleDetail, type LockStatus, type Media } from "../api";
   import { navigate, refreshCounts, reloadForNewVersion, route, session, setLeaveGuard, toast, toastError, toggleTheme } from "../state.svelte";
   import { deploys, refreshDeploys, watchCommit } from "../deploys.svelte";
-  import { STATE_LABEL, bytes, dateTime, relTime, slugify } from "../format";
+  import { STATE_LABEL, bytes, dateTime, fromLocalInput, relTime, slugify, toLocalInput } from "../format";
   import StateBadge from "../ui/StateBadge.svelte";
   import Modal from "../ui/Modal.svelte";
   import Dropzone from "../ui/Dropzone.svelte";
+  import MediaPicker from "../ui/MediaPicker.svelte";
   import MarkdownField from "../editor/MarkdownField.svelte";
   import DetailsPanel from "../editor/DetailsPanel.svelte";
   import HistoryPanel from "../editor/HistoryPanel.svelte";
@@ -182,6 +183,8 @@
   // Numbering for an auto slug that another article already uses ("title-2").
   let slugDedupe = $state<{ base: string; n: number } | null>(null);
   let menuOpen = $state(false);
+  let datePicker = $state(false); // the date chip beside Publish
+  let findShots = $state(false); // Media tab: Find screenshots
   let meta = $state({ categories: [] as string[], tags: [] as string[], authors: [] as string[] });
   // Unsaved edits found in this browser from an earlier visit (session expired, tab closed…).
   let recovered = $state<{ data: ArticleData; at: number } | null>(null);
@@ -216,6 +219,7 @@
   async function startTour() {
     markTourSeen();
     menuOpen = false;
+    datePicker = false;
     tab = "write";
     await tick();
     tourOpen = true;
@@ -798,18 +802,43 @@
           <button class="btn-secondary" onclick={() => (review = "approve")}>Approve</button>
         {/if}
         {#if articleState !== "published" || !detail.article.isLive}
-          <button
-            type="button"
-            class="hidden items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-xs font-semibold ring-1 transition sm:inline-flex {future ? 'bg-sky-50 text-sky-700 ring-sky-200 hover:bg-sky-100 dark:bg-sky-500/10 dark:text-sky-300 dark:ring-sky-500/30' : 'text-slate-600 ring-slate-200 hover:bg-slate-100 dark:text-slate-300 dark:ring-slate-700 dark:hover:bg-slate-800'}"
-            title="Publish date (Philippine time). Click to change it in Details."
-            onclick={() => {
-              tab = "details";
-              tick().then(() => document.getElementById("date")?.focus());
-            }}
-          >
-            <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5" /></svg>
-            {future ? "Goes live " : ""}{new Date(data.pubDate).toLocaleString("en-PH", { timeZone: "Asia/Manila", dateStyle: "medium", timeStyle: "short" })}
-          </button>
+          <div class="relative hidden sm:block">
+            <button
+              type="button"
+              class="inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-xs font-semibold ring-1 transition {future ? 'bg-sky-50 text-sky-700 ring-sky-200 hover:bg-sky-100 dark:bg-sky-500/10 dark:text-sky-300 dark:ring-sky-500/30' : 'text-slate-600 ring-slate-200 hover:bg-slate-100 dark:text-slate-300 dark:ring-slate-700 dark:hover:bg-slate-800'}"
+              title="Publish date (Philippine time). Click to change it."
+              aria-expanded={datePicker}
+              onclick={() => {
+                datePicker = !datePicker;
+                if (datePicker) tick().then(() => document.getElementById("chip-date")?.focus());
+              }}
+            >
+              <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5" /></svg>
+              {future ? "Goes live " : ""}{new Date(data.pubDate).toLocaleString("en-PH", { timeZone: "Asia/Manila", dateStyle: "medium", timeStyle: "short" })}
+            </button>
+            {#if datePicker}
+              <button class="fixed inset-0 z-10 cursor-default" aria-label="Close date picker" onclick={() => (datePicker = false)}></button>
+              <div
+                class="absolute right-0 z-20 mt-2 w-80 rounded-xl bg-white p-4 text-left shadow-xl ring-1 ring-slate-900/10 dark:bg-slate-800 dark:ring-white/10"
+                role="dialog"
+                aria-label="Publish date"
+                tabindex="-1"
+                onkeydown={(e) => e.key === "Escape" && (datePicker = false)}
+              >
+                <label class="label" for="chip-date">Publish date <span class="normal-case font-normal text-slate-400">(Philippine time)</span></label>
+                <div class="flex gap-2">
+                  <input id="chip-date" type="datetime-local" class="input" disabled={!canEdit} value={toLocalInput(data.pubDate)} onchange={(e) => (data!.pubDate = fromLocalInput(e.currentTarget.value))} />
+                  <button type="button" class="btn-secondary whitespace-nowrap" disabled={!canEdit} onclick={() => (data!.pubDate = fromLocalInput(""))}>Now</button>
+                </div>
+                <p class="mt-2 text-[11px] {future ? 'font-medium text-sky-600 dark:text-sky-400' : 'text-slate-500'}">
+                  {future ? "Future date: publishing schedules it, and it appears on the site at this time." : "Set a future date to schedule it, or backdate it to when you played the game."}
+                </p>
+                <div class="mt-3 flex justify-end">
+                  <button type="button" class="btn-primary !px-3 !py-1.5 text-xs" onclick={() => (datePicker = false)}>Done</button>
+                </div>
+              </div>
+            {/if}
+          </div>
           <button class="btn-success" onclick={startPublish}>{detail.live ? "Publish changes" : future ? "Schedule" : "Publish"}</button>
         {/if}
       {:else if detail.permissions.submit && (articleState === "draft" || articleState === "changes_requested")}
@@ -922,13 +951,23 @@
           </div>
         {/if}
 
-        <div class="mb-5 flex gap-1 border-b border-slate-200 dark:border-slate-800">
-          {#each [["write", "Write"], ["details", "Details"], ["media", `Media${detail.media.length ? ` (${detail.media.length})` : ""}`]] as [key, label]}
+        <!-- Big, boxed tabs: the old underlined ones were easy to miss. -->
+        <div class="mb-5 flex w-full gap-1 rounded-xl bg-slate-100 p-1 ring-1 ring-slate-200 dark:bg-slate-900 dark:ring-slate-800 sm:w-fit" role="tablist">
+          {#each [["write", "Write", "m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"], ["details", "Details", "M10.5 6h9.75M10.5 6a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-9.75 0h9.75"], ["media", "Media", "m2.25 15.75 5.16-5.16a2.25 2.25 0 0 1 3.18 0l5.16 5.16m-1.5-1.5 1.41-1.41a2.25 2.25 0 0 1 3.18 0l2.91 2.91M3.75 21h16.5A1.5 1.5 0 0 0 21.75 19.5V4.5A1.5 1.5 0 0 0 20.25 3H3.75A1.5 1.5 0 0 0 2.25 4.5v15A1.5 1.5 0 0 0 3.75 21Z"]] as [key, label, icon]}
             <button
-              class="-mb-px border-b-2 px-3 py-2 text-sm font-medium transition {tab === key ? 'border-indigo-600 text-indigo-700 dark:border-indigo-400 dark:text-indigo-300' : 'border-transparent text-slate-500 hover:text-slate-800 dark:hover:text-slate-200'}"
+              type="button"
+              role="tab"
+              aria-selected={tab === key}
+              class="font-brand flex flex-1 items-center justify-center gap-2 rounded-lg px-4 py-2 text-sm font-semibold transition-colors sm:flex-none {tab === key ? 'bg-white text-indigo-700 shadow-sm ring-1 ring-slate-200 dark:bg-slate-800 dark:text-indigo-300 dark:ring-slate-700' : 'text-slate-500 hover:bg-white/70 hover:text-slate-800 dark:text-slate-400 dark:hover:bg-slate-800/60 dark:hover:text-slate-200'}"
               data-tour={key === "details" ? "details" : undefined}
-              onclick={() => (tab = key as typeof tab)}>{label}</button
+              onclick={() => (tab = key as typeof tab)}
             >
+              <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="1.6" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d={icon} /></svg>
+              {label}
+              {#if key === "media" && detail.media.length}
+                <span class="rounded-full px-1.5 text-[11px] font-semibold {tab === key ? 'bg-indigo-100 text-indigo-700 dark:bg-indigo-500/20 dark:text-indigo-200' : 'bg-slate-200 text-slate-600 dark:bg-slate-800 dark:text-slate-300'}">{detail.media.length}</span>
+              {/if}
+            </button>
           {/each}
         </div>
 
@@ -1003,6 +1042,14 @@
         {:else}
           <div class="space-y-4">
             <Dropzone articleId={detail.article.id} onuploaded={addMedia} />
+            <div class="flex flex-wrap items-center gap-3 rounded-xl bg-slate-50 px-4 py-3 ring-1 ring-slate-200 dark:bg-slate-900 dark:ring-slate-800">
+              <button type="button" class="btn-secondary" disabled={!canEdit} onclick={() => (findShots = true)}>
+                <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="1.6" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" /></svg>
+                Find screenshots
+              </button>
+              <span class="text-xs text-slate-500">Official screenshots from Steam, or RAWG for console games{data.game ? ` (searches for ${data.game})` : ""}.</span>
+            </div>
+            <MediaPicker bind:open={findShots} start="find" multiple title="Find screenshots" articleId={detail.article.id} articleMedia={detail.media} onpick={addMedia} />
             {#if !detail.media.length}
               <p class="py-6 text-center text-sm text-slate-500">No images uploaded for this article yet.</p>
             {:else}
