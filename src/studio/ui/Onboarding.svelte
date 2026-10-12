@@ -100,13 +100,13 @@
   const can = $derived(
     isEditor
       ? [
-          ["Write and edit", "Your own articles, and anyone's drafts when they need a hand.", ICON.pen],
+          ["Write and edit", "Your own articles, plus anyone's submitted or published work: fix the wording, add or change images.", ICON.pen],
           ["Send work for review", "The chief editor gives the final OK and publishes.", ICON.check],
           ["Help run the site", "Moderate comments and keep an eye on team activity.", ICON.chat],
         ]
       : [
           ["Write reviews and articles", "Your own drafts, with autosave and a live preview.", ICON.pen],
-          ["Send them for review", "The chief editor checks and publishes them under your byline.", ICON.check],
+          ["Send them for review", "The chief editor polishes them if needed and publishes them under your byline.", ICON.check],
           ["Get feedback", "Notes from the chief appear right on your article.", ICON.chat],
         ],
   );
@@ -118,8 +118,8 @@
   ];
   const flow = [
     ["Write", "you", "Start a new article. Everything saves automatically, and History keeps every version."],
-    ["Submit for review", "you", "When it's ready, press Submit for review. Images are optional; the chief can add them."],
-    ["Review", "chief editor", "The chief either publishes it or asks for changes. Notes show at the top of your article, and it appears under \"Changes requested\"."],
+    ["Submit for review", "you", "When it's ready, press Submit for review. Images are optional; the chief or an editor can add them."],
+    ["Review", "chief & editors", "They may edit it directly: fix or rephrase the wording, add or change images. Then the chief publishes it. If it needs more from you, it comes back with notes at the top of your article, under \"Changes requested\"."],
   ];
 </script>
 
@@ -197,7 +197,7 @@
           {/if}
         {:else if step === "flow"}
           <h2 id="onb-title" class="font-brand mt-1 text-2xl font-bold">How an article goes live</h2>
-          <p class="mb-4 text-sm text-slate-500 dark:text-slate-400">{isEditor ? "Everyone's work, yours included, gets a final check from the chief editor." : "You write; the chief editor checks it and publishes."}</p>
+          <p class="mb-4 text-sm text-slate-500 dark:text-slate-400">{isEditor ? "Everyone's work, yours included, gets a final check from the chief editor." : "You write; the chief editor polishes it if needed and publishes it."}</p>
           <ol>
             {#each flow as [t, who, d], k}
               <li class="relative grid grid-cols-[34px_1fr] gap-3 pb-3.5">

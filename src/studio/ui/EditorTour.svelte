@@ -18,7 +18,7 @@
     { key: "details", h: "Details", p: "Game name, score, a short description and the thumbnail live here. Filling in the game name helps Find screenshots." },
     { key: "preview", h: "Live preview", p: "Exactly how it will look on PlayTested.net, updated as you type. Switch to Phone to check the mobile view." },
     { key: "history", h: "Autosave and History", p: "Everything saves as you go. History keeps every version, so nothing you write is lost." },
-    { key: "submit", h: "Submit for review", p: "When it's ready, send it to the chief editor. They publish it or leave notes, which show at the top of this page." },
+    { key: "submit", h: "Submit for review", p: "When it's ready, send it to the chief editor. They may polish the wording or images and publish it, or leave notes, which show at the top of this page." },
   ];
 
   const target = (key: string) => {
