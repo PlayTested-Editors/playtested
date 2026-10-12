@@ -283,6 +283,84 @@ export function rejoinSplitParagraphs(markdown: string): { text: string; changed
   return { text: lines.join("\n"), changed };
 }
 
+// ---- Unlabelled points ------------------------------------------------------------
+// Some AI replies give pros and cons as ONE list with no labels:
+//   - 🎯 **A phenomenal payoff:** Acts as the ultimate "series finale"…
+//   - 🕹️ **Clunky mechanics:** The controls … haven't aged gracefully…
+// Which point is which can't be read from the text, so the editor asks (with a guess).
+
+// A point: bullet, optional emoji, a short bold lead-in, then the sentence.
+const LEAD_POINT = /^\s{0,3}[-*+•]\s+(?:(?:\p{Extended_Pictographic}|\p{Regional_Indicator}{2})[️‍\p{Extended_Pictographic}]*\s*)?\*\*[^*\n]{2,70}\*\*:?\s*\S/u;
+const NEGATIVE = /\b(clunky|clunkier|lacks?|lacking|frustrat\w*|tedious|repetitive|grind\w*|bugs?|bugg\w*|glitch\w*|crash\w*|issues?|problems?|poor|weak\w*|dated|aged|outdated|janky|jank|awkward|confus\w*|annoy\w*|short|shallow|bland|boring|slow|sluggish|backseat|whiplash|never|no\s|not\b|isn't|doesn't|don't|can't|without|missing|limited|overpriced|pay-to-win|p2w|predatory|stiff|unbalanced|cluttered|noise|noisy|hollow|lonely|lack|drag\w*|padding|forgettable|disappoint\w*|mess\w*|broken|cheap)\b/i;
+const POSITIVE = /\b(phenomenal|masterful|gorgeous|beautiful|stunning|excellent|great|fantastic|brilliant|fun|satisfying|smooth|natural|polished|impressive|engaging|addict\w*|peak|best|incredible|charming|rich|deep|lovable|delight\w*|superb|solid|welcome|improv\w*|striking|immersive|memorable|hilarious|generous|clever|creative|unique)\b/i;
+
+export interface UnsortedPoints {
+  start: number; // first line of the list
+  end: number; // line after the list
+  items: string[]; // each point without its bullet
+  guess: ("pro" | "con")[];
+}
+
+/** An unlabelled list of 4+ lead-in points, when the article has no Pros/Cons sections yet. */
+export function findUnsortedPoints(markdown: string): UnsortedPoints | null {
+  const lines = markdown.replace(/\r\n/g, "\n").split("\n");
+  if (lines.some((l) => labelKind(l))) return null; // already has Pros / Cons labels
+  for (let i = 0; i < lines.length; i++) {
+    if (!LEAD_POINT.test(lines[i])) continue;
+    const items: string[] = [];
+    let j = i;
+    for (; j < lines.length; j++) {
+      if (LEAD_POINT.test(lines[j])) {
+        items.push(lines[j].replace(/^\s{0,3}[-*+•]\s+/, "").trim());
+        continue;
+      }
+      // Wrapped continuation of the previous point.
+      if (lines[j].trim() && /^\s{2,}\S/.test(lines[j]) && items.length) {
+        items[items.length - 1] += ` ${lines[j].trim()}`;
+        continue;
+      }
+      if (!lines[j].trim() && LEAD_POINT.test(lines[nextContent(lines, j)] ?? "")) continue;
+      break;
+    }
+    if (items.length < 4) {
+      i = j;
+      continue;
+    }
+    // Score each point, then pick the split "first k are pros, the rest cons" that
+    // agrees with the scores best (AI replies list praises first).
+    const score = items.map((t) => {
+      const lead = /\*\*([^*]+)\*\*/.exec(t)?.[1] ?? "";
+      const neg = (t.match(new RegExp(NEGATIVE.source, "gi")) || []).length + (NEGATIVE.test(lead) ? 2 : 0);
+      const pos = (t.match(new RegExp(POSITIVE.source, "gi")) || []).length + (POSITIVE.test(lead) ? 2 : 0);
+      return pos - neg;
+    });
+    let bestK = items.length, bestErr = Infinity;
+    for (let k = 1; k < items.length; k++) {
+      const err = score.slice(0, k).filter((s) => s < 0).length + score.slice(k).filter((s) => s > 0).length;
+      if (err < bestErr) (bestErr = err), (bestK = k);
+    }
+    return { start: i, end: j, items, guess: items.map((_, n) => (n < bestK ? "pro" : "con")) };
+  }
+  return null;
+}
+
+/** Replace the list with "## Pros" / "## Cons" sections, in the chosen split. */
+export function applySortedPoints(markdown: string, found: UnsortedPoints, kinds: ("pro" | "con")[]): string {
+  const lines = markdown.replace(/\r\n/g, "\n").split("\n");
+  const pros = found.items.filter((_, n) => kinds[n] === "pro").map((t) => `- ${t}`);
+  const cons = found.items.filter((_, n) => kinds[n] === "con").map((t) => `- ${t}`);
+  const block = [
+    ...(pros.length ? ["## Pros", "", ...pros] : []),
+    ...(pros.length && cons.length ? [""] : []),
+    ...(cons.length ? ["## Cons", "", ...cons] : []),
+  ];
+  const before = lines.slice(0, found.start);
+  const after = lines.slice(found.end);
+  while (before.length && !before[before.length - 1].trim()) before.pop();
+  while (after.length && !after[0].trim()) after.shift();
+  return [...before, ...(before.length ? [""] : []), ...block, ...(after.length ? ["", ...after] : [])].join("\n");
+}
+
 /** Everything the "Tidy" button does: pasted styling, split sentences, inline "Pro:"/"Con:" points, then Pros / Cons sections. */
 export function tidyFormatting(markdown: string): { text: string; styles: number; sections: number; rejoined: number } {
   const a = stripPastedStyles(markdown);

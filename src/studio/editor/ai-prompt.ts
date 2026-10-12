@@ -37,7 +37,7 @@ The Hook (1-2 Paragraphs): An engaging intro that details my personal history or
 
 The Premise for Newcomers (1-2 Paragraphs): Briefly explain the game's setting, core story goal, and moment-to-moment gameplay loop for someone who has never heard of it. Do not skip this!
 
-Pros & Cons: 4-5 bullet points for Pros and 3-4 for Cons, summarizing my main praises and gripes. Start each bullet point with a relevant emoji.
+Pros & Cons: two separate bullet lists, one under the heading "## Pros" (4-5 bullet points) and one under the heading "## Cons" (3-4 bullet points), summarizing my main praises and gripes. Use exactly those two headings, never one combined list. Start each bullet point with a relevant emoji.
 
 Score (Optional): If a score is provided, put it here as an H2 header (e.g., ## 8.5/10).
 

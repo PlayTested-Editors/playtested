@@ -16,7 +16,7 @@
   import PublishDialog from "../editor/PublishDialog.svelte";
   import AiWriteGuide from "../editor/AiWriteGuide.svelte";
   import EditorTour from "../ui/EditorTour.svelte";
-  import { tidyFormatting } from "../editor/tidy";
+  import { applySortedPoints, findUnsortedPoints, tidyFormatting, type UnsortedPoints } from "../editor/tidy";
 
   let { id }: { id: string } = $props();
 
@@ -85,11 +85,30 @@
     return () => setLeaveGuard(null);
   });
 
+  // Pros and cons given as one unlabelled list: the writer picks which is which (pre-guessed).
+  let sortPoints = $state<{ found: UnsortedPoints; kinds: ("pro" | "con")[] } | null>(null);
+  function applySort() {
+    if (!data || !sortPoints) return;
+    const kinds = [...sortPoints.kinds];
+    sortPoints = null;
+    const found = findUnsortedPoints(data.body);
+    if (!found || found.items.length !== kinds.length) return toast("The list changed in the meantime. Click Tidy formatting again.", "info");
+    const before = data.body;
+    data.body = applySortedPoints(data.body, found, kinds);
+    toast("Sorted into Pros and Cons.", "success", { label: "Undo", run: () => data && (data.body = before) }, 8000);
+  }
+  const plainPoint = (t: string) => t.replace(/\*\*|__/g, "").replace(/\[([^\]]+)\]\([^)]*\)/g, "$1");
+
   /** Pros / Cons sections in the site's usual format (only real, labelled lists). */
   function tidyBody() {
     if (!data) return;
     const { text, styles, sections, rejoined } = tidyFormatting(data.body);
-    if (!styles && !sections && !rejoined) return toast("Formatting already looks right. Nothing to change.", "info");
+    const unsorted = findUnsortedPoints(text);
+    if (unsorted) sortPoints = { found: unsorted, kinds: [...unsorted.guess] };
+    if (!styles && !sections && !rejoined) {
+      if (!unsorted) toast("Formatting already looks right. Nothing to change.", "info");
+      return;
+    }
     const before = data.body;
     data.body = text;
     const parts = [
@@ -1062,6 +1081,35 @@
       <button class="btn-secondary" onclick={() => (review = null)}>Cancel</button>
       <button class={review === "request_changes" ? "btn-danger" : "btn-primary"} disabled={busy || (review === "request_changes" && !reviewNote.trim())} onclick={runReview}>
         {review === "submit" ? "Submit" : review === "approve" ? "Approve" : "Request changes"}
+      </button>
+    {/snippet}
+  </Modal>
+
+  <Modal open={sortPoints !== null} title="Sort into Pros and Cons" size="lg" onclose={() => (sortPoints = null)}>
+    {#if sortPoints}
+      <p class="mb-3 text-sm text-slate-600 dark:text-slate-300">These points are in one list with no Pros/Cons labels. Check each one (I've made a guess), then apply.</p>
+      <ul class="space-y-2">
+        {#each sortPoints.found.items as item, n}
+          <li class="flex items-start gap-3 rounded-xl bg-slate-50 px-3 py-2.5 ring-1 ring-slate-200 dark:bg-slate-800/50 dark:ring-slate-700/70">
+            <div class="mt-0.5 inline-flex shrink-0 rounded-lg bg-white p-0.5 text-xs font-semibold ring-1 ring-slate-200 dark:bg-slate-900 dark:ring-slate-700" role="group" aria-label="Pro or con">
+              {#each [["pro", "Pro"], ["con", "Con"]] as [k, label]}
+                <button
+                  type="button"
+                  aria-pressed={sortPoints.kinds[n] === k}
+                  class="rounded-md px-2.5 py-1 {sortPoints.kinds[n] === k ? (k === 'pro' ? 'bg-emerald-600 text-white' : 'bg-rose-600 text-white') : 'text-slate-500 hover:text-slate-800 dark:hover:text-slate-200'}"
+                  onclick={() => sortPoints && (sortPoints.kinds[n] = k as "pro" | "con")}>{label}</button
+                >
+              {/each}
+            </div>
+            <span class="text-sm">{plainPoint(item)}</span>
+          </li>
+        {/each}
+      </ul>
+    {/if}
+    {#snippet footer()}
+      <button class="btn-secondary" onclick={() => (sortPoints = null)}>Cancel</button>
+      <button class="btn-primary" onclick={applySort}>
+        Apply: {sortPoints?.kinds.filter((k) => k === "pro").length ?? 0} Pros, {sortPoints?.kinds.filter((k) => k === "con").length ?? 0} Cons
       </button>
     {/snippet}
   </Modal>
