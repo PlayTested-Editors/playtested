@@ -73,9 +73,9 @@ const galleryAbove = (() => {
   const heading = b.search(/^#{1,3}\s|<h[1-3][\s>]/m);
   return heading < 0 || wrap < heading;
 })();
-// Screenshots imported from RAWG in the studio are named "rawg-<n>-<game>-<id>.<ext>";
-// RAWG's terms ask for a credit link on pages that use them.
-const usesRawg = /\/images\/uploads\/rawg-\d+-[a-z0-9-]+\.[a-z]+/.test([thumb, large, ...gallery, body ?? ""].join(" "));
+// Screenshots imported from RAWG in the studio are named "rawg-<game>-<n>.<ext>"
+// (earlier "rawg-<n>-<game>-<id>.<ext>"); RAWG's terms ask for a credit link on pages that use them.
+const usesRawg = /\/images\/uploads\/rawg-[a-z0-9-]+\.[a-z]+/.test([thumb, large, ...gallery, body ?? ""].join(" "));
 ---
 
 <BlogLayout title={title} description={description} canonicalPath={canonicalPath} noindex={mode === "preview"} image={large || thumb} type="article">

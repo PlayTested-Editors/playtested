@@ -101,33 +101,87 @@ export async function storeUpload(
   }
 
   const id = crypto.randomUUID();
-  const base = slugify(meta.filename.replace(/\.[a-z0-9]+$/i, "")).slice(0, 60) || "image";
-  const publicPath = `/images/uploads/${base}-${id.slice(0, 6)}.${ext}`;
-  const r2Key = `uploads${publicPath.slice("/images/uploads".length)}`;
-
-  await stagePut(env, r2Key, body, meta.mime);
-  await env.DB.prepare(
-    `INSERT INTO media (id, r2_key, public_path, filename, mime, bytes, width, height, alt, article_id, uploaded_by, created_at, sha256, source_url)
-     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-  )
-    .bind(
-      id,
-      r2Key,
-      publicPath,
-      meta.filename.slice(0, 200),
-      meta.mime,
-      body.byteLength,
-      meta.width ?? null,
-      meta.height ?? null,
-      meta.alt ?? null,
-      meta.articleId ?? null,
-      meta.userId,
-      now(),
-      sha256,
-      meta.sourceUrl ?? null,
-    )
-    .run();
+  const base = await uploadBase(env, meta);
+  // Number after what the article already has; skip any name already in use.
+  let n = 1;
+  if (meta.articleId) {
+    const c = await env.DB.prepare("SELECT COUNT(*) AS n FROM media WHERE article_id = ?").bind(meta.articleId).first<{ n: number }>();
+    n = (c?.n ?? 0) + 1;
+  }
+  // The row is inserted first: its unique public_path claims the name, so two
+  // uploads in parallel can't both take it (and overwrite each other's file).
+  let publicPath = "";
+  for (let tries = 0; ; tries++, n++) {
+    const candidate = `/images/uploads/${base}-${n}.${ext}`;
+    if (tries > 40) throw new Error("Couldn't find a free file name for this image.");
+    if (await existsOnSite(env, candidate)) continue;
+    try {
+      await env.DB.prepare(
+        `INSERT INTO media (id, r2_key, public_path, filename, mime, bytes, width, height, alt, article_id, uploaded_by, created_at, sha256, source_url)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      )
+        .bind(
+          id,
+          `uploads${candidate.slice("/images/uploads".length)}`,
+          candidate,
+          meta.filename.slice(0, 200),
+          meta.mime,
+          body.byteLength,
+          meta.width ?? null,
+          meta.height ?? null,
+          meta.alt ?? null,
+          meta.articleId ?? null,
+          meta.userId,
+          now(),
+          sha256,
+          meta.sourceUrl ?? null,
+        )
+        .run();
+      publicPath = candidate;
+      break;
+    } catch (e) {
+      if (!/UNIQUE/i.test((e as Error).message)) throw e; // taken a moment ago: try the next number
+    }
+  }
+  try {
+    await stagePut(env, `uploads${publicPath.slice("/images/uploads".length)}`, body, meta.mime);
+  } catch (e) {
+    await env.DB.prepare("DELETE FROM media WHERE id = ?").bind(id).run();
+    throw e;
+  }
   return (await env.DB.prepare("SELECT * FROM media WHERE id = ?").bind(id).first<MediaRow>())!;
+}
+
+/**
+ * A readable file name: the article's game ("halo-campaign-evolved"), else its
+ * slug or headline, else the original file name without long digit runs.
+ * Screenshots from RAWG start with "rawg-" (articles using them credit RAWG).
+ */
+async function uploadBase(env: Env, meta: { filename: string; articleId?: string; sourceUrl?: string }): Promise<string> {
+  let base = "";
+  if (meta.articleId) {
+    const a = await env.DB.prepare("SELECT slug, title, json_extract(draft_json, '$.game') AS game FROM articles WHERE id = ?")
+      .bind(meta.articleId)
+      .first<{ slug: string; title: string; game: string | null }>();
+    if (a) base = slugify(a.game || "") || (/^untitled-/.test(a.slug) ? "" : a.slug) || slugify((a.title || "").split("|").pop() || "");
+  }
+  if (!base) base = slugify(meta.filename.replace(/\.[a-z0-9]+$/i, "").replace(/\d{5,}/g, " "));
+  base = base.slice(0, 50).replace(/-+$/, "") || "image";
+  let rawg = false;
+  try {
+    rawg = Boolean(meta.sourceUrl) && new URL(meta.sourceUrl!).hostname === "media.rawg.io";
+  } catch {
+    /* not a URL */
+  }
+  return rawg ? `rawg-${base}` : base;
+}
+
+/** An image already on the site under this name (uploads committed before the studio tracked them). */
+async function existsOnSite(env: Env, publicPath: string): Promise<boolean> {
+  const row = await env.DB.prepare("SELECT 1 FROM media WHERE public_path = ?").bind(publicPath).first();
+  if (row) return true;
+  const res = await env.ASSETS.fetch(new Request(`https://assets.local${publicPath}`, { method: "HEAD" }));
+  return res.status === 200;
 }
 
 /** Serve an uploaded image that isn't part of a deployed build yet. */
