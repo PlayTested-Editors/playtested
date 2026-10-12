@@ -142,6 +142,63 @@ export function tidyProsCons(markdown: string): { text: string; changed: number 
   return { text: out.join("\n"), changed };
 }
 
+// One point labelled inline, the way Gemini writes them: "🎯 **Pro:** text", "* **Con**: text",
+// "○ ❌ Con: text" (a nested list copied as plain text). Any indent, any bullet or none.
+const LABELLED = new RegExp(
+  String.raw`^\s*(?:[-*+•▪◦○●]|\d{1,2}[.)])?\s*` + // optional bullet, at any depth
+    String.raw`((?:\p{Extended_Pictographic}|\p{Regional_Indicator}{2})[\u{FE0F}\u{200D}\p{Extended_Pictographic}]*\s*)?` + // emoji
+    String.raw`(?:\*\*|__)?\s*(pros?|cons?)\s*(?:\*\*|__)?\s*:\s*(?:\*\*|__)?\s*(\S.*)$`, // label, then the point
+  "iu",
+);
+
+/**
+ * A run of points each labelled "Pro:" or "Con:" (2 or more, blank lines
+ * allowed between them) becomes "## Pros" and "## Cons" lists, in their
+ * original order, keeping each point's emoji and text. A "Pros & Cons" label
+ * right before the run is dropped. Code blocks are left alone.
+ */
+export function tidyLabelledPoints(markdown: string): { text: string; changed: number } {
+  const lines = markdown.replace(/\r\n/g, "\n").split("\n");
+  const out: string[] = [];
+  let changed = 0;
+  let inFence = false;
+  for (let i = 0; i < lines.length; i++) {
+    if (FENCE.test(lines[i])) inFence = !inFence;
+    if (inFence || !LABELLED.test(lines[i])) {
+      out.push(lines[i]);
+      continue;
+    }
+    const pros: string[] = [];
+    const cons: string[] = [];
+    let j = i;
+    for (; j < lines.length; j++) {
+      const m = LABELLED.exec(lines[j]);
+      if (m) {
+        const point = `- ${m[1] ? `${m[1].trim()} ` : ""}${m[3].trim()}`;
+        (m[2].toLowerCase().startsWith("pro") ? pros : cons).push(point);
+        continue;
+      }
+      if (!lines[j].trim() && LABELLED.test(lines[nextContent(lines, j)] ?? "")) continue;
+      break;
+    }
+    if (pros.length + cons.length < 2) {
+      out.push(lines[i]);
+      continue;
+    }
+    // Drop a "Pros & Cons" label (a heading, bold line or parent bullet) just before the run.
+    while (out.length && !out[out.length - 1].trim()) out.pop();
+    if (out.length && isCombinedLabel(out[out.length - 1].replace(/^\s*(?:[-*+•▪◦○●])\s+/, ""))) out.pop();
+    if (out.length) out.push("");
+    if (pros.length) out.push("## Pros", "", ...pros);
+    if (pros.length && cons.length) out.push("");
+    if (cons.length) out.push("## Cons", "", ...cons);
+    if (j < lines.length && lines[j].trim()) out.push("");
+    changed++;
+    i = j - 1;
+  }
+  return { text: out.join("\n"), changed };
+}
+
 /**
  * Removes inline styling pasted in from Google Docs, Word or web pages
  * (`<span style="color: #000000; font-family: Arial…">text</span>` → `text`).
@@ -165,9 +222,10 @@ export function stripPastedStyles(markdown: string): { text: string; changed: nu
   return { text, changed };
 }
 
-/** Everything the "Tidy" button does: pasted styling, then Pros / Cons. */
+/** Everything the "Tidy" button does: pasted styling, inline "Pro:"/"Con:" points, then Pros / Cons sections. */
 export function tidyFormatting(markdown: string): { text: string; styles: number; sections: number } {
   const a = stripPastedStyles(markdown);
-  const b = tidyProsCons(a.text);
-  return { text: b.text, styles: a.changed, sections: b.changed };
+  const b = tidyLabelledPoints(a.text);
+  const c = tidyProsCons(b.text);
+  return { text: c.text, styles: a.changed, sections: b.changed + c.changed };
 }
