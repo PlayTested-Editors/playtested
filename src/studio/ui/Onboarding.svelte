@@ -64,7 +64,8 @@
     i++;
   }
 
-  async function finish(write: boolean) {
+  /** Marks onboarding done, then optionally opens a page (the editor or the guide). */
+  async function finish(to?: string) {
     try {
       await api.post("/me/onboarded");
     } catch {
@@ -72,7 +73,7 @@
     }
     await loadSession().catch(() => undefined);
     ondone();
-    if (write) navigate("/studio/articles/new/");
+    if (to) navigate(to);
   }
 
   function skip() {
@@ -81,7 +82,7 @@
       i = steps.indexOf("names");
       return;
     }
-    finish(false);
+    finish();
   }
 
   function onkeydown(e: KeyboardEvent) {
@@ -251,8 +252,9 @@
             Your byline: <b class="text-slate-800 dark:text-slate-100">{session.user?.authorName ?? "—"}</b>. A short checklist stays on your dashboard until you've sent in your first draft.
           </p>
           <div class="mb-1 mt-5 flex flex-col gap-2">
-            <button type="button" class="btn-primary w-full !py-3 text-[15px]" data-primary onclick={() => finish(true)}>Write my first article</button>
-            <button type="button" class="btn-secondary w-full !py-3 text-[15px]" onclick={() => finish(false)}>Explore the studio</button>
+            <button type="button" class="btn-primary w-full !py-3 text-[15px]" data-primary onclick={() => finish("/studio/articles/new/")}>Write my first article</button>
+            <button type="button" class="btn-secondary w-full !py-3 text-[15px]" onclick={() => finish("/studio/guide/")}>Read the contributor guide</button>
+            <button type="button" class="btn-ghost w-full !py-2.5 text-sm" onclick={() => finish()}>Explore the studio</button>
           </div>
         {/if}
       </section>

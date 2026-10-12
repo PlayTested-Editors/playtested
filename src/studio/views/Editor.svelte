@@ -859,6 +859,7 @@
           <button class="fixed inset-0 z-10 cursor-default" aria-label="Close menu" onclick={() => (menuOpen = false)}></button>
           <div class="absolute right-0 z-20 mt-1 w-56 overflow-hidden rounded-xl bg-white py-1 text-sm shadow-xl ring-1 ring-slate-900/10 dark:bg-slate-800 dark:ring-white/10" transition:slide={{ duration: 120 }}>
             <button class="block w-full px-4 py-2 text-left hover:bg-slate-50 dark:hover:bg-slate-700" onclick={startTour}>Editor tour</button>
+            <a class="block px-4 py-2 hover:bg-slate-50 dark:hover:bg-slate-700" href="/studio/guide/" target="_blank" onclick={() => (menuOpen = false)}>Contributor guide ↗</a>
             <a class="block px-4 py-2 hover:bg-slate-50 dark:hover:bg-slate-700" href={`/live/preview/?id=${detail.article.id}`} target="_blank" onclick={() => (menuOpen = false)}>Open preview in new tab ↗</a>
             {#if detail.article.isLive}
               <a class="block px-4 py-2 hover:bg-slate-50 dark:hover:bg-slate-700" href={`/article/${detail.live?.slug ?? data.slug}/`} target="_blank" onclick={() => (menuOpen = false)}>View live article ↗</a>
