@@ -94,6 +94,10 @@
 
   .note { border-radius: 12px; padding: 12px 16px; font-size: 14px; background: var(--sky-soft); color: var(--text); border: 1px solid transparent; }
   .note b { color: var(--sky); }
+  .relax { display: flex; gap: 14px; align-items: flex-start; border-radius: 14px; padding: 16px 20px; background: var(--green-soft); border: 1px solid transparent; }
+  .relax svg { flex: none; width: 26px; height: 26px; color: var(--green); margin-top: 2px; }
+  .relax h3 { margin: 0 0 4px; color: var(--green); }
+  .relax p { margin: 0; font-size: 14px; }
   .warn { background: var(--amber-soft); } .warn b { color: var(--amber); }
 
   /* Structure outline */
@@ -180,10 +184,18 @@
           <p>PlayTested is a no-nonsense game review site: honest takes from people who actually played the game. You don't need to be a professional writer. If you can explain why a game grabbed you (or didn't), you can write for us. This page covers what we value, what you can write, and how an article gets published.</p>
         </header>
 
+        <div class="relax" style="margin-bottom:36px">
+          <svg fill="none" viewBox="0 0 24 24" stroke-width="1.7" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M15.182 15.182a4.5 4.5 0 0 1-6.364 0M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0ZM9.75 9.75c0 .414-.168.75-.375.75S9 10.164 9 9.75 9.168 9 9.375 9s.375.336.375.75Zm-.375 0h.008v.015h-.008V9.75Zm5.625 0c0 .414-.168.75-.375.75s-.375-.336-.375-.75.168-.75.375-.75.375.336.375.75Zm-.375 0h.008v.015h-.008V9.75Z" /></svg>
+          <div>
+            <h3>Totally no pressure</h3>
+            <p>This guide is here to help, not to test you. You don't need to memorise it or follow it strictly. <b>Tidy formatting</b> and <b>Write with AI</b> in the editor sort out most of the formatting automatically, and the chief editor fixes anything else before it goes live. Writing for fun is what matters most.</p>
+          </div>
+        </div>
+
         <!-- 1. Principles -->
         <section id="principles">
           <h2>What we stand for</h2>
-          <p class="lead">Every article on the site follows these. If you remember one thing, make it the first one.</p>
+          <p class="lead">What we aim for in every article. If you remember just one, make it the first.</p>
           <div class="grid g2">
             <div class="card principle">
               <div class="ico"><svg fill="none" viewBox="0 0 24 24" stroke-width="1.7" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M14.25 6.087c0-.355.186-.676.401-.959.221-.29.349-.634.349-1.003 0-1.036-1.007-1.875-2.25-1.875s-2.25.84-2.25 1.875c0 .369.128.713.349 1.003.215.283.401.604.401.959v0a.64.64 0 0 1-.657.643 48.39 48.39 0 0 1-4.163-.3c.186 1.613.293 3.25.315 4.907a.656.656 0 0 1-.658.663v0c-.355 0-.676-.186-.959-.401a1.647 1.647 0 0 0-1.003-.349c-1.036 0-1.875 1.007-1.875 2.25s.84 2.25 1.875 2.25c.369 0 .713-.128 1.003-.349.283-.215.604-.401.959-.401v0c.31 0 .555.26.532.57a48.039 48.039 0 0 1-.642 5.056c1.518.19 3.058.309 4.616.354a.64.64 0 0 0 .657-.643v0c0-.355-.186-.676-.401-.959a1.647 1.647 0 0 1-.349-1.003c0-1.035 1.008-1.875 2.25-1.875 1.243 0 2.25.84 2.25 1.875 0 .369-.128.713-.349 1.003-.215.283-.4.604-.4.959v0c0 .333.277.599.61.58a48.1 48.1 0 0 0 5.427-.63 48.05 48.05 0 0 0 .582-4.717.532.532 0 0 0-.533-.57v0c-.355 0-.676.186-.959.401-.29.221-.634.349-1.003.349-1.035 0-1.875-1.007-1.875-2.25s.84-2.25 1.875-2.25c.37 0 .713.128 1.003.349.283.215.604.401.96.401v0a.656.656 0 0 0 .658-.663 48.422 48.422 0 0 0-.37-5.36c-1.886.342-3.81.574-5.766.689a.578.578 0 0 1-.61-.58v0Z"/></svg></div>
@@ -405,9 +417,23 @@
           </div>
         </section>
 
+        <div class="relax" style="margin-bottom:40px">
+          <svg fill="none" viewBox="0 0 24 24" stroke-width="1.7" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M15.182 15.182a4.5 4.5 0 0 1-6.364 0M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0ZM9.75 9.75c0 .414-.168.75-.375.75S9 10.164 9 9.75 9.168 9 9.375 9s.375.336.375.75Zm-.375 0h.008v.015h-.008V9.75Zm5.625 0c0 .414-.168.75-.375.75s-.375-.336-.375-.75.168-.75.375-.75.375.336.375.75Zm-.375 0h.008v.015h-.008V9.75Z" /></svg>
+          <div>
+            <h3>And again: no pressure</h3>
+            <p>Missed something on this page? That's completely fine. Formatting gets fixed automatically, and the chief editor corrects anything else before publishing. No need to be strict about any of these rules. Just write about the games you love (or don't), and have fun with it.</p>
+          </div>
+        </div>
+
         <section id="help" style="margin-bottom:0">
           <h2>Questions?</h2>
-          <p style="color:var(--muted)">Leave a note on your article and the chief editor will see it, or email <a href="mailto:lyndon@playtested.net">lyndon@playtested.net</a>. Welcome aboard, and happy writing.</p>
+          <p style="color:var(--muted)">Any of these work:</p>
+          <ul style="color:var(--muted)">
+            <li>Leave a note on your article. The chief editor will see it.</li>
+            <li>Email <a href="mailto:lyndon@playtested.net">lyndon@playtested.net</a>.</li>
+            <li>If you already chat with Lyndon directly (Messenger, Discord or anywhere else), just message him there.</li>
+          </ul>
+          <p style="color:var(--muted)">Welcome aboard, and happy writing.</p>
         </section>
       </article>
 
