@@ -51,16 +51,23 @@
     place();
   }
 
-  async function place() {
+  async function place(scroll = true) {
     const el = target(stops[i]?.key ?? "");
     if (!el) {
       // The layout changed under us (window resized): recompute the stops.
       stops = STOPS.filter((s) => target(s.key));
       i = Math.min(i, stops.length - 1);
       if (i < 0) return end();
-      return place();
+      return place(scroll);
     }
-    el.scrollIntoView({ block: "nearest", inline: "nearest" });
+    if (scroll) {
+      // Mid-screen, clear of the sticky bars; instantly, then measure once the page has moved.
+      const box = el.getBoundingClientRect();
+      if (box.top < 120 || box.bottom > innerHeight - 40) {
+        el.scrollIntoView({ block: box.height > innerHeight * 0.5 ? "start" : "center", inline: "nearest", behavior: "instant" });
+        await new Promise((r) => requestAnimationFrame(() => r(null)));
+      }
+    }
     const r = el.getBoundingClientRect();
     const pad = 6;
     const top = Math.max(r.top - pad, 4);
@@ -96,12 +103,18 @@
     } else if (e.key === "ArrowRight") go(1);
     else if (e.key === "ArrowLeft" && i) go(-1);
   }
+  // Keep the highlight on its control when the page scrolls or resizes (no re-scrolling).
+  let frame = 0;
   function relayout() {
-    if (open && stops.length) place();
+    if (!open || !stops.length || frame) return;
+    frame = requestAnimationFrame(() => {
+      frame = 0;
+      place(false);
+    });
   }
 </script>
 
-<svelte:window {onkeydown} onresize={relayout} />
+<svelte:window {onkeydown} onresize={relayout} onscroll={relayout} />
 
 {#if open && stops.length}
   {@const s = stops[i]}
