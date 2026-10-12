@@ -807,6 +807,17 @@ route("GET", "/meta", "contributor", async (c) => {
 // ---------------------------------------------------------------------------
 // Media
 
+/** The screenshot an upload was imported from (Find screenshots), if any. */
+function sourceUrlHeader(raw: string | null): string | undefined {
+  if (!raw) return undefined;
+  try {
+    const u = new URL(decodeURIComponent(raw));
+    return u.protocol === "https:" && u.href.length <= 500 ? u.href : undefined;
+  } catch {
+    return undefined;
+  }
+}
+
 route("POST", "/media", "contributor", async (c) => {
   const h = c.request.headers;
   const mime = (h.get("content-type") || "").split(";")[0].trim();
@@ -821,6 +832,7 @@ route("POST", "/media", "contributor", async (c) => {
       alt: h.get("x-alt") ? decodeURIComponent(h.get("x-alt")!) : undefined,
       articleId: h.get("x-article-id") || undefined,
       userId: c.user!.id,
+      sourceUrl: sourceUrlHeader(h.get("x-source-url")),
     });
     return json({ media: mediaJson(row) }, { status: 201 });
   } catch (e) {

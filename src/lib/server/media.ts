@@ -10,7 +10,7 @@
 import type { Env } from "./env";
 import { slugify } from "./articles";
 import { createBlob } from "./github";
-import { now } from "./util";
+import { now, sha256Hex } from "./util";
 
 export const MAX_UPLOAD_BYTES = 15 * 1024 * 1024;
 
@@ -60,6 +60,8 @@ export interface MediaRow {
   article_id: string | null;
   uploaded_by: string | null;
   created_at: number;
+  sha256: string | null;
+  source_url: string | null;
 }
 
 export function mediaJson(m: MediaRow) {
@@ -75,17 +77,28 @@ export function mediaJson(m: MediaRow) {
     committed: Boolean(m.committed),
     articleId: m.article_id,
     createdAt: m.created_at,
+    sourceUrl: m.source_url ?? null,
   };
 }
 
 export async function storeUpload(
   env: Env,
   body: ArrayBuffer,
-  meta: { mime: string; filename: string; width?: number; height?: number; alt?: string; articleId?: string; userId: string },
+  meta: { mime: string; filename: string; width?: number; height?: number; alt?: string; articleId?: string; userId: string; sourceUrl?: string },
 ): Promise<MediaRow> {
   const ext = EXT[meta.mime];
   if (!ext) throw new Error(`Unsupported image type: ${meta.mime}`);
   if (body.byteLength > MAX_UPLOAD_BYTES) throw new Error("Image is larger than 15 MB.");
+
+  // The same image (identical bytes, or the same imported screenshot) already in
+  // this article: hand back that one instead of storing a copy.
+  const sha256 = await sha256Hex(body);
+  if (meta.articleId) {
+    const same = await env.DB.prepare("SELECT * FROM media WHERE article_id = ? AND (sha256 = ? OR (? IS NOT NULL AND source_url = ?)) LIMIT 1")
+      .bind(meta.articleId, sha256, meta.sourceUrl ?? null, meta.sourceUrl ?? null)
+      .first<MediaRow>();
+    if (same) return same;
+  }
 
   const id = crypto.randomUUID();
   const base = slugify(meta.filename.replace(/\.[a-z0-9]+$/i, "")).slice(0, 60) || "image";
@@ -94,8 +107,8 @@ export async function storeUpload(
 
   await stagePut(env, r2Key, body, meta.mime);
   await env.DB.prepare(
-    `INSERT INTO media (id, r2_key, public_path, filename, mime, bytes, width, height, alt, article_id, uploaded_by, created_at)
-     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+    `INSERT INTO media (id, r2_key, public_path, filename, mime, bytes, width, height, alt, article_id, uploaded_by, created_at, sha256, source_url)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
   )
     .bind(
       id,
@@ -110,6 +123,8 @@ export async function storeUpload(
       meta.articleId ?? null,
       meta.userId,
       now(),
+      sha256,
+      meta.sourceUrl ?? null,
     )
     .run();
   return (await env.DB.prepare("SELECT * FROM media WHERE id = ?").bind(id).first<MediaRow>())!;

@@ -4,7 +4,7 @@
   import Dropzone from "./Dropzone.svelte";
   import { api, type Media, type ShotMatch, type ShotResults } from "../api";
   import { toast, toastError } from "../state.svelte";
-  import { uploadFiles } from "../images.svelte";
+  import { fileSource, uploadFiles } from "../images.svelte";
   import { slugify } from "../format";
 
   let {
@@ -58,7 +58,7 @@
     libraryLoaded = true;
     loading = true;
     try {
-      library = (await api.get<{ media: Media[] }>("/media?pageSize=120")).media;
+      library = (await api.get<{ media: Media[] }>("/media?pageSize=120")).media ?? [];
     } catch (e) {
       libraryLoaded = false; // let the next open retry
       toastError(e);
@@ -129,9 +129,19 @@
     picks = picks.includes(full) ? picks.filter((u) => u !== full) : [...picks, full];
   }
 
+  // Screenshots already imported into this article: picking one again reuses it.
+  const imported = $derived(new Map([...(library ?? []), ...(articleMedia ?? []), ...(fresh ?? [])].filter((m) => m.sourceUrl).map((m) => [m.sourceUrl!, m])));
+
   /** Copy the chosen screenshots into this article's uploads (compressed like any upload). */
   async function importShots(urls: string[]) {
     if (!urls.length || importing) return;
+    const reused = urls.map((u) => imported.get(u)).filter((m): m is Media => Boolean(m));
+    urls = urls.filter((u) => !imported.has(u));
+    if (!urls.length) {
+      onpick(reused);
+      open = false;
+      return;
+    }
     importing = true;
     try {
       const name = slugify(found?.current?.name || q || "screenshot") || "screenshot";
@@ -142,12 +152,15 @@
         const blob = await res.blob();
         // "rawg-1-game-name": the source comes first so the server's 60-character
         // cut keeps it (articles with RAWG images credit RAWG; see ArticleView).
-        files.push(new File([blob], `${found?.current?.source ?? "shot"}-${i + 1}-${name.slice(0, 40)}.${blob.type.split("/")[1] || "jpg"}`, { type: blob.type }));
+        const file = new File([blob], `${found?.current?.source ?? "shot"}-${i + 1}-${name.slice(0, 40)}.${blob.type.split("/")[1] || "jpg"}`, { type: blob.type });
+        fileSource.set(file, url);
+        files.push(file);
       }
       const media = await uploadFiles(files, articleId);
       if (!media.length) throw new Error("The screenshots couldn't be uploaded.");
       if (media.length < files.length) toast(`${files.length - media.length} screenshot(s) failed to upload.`, "error");
-      onpick(media);
+      fresh = [...media, ...fresh.filter((f) => !media.some((m) => m.id === f.id))];
+      onpick([...reused, ...media]);
       open = false;
     } catch (e) {
       toastError(e);
@@ -214,6 +227,9 @@
               <img src={s.thumb} alt="" loading="lazy" referrerpolicy="no-referrer" class="h-full w-full object-cover" />
               {#if picks.includes(s.full)}
                 <span class="absolute right-1.5 top-1.5 grid h-6 w-6 place-items-center rounded-full bg-indigo-600 text-xs font-bold text-white shadow">{picks.indexOf(s.full) + 1}</span>
+              {/if}
+              {#if imported.has(s.full)}
+                <span class="absolute bottom-1.5 left-1.5 rounded bg-emerald-600 px-1.5 py-0.5 text-[10px] font-semibold text-white shadow">Added</span>
               {/if}
             </button>
           {/each}

@@ -146,6 +146,8 @@ export interface Media {
   committed: boolean;
   articleId: string | null;
   createdAt: number;
+  /** The screenshot it was imported from (Find screenshots), if any. */
+  sourceUrl?: string | null;
 }
 
 /** "Find screenshots" in the image picker (mirrors src/lib/server/screenshots.ts). */

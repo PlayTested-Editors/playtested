@@ -103,6 +103,9 @@ let keySeq = 0;
  * Compress and upload files. Resolves with the successfully uploaded media,
  * in the same order the files were given.
  */
+/** Where an imported file came from (Find screenshots): sent so the server can reuse an earlier copy. */
+export const fileSource = new WeakMap<File, string>();
+
 export async function uploadFiles(files: File[] | FileList, articleId?: string): Promise<Media[]> {
   const list = [...files].filter(isAcceptedImage);
   const items = list.map((file) => {
@@ -164,6 +167,7 @@ export async function uploadFiles(files: File[] | FileList, articleId?: string):
           "X-Filename": encodeURIComponent(name),
           ...(r.width ? { "X-Width": String(r.width), "X-Height": String(r.height) } : {}),
           ...(articleId ? { "X-Article-Id": articleId } : {}),
+          ...(fileSource.has(next.file) ? { "X-Source-Url": encodeURIComponent(fileSource.get(next.file)!) } : {}),
         });
         next.item.media = res.media;
         next.item.finalBytes = r.blob.size;
