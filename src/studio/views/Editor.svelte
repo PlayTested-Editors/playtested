@@ -102,10 +102,10 @@
   /** Pros / Cons sections in the site's usual format (only real, labelled lists). */
   function tidyBody() {
     if (!data) return;
-    const { text, styles, sections, rejoined } = tidyFormatting(data.body);
+    const { text, styles, sections, rejoined, bolded } = tidyFormatting(data.body, data.game);
     const unsorted = findUnsortedPoints(text);
     if (unsorted) sortPoints = { found: unsorted, kinds: [...unsorted.guess] };
-    if (!styles && !sections && !rejoined) {
+    if (!styles && !sections && !rejoined && !bolded) {
       if (!unsorted) toast("Formatting already looks right. Nothing to change.", "info");
       return;
     }
@@ -115,6 +115,7 @@
       sections ? `${sections} Pros/Cons section${sections === 1 ? "" : "s"}` : "",
       rejoined ? `rejoined ${rejoined} sentence${rejoined === 1 ? "" : "s"} split by an image` : "",
       styles ? `removed pasted styling from ${styles} place${styles === 1 ? "" : "s"}` : "",
+      bolded ? `put the game's name in bold (${bolded}×)` : "",
     ].filter(Boolean);
     toast(`Tidied: ${parts.join(", ")}.`, "success", { label: "Undo", run: () => data && (data.body = before) }, 8000);
   }
@@ -797,6 +798,18 @@
           <button class="btn-secondary" onclick={() => (review = "approve")}>Approve</button>
         {/if}
         {#if articleState !== "published" || !detail.article.isLive}
+          <button
+            type="button"
+            class="hidden items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-xs font-semibold ring-1 transition sm:inline-flex {future ? 'bg-sky-50 text-sky-700 ring-sky-200 hover:bg-sky-100 dark:bg-sky-500/10 dark:text-sky-300 dark:ring-sky-500/30' : 'text-slate-600 ring-slate-200 hover:bg-slate-100 dark:text-slate-300 dark:ring-slate-700 dark:hover:bg-slate-800'}"
+            title="Publish date (Philippine time). Click to change it in Details."
+            onclick={() => {
+              tab = "details";
+              tick().then(() => document.getElementById("date")?.focus());
+            }}
+          >
+            <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5" /></svg>
+            {future ? "Goes live " : ""}{new Date(data.pubDate).toLocaleString("en-PH", { timeZone: "Asia/Manila", dateStyle: "medium", timeStyle: "short" })}
+          </button>
           <button class="btn-success" onclick={startPublish}>{detail.live ? "Publish changes" : future ? "Schedule" : "Publish"}</button>
         {/if}
       {:else if detail.permissions.submit && (articleState === "draft" || articleState === "changes_requested")}

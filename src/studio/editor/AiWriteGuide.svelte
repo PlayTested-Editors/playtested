@@ -23,7 +23,7 @@
   let copied = $state(false);
 
   let prompt = $derived(buildPrompt({ game, score, notes }));
-  let parsed = $derived(reply.trim() ? parseReply(reply) : null);
+  let parsed = $derived(reply.trim() ? parseReply(reply, game) : null);
 
   $effect(() => {
     if (open) useTitle = !hasTitle;

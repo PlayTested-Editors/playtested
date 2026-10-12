@@ -43,7 +43,9 @@ Score (Optional): If a score is provided, put it here as an H2 header (e.g., ## 
 
 Body Sections (2-4 Sections): Group my specific thoughts (combat, graphics, story, AI, etc.) into thematic sections with catchy H3 headers. Expand on my notes to explain how the mechanics work to the reader.
 
-Conclusion (1 Paragraph): A final wrap-up summarizing if the game is worth playing and who it is for.
+Conclusion (1 Paragraph): Under the heading "### Conclusion", a final wrap-up summarizing if the game is worth playing and who it is for.
+
+Game name: Write the game's name in bold (e.g. **Ghost Recon Wildlands**) every time it appears in the review text.
 
 Reply with only the finished review in Markdown, starting with the title line, and no other commentary.
 
@@ -59,7 +61,7 @@ export function buildPrompt(input: { game: string; score: string; notes: string 
 }
 
 /** Splits an AI reply into title, score and body. */
-export function parseReply(reply: string): { title: string; score: number | null; body: string } {
+export function parseReply(reply: string, game?: string): { title: string; score: number | null; body: string } {
   let text = reply.replace(/\r\n/g, "\n").replace(/[ \t]+$/gm, "").trim();
   // Copied as plain text from the AI's page: no markdown at all and one block
   // per line. Markdown would run those lines together, so separate them.
@@ -92,7 +94,7 @@ export function parseReply(reply: string): { title: string; score: number | null
     title = title.slice(0, s.index).trim();
   }
   // Pros / Cons in the site's usual "## Pros" + "- " bullets format.
-  let body = tidyFormatting(lines.join("\n").trim()).text;
+  let body = tidyFormatting(lines.join("\n").trim(), game).text;
   if (plainLines) {
     // Copied as plain text, one block per line: give every line its own
     // paragraph, except consecutive list items, which stay one list.

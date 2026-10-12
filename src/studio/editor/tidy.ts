@@ -361,11 +361,48 @@ export function applySortedPoints(markdown: string, found: UnsortedPoints, kinds
   return [...before, ...(before.length ? [""] : []), ...block, ...(after.length ? ["", ...after] : [])].join("\n");
 }
 
-/** Everything the "Tidy" button does: pasted styling, split sentences, inline "Pro:"/"Con:" points, then Pros / Cons sections. */
-export function tidyFormatting(markdown: string): { text: string; styles: number; sections: number; rejoined: number } {
+/**
+ * Every mention of the game's name in bold ("Ghost Recon Wildlands" →
+ * "**Ghost Recon Wildlands**"; an italic one becomes bold italic). Headings,
+ * code, links, HTML tags (image src/alt) and text that's already bold are left alone.
+ */
+export function boldGameName(markdown: string, game: string | undefined): { text: string; changed: number } {
+  const name = (game ?? "").trim();
+  if (name.length < 3) return { text: markdown, changed: 0 };
+  const esc = name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  // Whole-name matches only (not inside a longer word), any letter case.
+  const re = new RegExp(`(?<![\\p{L}\\p{N}])${esc}(?![\\p{L}\\p{N}])`, "giu");
+  // Spans that must not change: code, links/images, HTML tags, bold (with or without italics).
+  const PROTECT = /`[^`\n]*`|!?\[[^\]\n]*\]\([^)\n]*\)|<[^>\n]+>|\*\*\*[^*\n]+\*\*\*|\*\*[^*\n]+\*\*|__[^_\n]+__/g;
+  let changed = 0;
+  let inFence = false;
+  const lines = markdown.replace(/\r\n/g, "\n").split("\n").map((line) => {
+    if (FENCE.test(line)) inFence = !inFence;
+    if (inFence || /^\s{0,3}#{1,6}\s/.test(line) || !line.trim()) return line;
+    let out = "";
+    let last = 0;
+    const plain = (s: string) =>
+      s
+        // An italic mention: *Name* / _Name_ → ***Name***.
+        .replace(new RegExp(`(?<![*_\\p{L}\\p{N}])([*_])(${esc})\\1(?![*_\\p{L}\\p{N}])`, "giu"), (_m, _w, n) => (changed++, `***${n}***`))
+        .split(/(\*\*\*[^*\n]+\*\*\*)/)
+        .map((part) => (part.startsWith("***") ? part : part.replace(re, (m) => (changed++, `**${m}**`))))
+        .join("");
+    for (const m of line.matchAll(PROTECT)) {
+      out += plain(line.slice(last, m.index)) + m[0];
+      last = m.index! + m[0].length;
+    }
+    return out + plain(line.slice(last));
+  });
+  return { text: lines.join("\n"), changed };
+}
+
+/** Everything the "Tidy" button does: pasted styling, split sentences, inline "Pro:"/"Con:" points, Pros / Cons sections, and the game's name in bold. */
+export function tidyFormatting(markdown: string, game?: string): { text: string; styles: number; sections: number; rejoined: number; bolded: number } {
   const a = stripPastedStyles(markdown);
   const r = rejoinSplitParagraphs(a.text);
   const b = tidyLabelledPoints(r.text);
   const c = tidyProsCons(b.text);
-  return { text: c.text, styles: a.changed, sections: b.changed + c.changed, rejoined: r.changed };
+  const g = boldGameName(c.text, game);
+  return { text: g.text, styles: a.changed, sections: b.changed + c.changed, rejoined: r.changed, bolded: g.changed };
 }

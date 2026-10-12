@@ -417,9 +417,11 @@ route("GET", "/articles", "contributor", async (c) => {
     where.push(vis.sql);
     args.push(...vis.args);
   }
-  const sort = { updated: "updated_at DESC", pub: "pub_date DESC", title: "title COLLATE NOCASE ASC", score: "score DESC" }[
-    p.get("sort") || "updated"
-  ] ?? "updated_at DESC";
+  // Default: drafts (not live) on top, then by publish date (idx_articles_list).
+  const listOrder = "(live_json IS NULL) DESC, pub_date DESC, updated_at DESC";
+  const sort = { list: listOrder, updated: "updated_at DESC", pub: "pub_date DESC", title: "title COLLATE NOCASE ASC", score: "score DESC" }[
+    p.get("sort") || "list"
+  ] ?? listOrder;
   const pageSize = Math.min(Math.max(Number(p.get("pageSize")) || 30, 1), 100);
   const page = Math.max(Number(p.get("page")) || 1, 1);
   const whereSql = where.length ? `WHERE ${where.join(" AND ")}` : "";

@@ -26,7 +26,7 @@
 
   let articleState = $derived(route.query.get("state") || "");
   let category = $derived(route.query.get("category") || "");
-  let sort = $derived(route.query.get("sort") || "updated");
+  let sort = $derived(route.query.get("sort") || "list");
   let page = $derived(Number(route.query.get("page")) || 1);
   let mine = $derived(route.query.get("mine") === "1");
 
@@ -161,6 +161,7 @@
       {#each categories as c}<option value={c.value}>{c.value} ({c.count})</option>{/each}
     </select>
     <select class="input w-auto" value={sort} onchange={(e) => setParam({ sort: e.currentTarget.value })}>
+      <option value="list">Drafts, then publish date</option>
       <option value="updated">Recently edited</option>
       <option value="pub">Publish date</option>
       <option value="title">Title A–Z</option>
@@ -193,7 +194,7 @@
               <div class="min-w-0 flex-1">
                 <p class="truncate text-sm font-semibold text-slate-900 group-hover:text-indigo-600 dark:text-slate-100 dark:group-hover:text-indigo-400">{a.title || "Untitled"}</p>
                 <p class="mt-0.5 truncate text-xs text-slate-500">
-                  {a.category ?? "—"} · {a.author ?? "—"} · {sort === "pub" ? dateTime(a.pubDate) : `edited ${relTime(a.updatedAt)}${data.names[a.updatedBy ?? ""] ? ` by ${data.names[a.updatedBy ?? ""]}` : ""}`}
+                  {a.category ?? "—"} · {a.author ?? "—"} · {sort === "pub" || (sort === "list" && a.isLive) ? dateTime(a.pubDate) : `edited ${relTime(a.updatedAt)}${data.names[a.updatedBy ?? ""] ? ` by ${data.names[a.updatedBy ?? ""]}` : ""}`}
                 </p>
               </div>
               {#if a.score !== null}
