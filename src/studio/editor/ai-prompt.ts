@@ -64,7 +64,8 @@ export function parseReply(reply: string): { title: string; score: number | null
   // Copied as plain text from the AI's page: no markdown at all and one block
   // per line. Markdown would run those lines together, so separate them.
   const hasMarkdown = /^\s{0,3}(#{1,6}\s|[-*+]\s|\d+[.)]\s|>|```)/m.test(text);
-  if (!hasMarkdown && !/\n\s*\n/.test(text) && text.includes("\n")) text = text.split(/\n+/).join("\n\n");
+  // Spaced out after tidying (below), so Pros/Cons points stay next to their label.
+  const plainLines = !hasMarkdown && !/\n\s*\n/.test(text) && text.includes("\n");
   // Replies are often wrapped in a ```markdown code block.
   const fenced = /^```[a-z]*\n([\s\S]*?)\n```$/i.exec(text);
   if (fenced) text = fenced[1].trim();
@@ -91,6 +92,12 @@ export function parseReply(reply: string): { title: string; score: number | null
     title = title.slice(0, s.index).trim();
   }
   // Pros / Cons in the site's usual "## Pros" + "- " bullets format.
-  const body = tidyFormatting(lines.join("\n").trim()).text;
+  let body = tidyFormatting(lines.join("\n").trim()).text;
+  if (plainLines) {
+    // Copied as plain text, one block per line: give every line its own
+    // paragraph, except consecutive list items, which stay one list.
+    const kept = body.split("\n").filter((l) => l.trim());
+    body = kept.map((l, k) => (k === 0 ? l : (/^- /.test(l) && /^- /.test(kept[k - 1]) ? "\n" : "\n\n") + l)).join("");
+  }
   return { title, score: score !== null && score >= 0 && score <= 10 ? score : null, body };
 }

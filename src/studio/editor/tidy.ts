@@ -55,6 +55,12 @@ function isCombinedLabel(line: string): boolean {
   return /^(the\s+)?pros\s*(&|and|\/|\+)\s*cons$/.test(bare);
 }
 
+/** A point that lost its bullet: a short plain line, not a heading, label or paragraph. */
+function isBarePoint(line: string): boolean {
+  const t = line.trim();
+  return t.length >= 2 && t.length <= 160 && !/^#{1,6}\s/.test(t) && !labelKind(t) && !isCombinedLabel(t);
+}
+
 const nextContent = (lines: string[], from: number) => {
   let j = from;
   while (j < lines.length && !lines[j].trim()) j++;
@@ -72,6 +78,9 @@ export function tidyProsCons(markdown: string): { text: string; changed: number 
   const out: string[] = [];
   let changed = 0;
   let inFence = false;
+  // Points copied as plain text can lose both their bullet and emoji. Only trust
+  // bare lines as points when the text has both a Pros and a Cons label.
+  const hasBoth = lines.some((l) => labelKind(l) === "pros") && lines.some((l) => labelKind(l) === "cons");
 
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i];
@@ -99,7 +108,9 @@ export function tidyProsCons(markdown: string): { text: string; changed: number 
     const first = kind ? nextContent(lines, i + 1) : -1;
     // Points are a bullet list, or (when copied as plain text) emoji-led lines.
     const emojiMode = Boolean(kind) && first < lines.length && !BULLET.test(lines[first]) && EMOJI_LED.test(lines[first]);
-    if (!kind || first >= lines.length || !(BULLET.test(lines[first]) || emojiMode)) {
+    // Bare lines: short, right under the label, one per line (a blank line ends the list).
+    const plainMode = Boolean(kind) && hasBoth && first === i + 1 && first < lines.length && !BULLET.test(lines[first]) && !emojiMode && isBarePoint(lines[first]);
+    if (!kind || first >= lines.length || !(BULLET.test(lines[first]) || emojiMode || plainMode)) {
       out.push(line);
       continue;
     }
@@ -109,6 +120,16 @@ export function tidyProsCons(markdown: string): { text: string; changed: number 
     const items: string[] = [];
     let j = first;
     for (; j < lines.length; j++) {
+      if (plainMode) {
+        // A short line followed directly by a paragraph is the next section's
+        // heading ("The Verdict"), not a point (never for the first point).
+        const nextIsParagraph = j + 1 < lines.length && lines[j + 1].trim().length > 160;
+        if (isBarePoint(lines[j]) && !(items.length && nextIsParagraph)) {
+          items.push(`- ${lines[j].trim()}`);
+          continue;
+        }
+        break;
+      }
       if (emojiMode) {
         if (EMOJI_LED.test(lines[j])) {
           items.push(`- ${lines[j].trim()}`);
