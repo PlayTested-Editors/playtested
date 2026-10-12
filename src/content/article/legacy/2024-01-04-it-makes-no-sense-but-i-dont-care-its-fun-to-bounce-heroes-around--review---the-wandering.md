@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2024-01-04-it-makes-no-sense-but-i-dont-care-its-fun-to-bounce-heroes-around-review-the-wandering
-title: "It makes no sense, but I don’t care: it's fun to bounce heroes around | Review - The Wandering Ark"
+title: "It Makes No Sense, but I Don't Care: It's Fun to Bounce Heroes Around | The Wandering Ark Review"
 game: The Wandering Ark
 description: The Wandering Ark is a mobile strategy game that features a unique pinball-style combat system where heroes, drawn from popular mythologies like Odin, Chang’e, Hou Yi, and Tyr, collide in a 5v5 battle on a rectangular arena.
 featured: false

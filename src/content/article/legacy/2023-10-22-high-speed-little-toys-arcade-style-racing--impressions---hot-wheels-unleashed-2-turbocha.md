@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-10-22-high-speed-little-toys-arcade-style-racing-impressions-hot-wheels-unleashed-2-turbocha
-title: 'High-speed, little toys arcade-style racing | Impressions - Hot Wheels Unleashed 2: Turbocharged'
+title: "High-Speed, Little Toys Arcade-Style Racing | Hot Wheels Unleashed 2: Turbocharged First Impressions"
 game: HOT WHEELS UNLEASHED 2 - Turbocharged
 description: 'The first game was one of my lowkey go-to racing games to play on the Steam Deck. Now it gets a sequel which honestly flew under my radar until its release recently. Hot Wheels Unleashed 2: Turbocharged is continuation of the original game with some noticeable improvements, especially in the gameplay and content.'
 featured: false

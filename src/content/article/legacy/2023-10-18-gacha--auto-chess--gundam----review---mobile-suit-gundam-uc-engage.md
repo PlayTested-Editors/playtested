@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-10-18-gacha-auto-chess-gundam-review-mobile-suit-gundam-uc-engage
-title: Gacha + Auto Chess + Gundam = ??? | Review - MOBILE SUIT GUNDAM U.C. ENGAGE
+title: "Gacha + Auto Chess + Gundam = ??? | MOBILE SUIT GUNDAM U.C. ENGAGE Review"
 game: MOBILE SUIT GUNDAM U.C. ENGAGE
 description: MOBILE SUIT GUNDAM U.C. ENGAGE 7.5 Simulation Strategy Download
 featured: false

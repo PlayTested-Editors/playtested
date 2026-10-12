@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-03-03-the-three-kingdoms-era-infested-with-demons-first-impressions-wo-long-fallen-dynasty
-title: 'The Three Kingdoms era, infested with demons | First Impressions - Wo Long: Fallen Dynasty'
+title: "Three Kingdoms Era, Infested With Demons | Wo Long: Fallen Dynasty First Impressions"
 game: 'Wo Long: Fallen Dynasty'
 description: 'Wo Long: Fallen Dynasty is a fast-paced, action-packed RPG that draws inspiration from the Souls-like genre popularized by Dark Souls and recently, Elden Ring.'
 featured: false

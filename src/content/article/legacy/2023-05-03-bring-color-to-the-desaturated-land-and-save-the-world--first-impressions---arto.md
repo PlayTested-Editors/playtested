@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-05-03-bring-color-to-the-desaturated-land-and-save-the-world-first-impressions-arto
-title: Bring color to the desaturated land and save the world | First Impressions - Arto
+title: "Bring Color to the Desaturated Land and Save the World | Arto First Impressions"
 game: Arto
 description: In the world of Arto, an event known as the Chromacylsm has drained all color, and our protagonist has been chosen to restore it and save the land. Players control Liv, an apostle of Goya, the chromatic Divinity of the Painted Arto. Liv is unaware of what is happening, and is unraveling the plot's mysteries alongside the player despite being destined for this task.
 featured: false

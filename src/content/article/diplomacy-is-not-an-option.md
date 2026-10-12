@@ -1,6 +1,5 @@
 ---
-title: When A Two-Hour Chill Building Session Meets an Imbalanced Difficulty
-  Spike | Diplomacy is Not An Option Review
+title: "When a Two-Hour Chill Building Session Meets an Imbalanced Difficulty Spike | Diplomacy is Not An Option Review"
 pubDate: 2026-05-15T17:25:00.000+08:00
 draft: false
 description: If you grew up playing tower defense mods or RTS campaigns just to

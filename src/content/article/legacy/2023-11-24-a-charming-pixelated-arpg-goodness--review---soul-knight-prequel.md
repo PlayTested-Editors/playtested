@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-11-24-a-charming-pixelated-arpg-goodness-review-soul-knight-prequel
-title: A charming pixelated ARPG goodness | Review - Soul Knight Prequel
+title: "Charming Pixelated ARPG Goodness | Soul Knight Prequel Review"
 game: Soul Knight Prequel
 description: ✨Overview Soul Knight is a relatively generic name; in fact, on Steam, there are at least two other games that share it. However, the specific "Soul Knight" we are covering is the one made by ChillyRoom, initially released way back in 2017. Now, five years later, we find ourselves on the brink of a new adventure with the release of Soul Knight Prequel.
 featured: false

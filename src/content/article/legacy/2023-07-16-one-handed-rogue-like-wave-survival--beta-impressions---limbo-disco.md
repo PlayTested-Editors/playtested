@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-07-16-one-handed-rogue-like-wave-survival-beta-impressions-limbo-disco
-title: One-handed rogue-like wave survival! | Beta Impressions - Limbo Disco
+title: "One-Handed Rogue-like Wave Survival! | Limbo Disco Beta Impressions"
 game: Limbo Disco
 description: Limbo Disco follows in the footsteps of similar titles Vampire Survivors and Brotato, with its addicting allure entirely playable with one-handed.
 featured: false

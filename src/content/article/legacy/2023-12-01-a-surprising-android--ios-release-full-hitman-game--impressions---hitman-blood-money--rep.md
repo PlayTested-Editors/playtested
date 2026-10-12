@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-12-01-a-surprising-android-ios-release-full-hitman-game-impressions-hitman-blood-money-rep
-title: 'A surprising Android / iOS release, FULL Hitman game! | Impressions - Hitman: Blood Money — Reprisal'
+title: "Surprising Android / iOS Release, FULL Hitman Game! | Hitman: Blood Money — Reprisal First Impressions"
 game: 'Hitman: Blood Money — Reprisal'
 description: 'Hitman: Blood Money — Reprisal is a 1:1 mobile port of the original Hitman: Blood Money, maintaining the gripping narrative and open-ended stealth gameplay that has been a hallmark of the Hitman series. The game follows the iconic assassin, Agent 47, as he embarks on a series of missions to eliminate high-profile targets across the globe.'
 featured: false

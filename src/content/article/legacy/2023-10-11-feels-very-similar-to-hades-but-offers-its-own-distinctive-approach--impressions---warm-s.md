@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-10-11-feels-very-similar-to-hades-but-offers-its-own-distinctive-approach-impressions-warm-s
-title: Feels very similar to Hades, but offers its own distinctive approach | Impressions - Warm Snow
+title: "Feels Very Similar to Hades, but Offers Its Own Distinctive Approach | Warm Snow First Impressions"
 game: Warm Snow
 description: Warm Snow is an action roguelike that manages to strike an impressive balance between familiarity and innovation. Drawing inevitable comparisons to Hades, it delivers a fast-paced gaming experience that's both addictively entertaining and uniquely its own.
 featured: false

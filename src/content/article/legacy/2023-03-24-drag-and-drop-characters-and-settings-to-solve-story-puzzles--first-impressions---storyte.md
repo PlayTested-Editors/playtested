@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-03-24-drag-and-drop-characters-and-settings-to-solve-story-puzzles-first-impressions-storyte
-title: Drag and drop characters and settings to solve story puzzles | First Impressions - Storyteller
+title: "Drag and Drop Characters and Settings to Solve Story Puzzles | Storyteller First Impressions"
 game: Storyteller
 description: Storyteller is a unique drag and drop puzzle game with fascinating novel mechanics and a cute medieval inspired artstyle. You are given multiple empty panels for a given scenario, plus a multitude of settings and characters to place per scenario. It’s up to you to arrange them in a way that will fit the scenario’s objectives. Be it somebody dying, living happily ever after, or getting revenge; you need to satisfy the objective in order to solve the puzzle.
 featured: false

@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-04-01-hours-of-mindless-one-handed-fun-full-review-brotato-premium-full-release
-title: Hours of mindless one-handed fun | Full Review - Brotato Premium (Full Release)
+title: "Hours of Mindless One-Handed Fun | Brotato Premium (Full Release) Full Review"
 game: 'Brotato: Premium'
 description: Brotato is a survival roguelite wave shooter playable with one hand. Originally released for PCs as an early access, it has now been recently released on Android and iOS as a full title, after going into an open beta just recently. This mobile release brings the game closer to feature parity with the existing PC version.
 featured: false

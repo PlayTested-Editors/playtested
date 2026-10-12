@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-08-21-tarot-card-personalization-thought-provoking-themes-impressions-the-cosmic-wheel-sist
-title: Tarot card personalization & thought-provoking themes | Impressions - The Cosmic Wheel Sisterhood
+title: "Tarot Card Personalization & Thought-Provoking Themes | The Cosmic Wheel Sisterhood First Impressions"
 game: The Cosmic Wheel Sisterhood
 description: The Cosmic Wheel Sisterhood allows players to assume the role of Fortuna, a Witch exiled for a thousand years who forms a forbidden pact with a godlike otherworldly creature to regain her freedom. Players will assume control of Fortuna 200 years into her exile, what will happen is up to the players, reconnect with fellow Witches, forge new relationships, and utilize the Tarot cards you've customized to unveil their pasts and futures.
 featured: false

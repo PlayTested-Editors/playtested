@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-07-17-martial-arts-focused-battle-royale-now-free-to-play-first-impressions-naraka-bladepoin
-title: 'Martial arts focused battle royale, now free to play! | First Impressions - NARAKA: BLADEPOINT'
+title: "Martial Arts Focused Battle Royale, Now Free to Play! | NARAKA: BLADEPOINT First Impressions"
 game: Naraka Bladepoint
 description: 'NARAKA: BLADEPOINT is a online multiplayer game offers a fresh take on the battle royale formula, introducing unique martial arts-based mechanics that set it apart from its competitors. Players take on the role of powerful heroes, each with their own unique abilities and playstyles. The game is available for PC, Xbox, and PlayStation, with an official mobile version coming soon as well.'
 featured: false

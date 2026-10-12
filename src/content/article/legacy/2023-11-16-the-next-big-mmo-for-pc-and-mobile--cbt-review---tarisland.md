@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-11-16-the-next-big-mmo-for-pc-and-mobile-cbt-review-tarisland
-title: The next big MMO for PC and Mobile? | CBT Review - Tarisland
+title: "Next Big MMO for PC and Mobile? | Tarisland CBT Review"
 game: CBT Review - Tarisland
 description: Tarisland, a highly anticipated MMORPG from developers Level Infinite and publisher Tencent, emerges as a bold contender for the next big MMO, both for Mobile and PC, which is a pretty massive undertaking.
 featured: false

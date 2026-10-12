@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2022-11-15-be-the-gladiator-you-always-wanted-to-be-we-who-are-about-to-die-short-review
-title: Be the Gladiator you always wanted to be | We Who Are About to Die - Short Review
+title: "Be the Gladiator You Always Wanted to Be | We Who Are About to Die Short Review"
 game: We who are about to Die
 description: We Who Are About to Die - Short Review (Early Access)
 featured: false

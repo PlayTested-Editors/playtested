@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-03-16-after-almost-30-years-a-classic-franchise-lives-on-first-impressions-streets-of-rage-4
-title: After almost 30 years, a classic franchise lives on | First Impressions - Streets of Rage 4
+title: "After Almost 30 Years, a Classic Franchise Lives On | Streets of Rage 4 First Impressions"
 game: Streets of Rage 4
 description: As someone who never played the 90s classics during its heyday but have played, watched, and experienced them as a “retro” game status throughout the recent years, It is quite a delight to finally play the beat 'em up game Streets of Rage 4, the latest installment in the Streets of Rage series after almost 30 years of hiatus.
 featured: false

@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-08-16-its-unfortunate-co-op-implementation-dampens-overall-appeal-review-hammerwatch-ii
-title: It's unfortunate co-op implementation dampens overall appeal | Review - Hammerwatch II
+title: "It's Unfortunate Co-Op Implementation Dampens Overall Appeal | Hammerwatch II Review"
 game: Hammerwatch II
 description: Hammerwatch II is a retro-style action RPG developed by Crackshell. Serving as a direct sequel to the original Hammerwatch, the game offers a rich and nostalgic experience that delves into the heart of pixelated dungeon exploration and intense combat encounters.
 featured: false

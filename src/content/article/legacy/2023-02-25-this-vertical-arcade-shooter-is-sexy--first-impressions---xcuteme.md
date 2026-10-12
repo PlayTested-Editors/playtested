@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-02-25-this-vertical-arcade-shooter-is-sexy-first-impressions-xcuteme
-title: This vertical arcade shooter is SEXY | First Impressions - XCUTE(me)
+title: "This Vertical Arcade Shooter Is SEXY | XCUTE(me) First Impressions"
 game: XCUTE(me)
 description: XCUTE(me) is a vertical shoot’em up featuring sexy female characters for both the heroes and the villains. Players can choose from a collection of four different executer-class “XCUTE” fighter ships with their own different types of shooting pattern, piloted by four different cute female fighters.
 featured: false

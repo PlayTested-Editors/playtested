@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-06-11-dungeon-crawler-mixed-w-tetris-and-candy-crush-first-impressions-shovel-knight-pocket
-title: Dungeon crawler mixed w/ Tetris and Candy Crush? | First Impressions - Shovel Knight Pocket Dungeon
+title: "Dungeon Crawler Mixed w/ Tetris and Candy Crush? | Shovel Knight Pocket Dungeon First Impressions"
 game: Shovel Knight Pocket Dungeon
 description: Shovel Knight Pocket Dungeon is an engaging and addictive roguelike dungeon crawler puzzle available on Switch, PC, and with a Netflix exclusive port for Android and iOS. It draws inspiration from retro-style 2D platformers of the 8-bit and 16-bit eras. With its pixelated art style and charming graphics, the game pays homage to classic video games.
 featured: false

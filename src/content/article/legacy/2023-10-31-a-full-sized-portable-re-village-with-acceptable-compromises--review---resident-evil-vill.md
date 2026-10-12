@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-10-31-a-full-sized-portable-re-village-with-acceptable-compromises-review-resident-evil-vill
-title: A full-sized portable RE Village, with acceptable compromises | Review - Resident Evil Village
+title: "Full-Sized Portable RE Village, With Acceptable Compromises | Resident Evil Village Review"
 game: 'Resident Evil: Village'
 description: Capcom has officially unleashed Resident Evil Village onto mobile devices yesterday, October 30. Available for iPhone 15 Pro and supported iPad models equipped with an M1 chipset or better
 featured: false

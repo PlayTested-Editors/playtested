@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-03-20-this-game-is-so-good-it-created-its-own-genre-full-review-vampire-survivors
-title: This game is so good it created its own genre | Full Review - Vampire Survivors
+title: "This Game Is So Good It Created Its Own Genre | Vampire Survivors Full Review"
 game: Vampire Survivors
 description: Vampire Survivors might not seem like a really good nor addictive game judging from the pixel art graphics, but trust me, it is one of the most addicting games that have come out in recent years.
 featured: true

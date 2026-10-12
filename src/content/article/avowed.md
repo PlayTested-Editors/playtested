@@ -19,7 +19,7 @@ tags:
   - xbox
   - console
 thumb: /images/reviews/2025-03-11-avowed-0.avif
-title: A Rich, Atmospheric First Person RPG | Avowed Review
+title: "Rich, Atmospheric First Person RPG | Avowed Review"
 game: Avowed
 ---
 

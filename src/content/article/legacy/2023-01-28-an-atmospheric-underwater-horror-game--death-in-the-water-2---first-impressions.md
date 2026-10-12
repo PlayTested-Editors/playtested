@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-01-28-an-atmospheric-underwater-horror-game-death-in-the-water-2-first-impressions
-title: An atmospheric underwater horror game | Death in the Water 2 - First Impressions
+title: "Atmospheric Underwater Horror Game | Death in the Water 2 First Impressions"
 game: Death in the Water 2
 description: Imagine a deep sea survival game like Subnautica, which is basically an underwater version of The Forest. Remove all the base building, crafting, focus on the shooter aspect, make it darker with lovecraftian elements and you get Death in the Water 2.
 featured: false

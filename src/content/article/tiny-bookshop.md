@@ -1,5 +1,5 @@
 ---
-title: Turning The Pages In A Cozy, Slow-Burn Dream | Tiny Bookshop Review
+title: "Turning the Pages in a Cozy, Slow-Burn Dream | Tiny Bookshop Review"
 pubDate: 2026-04-10T18:29:00.000+08:00
 draft: false
 description: Tiny Bookshop is a cozy management sim that puts you behind the

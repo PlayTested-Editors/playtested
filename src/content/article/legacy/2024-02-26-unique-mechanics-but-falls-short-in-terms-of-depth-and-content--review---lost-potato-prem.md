@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2024-02-26-unique-mechanics-but-falls-short-in-terms-of-depth-and-content-review-lost-potato-prem
-title: 'Unique mechanics, but falls short in terms of depth and content | Review - Lost Potato: Premium'
+title: "Unique Mechanics, but Falls Short in Terms of Depth and Content | Lost Potato: Premium Review"
 game: 'Lost Potato: Premium'
 description: '✨Overview Lost Potato: Premium is an upcoming top-down roguelite set to release on Android and iOS in March 2024. The game offers a distinctive twist on combat mechanics, not allowing players to damage enemies directly but instead requiring the use of other contraptions. It challenges players to survive a jungle filled with man-eating tribes as a young potato. For those wondering, yes, it is made by the same makers of the excellent rogue-lite Brotato (hence the Potato theme).'
 featured: false

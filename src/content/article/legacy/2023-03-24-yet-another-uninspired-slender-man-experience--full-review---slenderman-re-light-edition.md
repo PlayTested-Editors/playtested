@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-03-24-yet-another-uninspired-slender-man-experience-full-review-slenderman-re-light-edition
-title: 'Yet another uninspired Slender Man experience | Full Review - Slenderman RE: Light Edition'
+title: "Yet Another Uninspired Slender Man Experience | Slenderman RE: Light Edition Full Review"
 game: 'Slenderman RE: Light Edition'
 description: 'Slenderman RE: Light Edition is an adventure horror mobile game based on the Slender Man supernatural character. It is played in first person view and plays like an adventure game where you are to interact with the environment in order to progress.'
 featured: false

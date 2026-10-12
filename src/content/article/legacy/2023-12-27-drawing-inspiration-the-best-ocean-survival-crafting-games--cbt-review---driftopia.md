@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-12-27-drawing-inspiration-the-best-ocean-survival-crafting-games-cbt-review-driftopia
-title: Drawing inspiration the best ocean survival crafting games | CBT Review - Driftopia
+title: "Drawing Inspiration the Best Ocean Survival Crafting Games | Driftopia CBT Review"
 game: CBT Review - Driftopia
 description: Recently, I had the opportunity to play a bit of the Driftopia Beta Test, a survival crafting game set on an alien ocean planet, waiting to be explored and discovered. Driftopia, though still in beta on Android, attempts to merge the best elements of oceanic survival games.
 featured: false

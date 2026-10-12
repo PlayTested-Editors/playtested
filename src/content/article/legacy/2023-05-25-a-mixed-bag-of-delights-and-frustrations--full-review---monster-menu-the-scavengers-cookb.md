@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-05-25-a-mixed-bag-of-delights-and-frustrations-full-review-monster-menu-the-scavengers-cookb
-title: "A mixed bag of delights and frustrations | Full Review - \uFEFFMonster Menu: The Scavenger's Cookbook"
+title: "Mixed Bag of Delights and Frustrations | Monster Menu: The Scavenger's Cookbook Full Review"
 game: Monster Menu - The Scavenger's Cookbook
 description: "Monster Menu: The Scavenger's Cookbook is a dungeon crawling surviving turn-based RPG with a heavy focus on cooking and monster eating, released for the Nintendo Switch and Playstation"
 featured: false

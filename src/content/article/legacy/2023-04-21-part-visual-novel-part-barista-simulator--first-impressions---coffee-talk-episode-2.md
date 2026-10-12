@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-04-21-part-visual-novel-part-barista-simulator-first-impressions-coffee-talk-episode-2
-title: Part-visual novel, part-barista simulator | First Impressions - Coffee Talk Episode 2
+title: "Part-Visual Novel, Part-Barista Simulator | Coffee Talk Episode 2 First Impressions"
 game: Coffee Talk Episode 2
 description: 'Coffee Talk Episode 2: Hibiscus & Butterfly 8.7 Adventure Casual'
 featured: false

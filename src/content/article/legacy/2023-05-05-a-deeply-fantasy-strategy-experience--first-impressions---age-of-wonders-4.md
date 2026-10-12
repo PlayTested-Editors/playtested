@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-05-05-a-deeply-fantasy-strategy-experience-first-impressions-age-of-wonders-4
-title: A deeply fantasy strategy experience | First Impressions - Age of Wonders 4
+title: "Deeply Fantasy Strategy Experience | Age of Wonders 4 First Impressions"
 game: Age of Wonders 4
 description: Participate in diplomacy, combat, research, and empire management gameplay to create a deeply immersive and strategic role-playing gameplay. With updated graphics and refined gameplay mechanics, Age of Wonders 4 promises to be a worthy successor to the critically acclaimed Age of Wonders III, offering players even more depth, complexity, and replay value than ever before.
 featured: false

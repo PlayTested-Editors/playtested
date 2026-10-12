@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-05-17-dreamwalk-into-bad-dreams-and-fight-nightmares-first-impressions-somnolent-action-rpg
-title: 'Dreamwalk into bad dreams and fight nightmares | First Impressions - Somnolent: Action RPG Fantasy'
+title: "Dreamwalk Into Bad Dreams and Fight Nightmares | Somnolent: Action RPG Fantasy First Impressions"
 game: 'Somnolent: Action RPG Fantasy'
 description: The eponymous Somnolent is a world called the dreamcatcher where the game is also set. It is a place where good dreams pass through, while bad dreams get stuck. In layman's terms, Somnolent functions as a filter. This requires the dreamwalkers — warriors summoned to defend dreams — to constantly purge Somnolent of the bad dreams that get trapped in the lands and the nightmarish monsters spawned by them.
 featured: false

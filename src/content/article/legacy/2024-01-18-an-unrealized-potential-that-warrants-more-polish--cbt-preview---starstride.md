@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2024-01-18-an-unrealized-potential-that-warrants-more-polish-cbt-preview-starstride
-title: An unrealized potential that warrants more polish | CBT Preview - Starstride
+title: "Unrealized Potential That Warrants More Polish | Starstride CBT Preview"
 game: CBT Preview - Starstride
 description: Starstride is an online hack-and-slash action MMORPG that combines elements of high fantasy, sci-fi, and some monster hunting gameplay. The game features a unique premise where two allied factions, Neoterrans and Wokens, engage in a war against a mysterious alien civilization, as players take on the role of powerful fighters tasked with becoming the ultimate Star Warrior.
 featured: false

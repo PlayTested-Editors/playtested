@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-04-11-one-of-the-best-space-combat-arcade-games-you-can-play-today-full-review-everspace-2
-title: One of the best space combat arcade games you can play today | Full Review - Everspace 2
+title: "One of the Best Space Combat Arcade Games You Can Play Today | Everspace 2 Full Review"
 game: Everspace 2
 description: Everspace 2 takes place in a vast, open-world space environment. Players take on the role of a clone pilot — the “same” pilot from the first game — who must explore different star systems, battle hostile forces, take on missions, and uncover the mysteries of the universe via story campaign.
 featured: false

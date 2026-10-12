@@ -20,7 +20,7 @@ tags:
   - xbox
   - console
 thumb: /images/reviews/dragons-dogma-2-0.avif
-title: Severe Optimization Issues On An Otherwise A Promising Title | Dragon's Dogma II Review
+title: "Severe Optimization Issues on an Otherwise a Promising Title | Dragon's Dogma II Review"
 game: Dragon's Dogma II
 ---
 

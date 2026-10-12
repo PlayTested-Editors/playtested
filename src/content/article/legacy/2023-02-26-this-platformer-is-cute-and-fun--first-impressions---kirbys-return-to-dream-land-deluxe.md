@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-02-26-this-platformer-is-cute-and-fun-first-impressions-kirbys-return-to-dream-land-deluxe
-title: This platformer is cute and fun | First Impressions - Kirby's Return to Dream Land Deluxe
+title: "This Platformer Is Cute and Fun | Kirby's Return to Dream Land Deluxe First Impressions"
 game: Kirby’s Return to Dream Land Deluxe
 description: Kirby's Return to Dream Land Deluxe is a remake and an enhanced edition of the original Wii title from 12 years ago. It takes the exact same story and gameplay, but revamps the graphics to modern standards, and it is beautiful.
 featured: false

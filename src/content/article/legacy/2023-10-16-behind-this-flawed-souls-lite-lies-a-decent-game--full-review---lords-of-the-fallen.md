@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-10-16-behind-this-flawed-souls-lite-lies-a-decent-game-full-review-lords-of-the-fallen
-title: Behind this flawed “Souls-lite” lies a decent game | Full Review - Lords of the Fallen
+title: "Behind This Flawed \"Souls-Lite\" Lies a Decent Game | Lords of the Fallen Full Review"
 game: Lords of the Fallen
 description: ✨Overview Lords of the Fallen servers as both a soft reboot and a loose sequel to its 2014 predecessor, and bravely steps once again for a second shot at offering a compelling Souls-like, giving players another taste of a harsh and dangerous world with intense combat, innovative dual-reality mechanics, and a co-op experience.
 featured: false

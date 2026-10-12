@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-11-22-just-hope-and-wait-for-a-global-release-for-the-time-being-review-jujutsu-kaisen-phant
-title: 'Just hope and wait for a global release for the time being | Review - Jujutsu Kaisen: Phantom Parade'
+title: "Just Hope and Wait for a Global Release for the Time Being | Jujutsu Kaisen: Phantom Parade Review"
 game: 'Jujutsu Kaisen: Phantom Parade'
 description: Jujutsu Kaisen Phantom ParadeJP 9.0 RPG Strategy PC Version
 featured: false

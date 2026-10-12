@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-03-07-playing-among-us-in-2023-feat-destiny-2-first-impressions-among-us
-title: Playing Among Us in 2023 (feat. Destiny 2) | First Impressions - Among Us
+title: "Playing Among Us in 2023 (feat. Destiny 2) | Among Us First Impressions"
 game: Among Us
 description: Among Us is an incredibly fun and addicting multiplayer game that challenges your deduction and deception skills. The game is set on a spaceship where players take on the role of either a Crewmate or an Impostor. The goal of the Crewmates is to complete various tasks around the ship, kick out any Impostors; while the Impostors must sabotage the ship and eliminate the Crewmates without being caught, before all the tasks are complete.
 featured: false

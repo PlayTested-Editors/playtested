@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-05-27-extremely-frustrating-controls-but-otherwise-fun-review-extremely-realistic-siege-warf
-title: Extremely frustrating controls but otherwise fun | Review - Extremely Realistic Siege Warfare Sim
+title: "Extremely Frustrating Controls but Otherwise Fun | Extremely Realistic Siege Warfare Sim Review"
 game: Extremely Realistic Siege Warfare Sim
 description: Extremely Realistic Siege Warfare Simulator is a real-time strategy sandbox simulation game of medieval siege warfare. The title itself serves as a description of the game, although the phrase "Extremely Realistic" is somewhat exaggerated and meant in a lighthearted, humorous manner.
 featured: false

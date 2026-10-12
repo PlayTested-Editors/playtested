@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-12-14-a-hauntingly-beautiful-puzzle-platformer-review-little-nightmares
-title: A hauntingly beautiful puzzle-platformer | Review - Little Nightmares
+title: "Hauntingly Beautiful Puzzle-Platformer | Little Nightmares Review"
 game: Little Nightmares
 description: You’ve probably seen gameplay clips of charmingly eerie and interestingly cute game called Little Nightmares all over social media before, I know I did. Little Nightmares is a 3D puzzle-platformer that plunges players into a surreal and atmospheric world.
 featured: false

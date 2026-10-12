@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-01-29-a-faithful-retelling-of-a-gruesome-horror-game-dead-space-remake-first-impressions
-title: A faithful retelling of a gruesome horror game | Dead Space Remake - First Impressions
+title: "Faithful Retelling of a Gruesome Horror Game | Dead Space Remake First Impressions"
 game: Dead Space Remake
 description: Having played the jaw dropping original Dead Space back in 2008, I was excited to finally play the remake and I gotta say, Dead Space is back, and it is as still jaw dropping as ever, maybe even better. It got the Resident Evil 2 Remake treatment and even surpassed that in my opinion.
 featured: false

@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-03-01-destiny-2-has-a-new-expansion-first-impressions-destiny-2-lightfall
-title: 'Destiny 2 has a new expansion! | First Impressions - Destiny 2: Lightfall'
+title: "Destiny 2 Has a New Expansion! | Destiny 2: Lightfall First Impressions"
 game: 'Destiny 2: Lightfall'
 description: 'Destiny 2: Lightfall comes with a new storyline, a new playable area, and refined game mechanics to the long-standing popular MMORPG FPS game.'
 featured: false

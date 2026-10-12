@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-06-26-use-the-power-of-candy-crush-matching-to-combat-monsters-first-impressions-bright-reapp
-title: Use the power of candy crush matching to combat monsters| First Impressions - Bright Reappear
+title: "Use the Power of Candy Crush Matching to Combat Monsters | Bright Reappear First Impressions"
 game: Bright Reappear
 description: Bright Reappear is an intriguing fusion of the popular Candy Crush match-three puzzle system and retro-style turn-based RPG gameplay. While these both addicting genres have rarely been combined in the past, this game brings its own unique twists to the table.
 featured: false

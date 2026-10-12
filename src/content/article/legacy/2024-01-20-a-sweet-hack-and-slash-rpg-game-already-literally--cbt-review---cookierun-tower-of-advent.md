@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2024-01-20-a-sweet-hack-and-slash-rpg-game-already-literally-cbt-review-cookierun-tower-of-advent
-title: 'A SWEET hack and slash RPG game already, literally | CBT Review - CookieRun: Tower of Adventures'
+title: "SWEET Hack and Slash RPG Game Already, Literally | CookieRun: Tower of Adventures CBT Review"
 game: 'CBT Review - CookieRun: Tower of Adventures'
 description: "CookieRun: Tower of Adventures 8.0 Action Editors' Choice Download"
 featured: false

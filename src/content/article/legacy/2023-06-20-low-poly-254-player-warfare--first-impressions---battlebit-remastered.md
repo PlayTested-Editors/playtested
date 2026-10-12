@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-06-20-low-poly-254-player-warfare-first-impressions-battlebit-remastered
-title: Low poly 254 player warfare! | First Impressions - BattleBit Remastered
+title: "Low Poly 254 Player Warfare! | BattleBit Remastered First Impressions"
 game: BattleBit Remastered
 description: While still in its early access stage, BattleBit Remastered showcases potential for an exciting and dynamic gameplay experience. With its low-poly graphics and immersive sound design, the game aims to deliver a fast-paced and action-packed experience for up to 254 players per server.
 featured: false

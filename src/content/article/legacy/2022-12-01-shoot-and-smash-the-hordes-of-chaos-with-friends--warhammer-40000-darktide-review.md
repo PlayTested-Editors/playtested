@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2022-12-01-shoot-and-smash-the-hordes-of-chaos-with-friends-warhammer-40000-darktide-review
-title: 'Shoot and smash the hordes of chaos with friends | Warhammer 40,000: Darktide Review'
+title: "Shoot and Smash the Hordes of Chaos With Friends | Warhammer 40,000: Darktide Review"
 game: 'Warhammer 40,000: Darktide'
 description: 'From the makers of the amazing Warhammer: Vermintide series comes another game, now set 40,000 years into the future: Warhammer 40,000: Darktide. This only means stuff like Guns and Chainswords are now available in your arsenal. The gameplay style that started with Left 4 Dead, the first person melee combat perfected by Vermintide, is now circling back to using guns again with Darktide.'
 featured: false

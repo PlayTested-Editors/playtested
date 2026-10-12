@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-03-17-a-perfect-example-of-graphics-doesnt-matter-first-impressions-vampire-survivors
-title: A perfect example of graphics doesn’t matter | First Impressions - Vampire Survivors
+title: "Perfect Example of Graphics Doesn't Matter | Vampire Survivors First Impressions"
 game: Vampire Survivors
 description: Vampire Survivors is a 2D survival rogue-lite game that is completely playable with just one hand. Players just need to control the character’s movements, and that’s the whole control scheme of the game. The player character automatically attacks and defends itself against waves of waves of monsters and have to survive as long as they can, usually up to 20 to 30 minutes.
 featured: false

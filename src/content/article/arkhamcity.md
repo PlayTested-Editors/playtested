@@ -21,7 +21,7 @@ tags:
   - xbox
   - console
 thumb: /images/reviews/2024-09-26-batman-arkham-city-0.avif
-title: Expanding the Dark Knight’s Playground | Batman Arkham City Review
+title: "Expanding the Dark Knight's Playground | Batman Arkham City Review"
 game: Batman Arkham City
 ---
 

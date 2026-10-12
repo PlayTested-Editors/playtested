@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-04-25-a-refreshing-zombie-survival-crafting-game-for-mobile-full-review-dysmantle
-title: A refreshing zombie survival crafting game for mobile | Full Review - Dysmantle
+title: "Refreshing Zombie Survival Crafting Game for Mobile | Dysmantle Full Review"
 game: DYSMANTLE
 description: Dysmantle is a top down zombie survival crafting game developed by 10tons Ltd that is available on Android, iOS, Nintendo Switch, PlayStation 4, Xbox One, and PC. The game takes place on a deserted island after a global disaster has wiped out most of humanity.
 featured: false

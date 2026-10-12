@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-11-20-persona-5-an-entry-that-keeps-on-giving-first-impressions-persona-5-tactica
-title: Persona 5, an entry that keeps on giving | First Impressions - Persona 5 Tactica
+title: "Persona 5, an Entry That Keeps on Giving | Persona 5 Tactica First Impressions"
 game: Persona 5 Tactica
 description: Persona 5 Tactica is a strategic 'tactics RPG' spin-off developed by Atlus and P-Studio, released on PC, Xbox, PlayStation, and Switch. Set during the events of Persona 5, the Phantom Thieves find themselves in the 'Kingdoms', facing an armed group called Legionnaires.
 featured: false

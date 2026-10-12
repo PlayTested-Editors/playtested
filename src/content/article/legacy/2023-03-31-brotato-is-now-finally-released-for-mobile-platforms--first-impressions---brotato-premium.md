@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-03-31-brotato-is-now-finally-released-for-mobile-platforms-first-impressions-brotato-premium
-title: Brotato is now finally released for Mobile platforms | First Impressions - Brotato Premium
+title: "Brotato Is Now Finally Released for Mobile Platforms | Brotato Premium First Impressions"
 game: 'Brotato: Premium'
 description: One handed gameplay, increasingly difficult waves of enemies. Six weapons all at once, all attacking simultaneously. That’s the basic gist of Brotato. For those familiar with the game Vampire Survivors, Brotato is essentially a welcome clone.
 featured: false

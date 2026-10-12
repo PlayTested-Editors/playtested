@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-06-04-an-impressive-evolution-for-the-renowned-fighting-game-franchise-full-review-street-fi
-title: An impressive evolution for the renowned fighting game franchise | Full Review - Street Fighter 6
+title: "Impressive Evolution for the Renowned Fighting Game Franchise | Street Fighter 6 Full Review"
 game: Street Fighter 6
 description: Street Fighter™ 6 Street Fighter 6 is a 2023 fighting game developed and published by Capcom and the sixth main entry in the Street Fighter franchise, it was recently released and now available for PC, Playstation, and Xbox.
 featured: false

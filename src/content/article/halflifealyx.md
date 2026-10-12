@@ -19,7 +19,7 @@ tags:
   - pc
   - valve
 thumb: /images/reviews/half-life-alyx-0.avif
-title: "Half-Life Is Alive And Well | Half-Life: Alyx"
+title: "Half-Life Is Alive and Well | Half-Life: Alyx Review"
 game: "Half-Life: Alyx"
 ---
 ## Half-Life: Alyx

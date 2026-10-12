@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-10-27-this-spellcasting-rogue-lite-hit-is-now-on-mobile-impressions-wizard-of-legend-mobile
-title: This spellcasting rogue-lite hit is now on mobile | Impressions - Wizard of Legend Mobile
+title: "This Spellcasting Rogue-Lite Hit Is Now on Mobile | Wizard of Legend Mobile First Impressions"
 game: Wizard of Legend Mobile
 description: Recently, I had the opportunity to try Wizard of Legend Mobile, the mobile port of the popular Wizard of Legend originally released on PC in 2018 and on other consoles.  Well, it's basically the same game just on your mobile phone.
 featured: false

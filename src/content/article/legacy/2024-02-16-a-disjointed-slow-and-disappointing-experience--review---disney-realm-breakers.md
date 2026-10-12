@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2024-02-16-a-disjointed-slow-and-disappointing-experience-review-disney-realm-breakers
-title: A disjointed, slow, and disappointing experience | Review - Disney Realm Breakers
+title: "Disjointed, Slow, and Disappointing Experience | Disney Realm Breakers Review"
 game: Disney Realm Breakers
 description: Disney Realm Breakers 5.2 Strategy Tower Defense Download
 featured: false

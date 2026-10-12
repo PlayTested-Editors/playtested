@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-07-10-a-brand-new-auto-chess-game-on-browser-and-mobile-first-impressions-mojo-melee
-title: A brand new auto chess game on browser and mobile | First Impressions - Mojo Melee
+title: "Brand New Auto Chess Game on Browser and Mobile | Mojo Melee First Impressions"
 game: Mojo Melee
 description: Mojo Melee is a brand new Auto Chess currently undergoing an open beta test for Android, with Season Zero currently underway.
 featured: false

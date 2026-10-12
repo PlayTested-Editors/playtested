@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-03-23-this-game-is-like-rimworld-but-for-mobile-full-review-dream-land
-title: This game is like RimWorld but for Mobile | Full Review - Dream Land
+title: "This Game Is Like RimWorld but for Mobile | Dream Land Full Review"
 game: Dream Land
 description: Dream Land is a free-to-play construction and management simulation that puts players in charge of a group of travelers stranded on an alien planet.
 featured: false

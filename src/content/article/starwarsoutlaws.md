@@ -21,7 +21,7 @@ tags:
   - star-wars
   - console
 thumb: /images/reviews/2025-04-17-star-wars-outlaws-0.avif
-title: A Decent Star Wars Singleplayer Shooter | Star Wars Outlaws Review
+title: "Decent Star Wars Singleplayer Shooter | Star Wars Outlaws Review"
 game: Star Wars Outlaws
 ---
 

@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-03-22-doom-goes-rogue-lite-and-top-down-first-impressions-mighty-doom
-title: DOOM goes rogue-lite and top-down | First Impressions - Mighty DOOM
+title: "DOOM Goes Rogue-Lite and Top-Down | Mighty DOOM First Impressions"
 game: Mighty DOOM
 description: It looks like DOOM is joining the single touch craze these days by releasing their newest title for the mobile platform — Mighty DOOM. A top down action shooter where players control the mini Slayer, battling mini Demons in an arcade style combat with rogue-lite progression and mission structure.
 featured: false

@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-02-28-historical-strategy-showdown-full-review-epic-age
-title: Historical strategy showdown | Full Review - Epic Age
+title: "Historical Strategy Showdown | Epic Age Full Review"
 game: Epic Age
 description: Hero collecting, empire management, politics, tactical warfare, and role playing, Epic Age is all of these things combined, and it's playable on Mobile devices!
 featured: false

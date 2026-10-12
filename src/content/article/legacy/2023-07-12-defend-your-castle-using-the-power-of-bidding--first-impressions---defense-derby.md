@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-07-12-defend-your-castle-using-the-power-of-bidding-first-impressions-defense-derby
-title: Defend your castle using the power of… bidding? | First Impressions - Defense Derby
+title: "Defend Your Castle Using the Power of… Bidding? | Defense Derby First Impressions"
 game: Defense Derby
 description: Defense Derby revolves around defending your square castle from waves of relentless monsters. Strategic placement of heroes atop the castle is crucial for survival. The game offers a diverse range of units inspired by the fantasy genre, including mages, archers, swordsmen, riflemen, and wizards. Each unit possesses unique attributes, attack ranges, and attack types, allowing players to develop diverse tactical approaches.
 featured: false

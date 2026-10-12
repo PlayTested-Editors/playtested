@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-04-15-a-potential-2023-goty-trailer-impressions-zelda-tears-of-the-kingdom
-title: 'A potential 2023 GOTY? | Trailer Impressions - Zelda: Tears of the Kingdom'
+title: "Potential 2023 GOTY? | Zelda: Tears of the Kingdom Trailer Impressions"
 game: 'Trailer Impressions - Zelda: Tears of the Kingdom'
 description: "This is it. Another trailer for The Legend of Zelda: Tears of the Kingdom has finally dropped, one month before the release date, and I am very, very excited from what I've seen so far."
 featured: false

@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-06-04-breathe-new-life-into-your-grandparents-neglected-farm-first-impressions-everdream-val
-title: Breathe new life into your grandparents' neglected farm | First Impressions - Everdream Valley
+title: "Breathe New Life Into Your Grandparents' Neglected Farm | Everdream Valley First Impressions"
 game: Everdream Valley
 description: Everdream Valley is a delightful and lighthearted farming adventure game that combines the joys of tending to a homestead with farming, animals, and magic. Following in the footsteps of farming games like Dinkum and Stardew Valley; Everdream Valley promises to be another solid addition to the farming sim genre.
 featured: false

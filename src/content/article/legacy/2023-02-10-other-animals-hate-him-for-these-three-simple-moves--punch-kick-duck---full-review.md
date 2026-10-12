@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-02-10-other-animals-hate-him-for-these-three-simple-moves-punch-kick-duck-full-review
-title: Other animals hate him for these three simple moves | Punch Kick Duck - Full Review
+title: "Other Animals Hate Him for These Three Simple Moves | Punch Kick Duck Full Review"
 game: Punch Kick Duck
 description: Punch Kick Duck is a mobile beat’ em up game with a simple no frills gameplay and a straightforward goal, to reach the top of the tower and escape.
 featured: false

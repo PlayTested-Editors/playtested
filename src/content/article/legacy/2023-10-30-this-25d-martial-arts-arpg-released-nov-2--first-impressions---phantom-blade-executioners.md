@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-10-30-this-25d-martial-arts-arpg-released-nov-2-first-impressions-phantom-blade-executioners
-title: 'This 2.5D martial arts ARPG released Nov. 2! | First Impressions - Phantom Blade: Executioners'
+title: "This 2.5D Martial Arts ARPG Released Nov. 2! | Phantom Blade: Executioners First Impressions"
 game: 'Phantom Blade: Executioners'
 description: 'Phantom Blade: Executioners is a cross-platform martial arts action RPG developed by S-Game, available on PC, PlayStation, Android, and iOS. With a release date set for November 2, 2023, the game offers full cross play functionality, allowing players to engage in fast-paced combat across different platforms, entirely free-to-play.'
 featured: false

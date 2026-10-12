@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-02-26-a-delorean-turned-spaceship-is-hunting-them-down-first-impressions-black-paradox
-title: A Delorean-turned-spaceship is hunting them down | First Impressions - Black Paradox
+title: "Delorean-Turned-Spaceship Is Hunting Them Down | Black Paradox First Impressions"
 game: Black Paradox
 description: Developed by Fantastico Studio and published by Digerati, Black Paradox is a retro style horizontal shoot'em up that features a beautiful pixel art, pumping electronic soundtrack, and fast-paced gameplay that will keep your fingers sweating. It is available on a multiple of platforms, but today we are focusing on the Mobile version.
 featured: false

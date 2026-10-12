@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-10-13-this-insanely-realistic-game-looks-familiar-impressions-record
-title: This insanely realistic game looks familiar? | Impressions - REC.O.R.D.
+title: "This Insanely Realistic Game Looks Familiar? | REC.O.R.D. First Impressions"
 game: REC.O.R.D.
 description: REC.O.R.D. is a mobile FPS game with ultra-realistic graphics, it use body cam-style first-person perspective, blending seamlessly with photorealistic visuals and animations resulting in terrifyingly lifelike visuals.
 featured: false

@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-06-23-a-hardcore-retro-roguelike-extraction-game-perhaps-too-hardcore-demo-review-quasimorph
-title: A Hardcore retro roguelike extraction game, perhaps too hardcore | Demo Review - Quasimorph
+title: "Hardcore Retro Roguelike Extraction Game, Perhaps Too Hardcore | Quasimorph Demo Review"
 game: Review - Quasimorph
 description: Quasimorph is a mix of classic turn-based roguelike RPG with an extraction twist, where the player's progress and acquired loot depend on their survival in missions.
 featured: false

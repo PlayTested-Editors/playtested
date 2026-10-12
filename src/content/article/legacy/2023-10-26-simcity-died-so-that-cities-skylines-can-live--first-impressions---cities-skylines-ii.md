@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-10-26-simcity-died-so-that-cities-skylines-can-live-first-impressions-cities-skylines-ii
-title: SimCity died so that Cities Skylines can live | First Impressions - Cities Skylines II
+title: "SimCity Died So That Cities Skylines Can Live | Cities Skylines II First Impressions"
 game: Cities Skylines II
 description: Cities Skylines II is an immersive city-building experience that combines creativity with strategic planning. As mayor of your virtual city, you'll shape a thriving metropolis from the ground up.
 featured: false

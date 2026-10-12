@@ -19,7 +19,7 @@ tags:
   - xbox
   - console
 thumb: /images/reviews/2024-11-26-dragon-age-veilguard-0.avif
-title: "Actually Ends The Series Story Quite Well | Dragon Age: The Veilguard"
+title: "Actually Ends the Series Story Quite Well | Dragon Age: The Veilguard Review"
 game: "Dragon Age: The Veilguard"
 ---
 

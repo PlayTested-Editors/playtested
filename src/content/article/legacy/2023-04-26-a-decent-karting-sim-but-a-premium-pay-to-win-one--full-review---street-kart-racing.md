@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-04-26-a-decent-karting-sim-but-a-premium-pay-to-win-one-full-review-street-kart-racing
-title: A decent Karting Sim, but a premium pay-to-win one | Full Review - Street Kart Racing
+title: "Decent Karting Sim, but a Premium Pay-to-Win One | Street Kart Racing Full Review"
 game: Street Kart Racing
 description: Street Kart Racing is a racing-sim featuring Go-Karts, real life racing superstars, and real life tracks to play in. It’s focus is realism over arcade racing, with the no nonsense catchphrase  “No Assist, No Excuses”.
 featured: false

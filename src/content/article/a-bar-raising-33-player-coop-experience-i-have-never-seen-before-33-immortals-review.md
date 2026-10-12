@@ -1,6 +1,5 @@
 ---
-title: A Bar Raising 33-Player Coop Experience I Have Never Seen Before | 33
-  Immortals Review
+title: "Bar Raising 33-Player Coop Experience I Have Never Seen Before | 33 Immortals Review"
 pubDate: 2026-06-24T21:09:00.000+08:00
 draft: false
 description: "33 Immortal's setup is simple: you and 32 other players drop into

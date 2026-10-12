@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-06-26-a-grander-hd-2d-rpg-journey-across-a-variety-of-storylines-full-review-brown-dust-2
-title: A grander HD-2D RPG journey across a variety of storylines | Full Review - Brown Dust 2
+title: "Grander HD-2D RPG Journey Across a Variety of Storylines | Brown Dust 2 Full Review"
 game: Brown Dust 2
 description: Brown Dust 2, the somewhat both direct and spiritual successor to the popular Brave 9 / Brown Dust, takes players on a grander journey filled with time travel, world-traveling elements, and captivating narratives.
 featured: false

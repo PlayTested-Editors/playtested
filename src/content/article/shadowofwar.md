@@ -1,5 +1,5 @@
 ---
-title: From Bad First Impression to Favorite | Shadow of War - Review
+title: "From Bad First Impression to Favorite | Shadow of War Review"
 pubDate: 2025-09-18T22:31:00.000+08:00
 draft: false
 description: "Middle-earth: Shadow of War is a triumphant action RPG built on a

@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-04-13-a-welcome-addition-to-the-tron-franchise-first-impressions-tron-identity
-title: 'A welcome addition to the TRON franchise | First Impressions - Tron: Identity'
+title: "Welcome Addition to the TRON Franchise | Tron: Identity First Impressions"
 game: 'Tron: Identity'
 description: 'Tron: Identity takes us back to the Tron Universe, in a never before seen world, or server as it might be called – in a puzzle adventure game format where the player’s decisions matter. The players control the detective program Query, tasked to investigate a mysterious event, finding out the whos, whys, and whats.'
 featured: false

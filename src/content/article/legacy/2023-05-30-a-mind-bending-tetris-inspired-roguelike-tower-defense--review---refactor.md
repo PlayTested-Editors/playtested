@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-05-30-a-mind-bending-tetris-inspired-roguelike-tower-defense-review-refactor
-title: A mind-bending Tetris-inspired roguelike Tower Defense | Review - Refactor
+title: "Mind-Bending Tetris-Inspired Roguelike Tower Defense | Refactor Review"
 game: Refactor
 description: lyndonguitar Download Refactor is a roguelike tower defense game featuring a Tetris-like building system and refreshing twists to the tower defense genre.
 featured: false

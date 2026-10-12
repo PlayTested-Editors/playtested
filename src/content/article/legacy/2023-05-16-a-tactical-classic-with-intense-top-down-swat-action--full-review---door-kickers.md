@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-05-16-a-tactical-classic-with-intense-top-down-swat-action-full-review-door-kickers
-title: A tactical classic with intense top-down SWAT action | Full Review - Door Kickers
+title: "Tactical Classic With Intense Top-Down SWAT Action | Door Kickers Full Review"
 game: Door Kickers
 description: I played Door Kickers on PC many years ago and now, playing it’s mobile port, it brings the same intense and strategic gameplay that made it a hit on the larger screen. Developed by KillHouse Games, Door Kickers offers an intense mix of tactical planning, real-time execution, and satisfyingly challenging missions — assuming it goes well.
 featured: false

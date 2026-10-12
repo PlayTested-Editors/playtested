@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-07-17-retro-aesthetic-twin-shooters-and-inverted-worlds-first-impressions-roto-force
-title: Retro aesthetic, twin shooters, and inverted worlds | First Impressions - Roto Force
+title: "Retro Aesthetic, Twin Shooters, and Inverted Worlds | Roto Force First Impressions"
 game: Roto Force
 description: As a new intern at Roto Force, you’ll go on missions through the game’s variety of worlds and environments, battling different kinds of enemies and bosses.
 featured: false

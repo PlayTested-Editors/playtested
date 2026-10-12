@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-07-10-an-auto-chess-with-metaverse-gaming-platform-origins-full-review-mojo-melee
-title: An auto chess with metaverse gaming platform origins | Full Review - Mojo Melee
+title: "Auto Chess With Metaverse Gaming Platform Origins | Mojo Melee Full Review"
 game: Mojo Melee
 description: Mojo Melee is a real-time auto chess battler that will challenge your intellect and tactical skills while you eliminate opponents. It is set on Planet Mojo, a web3 gaming metaverse platform set to feature other games as well.
 featured: false

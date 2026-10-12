@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-07-27-greater-than-the-sum-of-its-parts-review-ashfall
-title: Greater than the sum of its parts | Review - Ashfall
+title: "Greater Than the Sum of Its Parts | Ashfall Review"
 game: Ashfall
 description: Ashfall is an MMORPG set in a post-apocalyptic world where AI has risen and initiated a nuclear war against humanity, leaving behind only ruins. As a survivor in the far future, you must venture outside the Vault to embark on a quest to find the Core of Creation—the crucial element that holds the key to saving the world.
 featured: false

@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-09-27-a-narrative-driven-game-that-feels-like-an-interactive-3d-visual-novel-impressions-the
-title: A narrative-driven game that feels like an interactive 3D visual novel | Impressions - The Wreck
+title: "Narrative-Driven Game That Feels Like an Interactive 3D Visual Novel | The Wreck First Impressions"
 game: The Wreck
 description: Immediately upon starting The Wreck, I can already sense the vibe that it's going to be a fantastic narrative-driven slice-of-life experience, the gameplay is not its strong point, and is just simple occasional taps to the screen whenever there is a prompt for dialogue or interactions.
 featured: false

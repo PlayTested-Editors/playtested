@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2024-01-26-it-might-just-be-your-next-obsession-after-palworld-early-access-review-enshrouded
-title: It might just be your next obsession after Palworld | Early Access Review - Enshrouded
+title: "It Might Just Be Your Next Obsession After Palworld | Enshrouded Early Access Review"
 game: Early Access Review - Enshrouded
 description: Enshrouded drops you into a mix of survival, crafting, and RPG action in a voxel wonderland. As the Flameborn, you're the last flicker of hope in a world desperate for it. You scavenge through fallen kingdoms, build stuff, and battle your way through natural and supernatural critters. All this to gather enough strength to face the horrors hiding in the Shroud, a misty nightmare covering the land and thus making it “Enshrouded”.
 featured: false

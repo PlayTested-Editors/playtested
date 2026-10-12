@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-12-21-one-of-the-best-demos-ive-played-recently-demo-review-the-cub
-title: One of the best Demos I’ve played recently | Demo Review - The Cub
+title: "One of the Best Demos I've Played Recently | The Cub Demo Review"
 game: Review - The Cub
 description: The Cub is a story-rich puzzle-platformer game set in a post-apocalyptic Earth, where the majority of humans have abandoned the planet for Mars. Only a few remnants remain on the surface, coexisting mostly peacefully with the animals in order to survive. The game is set to release on January 2024, for PC, Xbox Series, PlayStation, and Switch. With a Demo available to try on Steam.
 featured: false

@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-01-31-a-comic-book-style-action-rpg-superfuse-first-impressions
-title: A comic book style Action RPG | Superfuse - First Impressions
+title: "Comic Book Style Action RPG | Superfuse First Impressions"
 game: Superfuse
 description: Released in Early Access today, Superfuse is a brand new Action RPG that combines cell-shaded comic-book art style, looter elements, with some action packed hack ’n slash mechanics.
 featured: false

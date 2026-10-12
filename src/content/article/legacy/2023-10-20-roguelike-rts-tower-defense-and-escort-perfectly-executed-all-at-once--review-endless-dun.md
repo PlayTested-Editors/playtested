@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-10-20-roguelike-rts-tower-defense-and-escort-perfectly-executed-all-at-once-review-endless-dun
-title: 'Roguelike, RTS, tower defense, and escort, perfectly executed all at once | Review: ENDLESS Dungeon'
+title: "Roguelike, RTS, Tower Defense, and Escort, Perfectly Executed All at Once | ENDLESS Dungeon Review"
 game: Endless Dungeon
 description: Endless Dungeon is a genre-defying rogue-lite that merges elements of dungeon crawling, twin-stick shooter, and tower defense genres. Developed by AMPLITUDE Studios and part of the ENDLESS franchise of video games, this co-op action roguelike takes players on an adrenaline-pumping journey through the ruins of a long-abandoned space station.
 featured: false

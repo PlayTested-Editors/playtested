@@ -1,5 +1,5 @@
 ---
-title: A Decent Return To Form, with Caveats | Battlefield 6 Review
+title: "Decent Return to Form, With Caveats | Battlefield 6 Review"
 pubDate: 2025-12-05T07:38:00.000+08:00
 draft: false
 description: The series fell hard, but Battlefield 6 has managed to pull off an

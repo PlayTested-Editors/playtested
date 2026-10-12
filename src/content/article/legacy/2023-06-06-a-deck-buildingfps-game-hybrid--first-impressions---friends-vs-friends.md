@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-06-06-a-deck-buildingfps-game-hybrid-first-impressions-friends-vs-friends
-title: A deck building/FPS game hybrid | First Impressions - Friends vs Friends
+title: "Deck Building/FPS Game Hybrid | Friends vs Friends First Impressions"
 game: Friends vs Friends
 description: Friends vs Friends is an online PvP shooter game that offers a unique blend of FPS combat and deck building gameplay. In this game, players choose a character from a selection of groups of anthropomorphic friends and customize their loadout using a card-based system. Each card represents a specific ability or weapon that players can use during battles.
 featured: false

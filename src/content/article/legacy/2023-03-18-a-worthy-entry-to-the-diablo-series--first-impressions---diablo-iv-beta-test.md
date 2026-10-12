@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-03-18-a-worthy-entry-to-the-diablo-series-first-impressions-diablo-iv-beta-test
-title: A worthy entry to the Diablo series? | First Impressions - Diablo IV Beta Test
+title: "Worthy Entry to the Diablo Series? | Diablo IV Beta Test First Impressions"
 game: Diablo
 description: I got the chance to play the early access beta test of the upcoming game Diablo IV, and my experience with the gameplay has been nothing short of amazing so far. It still looks and plays like a proper Diablo game, with respect to both Diablo II and III.
 featured: false

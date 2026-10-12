@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-10-24-stand-as-the-last-legendary-mythical-warrior-in-the-arena-first-impressions-battle-cru
-title: Stand as the last legendary mythical warrior in the arena | First Impressions - Battle Crush Beta
+title: "Stand as the Last Legendary Mythical Warrior in the Arena | Battle Crush Beta First Impressions"
 game: Battle Crush Beta
 description: Battle Crush Beta delivers a dynamic gaming experience that merges the thrill of a battle royale with the hero-based gameplay of a MOBA. The current CBT version features a unique cast of 15 Calixers, mythological and legendary heroes with distinct abilities, and playstyles. All heroes are unlocked, so those participating in the beta test can try each hero.
 featured: false

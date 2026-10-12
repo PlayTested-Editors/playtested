@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-03-20-a-beautiful-coop-game-designed-to-be-played-in-singleplayer-full-review-bayonetta-orig
-title: A beautiful coop game, designed to be played in singleplayer | Full Review - Bayonetta Origins
+title: "Beautiful Coop Game, Designed to Be Played in Singleplayer | Bayonetta Origins Full Review"
 game: Bayonetta Origins
 description: 'Bayonetta Origins: Cereza and the Lost Demon is a brand new adventure game with puzzle elements, and a cooperative experience designed to be played in single player.'
 featured: false

@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-10-27-addictingly-difficult-and-challenging-review-wizard-of-legend-mobile
-title: Addictingly difficult and challenging | Review - Wizard of Legend Mobile
+title: "Addictingly Difficult and Challenging | Wizard of Legend Mobile Review"
 game: Wizard of Legend Mobile
 description: Wizard of Legend Mobile 9.2 Editors' Choice Roguelike Get
 featured: false

@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-04-23-a-perfectly-brewed-continuation-full-review-coffee-talk-episode-2-hibiscus-butterfly
-title: 'A perfectly brewed continuation | Full Review - Coffee Talk Episode 2: Hibiscus & Butterfly'
+title: "Perfectly Brewed Continuation | Coffee Talk Episode 2: Hibiscus & Butterfly Full Review"
 game: 'Coffee Talk Episode 2: Hibiscus & Butterfly'
 description: 'Coffee Talk Episode 2: Hibiscus & Butterfly, is a direct follow-up to the amazing part-visual novel, part-coffee barista simulator Coffee Talk. It set exactly three years after the original game and retains most of its coffee making simulator elements and narrative style.'
 score: 8.5

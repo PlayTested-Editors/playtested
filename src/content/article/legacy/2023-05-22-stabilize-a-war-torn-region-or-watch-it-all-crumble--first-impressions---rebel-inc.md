@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-05-22-stabilize-a-war-torn-region-or-watch-it-all-crumble-first-impressions-rebel-inc
-title: Stabilize a war-torn region, or watch it all crumble | First Impressions - Rebel Inc.
+title: "Stabilize a War-Torn Region, or Watch It All Crumble | Rebel Inc. First Impressions"
 game: Rebel Inc.
 description: Rebel Inc., developed by Ndemic Creations, is a mobile strategy game that offers an immersive political sim experience with a unique premise. As a leader tasked with stabilizing a war-torn region, players must navigate complex political landscapes, manage limited resources, and confront the persistent threat of insurgent forces.
 featured: false

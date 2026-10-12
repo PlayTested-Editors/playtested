@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-08-23-charmingly-combines-merge-mechanics-with-culinary-creativity-review-cats-soup-magic
-title: 'Charmingly combines merge mechanics with culinary creativity | Review - Cats & Soup : Magic Recipe'
+title: "Charmingly Combines Merge Mechanics With Culinary Creativity | Cats & Soup: Magic Recipe Review"
 game: 'Cats & Soup : Magic Recipe'
 description: 'lyndonguitar Download Cats & Soup: Magic Recipe is a recently soft-launched mobile game that blends ‘merge’ gameplay mechanics with the art of cooking, creating a unique and enchanting gaming experience. It is a follow-up to the similarly titled relaxing game Cats & Soup, made by the same developers Hidea.'
 featured: false

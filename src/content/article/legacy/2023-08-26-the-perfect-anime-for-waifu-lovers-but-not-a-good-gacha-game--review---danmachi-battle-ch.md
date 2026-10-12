@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-08-26-the-perfect-anime-for-waifu-lovers-but-not-a-good-gacha-game-review-danmachi-battle-ch
-title: The perfect anime for waifu lovers, but not a good gacha game | Review - DanMachi BATTLE CHRONICLE
+title: "Perfect Anime for Waifu Lovers, but Not a Good Gacha Game | DanMachi BATTLE CHRONICLE Review"
 game: DanMachi BATTLE CHRONICLE
 description: DanMachi BATTLE CHRONICLE is a gacha-based Action Role-Playing Game (ARPG) inspired by the popular anime series "Is It Wrong to Try to Pick Up Girls in a Dungeon?" also known as "DanMachi" (from its original Japanese title DANjon ni Deai o Motomeru no waMACHIgatteiru Darō ka). In this game, players immerse themselves in the fantasy world of Orario, where mythological gods, mighty adventurers, and powerful monsters coexist. The game draws heavily from the anime's universe, featuring characters and elements from the series.
 featured: false

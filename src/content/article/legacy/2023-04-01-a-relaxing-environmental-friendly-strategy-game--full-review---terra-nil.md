@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-04-01-a-relaxing-environmental-friendly-strategy-game-full-review-terra-nil
-title: A relaxing environmental friendly strategy game | Full Review - Terra Nil
+title: "Relaxing Environmental Friendly Strategy Game | Terra Nil Full Review"
 game: Terra Nil
 description: Terra Nil is a nature building / reverse city building strategy game developed by Free Lives and released for both Mobile platforms and PC.
 featured: false

@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2022-12-21-still-in-early-access-but-the-concept-looks-neat-depersonalization-first-impressions
-title: Still in Early Access, but the concept looks neat | Depersonalization - First Impressions
+title: "Still in Early Access, but the Concept Looks Neat | Depersonalization First Impressions"
 game: Depersonalization
 description: 'At face value, Depersonalization’s aesthetic and general feeling unquestionably reminded me of the many anime visual novel games I’ve played before: the chilling soundtrack, the eerie anime art, the intriguing story elements, and the various choices you are presented in the game.'
 featured: false

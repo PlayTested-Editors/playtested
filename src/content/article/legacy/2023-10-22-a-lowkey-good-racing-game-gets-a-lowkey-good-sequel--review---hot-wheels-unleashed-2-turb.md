@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-10-22-a-lowkey-good-racing-game-gets-a-lowkey-good-sequel-review-hot-wheels-unleashed-2-turb
-title: 'A lowkey good racing game gets a lowkey good sequel | Review - Hot Wheels Unleashed 2: Turbocharged'
+title: "Lowkey Good Racing Game Gets a Lowkey Good Sequel | Hot Wheels Unleashed 2: Turbocharged Review"
 game: HOT WHEELS UNLEASHED 2 - Turbocharged
 description: HOT WHEELS UNLEASHED™ 2 - Turbocharged 8.3 Racing Simulation
 featured: false

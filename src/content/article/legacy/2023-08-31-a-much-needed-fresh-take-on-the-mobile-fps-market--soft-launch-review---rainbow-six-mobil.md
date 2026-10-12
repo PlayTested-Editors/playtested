@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-08-31-a-much-needed-fresh-take-on-the-mobile-fps-market-soft-launch-review-rainbow-six-mobil
-title: A much needed fresh take on the mobile FPS market | Soft Launch Review - Rainbow Six Mobile
+title: "Much Needed Fresh Take on the Mobile FPS Market | Rainbow Six Mobile Soft Launch Review"
 game: Soft Launch Review - Rainbow Six Mobile
 description: lyndonguitar Download From the highly popular Rainbow Six franchise, Rainbow Six Mobile is a free-to-play competitive, multiplayer first-person shooter experience tailor made for mobile phones, which has now been soft launched in a limited capacity.  It is now available in Canada for both iOS and Android, while the Soft Launch for other countries will go live starting with Mexico on September 4, with more coming next month.
 featured: false

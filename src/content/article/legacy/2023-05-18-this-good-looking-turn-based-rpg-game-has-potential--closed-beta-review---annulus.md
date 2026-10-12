@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-05-18-this-good-looking-turn-based-rpg-game-has-potential-closed-beta-review-annulus
-title: This good looking turn-based RPG game has potential | Closed Beta Review - ANNULUS
+title: "This Good Looking Turn-Based RPG Game Has Potential | ANNULUS Closed Beta Review"
 game: Closed Beta Review - ANNULUS
 description: ANNULUS is a dark fantasy-themed tactics squad RPG game featuring hero collection elements and impressive AAA graphics.
 featured: false

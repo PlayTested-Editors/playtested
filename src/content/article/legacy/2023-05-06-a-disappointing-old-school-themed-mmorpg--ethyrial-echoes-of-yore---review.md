@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-05-06-a-disappointing-old-school-themed-mmorpg-ethyrial-echoes-of-yore-review
-title: 'A disappointing old school themed MMORPG | Ethyrial: Echoes of Yore - Review'
+title: "Disappointing Old School Themed MMORPG | Ethyrial: Echoes of Yore Review"
 game: 'Ethyrial: Echoes of Yore'
 description: 'Ethyrial: Echoes of Yore is an MMORPG with voxel based graphics, old school looks, and hardcore mechanics.'
 featured: false

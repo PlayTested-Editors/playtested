@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-05-16-a-potential-goty-for-2023-full-review-the-legend-of-zelda-tears-of-the-kingdom
-title: 'A potential GOTY for 2023 | Full Review - The Legend of Zelda: Tears of the Kingdom'
+title: "Potential GOTY for 2023 | The Legend of Zelda: Tears of the Kingdom Full Review"
 game: 'The Legend of Zelda: Tears of the Kingdom'
 description: 'The Legend of Zelda: Tears of the Kingdom is an action-adventure game and the much awaited sequel to 2017’s award-winning game The Legend of Zelda: Breath of the Wild, boasting the same core gameplay mechanics including open world exploration and a non-linear story.'
 featured: true

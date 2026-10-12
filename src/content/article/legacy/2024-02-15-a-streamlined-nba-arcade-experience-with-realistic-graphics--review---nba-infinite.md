@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2024-02-15-a-streamlined-nba-arcade-experience-with-realistic-graphics-review-nba-infinite
-title: A streamlined NBA arcade experience with realistic graphics | Review - NBA Infinite
+title: "Streamlined NBA Arcade Experience With Realistic Graphics | NBA Infinite Review"
 game: NBA Infinite
 description: NBA Infinite - PvP Basketball 7.9 Sports Basketball Download
 featured: false

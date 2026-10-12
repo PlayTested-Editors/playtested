@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-04-07-fight-through-hordes-of-zombies-one-room-at-a-time-full-review-the-doomsland-survivors
-title: 'Fight through hordes of zombies, one room at a time | Full Review - The Doomsland: Survivors'
+title: "Fight Through Hordes of Zombies, One Room at a Time | The Doomsland: Survivors Full Review"
 game: 'The Doomsland: Survivors'
 description: 'The Doomsland: Survivors is a top down zombie shooter with rogue-lite elements.'
 featured: false

@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2022-11-30-a-soccer-driven-rpg-game-soccer-story-review
-title: A soccer-driven RPG game? | Soccer Story Review
+title: "Soccer-Driven RPG Game? | Soccer Story Review"
 game: Soccer Story
 description: At a glance, the gameplay and graphics of Soccer Story looks like a mashup of Pokemon and Stardew Valley with a nice touch of clean 3D graphics, but the comparisons end there, as within Soccer Story is a fun semi-physics driven gameplay that has a very healthy obsession with soccer.
 featured: false

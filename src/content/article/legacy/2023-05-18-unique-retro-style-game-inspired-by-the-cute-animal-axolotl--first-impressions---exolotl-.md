@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-05-18-unique-retro-style-game-inspired-by-the-cute-animal-axolotl-first-impressions-exolotl
-title: 'Unique retro-style game inspired by the cute animal axolotl | First Impressions - Exolotl : Zian'
+title: "Unique Retro-Style Game Inspired by the Cute Animal Axolotl | Exolotl: Zian First Impressions"
 game: 'Exolotl: ZIAN'
 description: 'Exolotl : Zian that takes players on an exciting retro platformer adventure to save the Exolotl Planet from the clutches of the nefarious King Orion. With its play on words in the title, "Exolotl" the game clearly draws inspiration from the real-life cute animal, the axolotl. The character designs embody the charming features of axolotls, adding a touch of whimsy and friendliness to the game.'
 featured: false

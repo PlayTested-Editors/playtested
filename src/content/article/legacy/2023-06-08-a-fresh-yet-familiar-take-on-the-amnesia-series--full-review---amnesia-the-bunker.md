@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-06-08-a-fresh-yet-familiar-take-on-the-amnesia-series-full-review-amnesia-the-bunker
-title: 'A fresh yet familiar take on the Amnesia series | Full Review - Amnesia: The Bunker'
+title: "Fresh Yet Familiar Take on the Amnesia Series | Amnesia: The Bunker Full Review"
 game: 'Amnesia: The Bunker'
 description: 'Amnesia: The Bunker Amnesia: The Bunker, developed by the creators of the popular horror games SOMA, Penumbra, and the Amnesia series, is a first-person horror game that takes players on a gripping journey through the dark and claustrophobic corridors of a World War I bunker.'
 featured: false

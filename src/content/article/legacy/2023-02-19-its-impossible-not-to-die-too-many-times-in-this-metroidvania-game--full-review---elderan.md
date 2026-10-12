@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-02-19-its-impossible-not-to-die-too-many-times-in-this-metroidvania-game-full-review-elderan
-title: It’s impossible not to die too many times in this Metroidvania game | Full Review - Elderand
+title: "It's Impossible Not to Die Too Many Times in This Metroidvania Game | Elderand Full Review"
 game: Elderand
 description: There’s been a resurgence of Metroidvania games lately, and it’s not stopping anytime soon. Elderand is another addition to the growing list, and it is not for the faint of heart, both with regard to gameplay and theme.
 featured: false

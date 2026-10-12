@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-06-04-a-lighthearted-farming-sim-with-a-touch-of-magic-full-review-everdream-valley
-title: A lighthearted farming sim, with a touch of magic | Full Review - Everdream Valley
+title: "Lighthearted Farming Sim, With a Touch of Magic | Everdream Valley Full Review"
 game: Everdream Valley
 description: Everdream Valley Everdream Valley is a third person farming sim developed for the Switch, PlayStation, Xbox, and PC, this game offers a refreshing and immersive experience across multiple platforms.
 featured: false

@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-06-06-an-immersive-hogwarts-experience-in-mobile-format-full-review-harry-potter-magic-awake
-title: 'An immersive Hogwarts experience in mobile format | Full Review - Harry Potter: Magic Awakened'
+title: "Immersive Hogwarts Experience in Mobile Format | Harry Potter: Magic Awakened Full Review"
 game: 'Harry Potter: Magic Awakened'
 description: 'lyndonguitar Download Harry Potter: Magic Awakened is a free-to-play third-person and deck-building game for mobile devices. It features a live-service game format and stylized graphics that magically recreates the wonderful Wizarding World of Harry Potter.'
 featured: false

@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-05-29-what-if-resident-evil-had-1-bit-graphics-and-a-blind-protagonist-beta-impressions-i-se
-title: What if Resident Evil had 1-bit graphics and a blind protagonist? | Beta Impressions - I See You
+title: "What If Resident Evil Had 1-Bit Graphics and a Blind Protagonist? | I See You Beta Impressions"
 game: I See You
 description: I See You is a narratively-driven adventure game where players assume the role of a blind man in search of his missing girlfriend. Games that delve into unique perspectives and disabilities can offer a fresh and immersive experience, and this particular game leverages blindness as a gameplay mechanic.
 featured: false

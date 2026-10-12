@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-05-27-a-casual-hacking-and-mystery-experience-review-cyber-manhunt
-title: A casual hacking and mystery experience | Review - Cyber Manhunt
+title: "Casual Hacking and Mystery Experience | Cyber Manhunt Review"
 game: Cyber Manhunt
 description: Cyber Manhunt is a mystery and hacking simulation game with a story-oriented focus and a puzzle-centric gameplay.
 featured: false

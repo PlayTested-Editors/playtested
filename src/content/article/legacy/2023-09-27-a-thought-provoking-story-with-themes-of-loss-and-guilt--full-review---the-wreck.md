@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-09-27-a-thought-provoking-story-with-themes-of-loss-and-guilt-full-review-the-wreck
-title: A thought-provoking story with themes of loss and guilt | Full Review - The Wreck
+title: "Thought-Provoking Story With Themes of Loss and Guilt | The Wreck Full Review"
 game: The Wreck
 description: ✨Overview The Wreck is a 3D interactive visual novel that plunges players into a world of complex emotions, family dynamics, and personal reflection. It was originally released on Steam and consoles early this year, but has now made its way to Android here on TapTap, offering players a chance to experience its narrative-driven journey on the go. You can play the first few parts of the story for free (roughly 20 minutes), then purchase access for the full version.
 featured: false

@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-11-09-a-rich-post-apocalyptic-setting-overrun-by-zombies-and-bugs-review-lost-future
-title: A rich post-apocalyptic setting overrun by zombies and 'bugs' | Review - Lost Future
+title: "Rich Post-Apocalyptic Setting Overrun by Zombies and 'Bugs' | Lost Future Review"
 game: Lost Future
 description: 'Lost Future: Zombie Survival 7.4 Post-apocalyptic Action Download'
 featured: false

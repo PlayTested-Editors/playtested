@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-06-19-the-series-reimagined-and-remade-into-one-game-first-impressions-layers-of-fear
-title: The series reimagined and remade into one game | First Impressions - Layers of Fear
+title: "Series Reimagined and Remade Into One Game | Layers of Fear First Impressions"
 game: Layers of Fear
 description: Layers of Fear (2023) is a remake of the original two games plus its DLC introduces a reimagined story, stunning visuals, and a comprehensive package that will captivate fans of the series, while serving as a good entry point for newcomers..
 featured: false

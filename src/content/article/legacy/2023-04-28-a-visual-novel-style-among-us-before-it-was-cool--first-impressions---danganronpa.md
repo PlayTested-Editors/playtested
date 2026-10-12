@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-04-28-a-visual-novel-style-among-us-before-it-was-cool-first-impressions-danganronpa
-title: A Visual Novel-style Among Us before it was cool | First Impressions - Danganronpa
+title: "Visual Novel-Style Among Us Before It Was Cool | Danganronpa First Impressions"
 game: Danganronpa
 description: 'In Danganronpa: Trigger Happy Havoc, A group of high school students find themselves trapped in their new school and are forced to participate in a twisted battle royale game of murder and survival.'
 featured: false

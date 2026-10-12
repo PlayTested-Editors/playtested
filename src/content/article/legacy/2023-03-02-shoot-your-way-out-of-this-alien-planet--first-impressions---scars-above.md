@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-03-02-shoot-your-way-out-of-this-alien-planet-first-impressions-scars-above
-title: Shoot your way out of this alien planet | First Impressions - Scars Above
+title: "Shoot Your Way Out of This Alien Planet | Scars Above First Impressions"
 game: Scars Above
 description: Stranded on a hostile alien planet, crew is missing, you need to survive in this third person sci-fi shooter game - Scars Above.
 featured: false

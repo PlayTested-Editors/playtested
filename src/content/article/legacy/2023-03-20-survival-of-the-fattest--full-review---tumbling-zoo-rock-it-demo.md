@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-03-20-survival-of-the-fattest-full-review-tumbling-zoo-rock-it-demo
-title: Survival of the FATTEST | Full Review - Tumbling Zoo-rock it (Demo)
+title: "Survival of the FATTEST | Tumbling Zoo-rock it (Demo) Full Review"
 game: Tumbling Zoo-rock it (Demo)
 description: Tumbling Zoo-rock it is a fun cute casual game where animals chase each other, bump each other, and eat each other. Wait, doesn’t this happen in real life too?
 featured: false

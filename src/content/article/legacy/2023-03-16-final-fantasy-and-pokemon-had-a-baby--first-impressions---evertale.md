@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-03-16-final-fantasy-and-pokemon-had-a-baby-first-impressions-evertale
-title: Final Fantasy and Pokemon had a baby | First Impressions - Evertale
+title: "Final Fantasy and Pokemon Had a Baby | Evertale First Impressions"
 game: Evertale
 description: Evertale would probably be an accurate game to show as an example if somebody asked the question, What If Pokemon and Final Fantasy had a child and released it on mobile platforms?
 featured: false

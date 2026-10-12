@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-09-17-feels-like-the-spiritual-successor-to-bloodborne-full-review-lies-of-p
-title: Feels like the spiritual successor to Bloodborne | Full Review - Lies of P
+title: "Feels Like the Spiritual Successor to Bloodborne | Lies of P Full Review"
 game: Lies Of P
 description: Lies of P Ever since Dark Souls' success in 2011, there has been no shortage of these so-called Souls-like games. And now, we have another game with Lies of P, and it's one of the most promising entries yet in the Souls-like genre.
 featured: false

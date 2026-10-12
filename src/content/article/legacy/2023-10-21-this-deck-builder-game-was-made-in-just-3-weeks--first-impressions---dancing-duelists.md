@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-10-21-this-deck-builder-game-was-made-in-just-3-weeks-first-impressions-dancing-duelists
-title: This deck builder game was made in just 3 weeks! | First Impressions - Dancing Duelists
+title: "This Deck Builder Game Was Made in Just 3 Weeks! | Dancing Duelists First Impressions"
 game: Dancing Duelists
 description: And you can also beat it in just 10 minutes. Dancing Duelists is a brief but spirited deckbuilding autobattler, made by Mega Crit's (developers of Slay the Spire). Developed in a mere three weeks using Godot Engine, this game invites players to select from ten silly quirky cartoonish characters and engage in a series of dance-off battles.
 featured: false

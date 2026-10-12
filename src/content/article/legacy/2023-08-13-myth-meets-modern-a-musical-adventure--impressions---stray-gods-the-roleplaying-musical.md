@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-08-13-myth-meets-modern-a-musical-adventure-impressions-stray-gods-the-roleplaying-musical
-title: 'Myth meets Modern: A Musical Adventure | Impressions - Stray Gods: The Roleplaying Musical'
+title: "Myth Meets Modern: A Musical Adventure | Stray Gods: The Roleplaying Musical First Impressions"
 game: 'Stray Gods: The Roleplaying Musical'
 description: "In Stray Gods: The Roleplaying Musical, players embark on a journey as Grace, an aspiring musician who unexpectedly inherits the powers of the Last Muse, due to an unexpected circumstance. Set in an urban fantasy world where myths and monsters intertwine with normal, modern life, Grace becomes entangled in a murder mystery that demands her musical prowess – enhanced by the powers of the Gods. The player's choices shape Grace's path as she navigates the intricacies of Greek deities, uncovers dark secrets, and harmonizes her way to justice."
 featured: false

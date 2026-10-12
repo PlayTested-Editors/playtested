@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-11-24-a-prequel-follow-up-that-takes-a-slightly-different-direction-impressions-soul-knight
-title: A prequel follow-up that takes a slightly different direction | Impressions - Soul Knight Prequel
+title: "Prequel Follow-Up That Takes a Slightly Different Direction | Soul Knight Prequel First Impressions"
 game: Soul Knight Prequel
 description: 'Soul Knight Prequel marks a departure from the rogue-lite roots of its predecessor, introducing players to an adjacent genre: ARPGs. Boasting its own narrative set before the events of the original Soul Knight, unique characters, and a blend of pixel art and 3D graphics, Soul Knight Prequel aims to captivate both fans of the original and newcomers alike.'
 featured: false

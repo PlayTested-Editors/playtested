@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-10-14-still-in-beta-test-but-it-looks-good-already-preview-jump-assemble-beta-test
-title: 'Still in beta test but it looks good already | Preview - JUMP: Assemble (Beta Test)'
+title: "Still in Beta Test but It Looks Good Already | JUMP: Assemble (Beta Test) Preview"
 game: 'JUMP: Assemble (Beta Test)'
 description: 'JUMP: Assemble is upcoming Anime-based MOBA for fans of the genre and anime enthusiasts alike. This game unites beloved manga and anime characters from Weekly Shōnen Jump series in epic 5v5 team battles.'
 featured: false

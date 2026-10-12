@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-07-21-reshaping-the-fabric-of-reality-using-photographs-and-drawings-first-impressions-viewf
-title: Reshaping the fabric of reality using photographs and drawings | First Impressions - Viewfinder
+title: "Reshaping the Fabric of Reality Using Photographs and Drawings | Viewfinder First Impressions"
 game: Viewfinder
 description: Viewfinder is a first-person adventure game that offers players an extraordinary experience of mind bending perceptions and reshaping the fabric of reality. The game introduces players to a world where photography becomes their key to manipulating the environment, solving puzzles, and finding answers to solving an impossible question.
 featured: false

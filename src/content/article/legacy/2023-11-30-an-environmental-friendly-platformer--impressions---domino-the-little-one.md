@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-11-30-an-environmental-friendly-platformer-impressions-domino-the-little-one
-title: An environmental friendly platformer? | Impressions - DOMINO The Little One
+title: "Environmental Friendly Platformer? | DOMINO The Little One First Impressions"
 game: 'DOMINO: The Little One'
 description: 'Saving the world is cool, facing monsters is badass, but doing both at the same time? DOMINO: The Little One is a 2D platformer game aims to do just that. Well, the game promises to be an immersive interactive narrative experience that will test your wit and determination. Is it? Does it?'
 featured: false

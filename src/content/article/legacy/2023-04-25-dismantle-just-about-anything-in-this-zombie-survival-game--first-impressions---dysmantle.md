@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-04-25-dismantle-just-about-anything-in-this-zombie-survival-game-first-impressions-dysmantle
-title: Dismantle just about anything in this zombie survival game | First Impressions - Dysmantle
+title: "Dismantle Just About Anything in This Zombie Survival Game | Dysmantle First Impressions"
 game: DYSMANTLE
 description: Dysmantle takes place on a shelter island after a zombie apocalypse has wiped out most of humanity. You play as a survivor who wants to escape the island, as such, he must scavenge for resources, craft tools and weapons, and fight off dangerous creatures to stay alive and escape in this open-world island.
 featured: false

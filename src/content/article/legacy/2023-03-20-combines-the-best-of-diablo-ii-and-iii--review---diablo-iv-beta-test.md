@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-03-20-combines-the-best-of-diablo-ii-and-iii-review-diablo-iv-beta-test
-title: Combines the best of Diablo II and III | Review - Diablo IV Beta Test
+title: "Combines the Best of Diablo II and III | Diablo IV Beta Test Review"
 game: Diablo
 description: Diablo IV is an action RPG developed and published by Blizzard, and the fourth game in the critically acclaimed and highly popular Diablo game series. It is scheduled for release on June 6, 2023, with a beta test currently in progress. The early access runs from March 17 to 19, with an open beta available next week March 24-26, free to try for everyone.
 featured: false

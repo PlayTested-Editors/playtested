@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-06-12-this-pixelated-apple-arcade-souls-like-is-now-on-pc-and-switch-first-impressions-bleak
-title: This pixelated Apple Arcade souls-like is now on PC and Switch | First Impressions - Bleak Sword DX
+title: "This Pixelated Apple Arcade Souls-like Is Now on PC and Switch | Bleak Sword DX First Impressions"
 game: Bleak Sword DX
 description: In Bleak Sword DX, the protagonist is not the one wielding the titular Bleak Sword; rather, they must seek to destroy the weapon itself. As an unnamed warrior, your task is to lift the curse of the legendary Bleak Sword that has plagued the land for over two hundred years. While the story is not that deep, it serves as a premise and backdrop for the hack-and-slash combat action.
 featured: false

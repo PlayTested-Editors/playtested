@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-12-01-mix-taoism-cyberpunk-sekiro-and-metroidvania-you-have-this-demo-impressions-nine-sols
-title: Mix Taoism, Cyberpunk, Sekiro, and Metroidvania; you have this | Demo Impressions - Nine Sols
+title: "Mix Taoism, Cyberpunk, Sekiro, and Metroidvania; You Have This | Nine Sols Demo Impressions"
 game: Impressions - Nine Sols
 description: I was able to play a short Demo of Nine Sols, an upcoming 2D platformer with souls-lite and Sekiro elements. It's basically a mix of Taoism, Cyberpunk, Sekiro, and Metroidvania, resulting in a title that seems familiar and unique at the same time.
 featured: false

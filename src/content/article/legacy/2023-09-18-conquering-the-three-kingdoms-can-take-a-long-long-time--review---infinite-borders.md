@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-09-18-conquering-the-three-kingdoms-can-take-a-long-long-time-review-infinite-borders
-title: Conquering the Three Kingdoms can take a long, long time | Review - Infinite Borders
+title: "Conquering the Three Kingdoms Can Take a Long, Long Time | Infinite Borders Review"
 game: Infinite Borders
 description: 'Infinite Borders puts players in the ever captivating Three Kingdoms period of Ancient China, and offers a blend of strategy, RPG city-building, and gacha mechanics. Having spent considerable time in both its native East Asian markets —previously known as Reign of Warlords or ROW: Tam Quốc. — It is now entering a global release during its Closed Beta Test phase. However, the English localization is still a bit spotty.'
 featured: false

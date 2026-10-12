@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-10-24-a-chibi-blend-of-real-time-strategy-and-rpg-elements-review-knightcore-sword-of-kingdo
-title: 'A chibi blend of real-time strategy and RPG elements | Review - Knightcore: Sword of Kingdom'
+title: "Chibi Blend of Real-Time Strategy and RPG Elements | Knightcore: Sword of Kingdom Review"
 game: 'Knightcore: Sword of Kingdom'
 description: "Knightcore: Sword of Kingdom is a tower offense game with real-time strategy, RPG, autobattler, and gacha elements. Players assume the mantle of a Lord, leading a team of Heroes and forging your Legions on a quest to reclaim Camelot's lost glory. It promises a unique blend of strategy, real-time tower offense, a diverse array of collectible gacha heroes, and various armies. It recently launched globally last October 20, 2023."
 featured: false

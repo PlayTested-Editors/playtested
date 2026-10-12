@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2022-12-15-the-emotional-prequel-to-final-fantasy-7-remade-crisis-core-final-fantasy-vii-reunion
-title: The emotional prequel to Final Fantasy 7, remade | Crisis Core - FINAL FANTASY VII– REUNION - Review
+title: "Emotional Prequel to Final Fantasy 7, Remade | Crisis Core - FINAL FANTASY VII– REUNION Review"
 game: 'Crisis Core: Final Fantasy VII Reunion'
 description: Almost every classic title nowadays is getting the remastered or remake treatment, and PSP’s 2007 title CRISIS CORE –FINAL FANTASY VII is no exception. With the release of Crisis Core - FINAL FANTASY VII– REUNION, we get a sort of a hybrid between a remaster and a remake, now available for PC, Xbox, Playstation, and the Nintendo Switch.
 featured: false

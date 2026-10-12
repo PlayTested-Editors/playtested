@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-05-24-seamless-character-switching-nostalgic-visuals-and-arpg-combat-first-impressions-desti
-title: Seamless character switching, nostalgic visuals, and ARPG combat | First Impressions - Destiny Saga
+title: "Seamless Character Switching, Nostalgic Visuals, and ARPG Combat | Destiny Saga First Impressions"
 game: Destiny Saga
 description: Destiny Saga is a mash-up of retro-style goodness, JRPG art style, ARPG gameplay, and modern gacha and RPG elements. Players can collect heroes, upgrade and equip them with gear, and engage in ARPG combat, all while being driven by a compelling narrative story.
 featured: false

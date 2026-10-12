@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-09-15-a-new-era-of-brutality-first-impressions-mortal-kombat-1
-title: A new era of Brutality | First Impressions - Mortal Kombat 1
+title: "New Era of Brutality | Mortal Kombat 1 First Impressions"
 game: Mortal Kombat 1
 description: When it comes to fighting games, there are three distinct types of players - those who crave for an immersive story, the folks, friends, and families who gather for local multiplayer showdowns, and the competitive souls who venture into the online arena. Well, personally, I fall into the first two categories, and I can confidently say that Mortal Kombat 1 delivers a fatal knockout punch of fun for both camps.
 featured: false

@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2024-01-29-potentially-a-fresh-and-hardcore-roguelite-metroidvania-coming-soon-demo-review-never
-title: Potentially a fresh and hardcore roguelite metroidvania, coming soon | Demo Review - Never Grave
+title: "Potentially a Fresh and Hardcore Roguelite Metroidvania, Coming Soon | Never Grave Demo Review"
 game: Review - Never Grave
 description: 'Never Grave: The Witch and The Curse 8.0 Action Adventure Test'
 featured: false

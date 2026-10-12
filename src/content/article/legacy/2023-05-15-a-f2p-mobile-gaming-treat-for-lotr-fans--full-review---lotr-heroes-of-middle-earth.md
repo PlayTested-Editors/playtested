@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-05-15-a-f2p-mobile-gaming-treat-for-lotr-fans-full-review-lotr-heroes-of-middle-earth
-title: A F2P mobile gaming treat for LOTR fans | Full Review - LOTR Heroes of Middle Earth
+title: "F2P Mobile Gaming Treat for LOTR Fans | LOTR Heroes of Middle Earth Full Review"
 game: 'LotR: Heroes of Middle-earth'
 description: 'The Lord of the Rings: Heroes of Middle-earth or LOTR Heroes of Middle Earth is a turn-based hero collecting online RPG game for the platform.'
 featured: false

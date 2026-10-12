@@ -22,7 +22,7 @@ tags:
   - xbox
   - console
 thumb: /images/reviews/2024-01-01-ghost-of-tsushima-0.avif
-title: The best Samurai game yet bar none | Ghost of Tsushima (Director’s Cut) Review
+title: "Best Samurai Game Yet Bar None | Ghost of Tsushima (Director's Cut) Review"
 game: Ghost of Tsushima
 ---
 

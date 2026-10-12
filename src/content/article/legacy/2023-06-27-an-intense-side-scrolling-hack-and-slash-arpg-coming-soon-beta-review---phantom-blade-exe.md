@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-06-27-an-intense-side-scrolling-hack-and-slash-arpg-coming-soon-beta-review-phantom-blade-exe
-title: 'An intense side-scrolling hack and slash ARPG coming soon| Beta Review - Phantom Blade: Executioners'
+title: "Intense Side-Scrolling Hack and Slash ARPG Coming Soon | Phantom Blade: Executioners Beta Review"
 game: 'Beta Review - Phantom Blade: Executioners'
 description: 'Phantom Blade: Executioners is a 2D side-scrolling martial arts hack and slash game available on PC, Android, and iOS, featuring full crossplay functionality. It is currently hosting a live open beta test from June 26 to July 10, 2023.'
 featured: false

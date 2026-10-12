@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2022-11-19-we-now-have-two-spider-men-on-pc-marvels-spider-man-miles-morales-first-impressions
-title: "We now have two Spider-Men on PC! | Marvel's Spider-Man: Miles Morales - First Impressions"
+title: "We Now Have Two Spider-Men on PC! | Marvel's Spider-Man: Miles Morales First Impressions"
 game: "Marvel's Spider-Man: Miles Morales"
 description: "Marvel's Spider-Man: Miles Morales is the follow-up standalone expansion to this year’s PC release of Marvel's Spider-Man Remastered, Continuing the first game’s story, more importantly its DLC “The City That Never Sleeps”. It introduces Miles Morales’ version of Spider-Man as the playable character and his “year one” activities in New York city."
 featured: false

@@ -1,6 +1,5 @@
 ---
-title: Innocently taps into your creative side in a way that feels effortless |
-  ShantyTown Review
+title: "Innocently Taps Into Your Creative Side in a Way That Feels Effortless | ShantyTown Review"
 pubDate: 2026-05-01T13:46:00.000+08:00
 draft: false
 description: ShantyTown is a creative, stress-free puzzle game that also happens

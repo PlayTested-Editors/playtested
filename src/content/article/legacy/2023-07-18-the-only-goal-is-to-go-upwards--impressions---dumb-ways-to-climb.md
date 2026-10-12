@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-07-18-the-only-goal-is-to-go-upwards-impressions-dumb-ways-to-climb
-title: The only goal is to go upwards | Impressions - Dumb Ways to Climb
+title: "Only Goal Is to Go Upwards | Dumb Ways to Climb First Impressions"
 game: Dumb Ways to Climb
 description: Dumb Ways to Climb is a platforming game where the only goal is to go upwards. As a bean-like character ripped straight from the cartoon series Dumb Ways to Die, you must climb up a random mishmash contraption of worldly objects, with the sole objective being to reach higher heights, similar to the recent popular game Only Up!. It’s quite obvious that the gameplay concept has been shamelessly borrowed from the aforementioned game, only this time, Dumb Ways to Climb was made specifically for Android and iOS platform.
 featured: false

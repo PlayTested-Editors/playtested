@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-09-08-attempts-to-bridge-the-gap-between-nostalgia-and-mobile-gaming-impressions-ffvii-ever
-title: 'Attempts to bridge the gap between nostalgia and mobile gaming | Impressions - FFVII: Ever Crisis'
+title: "Attempts to Bridge the Gap Between Nostalgia and Mobile Gaming | FFVII: Ever Crisis First Impressions"
 game: 'FFVII: Ever Crisis'
 description: 'Final Fantasy VII: Ever Crisis is a part-compilation, part remaster gacha game that beautifully blends elements from the original 1997 release and the more recent FF7 spin-offs and remakes.'
 featured: false

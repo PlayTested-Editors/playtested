@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-09-11-challenge-the-lone-king-of-aeterna-torchlight-infinite-the-city-of-aeterna-review
-title: 'Challenge The Lone King of Aeterna! | Torchlight Infinite: The City of Aeterna - Review'
+title: "Challenge the Lone King of Aeterna! | Torchlight Infinite: The City of Aeterna Review"
 game: 'Torchlight: Infinite'
 description: 'lyndonguitar Get Torchlight Infinite: The City of Aeterna is the latest season of Torchlight Infinite, an action-RPG where players can expect fast-paced combat, an abundance of loot, and a range of character customization options. The game features fine graphics and smooth performance, making it one of the better ARPG options on mobile today. The City of Aeterna, dubbed as “The Lost City” is now returning as part of Torchlight Infinite’s latest content update.'
 featured: false

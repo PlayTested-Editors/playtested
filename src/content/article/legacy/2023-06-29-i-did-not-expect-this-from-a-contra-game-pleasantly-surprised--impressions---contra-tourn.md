@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-06-29-i-did-not-expect-this-from-a-contra-game-pleasantly-surprised-impressions-contra-tourn
-title: 'I did not expect this from a Contra game! Pleasantly surprised! | Impressions - Contra: Tournament'
+title: "I Did Not Expect This From a Contra Game! Pleasantly Surprised! | Contra: Tournament First Impressions"
 game: 'Contra: Tournament'
 description: 'Contra: Tournament is a third-person battle royale survival game designed for mobile devices. In this fresh but pleasantly surprising take on the Contra franchise, you and up to 100 players engage in a fierce battle to claim the title of the ultimate winner within a vast and sprawling map. A Closed Beta Test for Contra: Tournament has recently started, allowing players to experience and provide feedback on this upcoming new title.'
 featured: false

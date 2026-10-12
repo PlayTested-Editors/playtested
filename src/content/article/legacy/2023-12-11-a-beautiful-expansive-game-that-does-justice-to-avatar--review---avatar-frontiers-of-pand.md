@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-12-11-a-beautiful-expansive-game-that-does-justice-to-avatar-review-avatar-frontiers-of-pand
-title: 'A beautiful expansive game that does justice to Avatar | Review - Avatar: Frontiers of Pandora'
+title: "Beautiful Expansive Game That Does Justice to Avatar | Avatar: Frontiers of Pandora Review"
 game: 'Avatar: Frontiers of Pandora'
 description: "Avatar: Frontiers of Pandora takes players on an immersive journey into the world of Pandora, expanding upon the lore established in James Cameron's epic cinematic universe. As a first-person action-adventure game, it combines the lush yet dangerous environments of Avatar with the open-world design reminiscent of Ubisoft's Far Cry series. Ubisoft is really the perfect company to make Avatar video games  with their experience on Far Cry."
 featured: false

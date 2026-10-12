@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-10-12-a-rewarding-driving-experience-but-there-are-glaring-issues-review-forza-motorsport
-title: A rewarding driving experience, but there are glaring issues | Review - Forza Motorsport
+title: "Rewarding Driving Experience, but There Are Glaring Issues | Forza Motorsport Review"
 game: Forza Motorsport
 description: Forza Motorsport is the thirteenth installment in the renowned Forza racing video game series. It is a soft reboot of sorts with high expectations and a storied history to uphold, this racing simulation game has faced the challenge of redefining the series for a new generation.
 featured: false

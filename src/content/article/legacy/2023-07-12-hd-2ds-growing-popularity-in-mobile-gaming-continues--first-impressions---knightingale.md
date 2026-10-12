@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-07-12-hd-2ds-growing-popularity-in-mobile-gaming-continues-first-impressions-knightingale
-title: HD-2D’s growing popularity in mobile gaming continues | First Impressions - Knightingale
+title: "HD-2D's Growing Popularity in Mobile Gaming Continues | Knightingale First Impressions"
 game: Knightingale
 description: Knightingale revolves around forming a party of five combatants from the player's available heroes, progressing through the story, and encountering formidable opponents. The game offers a degree of openness, enabling players to explore towns, interact with NPCs, engage in trading, and partake in side activities like bulletin board or dungeon crawling.
 featured: false

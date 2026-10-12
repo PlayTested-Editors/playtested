@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-10-26-still-the-king-of-city-builders-but-better-have-a-pc-from-the-future-review-cities-sky
-title: Still the king of City Builders, but better have a PC from the future | Review - Cities Skylines II
+title: "Still the King of City Builders, but Better Have a PC From the Future | Cities Skylines II Review"
 game: Cities Skylines II
 description: 'Cities Skylines II city-building simulator with elements of urban planning, economic management, and creativity on an unprecedented scale. This follow-up title from Paradox Interactive and Colossal Order builds upon the success of the original Cities: Skylines while introducing a host of new features and improvements. With the promise of a five times larger playable area, enhanced building tools, overhauled progression systems, and much more, Cities Skylines II aims to redefine the city-building genre once again.'
 featured: false

@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-08-17-vehicular-warfare-in-the-palm-of-your-hands-first-impressions-war-thunder-mobile
-title: Vehicular warfare in the palm of your hands | First Impressions - War Thunder Mobile
+title: "Vehicular Warfare in the Palm of Your Hands | War Thunder Mobile First Impressions"
 game: War Thunder Mobile
 description: War Thunder Mobile brings the high-octane world of vehicular combat to the palm of your hand with smooth gameplay and impressive AAA graphics. Ground and naval warfare take center stage, without any dedicated aircraft warfare modes.
 featured: false

@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-03-24-a-satisfying-top-down-idle-monster-shooter-full-review-alice-final-weapon-idle-rpg
-title: 'A satisfying top-down idle monster shooter | Full Review - Alice, Final Weapon : Idle RPG'
+title: "Satisfying Top-Down Idle Monster Shooter | Alice, Final Weapon: Idle RPG Full Review"
 game: 'Alice, Final Weapon : Idle RPG'
 description: 'This is what happens when even a one-handed game like Vampire Survivors is still too much work. We now enter the realm of Idle and AFK games where you don’t even have to do anything to play and progress. Alice, Final Weapon : Idle RPG is another entry in this popular mobile genre.'
 featured: false

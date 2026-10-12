@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-10-28-the-finals-open-beta-now-open-one-step-closer-to-release-first-impressions-the-finals
-title: THE FINALS' open beta now open! one step closer to release | First Impressions - THE FINALS
+title: "THE FINALS' Open Beta Now Open! One Step Closer to Release | THE FINALS First Impressions"
 game: The Finals
 description: THE FINALS is currently in an open beta test on Steam that started last October 26 and will run up to November 5, available for PC (Steam), Xbox Series X/S, and PS5.
 featured: false

@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-11-07-a-card-battler-with-cool-faction-based-warhammer-mechanics-review-warhammer-40000-warp
-title: 'A card battler with cool faction-based Warhammer mechanics | Review - Warhammer 40,000: Warpforge'
+title: "Card Battler With Cool Faction-Based Warhammer Mechanics | Warhammer 40,000: Warpforge Review"
 game: 'Warhammer 40,000: Warpforge'
 description: 'Oh boy, Warhammer is everywhere, from its brute low-tech OG Warhammer and its games like Total War: Warhammer and Vermintide to the more futuristic 40,000 and its recent games like Darktide and Boltgun. The franchise is kicking ass on practically all fronts, beating the likes of big mixed-media IPs like Star Wars and Marvel in pumping out video game content. Now, we are taking a look at Warhammer 40,000: Warpforge.'
 featured: false

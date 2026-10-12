@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-08-13-rise-of-kingdoms-with-an-anime-skin-first-impressions-grand-cross-age-of-titans
-title: 'Rise of Kingdoms, with an anime skin? | First Impressions - Grand Cross: Age of Titans'
+title: "Rise of Kingdoms, With an Anime Skin? | Grand Cross: Age of Titans First Impressions"
 game: 'Grand Cross: Age of Titans'
 description: 'Grand Cross: Age of Titans introduces an intriguing twist to the isekai formula by blending it with city-building MMORTS gameplay. The game starts off feeling like a RPG gacha game, with all the isekai, anime, and waifu elements you’d normally see in a RPG game, but in actuality it is a city-builder strategy game extremely similar to Rise of Kingdoms, with the option to venture out in the MMORTS-esque overworld map, explore, mine resources, attack monsters, and team-up or clash against other cities.'
 featured: false

@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-06-01-a-visually-striking-hack-and-slash-norse-arpg-first-impressions-myth-gods-of-asgard
-title: 'A visually striking hack and slash Norse ARPG! | First Impressions - Myth: Gods of Asgard'
+title: "Visually Striking Hack and Slash Norse ARPG! | Myth: Gods of Asgard First Impressions"
 game: 'Myth: Gods of Asgard'
 description: 'Myth: Gods of Asgard takes players on an epic adventure through a familiar world based on Norse mythology. As a hack and slash action role-playing game, it offers a unique and immersive experience, intense combat system, a rich narrative, and stunning visuals. I was able to try out the Android version of the game, in which a Closed Beta Test is scheduled for June 3, 2023'
 featured: false

@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-12-26-a-cleverly-challenging-puzzle-game-disguised-as-a-grid-based-strategy-review-mobile-su
-title: A cleverly challenging puzzle game disguised as a grid-based strategy | Review - Mobile Suit Baba
+title: "Cleverly Challenging Puzzle Game Disguised as a Grid-Based Strategy | Mobile Suit Baba Review"
 game: Mobile Suit Baba
 description: Mobile Suit Baba -- Action Strategy PC Version
 featured: false

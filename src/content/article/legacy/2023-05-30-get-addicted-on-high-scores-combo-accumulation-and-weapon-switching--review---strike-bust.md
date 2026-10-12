@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-05-30-get-addicted-on-high-scores-combo-accumulation-and-weapon-switching-review-strike-bust
-title: Get addicted on high scores, combo accumulation, and weapon switching | Review - Strike Buster
+title: "Get Addicted on High Scores, Combo Accumulation, and Weapon Switching | Strike Buster Review"
 game: Strike Buster
 description: Strike Buster Prototype is a retro style arcade game featuring combo-based combat and twin-stick shooter controls.
 featured: false

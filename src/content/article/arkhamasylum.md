@@ -21,7 +21,7 @@ tags:
   - xbox
   - console
 thumb: /images/reviews/2024-09-26-batman-arkham-asylum-0.avif
-title: The Legendary Combat System | Batman Arkham Asylum Review
+title: "Legendary Combat System | Batman Arkham Asylum Review"
 game: Batman Arkham Asylum
 ---
 

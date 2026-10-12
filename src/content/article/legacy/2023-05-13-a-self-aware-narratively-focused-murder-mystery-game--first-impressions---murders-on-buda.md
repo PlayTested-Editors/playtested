@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-05-13-a-self-aware-narratively-focused-murder-mystery-game-first-impressions-murders-on-buda
-title: A self-aware narratively focused murder mystery game | First Impressions - Murders on Budapest
+title: "Self-Aware Narratively Focused Murder Mystery Game | Murders on Budapest First Impressions"
 game: Murders on Budapest
 description: Just fresh from my review of another fourth wall breaking mystery game, now we have another mobile game in Murders of Budapest. This time it’s less of a detective point-and-click mystery and more of a murder mystery visual-novel this time around.
 featured: false

@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-03-23-the-best-asymmetric-multiplayer-horror-on-mobile-full-review-dead-by-daylight-mobile
-title: The best asymmetric multiplayer horror on mobile | Full Review - Dead by Daylight Mobile
+title: "Best Asymmetric Multiplayer Horror on Mobile | Dead by Daylight Mobile Full Review"
 game: Dead by Daylight Mobile
 description: Dead by Daylight Mobile is an asymmetric 4v1 multiplayer survival horror game where a team of four players must cooperate with each other in order to escape a killer hunting them.
 featured: false

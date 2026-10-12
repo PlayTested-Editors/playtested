@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-05-09-a-creepy-isometric-puzzle-platformer-first-impressions-very-little-nightmares
-title: A creepy isometric puzzle platformer | First Impressions - Very Little Nightmares+
+title: "Creepy Isometric Puzzle Platformer | Very Little Nightmares+ First Impressions"
 game: Very Little Nightmares
 description: Very Little Nightmares+ is the Apple Arcade version of Very Little Nightmares, a puzzle-platformer game made specifically for mobile devices. It's available for both Android and iOS and serves as a prequel to the original 2017 console game Little Nightmares. The latter is also being ported and will soon be available on mobile devices this year.
 featured: false

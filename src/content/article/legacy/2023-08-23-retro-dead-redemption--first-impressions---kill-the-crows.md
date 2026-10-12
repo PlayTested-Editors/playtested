@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-08-23-retro-dead-redemption-first-impressions-kill-the-crows
-title: Retro Dead Redemption?? | First Impressions - Kill the Crows
+title: "Retro Dead Redemption?? | Kill the Crows First Impressions"
 game: Kill The Crows
 description: Kill the Crows thrusts players into a world fraught with danger and overwhelming vengeance. The story follows a gunslinger consumed by the fire of retribution, wandering through the ruins of a forsaken wild west town and attacked by an onslaught of enemies, both regular goons and those with supernatural abilities.
 featured: false

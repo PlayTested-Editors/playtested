@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-07-16-a-whimsical-puzzle-adventure-for-all-ages-demo-impressions-lost-in-play
-title: A whimsical puzzle adventure for all ages | Demo Impressions - Lost in Play
+title: "Whimsical Puzzle Adventure for All Ages | Lost in Play Demo Impressions"
 game: Impressions - Lost in Play
 description: Lost in Play is a puzzle adventure game that features hand-drawn, cartoonish visuals that are visually pleasing and perfectly complement the game's playful atmosphere.
 featured: false

@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-06-20-an-underrated-pve-alien-shooter-as-long-as-its-cheap-full-review-rainbow-six-extractio
-title: 'An underrated PvE alien shooter, as long as it’s cheap | Full Review - Rainbow Six: Extraction'
+title: "Underrated PvE Alien Shooter, as Long as It's Cheap | Rainbow Six: Extraction Full Review"
 game: 'Rainbow Six: Extraction'
 description: "Tom Clancy’s Rainbow Six® Extraction Rainbow Six: Extraction, the latest installment in the critically acclaimed Tom Clancy's Rainbow Six series, takes a bold step into the realm of PvE squad-based cooperative gameplay."
 featured: false

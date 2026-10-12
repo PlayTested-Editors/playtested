@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-02-26-a-rich-and-meaningful-narrative-experience-full-review-pitstop-in-purgatory
-title: A rich and meaningful narrative experience | Full Review - Pitstop in Purgatory
+title: "Rich and Meaningful Narrative Experience | Pitstop in Purgatory Full Review"
 game: Pitstop in Purgatory
 description: Pitstop in Purgatory is a visual novel / adventure game full of story and thought-provoking ideas. Originally made for PC in a surprising two-month timeframe, it is now available as well for Android.
 featured: false

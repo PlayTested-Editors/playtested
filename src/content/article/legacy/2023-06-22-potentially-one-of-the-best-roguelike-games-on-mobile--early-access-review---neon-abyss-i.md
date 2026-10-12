@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-06-22-potentially-one-of-the-best-roguelike-games-on-mobile-early-access-review-neon-abyss-i
-title: 'Potentially one of the best roguelike games on mobile | Early Access Review - Neon Abyss: Infinite'
+title: "Potentially One of the Best Roguelike Games on Mobile | Neon Abyss: Infinite Early Access Review"
 game: 'Early Access Review - Neon Abyss: Infinite'
 description: 'Neon Abyss is a roguelike retro action-platformer game that was initially released for PC, Switch, PlayStation, and Xbox in 2020, with a mobile port coming soon and now already in Early Access called Neon Abyss: Infinite.'
 featured: false

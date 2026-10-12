@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-02-08-be-the-wizard-youve-always-wanted-to-be-first-impressions-hogwarts-legacy-3-day-early
-title: Be the wizard you’ve always wanted to be! | First Impressions - Hogwarts Legacy (3-Day Early Access)
+title: "Be the Wizard You've Always Wanted to Be! | Hogwarts Legacy (3-Day Early Access) First Impressions"
 game: Hogwarts Legacy
 description: One of the most hyped games in recent years is a few days away! Hogwarts Legacy is a single player open-world action RPG set in the Harry Potter world. It takes place long before the events of the actual books / movies in a sort of a prequel setup, like the Star Wars Knights of the Old Republic games.
 featured: false

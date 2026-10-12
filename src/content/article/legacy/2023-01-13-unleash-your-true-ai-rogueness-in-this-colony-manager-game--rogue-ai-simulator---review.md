@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-01-13-unleash-your-true-ai-rogueness-in-this-colony-manager-game-rogue-ai-simulator-review
-title: Unleash your true AI Rogueness in this colony manager game | Rogue AI Simulator - Review
+title: "Unleash Your True AI Rogueness in This Colony Manager Game | Rogue AI Simulator Review"
 game: Rogue AI Simulator
 description: Rogue AI Simulator is a roguelite management simulation game where you control an AI that will manage an underground science facility. If the AI – the player — acts suspiciously, the administrators will disconnect the server and shut it down.
 featured: false

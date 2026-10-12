@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-05-30-the-power-of-tetris-blocks-used-for-tower-defense-first-impressions-refactor
-title: The power of Tetris blocks used for tower defense! | First Impressions - Refactor
+title: "Power of Tetris Blocks Used for Tower Defense! | Refactor First Impressions"
 game: Refactor
 description: In Refactor, Aliens are invading Earth, and you have to defend the planet by building elemental turrets. That's basically the background story. Now that's out of the way, the main focus here is the hardcore-style tower defense combat with innovative building elements, where you are also in charge of constructing the pathway of the enemies. Originally released for PC last year, I was able to try out the Android demo version of the game.
 featured: false

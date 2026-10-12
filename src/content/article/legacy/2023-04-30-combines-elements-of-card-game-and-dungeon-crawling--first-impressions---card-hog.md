@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-04-30-combines-elements-of-card-game-and-dungeon-crawling-first-impressions-card-hog
-title: Combines elements of card game and dungeon crawling | First Impressions - Card Hog
+title: "Combines Elements of Card Game and Dungeon Crawling | Card Hog First Impressions"
 game: Card Hog
 description: Card Hog - Dungeon Crawler 8.7 Puzzle Strategy
 featured: false

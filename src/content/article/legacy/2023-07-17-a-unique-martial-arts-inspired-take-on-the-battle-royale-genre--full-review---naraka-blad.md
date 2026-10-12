@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-07-17-a-unique-martial-arts-inspired-take-on-the-battle-royale-genre-full-review-naraka-blad
-title: 'A unique martial arts-inspired take on the battle royale genre | Full Review - NARAKA: BLADEPOINT'
+title: "Unique Martial Arts-Inspired Take on the Battle Royale Genre | NARAKA: BLADEPOINT Full Review"
 game: Naraka Bladepoint
 description: 'lyndonguitar Get NARAKA: BLADEPOINT is a multiplayer online battle royale game that takes place in a fantastical ancient Chinese-inspired world where players — sometimes in teams up to three — compete against each other to be the last one standing. The game stands out from other battle royale titles with its emphasis on fast-paced martial arts based combat and parkour mechanics. It is available for PC, Xbox, and PlayStation, with an official mobile version coming soon as well.'
 featured: false

@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2024-01-11-not-as-generic-as-the-title-makes-it-out-to-be-review-magic-chronicle-isekai-rpg
-title: 'Not as generic as the title makes it out to be | Review - Magic Chronicle: Isekai RPG'
+title: "Not as Generic as the Title Makes It Out to Be | Magic Chronicle: Isekai RPG Review"
 game: 'Magic Chronicle: Isekai RPG'
 description: 'Magic Chronicle: Isekai RPG 5.4 Adventure RPG Download'
 featured: false

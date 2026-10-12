@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-06-20-hack-and-slash-and-shoot-your-way-first-impressions-the-segment-twins
-title: Hack and slash... and shoot your way | First Impressions - The Segment Twins
+title: "Hack and Slash... and Shoot Your Way | The Segment Twins First Impressions"
 game: THE SEGMENT TWINS
 description: The Segment Twins introduces players to the twin girls, Matilda and Amanda, whose profession involves hunting down nefarious creatures that closely resemble friendly mushrooms. However, their routine takes an unexpected turn when they fall into a portal and get transported to a mysterious world that exists simultaneously in different places. The story sets up the premise for their segmented journey, where the gameplay mechanics and challenges revolve around these distinct segments. There isn't much emphasis on storytelling, as the game primarily revolves around hack-and-slash action.
 featured: false

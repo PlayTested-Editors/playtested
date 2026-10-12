@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-10-31-the-mobile-version-is-finally-out-how-is-it-impressions-resident-evil-village
-title: The mobile version is finally out... how is it? | Impressions - Resident Evil Village
+title: "Mobile Version Is Finally Out... How Is It? | Resident Evil Village First Impressions"
 game: 'Resident Evil: Village'
 description: The eighth main installment in the iconic Resident Evil series is now available to play on iPhone 15 Pro and supported iPad models with an M1 chipset or better. The game is available as a free demo, with in-app purchases allowing players to unlock the full game, and its DLCs. Currently at a discounted price of $15.99 for the base game.
 featured: false

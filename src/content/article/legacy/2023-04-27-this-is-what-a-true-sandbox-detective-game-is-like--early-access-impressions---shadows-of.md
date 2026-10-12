@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-04-27-this-is-what-a-true-sandbox-detective-game-is-like-early-access-impressions-shadows-of
-title: This is what a TRUE sandbox detective game is like | Early Access Impressions - Shadows of Doubt
+title: "This Is What a TRUE Sandbox Detective Game Is Like | Shadows of Doubt Early Access Impressions"
 game: Early Access Impressions - Shadows of Doubt
 description: Shadows of Doubt offers players an immersive detective experience in a customizable, procedurally generated city. The procedurally generated city is fully explorable. Every nook and cranny, every room, floor, and even air vents are real places that you can visit in the game world.
 featured: false

@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-06-07-911-calls-get-forwarded-to-a-late-night-radio-talk-show-host-first-impressions-killer
-title: 911 calls get forwarded to a late night radio talk show host | First Impressions - Killer Frequency
+title: "911 Calls Get Forwarded to a Late Night Radio Talk Show Host | Killer Frequency First Impressions"
 game: Killer Frequency
 description: Killer Frequency is a first-person horror puzzle game set in the 1980s. Players assume the role of Forrest Nash, a late night radio talk show host on 189.16, “The Scream”, in the small town of Gallows Creek. The game revolves around the mysterious return of the killer known as The Whistling Man, who is causing havoc in the town.
 featured: false

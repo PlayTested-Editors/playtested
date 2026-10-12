@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-10-21-builds-upon-its-predecessors-in-all-the-right-ways-full-review-spider-man-2
-title: Builds upon its predecessors in all the right ways | Full Review - Spider-Man 2
+title: "Builds Upon Its Predecessors in All the Right Ways | Spider-Man 2 Full Review"
 game: Spider-Man 2
 description: Marvel’s Spider-Man 2 9.0 Editors' Choice Action Get
 featured: false

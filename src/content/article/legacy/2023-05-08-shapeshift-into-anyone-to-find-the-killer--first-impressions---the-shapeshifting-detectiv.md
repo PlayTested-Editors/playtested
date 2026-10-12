@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-05-08-shapeshift-into-anyone-to-find-the-killer-first-impressions-the-shapeshifting-detectiv
-title: Shapeshift into anyone to find the killer | First Impressions - The Shapeshifting Detective
+title: "Shapeshift Into Anyone to Find the Killer | The Shapeshifting Detective First Impressions"
 game: The Shapeshifting Detective
 description: The Shapeshifting Detective is set in a small, remote town called August, where a murder has taken place in the local hotel called the “Guesthouse”. Players take on the role of a detective who is tasked with solving the murder by using their shape-shifting ability — only known by the higher-ups and not by any of the characters in the town — to gather information and interact with the game's cast of characters. This allows for interesting interactions between characters and easy access to information that would otherwise be unobtainable with a regular Detective.
 featured: false

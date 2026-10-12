@@ -1,5 +1,5 @@
 ---
-title: A Wild Ride That Earns the Number | 007 First Light Review
+title: "Wild Ride That Earns the Number | 007 First Light Review"
 pubDate: 2026-07-19T17:26:00.000+08:00
 draft: false
 description: We finally have a new James Bond game in 007 First Light, and it

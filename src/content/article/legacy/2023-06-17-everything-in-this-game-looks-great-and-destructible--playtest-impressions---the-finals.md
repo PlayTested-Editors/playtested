@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-06-17-everything-in-this-game-looks-great-and-destructible-playtest-impressions-the-finals
-title: Everything in this game looks great... and destructible | Playtest Impressions - THE FINALS
+title: "Everything in This Game Looks Great... and Destructible | THE FINALS Playtest Impressions"
 game: Playtest Impressions - THE FINALS
 description: lyndonguitar Get THE FINALS is a tournament-based game with elimination in an arena setting and looks as if Battlefield, with its amazing graphics, lighting, sound design, and destructible environments, had a baby with Overwatch's teammate-based combat and flashy abilities. This isn't a surprise, as the developer, Embark Studios, was founded by former DICE developers, the creators of the Battlefield games. A closed beta has gone live now on Steam, and players can try and request access.
 featured: false

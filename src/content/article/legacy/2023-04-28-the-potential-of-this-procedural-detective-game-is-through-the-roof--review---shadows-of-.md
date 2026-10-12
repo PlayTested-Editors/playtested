@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-04-28-the-potential-of-this-procedural-detective-game-is-through-the-roof-review-shadows-of
-title: The potential of this procedural detective game is through the roof! | Review - Shadows of Doubt
+title: "Potential of This Procedural Detective Game Is Through the Roof! | Shadows of Doubt Review"
 game: Shadows of Doubt
 description: Shadows of Doubt is a sandbox detective game developed by ColePowered Games, featuring procedurally generated cities, voxel-based graphics, and an impressive lighting system.
 featured: false

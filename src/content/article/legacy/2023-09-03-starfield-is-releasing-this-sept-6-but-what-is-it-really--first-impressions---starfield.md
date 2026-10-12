@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-09-03-starfield-is-releasing-this-sept-6-but-what-is-it-really-first-impressions-starfield
-title: Starfield is releasing this Sept 6, but what is it, really? | First Impressions - Starfield
+title: "Starfield Is Releasing This Sept 6, but What Is It, Really? | Starfield First Impressions"
 game: Starfield
 description: "It's created by the same makers as Elder Scrolls V: Skyrim,  Elder Scrolls IV: Oblivion, Fallout 3, and Fallout 4. So, if you've enjoyed any of those games, there's a good chance you'll like this one, especially if you're a fan of space exploration and space-themed titles like No Man's Sky or Star Citizen."
 featured: false

@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-08-25-build-your-world-brix-by-brix-impressions-brixity
-title: Build your world, BRIX BY BRIX | Impressions - BRIXITY
+title: "Build Your World, BRIX BY BRIX | BRIXITY First Impressions"
 game: BRIXITY
 description: The central gameplay of BRIXITY is about constructing structures and building entire cities in top-down view with the help of the amazing technology called BRIX, and then exploring the world and visiting other players in a third-person view. BRIX (as in “bricks”, essentially the building blocks that players can use to create buildings) allows players to create spectacular builds as they wish.
 featured: false

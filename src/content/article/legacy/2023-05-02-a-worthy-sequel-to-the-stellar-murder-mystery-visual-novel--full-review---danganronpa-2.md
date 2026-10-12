@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-05-02-a-worthy-sequel-to-the-stellar-murder-mystery-visual-novel-full-review-danganronpa-2
-title: A worthy sequel to the stellar murder mystery visual novel | Full Review - Danganronpa 2
+title: "Worthy Sequel to the Stellar Murder Mystery Visual Novel | Danganronpa 2 Full Review"
 game: Danganronpa 2
 description: 'Danganronpa 2: Goodbye Despair Danganronpa 2: Goodbye Despair 8.3 Adventure RPG'
 featured: false

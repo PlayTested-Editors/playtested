@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-07-23-a-beautiful-innovative-and-fun-gacha-idle-rpg-game-full-review-tower-of-god-new-world
-title: 'A beautiful, innovative, and fun gacha idle RPG game | Full Review - Tower of God: New World'
+title: "Beautiful, Innovative, and Fun Gacha Idle RPG Game | Tower of God: New World Full Review"
 game: 'Tower of God: NEW WORLD'
 description: "lyndonguitar Download Tower of God: New World is an upcoming mobile idle RPG game, based on the original Webtoon Tower of God created by S.I.U. This mobile game retells the story of Twenty Fifth Bam's quest to find his friend Rachel within the mysterious Tower, while inserting the player’s journey into the fold. As players traverse the Tower, they encounter newfound allies who aid them in their journey."
 featured: false

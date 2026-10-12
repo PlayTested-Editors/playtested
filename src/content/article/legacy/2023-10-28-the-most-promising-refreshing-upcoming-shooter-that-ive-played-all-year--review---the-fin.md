@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-10-28-the-most-promising-refreshing-upcoming-shooter-that-ive-played-all-year-review-the-fin
-title: The most promising, refreshing, upcoming shooter that I’ve played all year | Review - THE FINALS
+title: "Most Promising, Refreshing, Upcoming Shooter That I've Played All Year | THE FINALS Review"
 game: The Finals
 description: THE FINALS is a free-to-play team-based competitive FPS, featuring class-based abilities, realistic visuals, and a destructible environment. Developed by Embark Studios, founded by former DICE developers, the game is currently in an open beta test on Steam that started last October 26 and will run up to November 5, available for PC (Steam), Xbox Series X/S, and PS5.
 featured: false

@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2024-02-28-a-refreshing-rpg-adventure-premium-game-a-rarity-these-days-review-ex-astris
-title: A refreshing RPG adventure premium game, a rarity these days | Review - Ex Astris
+title: "Refreshing RPG Adventure Premium Game, a Rarity These Days | Ex Astris Review"
 game: Ex Astris
 description: ✨Overview Ex Astris, developed by Hypergryph (developers of Arknights), offers a unique blend of turn-based and real-time gameplay in a mesmerizing 3D world. Unlike the usual gacha offering we usual see from this developer and in mobile games, Ex Astris easily stands out as a one-time purchase premium game, offering a refreshing change of pace, a rarity these days.
 featured: false

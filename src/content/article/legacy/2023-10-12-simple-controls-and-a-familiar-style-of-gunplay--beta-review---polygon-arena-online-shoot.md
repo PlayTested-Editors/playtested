@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-10-12-simple-controls-and-a-familiar-style-of-gunplay-beta-review-polygon-arena-online-shoot
-title: 'Simple controls and a familiar style of gunplay | Beta Review - Polygon Arena: Online Shooter'
+title: "Simple Controls and a Familiar Style of Gunplay | Polygon Arena: Online Shooter Beta Review"
 game: 'Beta Review - Polygon Arena: Online Shooter'
 description: 'Polygun Arena: Online Shooter 7.6 Action Shooter Download'
 featured: false

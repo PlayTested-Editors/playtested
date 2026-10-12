@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-05-13-mixing-sandbox-minecrafting-and-mmorpg-elements-open-beta-impressions-dragon-and-home
-title: Mixing sandbox, (mine)crafting, and MMORPG elements | Open Beta Impressions - Dragon and Home
+title: "Mixing Sandbox, (Mine)crafting, and MMORPG Elements | Dragon and Home Open Beta Impressions"
 game: Open Beta Impressions - Dragon and Home
 description: Dragon and Home is a sandbox-style MMORPG that combines crafting, Minecraft-style blocky graphics, and traditional MMORPG elements to create a fun and lighthearted game. Reminiscent of games like Hytale and Minecraft (but in third person). For the purpose of this article, I played the mobile version open beta.
 featured: false

@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-03-22-a-mobile-game-with-base-building-farming-exploration-and-combat-first-impressions-drea
-title: A mobile game with base building, farming, exploration, and combat | First Impressions - Dream Land
+title: "Mobile Game With Base Building, Farming, Exploration, and Combat | Dream Land First Impressions"
 game: Dream Land
 description: A spaceship has crash landed on an unknown planet. A group of survivors emerges from the wreckage. There is no way to repair the ship, leaving no choice but to salvage it for parts and set up a makeshift base.
 featured: false

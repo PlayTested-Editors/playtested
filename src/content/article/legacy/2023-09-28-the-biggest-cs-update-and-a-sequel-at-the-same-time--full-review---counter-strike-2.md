@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-09-28-the-biggest-cs-update-and-a-sequel-at-the-same-time-full-review-counter-strike-2
-title: The biggest CS update AND a sequel at the same time!? | Full Review - Counter-Strike 2
+title: "Biggest CS Update AND a Sequel at the Same Time!? | Counter-Strike 2 Full Review"
 game: Counter-Strike 2
 description: ✨Overview Counter-Strike 2 is the next step in the iconic online competitive shooter franchise Counter-Strike, and it's now here, available for everyone absolutely for free.
 featured: false

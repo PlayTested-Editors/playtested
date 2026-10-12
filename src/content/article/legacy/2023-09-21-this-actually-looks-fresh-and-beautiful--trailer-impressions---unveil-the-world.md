@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-09-21-this-actually-looks-fresh-and-beautiful-trailer-impressions-unveil-the-world
-title: This actually looks fresh and beautiful | Trailer Impressions - unVEIL the world
+title: "This Actually Looks Fresh and Beautiful | unVEIL the world Trailer Impressions"
 game: Trailer Impressions - unVEIL the world
 description: unVEIL the world is a tactical hero summoning RPG that immerses players in an epic narrative centered around a massive tower. Within this colossal tower is where the characters take on formidable challenges. As players venture deeper, they unravel the mysteries of a world only accessible to those who dare to enter.
 featured: false

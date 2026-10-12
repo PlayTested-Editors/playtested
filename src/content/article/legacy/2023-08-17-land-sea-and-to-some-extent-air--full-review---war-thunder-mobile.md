@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-08-17-land-sea-and-to-some-extent-air-full-review-war-thunder-mobile
-title: Land, Sea, and to some extent… Air? | Full Review - War Thunder Mobile
+title: "Land, Sea, and to Some Extent… Air? | War Thunder Mobile Full Review"
 game: War Thunder Mobile
 description: War Thunder Mobile, an extension of the popular War Thunder franchise, brings the adrenaline-pumping world of vehicular combat to the palm of your hands. Developed by Gaijin, this mobile adaptation offers a condensed yet authentic War Thunder experience, focusing on ground and naval warfare while introducing streamlined mechanics tailored for mobile gameplay.
 featured: false

@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-05-24-not-sure-about-the-rogue-like-but-it-is-a-decent-retro-style-arpg-full-review-destiny
-title: Not sure about the rogue-like but it is a decent retro-style ARPG | Full Review - Destiny Saga
+title: "Not Sure About the Rogue-like but It Is a Decent Retro-Style ARPG | Destiny Saga Full Review"
 game: Destiny Saga
 description: Destiny Saga is a narratively-driven retro-style Action RPG with gacha elements and seamless switching between party characters
 featured: false

@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-06-30-pvp-and-match-2-game-put-together-first-impressions-spiritle
-title: PvP and match-2 game put together | First Impressions - Spiritle
+title: "PvP and Match-2 Game Put Together | Spiritle First Impressions"
 game: Spiritle
 description: 'Spiritle features a story premise that revolves around spirits and the 4 elements: Nature, Earth, Water and Fire, and shines in its art style, featuring a charming and cartoonish paint-like aesthetic. The characters and overall visual design are appealing, however, beyond the introduction story, the lore is practically non-existent, as it is actually a competitive Match-2 game with a focus on PvP battles. The game is free to play, with only cosmetics as in-app purchases.'
 featured: false

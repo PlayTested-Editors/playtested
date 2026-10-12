@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2024-02-06-currently-a-poorly-made-port-of-an-otherwise-immersive-virtual-daughter-sim-review-vol
-title: Currently a poorly made port of an otherwise immersive virtual daughter sim | Review - Volcano Girl
+title: "Currently a Poorly Made Port of an Otherwise Immersive Virtual Daughter Sim | Volcano Girl Review"
 game: Volcano Girl
 description: ✨Overview I recently tried out a game called Volcano Girl, a virtual father/daughter game with management and life-sim elements. This app seems like a trial version of an upcoming mobile port of the popular game Volcano Princess that was released last year on PC. In Volcano Girl, players take on the role of a single parent tasked with raising their daughter after the passing of the late wife.
 featured: false

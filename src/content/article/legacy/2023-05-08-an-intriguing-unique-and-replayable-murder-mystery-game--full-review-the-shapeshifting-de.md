@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-05-08-an-intriguing-unique-and-replayable-murder-mystery-game-full-review-the-shapeshifting-de
-title: 'An intriguing, unique, and replayable murder mystery game | Full Review: The Shapeshifting Detective'
+title: "Intriguing, Unique, and Replayable Murder Mystery Game | The Shapeshifting Detective Full Review"
 game: The Shapeshifting Detective
 description: The Shapeshifting Detective is an intriguing murder mystery FMV game  developed by D'Avekki Studios and released for PC, Playstation, Xbox One and Switch, and was ported right after to iOS.
 featured: false

@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-01-31-how-to-remake-a-classic-survival-horror-properly-dead-space-remake-full-review
-title: How to remake a classic survival horror properly | Dead Space Remake - Full Review
+title: "How to Remake a Classic Survival Horror Properly | Dead Space Remake Full Review"
 game: Dead Space Remake
 description: Dead Space is a survival horror game set on a derelict mining ship in space, populated by swarms of zombie-like creatures called Necromorphs. It is a remake of the 2008 classic, which was released with critical acclaim. Continued by another amazing game in 2011 with Dead Space 2, followed by a mixed reception to the third game in 2013, in which the franchise has been on hiatus since until now.
 featured: false

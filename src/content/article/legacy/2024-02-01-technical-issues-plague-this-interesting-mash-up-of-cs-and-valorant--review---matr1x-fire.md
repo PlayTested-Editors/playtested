@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2024-02-01-technical-issues-plague-this-interesting-mash-up-of-cs-and-valorant-review-matr1x-fire
-title: Technical issues plague this interesting mash-up of CS and Valorant | Review - Matr1x FIRE beta
+title: "Technical Issues Plague This Interesting Mash-Up of CS and Valorant | Matr1x FIRE Beta Review"
 game: Matr1x FIRE beta
 description: ✨Overview Matr1x FIRE is a 5v5 competitive mobile first-person shooter with a unique blend of cyberpunk aesthetics, strategic team-based matches, and integration of blockchain technology.  The game is currently on a beta testing phase that started last Jan 26 and will last around a month and a half.
 featured: false

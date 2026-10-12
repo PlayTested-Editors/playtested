@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2022-12-22-an-anime-style-tactical-rpg-with-great-potential-depersonalization-early-access-review
-title: An anime-style tactical RPG with great potential | Depersonalization - Early Access Review
+title: "Anime-Style Tactical RPG With Great Potential | Depersonalization Early Access Review"
 game: Depersonalization - Early Access
 description: Depersonalization is a new anime-style tactical RPG recently released in Early Access today, and at its heart is an interesting story intertwined with a promising gameplay, both of which are immediately noticeably to be in the early stages of the development.
 featured: false

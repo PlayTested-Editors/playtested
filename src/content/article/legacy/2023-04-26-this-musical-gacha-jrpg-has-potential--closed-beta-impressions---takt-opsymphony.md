@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-04-26-this-musical-gacha-jrpg-has-potential-closed-beta-impressions-takt-opsymphony
-title: This musical gacha JRPG has potential | Closed Beta Impressions - Takt Op.Symphony
+title: "This Musical Gacha JRPG Has Potential | Takt Op.Symphony Closed Beta Impressions"
 game: Closed Beta Impressions - Takt Op.Symphony
 description: Takt Op.Symphony combines traditional console-JRPG with mobile gacha live service elements that results in an intriguing musical-themed game filled with storytelling, waifu characters, and role-playing elements. It is currently in a closed beta test for selected regions (Australia. New Zealand, UK) this late April to Early May, and is set to fully release later this year.
 featured: false

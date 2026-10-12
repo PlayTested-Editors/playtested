@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2024-02-07-a-fun-and-unique-shooter-that-might-not-last-unless-they-make-some-changes-review-foam
-title: A fun and unique shooter that might not last unless they make some changes | Review - FOAMSTARS
+title: "Fun and Unique Shooter That Might Not Last Unless They Make Some Changes | FOAMSTARS Review"
 game: Foamstars
 description: ✨Overview FOAMSTARS is a 4v4 online party shooter with PvE coop elements, that challenges players to utilize foam-based weaponry to attack, defend, and strategically manipulate terrain in fast-paced multiplayer battles. With a diverse roster of characters, each equipped with unique abilities and foam guns, players engage in frantic competition across various game modes. The game has recently launched today for PS Plus subscribers with an option to buy it full come next month on March 5, 2024.
 featured: false

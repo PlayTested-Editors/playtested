@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2024-02-01-this-open-beta-still-feels-too-early-in-its-development-beta-review-sword-of-mystic-sh
-title: This open beta still feels too early in its development | Beta Review - Sword of Mystic Shu
+title: "This Open Beta Still Feels Too Early in Its Development | Sword of Mystic Shu Beta Review"
 game: Beta Review - Sword of Mystic Shu
 description: Sword of Mystic Shu 7.2 RPG MMORPG Pre-register
 featured: false

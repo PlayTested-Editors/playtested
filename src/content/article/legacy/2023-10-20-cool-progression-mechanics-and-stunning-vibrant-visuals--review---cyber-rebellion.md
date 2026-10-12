@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-10-20-cool-progression-mechanics-and-stunning-vibrant-visuals-review-cyber-rebellion
-title: Cool progression mechanics and stunning vibrant visuals | Review - Cyber Rebellion
+title: "Cool Progression Mechanics and Stunning Vibrant Visuals | Cyber Rebellion Review"
 game: Cyber Rebellion
 description: Cyber Rebellion is an upcoming mobile game that falls into the strategic hero collection genre with a cyberpunk theme. It's set in a future world, particularly in the year 2177, where human civilization has entered the Cyber Era.  the game is set to have its soft launch on October 25, and I was fortunate enough to get a sneak peek preview of the game before its release.
 featured: false

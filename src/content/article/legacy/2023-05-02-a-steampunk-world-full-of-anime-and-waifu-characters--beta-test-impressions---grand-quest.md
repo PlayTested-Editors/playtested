@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-05-02-a-steampunk-world-full-of-anime-and-waifu-characters-beta-test-impressions-grand-quest
-title: A steampunk world full of anime and waifu characters | Beta Test Impressions - Grand Quest
+title: "Steampunk World Full of Anime and Waifu Characters | Grand Quest Beta Test Impressions"
 game: Beta Test Impressions - Grand Quest
 description: Grand Quest is a gacha game set in a steampunk world full of anime and waifu characters. The art style is impressive and while it features gacha and waifu aspects, they’re not over the top and the characters are not blown out of proportions. Grand Quest is seemingly set in a steampunk universe where there is magic and technology, but the world is clean and pristine looking than most interpretations.
 featured: false

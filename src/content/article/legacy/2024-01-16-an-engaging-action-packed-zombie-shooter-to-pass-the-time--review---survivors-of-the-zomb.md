@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2024-01-16-an-engaging-action-packed-zombie-shooter-to-pass-the-time-review-survivors-of-the-zomb
-title: An engaging, action-packed zombie shooter to pass the time | Review - Survivors Of The Zombie World
+title: "Engaging, Action-Packed Zombie Shooter to Pass the Time | Survivors Of The Zombie World Review"
 game: Survivors Of The Zombie World
 description: Survivors Of The Zombie World 6.6 Survival Zombie Steam
 featured: false

@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-01-06-a-fun-classic-coop-brawler-is-back-from-the-dead-scott-pilgrim-vs-the-world-the-game-r
-title: 'A fun classic coop brawler is back from the dead | Scott Pilgrim vs The World: The Game - Review'
+title: "Fun Classic Coop Brawler Is Back From the Dead | Scott Pilgrim vs The World: The Game Review"
 game: 'Scott Pilgrim vs. the World: The Game'
 description: 'Scott Pilgrim vs. The World has come a long way, from its graphic novel / comic book origins, to its surprising jump to a charming live action film adaptation. Alongside the film is a comic book style retro arcade brawler game that was pulled from stores in 2014, with no way of acquiring a copy. Now, thanks to all the online requests, it is re-released and now available on PC as Scott Pilgrim vs. The World: The Game – Complete Edition.'
 featured: false

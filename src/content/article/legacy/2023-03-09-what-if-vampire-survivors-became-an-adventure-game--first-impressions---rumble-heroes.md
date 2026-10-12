@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-03-09-what-if-vampire-survivors-became-an-adventure-game-first-impressions-rumble-heroes
-title: What if Vampire Survivors became an adventure game? | First Impressions - Rumble Heroes
+title: "What If Vampire Survivors Became an Adventure Game? | Rumble Heroes First Impressions"
 game: Rumble Heroes
 description: 'Rumble Heroes : Adventure RPG’s gameplay is similar to Vampire Survivors; you only control using one hand and you only control movements of the characters, nothing else. However it adds more complexity and depth to the game by introducing various adventure RPG concepts. Traversing through the land, encountering different characters, building your party, and resting in camps and villages.'
 featured: false

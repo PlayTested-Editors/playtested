@@ -1,5 +1,5 @@
 ---
-title: An Extraction Shooter That Respects Your Time And Money | Arc Raiders Review
+title: "Extraction Shooter That Respects Your Time and Money | Arc Raiders Review"
 pubDate: 2026-01-20T07:21:00.000+08:00
 draft: false
 description: Arc Raiders is a third-person extraction shooter that drops players

@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-12-24-a-seamless-3d-platformer-transition-from-pcconsole-to-mobile-review-spongebob-the-cosm
-title: 'A seamless 3D Platformer transition from PC/Console to Mobile | Review: SpongeBob - The Cosmic Shake'
+title: "Seamless 3D Platformer Transition From PC/Console to Mobile | SpongeBob - The Cosmic Shake Review"
 game: SpongeBob - The Cosmic Shake
 description: SpongeBob - The Cosmic Shake 8.6 Action Arcade
 featured: false

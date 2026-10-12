@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-10-12-a-soft-reboot-with-a-fresh-approach-to-the-racing-series-impressions-forza-motorsport
-title: A soft reboot with a fresh approach to the racing series | Impressions - Forza Motorsport
+title: "Soft Reboot With a Fresh Approach to the Racing Series | Forza Motorsport First Impressions"
 game: Forza Motorsport
 description: Forza Motorsport (2023), developed by Turn 10 Studios and published by Xbox Game Studios, was released on October 10, 2023. Unlike its predecessors, it ditches the numerical sequencing, opting for a fresh approach to the series. The game was launched recently on PC and Xbox. It doesn't focus on an open-world arcade gameplay like its sibling Forza Horizon; instead, it immerses players in the world of motorsport, where the cars, tracks, and competition are the stars. It emphasizes the thrill of racing and the journey to become a top-tier racer.
 featured: false

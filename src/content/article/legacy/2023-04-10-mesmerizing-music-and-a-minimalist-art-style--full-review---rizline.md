@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-04-10-mesmerizing-music-and-a-minimalist-art-style-full-review-rizline
-title: Mesmerizing music and a minimalist art style | Full Review - Rizline
+title: "Mesmerizing Music and a Minimalist Art Style | Rizline Full Review"
 game: Rizline
 description: Rizline is a casual mobile rhythm game with anime-inspired music and a minimalist art style focused on simplistic lines and shapes.
 featured: false

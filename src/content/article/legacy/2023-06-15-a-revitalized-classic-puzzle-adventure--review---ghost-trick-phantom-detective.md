@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-06-15-a-revitalized-classic-puzzle-adventure-review-ghost-trick-phantom-detective
-title: 'A revitalized classic puzzle-adventure | Review - Ghost Trick: Phantom Detective'
+title: "Revitalized Classic Puzzle-Adventure | Ghost Trick: Phantom Detective Review"
 game: 'GHOST TRICK: Phantom Detective'
 description: 'Ghost Trick: Phantom Detective Ghost Trick: Phantom Detective, the beloved Nintendo DS puzzle-adventure game from Capcom, has returned in a remarkable remastered edition for PlayStation, Xbox, Switch, and PC platforms.'
 featured: false

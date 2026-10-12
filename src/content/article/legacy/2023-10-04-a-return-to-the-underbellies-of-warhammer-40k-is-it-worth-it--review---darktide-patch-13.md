@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-10-04-a-return-to-the-underbellies-of-warhammer-40k-is-it-worth-it-review-darktide-patch-13
-title: A return to the underbellies of Warhammer 40K, is it worth it? | Review - Darktide Patch 13
+title: "Return to the Underbellies of Warhammer 40K, Is It Worth It? | Darktide Patch 13 Review"
 game: Darktide Patch 13
 description: "Warhammer 40K: Darktide has now been released on Xbox, accompanied by a plethora of updates with Patch #13 that transforms it into what feels like an entirely new game. Xbox players who are joining the fray later shouldn't feel left behind or delayed, for lack of a better word. In fact, you can say that its 10 months on PC was just the early access period, so yeah, thanks PC beta testers."
 featured: false

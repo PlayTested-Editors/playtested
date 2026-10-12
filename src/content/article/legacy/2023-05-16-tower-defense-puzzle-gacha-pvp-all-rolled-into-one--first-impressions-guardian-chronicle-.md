@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-05-16-tower-defense-puzzle-gacha-pvp-all-rolled-into-one-first-impressions-guardian-chronicle
-title: 'Tower defense, puzzle, gacha, PvP all rolled into one | First Impressions: Guardian Chronicle R'
+title: "Tower Defense, Puzzle, Gacha, PvP All Rolled Into One | Guardian Chronicle R First Impressions"
 game: Guardian Chronicle
 description: Guardian Chronicle R 8.6 Strategy Real Time Tactics
 featured: false

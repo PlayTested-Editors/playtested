@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-08-23-a-dance-of-bullets-and-revenge-in-top-down-shooter-roguelite-format-review-kill-the-cr
-title: A dance of bullets and revenge, in top-down shooter roguelite format | Review - Kill the Crows
+title: "Dance of Bullets and Revenge, in Top-Down Shooter Roguelite Format | Kill the Crows Review"
 game: Kill The Crows
 description: The untamed landscapes, the rugged characters, and the thrill of a quickdraw duel – it's a recipe for unforgettable experiences. Kill the Crows, a fast-paced arena roguelike shooter, tries to encapsulate this feeling in a top-down roguelite format.
 featured: false

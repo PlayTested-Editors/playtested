@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-09-19-high-fantasy-rpg-dice-rolls-and-dragons-first-impressions-dragonheir-silent-gods
-title: 'High-fantasy RPG, dice rolls, and dragons | First Impressions - Dragonheir: Silent Gods'
+title: "High-Fantasy RPG, Dice Rolls, and Dragons | Dragonheir: Silent Gods First Impressions"
 game: 'Dragonheir: Silent Gods'
 description: 'Dragonheir: Silent Gods is an immersive high-fantasy RPG available on both PC and mobile platforms, offering players a captivating narrative, engaging role-playing elements, and strategic tactical combat. Set in a universe where chaos and order clash and gods and mortals are intertwined, the game invites players to embark on an epic journey with choices that influence the fate of this fantastical realm.'
 featured: false

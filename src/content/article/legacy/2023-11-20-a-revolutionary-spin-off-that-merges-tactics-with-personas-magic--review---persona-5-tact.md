@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-11-20-a-revolutionary-spin-off-that-merges-tactics-with-personas-magic-review-persona-5-tact
-title: A revolutionary spin-off that merges tactics with Persona’s magic | Review - Persona 5 Tactica
+title: "Revolutionary Spin-Off That Merges Tactics With Persona's Magic | Persona 5 Tactica Review"
 game: Persona 5 Tactica
 description: ✨Overview From its indie spin-off roots to its present status that I would describe as the current flagship JRPG game series, Persona has undeniably come a long way. Now, it is venturing into even more genres with successful experiments, beginning with games like Persona 5 Strikers featuring real-time combat and, most recently, Persona 5 Tactica, adopting a Final Tactics-style grid-based combat system.
 featured: false

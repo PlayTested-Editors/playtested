@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-04-16-the-best-mega-man-games-you-probably-havent-played-yet-full-review-mega-man-battle-net
-title: The best Mega Man games you probably haven’t played yet | Full Review - Mega Man Battle Network
+title: "Best Mega Man Games You Probably Haven't Played Yet | Mega Man Battle Network Full Review"
 game: Mega Man Battle Network
 description: Mega Man Battle Network Legacy Collection is a bundle of unconventional RPG-style Mega Man games set in a separate universe from the main Mega Man stories.
 featured: false

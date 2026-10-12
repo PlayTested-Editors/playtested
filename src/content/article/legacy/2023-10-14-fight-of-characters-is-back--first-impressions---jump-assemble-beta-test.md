@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-10-14-fight-of-characters-is-back-first-impressions-jump-assemble-beta-test
-title: 'Fight of Characters is back?!? | First Impressions - JUMP: Assemble (Beta Test)'
+title: "Fight of Characters Is Back?!? | JUMP: Assemble (Beta Test) First Impressions"
 game: 'JUMP: Assemble (Beta Test)'
 description: More than 10 years ago, me and my friends used to play this popular Warcraft III mod called "Fight of Characters". It's basically a Dota/MOBA like game that instead features popular characters from popular Animes such as Dragon Ball, One Piece, Naruto, and more.
 featured: false

@@ -1,6 +1,5 @@
 ---
-title: Beautiful, atmospheric, but still a missed opportunity | Final Fantasy XV
-  Review
+title: "Beautiful, Atmospheric, but Still a Missed Opportunity | Final Fantasy XV Review"
 pubDate: 2026-05-02T00:21:00.000+08:00
 draft: false
 description: The legacy of Final Fantasy has always been defined by evolution,

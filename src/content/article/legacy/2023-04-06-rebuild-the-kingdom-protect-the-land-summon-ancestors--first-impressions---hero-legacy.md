@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-04-06-rebuild-the-kingdom-protect-the-land-summon-ancestors-first-impressions-hero-legacy
-title: Rebuild the Kingdom, Protect the land, Summon Ancestors | First Impressions - Hero Legacy
+title: "Rebuild the Kingdom, Protect the Land, Summon Ancestors | Hero Legacy First Impressions"
 game: Hero Legacy
 description: 'In Hero Legacy: Adventure RPG, you are a legendary hero who is the son of the former king, destined to rebuild your kingdom and vanish the enemies that threaten the land.'
 featured: false

@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-06-26-one-of-a-kind-match-three-rpg-game-full-review-bright-reappear
-title: One of a kind Match-three RPG game! | Full Review - Bright Reappear
+title: "One of a Kind Match-Three RPG Game! | Bright Reappear Full Review"
 game: Bright Reappear
 description: 'Bright Reappear, a match-three game combined with RPG-style gameplay, was released on June 21, 2023. It is now available on Taptap for $1.99. The question arises: is it worth the price? Is it a steal?'
 featured: false

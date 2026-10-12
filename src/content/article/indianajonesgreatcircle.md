@@ -1,6 +1,5 @@
 ---
-title: Just Like The Movies, Might Even Be Better | Indiana Jones and the Great
-  Circle Review
+title: "Just Like the Movies, Might Even Be Better | Indiana Jones and the Great Circle Review"
 pubDate: 2024-12-24
 draft: false
 description: Indiana Jones and the Great Circle surprises with its effective

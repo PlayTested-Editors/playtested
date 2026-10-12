@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-01-20-a-slice-of-life-murder-mystery-jrpg-persona-4-golden-review
-title: A slice-of-life murder mystery JRPG | Persona 4 Golden - Review
+title: "Slice-of-Life Murder Mystery JRPG | Persona 4 Golden Review"
 game: Persona 4 Golden
 description: Originally released for the PS2 very late in its lifecycle, Persona 4 has since been re-released for the PS Vita years later and more recently on PC a few years ago. Now, Persona 4 Golden is finally widely accessible, having just been released for the PS4, Xbox, and Nintendo Switch yesterday.
 featured: true

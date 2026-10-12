@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-10-12-a-low-poly-call-of-duty-challenger-appears-beta-impressions-polygon-arena-online-shoot
-title: 'A low-poly Call of Duty challenger appears! | Beta Impressions - Polygon Arena: Online Shooter'
+title: "Low-Poly Call of Duty Challenger Appears! | Polygon Arena: Online Shooter Beta Impressions"
 game: 'Polygon Arena: Online Shooter'
 description: "Polygon Arena: Online Shooter is a low-poly mobile shooter that's easy to pick up, and designed for casual play with room for some competitiveness. It pits players of up to 8 vs 8 across various Arenas (currently four as of the Open Beta Test). The game is still in heavy development but an Open Beta Test is currently underway for everyone to try."
 featured: false

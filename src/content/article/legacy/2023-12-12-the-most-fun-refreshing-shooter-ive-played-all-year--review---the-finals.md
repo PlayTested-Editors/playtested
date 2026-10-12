@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-12-12-the-most-fun-refreshing-shooter-ive-played-all-year-review-the-finals
-title: The most fun, refreshing shooter I’ve played all year | Review - THE FINALS
+title: "Most Fun, Refreshing Shooter I've Played All Year | THE FINALS Review"
 game: The Finals
 description: Since my previous review during the open beta, THE FINALS has officially launched on PC, Xbox, and PlayStation, marking its official entry into the highly competitive market of team-based FPS games, announced during The Game Awards show.
 featured: false

@@ -1,6 +1,5 @@
 ---
-title: "A must-play narratively driven RPG and technical showcase | Cyberpunk
-  2077: Ultimate Edition Review"
+title: "Must-Play Narratively Driven RPG and Technical Showcase | Cyberpunk 2077: Ultimate Edition Review"
 pubDate: 2025-10-08T14:45:00.000+08:00
 draft: false
 description: The stars finally lined up, and I was able to play Cyberpunk 2077

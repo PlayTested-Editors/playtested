@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-04-10-tesla-and-his-team-of-historic-figures-against-hordes-of-monsters-first-impressions-te
-title: Tesla and his team of historic figures against hordes of monsters | First Impressions - Tesla Force
+title: "Tesla and His Team of Historic Figures Against Hordes of Monsters | Tesla Force First Impressions"
 game: Tesla Force
 description: Tesla Force is set in a world where Nikola Tesla's inventions have started glitching and are opening portals around the world, spawning beings from another dimension that mostly resembles lovecraftian horror beings. It’s up to Nikola Tesla himself and his ragtag group of historical figures to stop this madness once and for all.
 featured: false

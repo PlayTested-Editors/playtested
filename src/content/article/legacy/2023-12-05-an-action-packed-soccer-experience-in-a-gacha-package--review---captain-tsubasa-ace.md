@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-12-05-an-action-packed-soccer-experience-in-a-gacha-package-review-captain-tsubasa-ace
-title: 'An action-packed soccer experience in a gacha package | Review - CAPTAIN TSUBASA: ACE'
+title: "Action-Packed Soccer Experience in a Gacha Package | CAPTAIN TSUBASA: ACE Review"
 game: 'CAPTAIN TSUBASA: ACE'
 description: 'CAPTAIN TSUBASA: ACE is a mobile online competitive football / soccer game with gacha elements and real-time gameplay. Players can engage in various modes, such as singleplayer and training matches, seasonal asynchronous PvP, and a real-time 4v4 PvP mode as well.'
 featured: false

@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2024-02-23-accessible-innovative-and-most-importantly-fun-review-brok-the-investigator
-title: Accessible, innovative, and most importantly, fun | Review - BROK the InvestiGator
+title: "Accessible, Innovative, and Most Importantly, Fun | BROK the InvestiGator Review"
 game: BROK The InvestiGator
 description: ✨Overview BROK the InvestiGator offers a unique blend of classic style adventure, beat 'em up, and RPG elements set in a futuristic world where animals have replaced humans. As Brok, an anthropomorphic alligator private detective and former boxer, players are placed in a "light cyberpunk" setting, balancing life under a protective dome with the struggles of the outside world.
 featured: false

@@ -1,5 +1,5 @@
 ---
-title: A Glimpse into the Future of AI RPG games | OMEA Demo Review
+title: "Glimpse Into the Future of AI RPG Games | OMEA Demo Review"
 pubDate: 2026-07-21T01:00:00.000+08:00
 draft: true
 description: "OMEA is a pure, unadulterated RPG tabletop or adventure game-like

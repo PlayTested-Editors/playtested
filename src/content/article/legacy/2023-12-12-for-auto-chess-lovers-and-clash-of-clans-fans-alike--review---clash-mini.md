@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-12-12-for-auto-chess-lovers-and-clash-of-clans-fans-alike-review-clash-mini
-title: For auto-chess lovers and Clash of Clans fans alike | Review - Clash Mini
+title: "For Auto-Chess Lovers and Clash of Clans Fans Alike | Clash Mini Review"
 game: Clash Mini
 description: Clash Mini is Supercell’s take on the strategic mind crunching auto-chess experience. Set in a Clash of Clash universe, prepare to go to war in dynamic battlefields where miniature armies clash for supremacy, the game offers a unique blend of strategic depth, iconic Clash of Clans characters, and fast-paced gameplay.
 featured: false

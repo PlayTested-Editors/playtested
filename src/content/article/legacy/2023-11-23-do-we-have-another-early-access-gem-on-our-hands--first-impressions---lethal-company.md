@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-11-23-do-we-have-another-early-access-gem-on-our-hands-first-impressions-lethal-company
-title: Do we have another Early Access gem on our hands? | First Impressions - Lethal Company
+title: "Do We Have Another Early Access Gem on Our Hands? | Lethal Company First Impressions"
 game: Lethal Company
 description: As a contracted worker for a mysterious space-faring company, players are tasked with scavenging random scrap from abandoned, industrialized moons.  This is you and your friends in Lethal Company, a first-person survival co-op game with a unique combination of survival, cooperation, and resource management
 featured: false

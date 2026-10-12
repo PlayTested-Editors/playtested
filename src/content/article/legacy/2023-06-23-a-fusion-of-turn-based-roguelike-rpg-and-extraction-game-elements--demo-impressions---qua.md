@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-06-23-a-fusion-of-turn-based-roguelike-rpg-and-extraction-game-elements-demo-impressions-qua
-title: A fusion of turn-based roguelike RPG and extraction game elements | Demo Impressions - Quasimorph
+title: "Fusion of Turn-Based Roguelike RPG and Extraction Game Elements | Quasimorph Demo Impressions"
 game: Impressions - Quasimorph
 description: Quasimorph is a mix of classic turn-based roguelike RPG with an extraction twist, where the player's progress and acquired loot depend on their survival in missions.
 featured: false

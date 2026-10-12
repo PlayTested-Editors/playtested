@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-02-05-save-bikini-bottom-in-this-multiversal-adventure-spongebob-squarepants-the-cosmic-shake
-title: 'Save Bikini Bottom in this multiversal adventure | SpongeBob SquarePants: The Cosmic Shake - Review'
+title: "Save Bikini Bottom in This Multiversal Adventure | SpongeBob SquarePants: The Cosmic Shake Review"
 game: 'SpongeBob SquarePants: The Cosmic Shake'
 description: 'SpongeBob SquarePants: The Cosmic Shake is a 3D platformer game that is based on the Nickelodeon animated series SpongeBob SquarePants. It is the spiritual successor to 2020’s Battle for Bikini Bottom – Rehydrated, which is in itself a remake of the original 2003 Battle for Bikini Bottom.'
 featured: false

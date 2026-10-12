@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-03-21-four-survivors-attempt-to-escape-from-being-sacrificed-first-impressions-dead-by-dayli
-title: Four survivors attempt to escape from being sacrificed | First Impressions - Dead by Daylight Mobile
+title: "Four Survivors Attempt to Escape From Being Sacrificed | Dead by Daylight Mobile First Impressions"
 game: Dead by Daylight Mobile
 description: Dead by Daylight is a multiplayer survival horror game that has gained immense popularity among gamers since its initial debut in 2016 for PC and consoles. It was later made available for mobile devices in 2020. I tried out the recent revamped mobile version of the game called Dead by Daylight Mobile and had the chance to explore its various features and gameplay.
 featured: false

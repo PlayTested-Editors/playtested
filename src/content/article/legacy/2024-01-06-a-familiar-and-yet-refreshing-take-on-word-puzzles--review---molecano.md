@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2024-01-06-a-familiar-and-yet-refreshing-take-on-word-puzzles-review-molecano
-title: A familiar and yet refreshing take on word puzzles | Review - Molecano
+title: "Familiar and Yet Refreshing Take on Word Puzzles | Molecano Review"
 game: Molecano
 description: Molecano is a mobile word puzzle game that takes players journey throughout food and volcanoes with Molene the mole. Developed by the creator of Dadish and Super Fowlst, the game offers a blend of scrabble/crossword and Wordscapes-style puzzles, requiring players to form words out of jumbled letters and connect the words together on the map.
 featured: false

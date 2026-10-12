@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-12-21-a-solid-mobile-port-except-for-the-touch-controls-review-resident-evil-4-remake
-title: A solid mobile port, except for the touch controls | Review - Resident Evil 4 Remake
+title: "Solid Mobile Port, Except for the Touch Controls | Resident Evil 4 Remake Review"
 game: Resident Evil 4
 description: The 2023 GOTY contender Resident Evil 4 has finally made its mark on Apple devices, bringing the recent and already iconic survival horror experience to mobile phones, tablets, and Mac. Capcom's decision to release this remake on Apple devices is a significant milestone for mobile gaming, especially considering the game's recent release this year for current-gen consoles and PC. This is probably the first time we are getting a 1:1 mobile port of a technically and visually impressive AAA game, in the same year.
 featured: false

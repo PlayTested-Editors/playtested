@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-11-18-a-fully-fledged-the-division-experience-on-the-go-cbt-review-the-division-resurgence
-title: A fully fledged The Division experience on the go | CBT Review - The Division Resurgence
+title: "Fully Fledged The Division Experience on the Go | The Division Resurgence CBT Review"
 game: CBT Review - The Division Resurgence
 description: The Division has always been described by me and my peers as 'Diablo with guns,' and this description holds true. It's a looter shooter with Action RPG elements, which can be quite addicting. However, I have always struggled to reconcile the concept of its realistic, grounded setting with its RPG mechanics. Suspension of disbelief is one thing, but seeing a Diablo-like game in a shooter's skin felt odd to me. Ordinary individuals with guns in our real world, yet they need to find legendary firearms to defeat bullet sponge enemies that are also supposed to be humans. Despite this, The Division's system works exceptionally well once you immerse yourself in gameplay.
 featured: false

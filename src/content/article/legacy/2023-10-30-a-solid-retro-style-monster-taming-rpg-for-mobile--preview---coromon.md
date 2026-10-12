@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-10-30-a-solid-retro-style-monster-taming-rpg-for-mobile-preview-coromon
-title: A solid retro-style monster-taming RPG for Mobile | Preview - Coromon
+title: "Solid Retro-Style Monster-Taming RPG for Mobile | Coromon Preview"
 game: Coromon
 description: Coromon is a delightful monster-taming indie RPG that captures the essence Pokémon while injecting its own unique flavor into the mix. Developed by TRAGsoft and Published by Freedom Games, Coromon offers a fresh take on the genre, blending sprite-based pixel art visuals, character and monster customization, and Zelda-like puzzle-solving elements.
 featured: false

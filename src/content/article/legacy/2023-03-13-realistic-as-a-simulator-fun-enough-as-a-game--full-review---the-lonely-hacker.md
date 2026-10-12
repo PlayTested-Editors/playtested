@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-03-13-realistic-as-a-simulator-fun-enough-as-a-game-full-review-the-lonely-hacker
-title: Realistic as a simulator, fun enough as a game | Full Review - The Lonely Hacker
+title: "Realistic as a Simulator, Fun Enough as a Game | The Lonely Hacker Full Review"
 game: The Lonely Hacker
 description: The Lonely Hacker is a hacking simulation game for mobile devices, currently available for Android, with current plans to expand on iOS and console platforms.
 featured: false

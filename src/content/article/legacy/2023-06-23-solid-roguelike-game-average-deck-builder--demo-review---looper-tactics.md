@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-06-23-solid-roguelike-game-average-deck-builder-demo-review-looper-tactics
-title: Solid roguelike game, average deck builder | Demo Review - Looper Tactics
+title: "Solid Roguelike Game, Average Deck Builder | Looper Tactics Demo Review"
 game: Review - Looper Tactics
 description: Looper Tactics is a turn-based strategy card game infused with roguelike elements, and presents players with a journey through a procedurally generated world of eternal life and death.
 featured: false

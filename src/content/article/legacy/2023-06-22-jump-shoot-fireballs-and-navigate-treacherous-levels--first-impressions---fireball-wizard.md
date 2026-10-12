@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-06-22-jump-shoot-fireballs-and-navigate-treacherous-levels-first-impressions-fireball-wizard
-title: Jump, shoot fireballs, and navigate treacherous levels | First Impressions - Fireball Wizard
+title: "Jump, Shoot Fireballs, and Navigate Treacherous Levels | Fireball Wizard First Impressions"
 game: Fireball Wizard
 description: Fireball Wizard's retro-inspired pixelated graphics capture the essence of classic arcade games. The art style is charming and meticulously designed, reminiscent of the 8-bit and 16-bit era. The environments are visually distinct, featuring dark castles, gloomy forests, and treacherous caves. The enemy designs are varied, differing in mannerisms, attack patterns, and visual design, showcasing imaginative creatures and challenging bosses that provide both visual appeal and gameplay diversity.
 featured: false

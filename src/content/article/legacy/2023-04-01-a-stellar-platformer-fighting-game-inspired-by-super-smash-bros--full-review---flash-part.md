@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-04-01-a-stellar-platformer-fighting-game-inspired-by-super-smash-bros-full-review-flash-part
-title: A stellar platformer fighting game inspired by Super Smash Bros. | Full Review - Flash Party
+title: "Stellar Platformer Fighting Game Inspired by Super Smash Bros. | Flash Party Full Review"
 game: Flash Party
 description: Flash Party is a platformer fighting game developed by XD and is released free-to-play for both Android and PC platforms, featuring a gameplay inspired by Super Smash Bros., with its own original characters and live-service element.
 featured: false

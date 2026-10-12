@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-06-08-roll-up-everything-in-sight-and-make-some-stars-first-impressions-we-love-katamari-rer
-title: Roll up everything in sight and make some stars | First Impressions - We Love Katamari REROLL+
+title: "Roll Up Everything in Sight and Make Some Stars | We Love Katamari REROLL+ First Impressions"
 game: We Love Katamari REROLL+
 description: We Love Katamari REROLL+ Royal Reverie is an enhanced edition of the classic PS2 from 2005 that takes players on a whimsical and quirky adventure as they step into the shoes of the Prince once again, as well as the King of All Cosmos during his boyhood.
 featured: false

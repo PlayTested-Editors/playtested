@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-12-02-fun-addicting-and-requires-a-lot-of-your-time-global-launch-review-infinite-borders
-title: Fun, addicting, and requires a lot of your time | Global Launch Review - Infinite Borders
+title: "Fun, Addicting, and Requires a Lot of Your Time | Infinite Borders Global Launch Review"
 game: Global Launch Review - Infinite Borders
 description: Infinite Borders takes players into the Three Kingdoms period of Ancient China, offering a strategic blend of MMO city-building, gacha hero collection, and strategic warfare. At last, it was globally released on December 1, 2023, intertwining the rich lore of the Three Kingdoms with addictive gameplay mechanics.
 featured: false

@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-04-06-predict-your-enemys-movements-or-get-bumped-and-hit-trying-first-impressions-bump-supe
-title: Predict your enemy’s movements, or get bumped and hit trying | First Impressions - BUMP! Superbrawl
+title: "Predict Your Enemy's Movements, or Get Bumped and Hit Trying | BUMP! Superbrawl First Impressions"
 game: BUMP! Superbrawl
 description: BUMP! Superbrawl’s concept is simple. Predict the enemies movements, one turn, one hero at a time and win the match. Either by scoring higher or knocking their heroes out, every match is very exciting and satisfying to win.
 featured: false

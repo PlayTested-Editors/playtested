@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-03-24-an-adorable-but-still-gruesome-doom-mobile-spin-off-full-review-mighty-doom
-title: An adorable but still gruesome DOOM Mobile spin-off | Full Review - Mighty DOOM
+title: "Adorable but Still Gruesome DOOM Mobile Spin-Off | Mighty DOOM Full Review"
 game: Mighty DOOM
 description: Mighty DOOM is a top down single handed rogue-lite shooter set in the DOOM universe. It is available for Android and iOS as a free-to-play title with in-app purchases.
 featured: false

@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-10-19-beta-is-now-live-impressions-one-punch-man-world-beta
-title: 'Beta is now live! | Impressions - One Punch Man: World Beta'
+title: "Beta Is Now Live! | One Punch Man: World Beta First Impressions"
 game: 'One Punch Man: World Beta'
 description: "If you're a die-hard fan of One Punch Man, you're in for a treat with One Punch Man: World. This action-packed game offers an interactive journey through the iconic anime, letting you relive key moments and dive deeper into Saitama's story and his heroic comrades. It's a game that stays faithful to its source material, so much so that you might mistake it for an episode of the anime."
 featured: false

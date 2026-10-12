@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2024-02-04-a-deeply-disturbing-connect-the-dots-sniper-game-review-children-of-the-sun-demo
-title: A deeply disturbing connect the dots Sniper game | Review - Children of the Sun Demo
+title: "Deeply Disturbing Connect the Dots Sniper Game | Children of the Sun Demo Review"
 game: Children of the Sun
 description: ✨Overview Children of the Sun is an upcoming tactical puzzle-shooter video game developed by René Rother and published by Devolver Digital. There is no release date yet announced but a DEMO is available on the Steam platform, offering players a glimpse into a dark and intense narrative with a simple Sniper-based puzzle gameplay.
 featured: false

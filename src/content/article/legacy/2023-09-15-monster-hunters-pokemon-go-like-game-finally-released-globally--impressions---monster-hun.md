@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-09-15-monster-hunters-pokemon-go-like-game-finally-released-globally-impressions-monster-hun
-title: Monster Hunter’s Pokemon Go-like game, finally released globally! | Impressions - Monster Hunter Now
+title: "Monster Hunter's Pokemon Go-like Game, Finally Released Globally! | Monster Hunter Now First Impressions"
 game: Monster Hunter Now
 description: In Monster Hunter Now, players explore their surroundings to locate, track, and engage with various monsters and creatures from the Monster Hunter series. The gameplay involves hunting monsters, gathering resources, upgrading your gear, and engaging in fast-paced sub-minute battles. The battles are quick --- not as lengthy and epic as the mainline games --- but I find the bite-sized nature of it fun and just fits the AR-based nature of the game perfectly.
 featured: false

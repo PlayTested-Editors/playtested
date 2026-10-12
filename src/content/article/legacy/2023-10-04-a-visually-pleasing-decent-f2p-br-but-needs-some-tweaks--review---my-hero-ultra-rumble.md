@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-10-04-a-visually-pleasing-decent-f2p-br-but-needs-some-tweaks-review-my-hero-ultra-rumble
-title: A visually pleasing, decent F2P BR, but needs some tweaks | Review - MY HERO ULTRA RUMBLE
+title: "Visually Pleasing, Decent F2P BR, but Needs Some Tweaks | MY HERO ULTRA RUMBLE Review"
 game: MY HERO ULTRA RUMBLE
 description: MY HERO ULTRA RUMBLE 9.0 Action PvP Get
 featured: false

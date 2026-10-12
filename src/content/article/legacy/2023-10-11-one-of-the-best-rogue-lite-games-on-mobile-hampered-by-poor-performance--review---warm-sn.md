@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-10-11-one-of-the-best-rogue-lite-games-on-mobile-hampered-by-poor-performance-review-warm-sn
-title: One of the best rogue-lite games on mobile, hampered by poor performance | Review - Warm Snow
+title: "One of the Best Rogue-Lite Games on Mobile, Hampered by Poor Performance | Warm Snow Review"
 game: Warm Snow
 description: Warm Snow is an exhilarating take on the action roguelike genre that draws comparisons to Hades due to its fast-paced combat and diverse build options. The game was recently made available on Android and iOS after a successful release on Steam last year, receiving critical acclaim.
 featured: false

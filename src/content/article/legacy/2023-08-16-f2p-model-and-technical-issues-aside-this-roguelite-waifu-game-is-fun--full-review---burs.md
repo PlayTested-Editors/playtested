@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-08-16-f2p-model-and-technical-issues-aside-this-roguelite-waifu-game-is-fun-full-review-burs
-title: F2P model and technical issues aside, this Roguelite Waifu game is fun | Full Review - Burst Space
+title: "F2P Model and Technical Issues Aside, This Roguelite Waifu Game Is Fun | Burst Space Full Review"
 game: Burst
 description: Burst Space is a retro-style Roguelite top down shooter that puts players into a pixelated sci-fi universe inhabited by a cast of endearing warrior waifu girls known as Einherjar, the game promises an engaging blend of accessible gameplay and strategic depth with its roguelite gameplay and progression system.
 featured: false

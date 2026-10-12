@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-04-21-a-charming-and-fun-action-strategy-minecraft-spin-off-full-review-minecraft-legends
-title: A charming and fun action-strategy Minecraft spin-off | Full Review - Minecraft Legends
+title: "Charming and Fun Action-Strategy Minecraft Spin-Off | Minecraft Legends Full Review"
 game: Minecraft Legends
 description: Minecraft Legends is an action strategy game set in the Minecraft universe of video games. Released for Windows, Playstation, Xbox, and Nintendo Switch.
 featured: false

@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-12-03-a-burst-of-colorful-pvp-fun-beta-review-colorbang
-title: A burst of colorful PvP fun | Beta Review - ColorBANG
+title: "Burst of Colorful PvP Fun | ColorBANG Beta Review"
 game: Beta Review - ColorBANG
 description: ColorBANG is a 3v3 fast-paced casual top-down shooter and coloring game where players engage in exciting territorial battles involving color. Players win matches through strategic spraying, killing, and use of abilities. The game is currently in a Closed Beta Test phase that runs from November 28 to December 12, 2023, full data will be wiped after the test. The actual release date for the game is still TBA.
 featured: false

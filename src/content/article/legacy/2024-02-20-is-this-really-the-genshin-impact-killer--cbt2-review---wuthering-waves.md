@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2024-02-20-is-this-really-the-genshin-impact-killer-cbt2-review-wuthering-waves
-title: Is this really THE Genshin Impact Killer? | CBT2 Review - Wuthering Waves
+title: "Is This Really THE Genshin Impact Killer? | Wuthering Waves CBT2 Review"
 game: CBT2 Review - Wuthering Waves
 description: Wuthering Waves 9.2 Editors' Choice Action PC Version
 featured: false

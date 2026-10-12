@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-11-30-deserves-to-be-nominated-for-a-labor-of-love-award-review-titan-quest-ultimate-edition
-title: 'Deserves to be nominated for a Labor of Love award | Review - Titan Quest: Ultimate Edition'
+title: "Deserves to Be Nominated for a Labor of Love Award | Titan Quest: Ultimate Edition Review"
 game: 'Titan Quest: Ultimate Edition'
 description: Titan Quest is an action role-playing game originally released in 2006 and has since been updated with new DLCs and ported to mobile multiple times, bringing this classic to new audiences time and time again, introducing various generation of gamers to a mythical journey through ancient civilizations.  It has stood the test of time and continues to captivate audiences across different platforms.
 featured: false

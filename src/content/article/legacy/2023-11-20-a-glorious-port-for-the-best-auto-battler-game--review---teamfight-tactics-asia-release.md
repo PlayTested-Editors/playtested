@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-11-20-a-glorious-port-for-the-best-auto-battler-game-review-teamfight-tactics-asia-release
-title: A glorious port for the best auto-battler game | Review - Teamfight Tactics (Asia Release)
+title: "Glorious Port for the Best Auto-Battler Game | Teamfight Tactics (Asia Release) Review"
 game: Teamfight Tactics
 description: ✨Overview Teamfight Tactics (TFT) Mobile — a highly anticipated and popular autobattler set in the League of Legends universe — will finally launch on November 22 in the Asia-Pacific (APAC) region, In countries such as The Philippines, Malaysia, Singapore, Thailand, Vietnam, Taiwan, Hong Kong, and Macau, available for Android and iOS.
 featured: false

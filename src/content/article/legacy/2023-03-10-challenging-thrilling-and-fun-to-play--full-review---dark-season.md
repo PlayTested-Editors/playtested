@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-03-10-challenging-thrilling-and-fun-to-play-full-review-dark-season
-title: Challenging, thrilling, and fun to play | Full Review - Dark Season
+title: "Challenging, Thrilling, and Fun to Play | Dark Season Full Review"
 game: Dark Season
 description: Dark Season is an RPG mobile game with a mix of dungeon crawling, rogue-lite, and bullet-hell elements, sprinkled with a bit of gacha gaming.
 featured: false

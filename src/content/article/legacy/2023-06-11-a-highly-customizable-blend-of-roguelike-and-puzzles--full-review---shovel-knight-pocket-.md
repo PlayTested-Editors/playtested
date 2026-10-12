@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-06-11-a-highly-customizable-blend-of-roguelike-and-puzzles-full-review-shovel-knight-pocket
-title: A highly customizable blend of roguelike and puzzles | Full Review - Shovel Knight Pocket Dungeon
+title: "Highly Customizable Blend of Roguelike and Puzzles | Shovel Knight Pocket Dungeon Full Review"
 game: Shovel Knight Pocket Dungeon
 description: Shovel Knight Pocket Dungeon is a roguelike dungeon crawler puzzle game that serves as a spin-off to the critically acclaimed Shovel Knight series. In this game, players take on the role of the protagonist, Shovel Knight, who becomes trapped within a magical artifact called the Pocket Dungeon.
 featured: false

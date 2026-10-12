@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-08-13-greek-gods-in-the-modern-world-and-some-good-singing-review-stray-gods-the-roleplaying
-title: 'Greek gods in the modern world and some good singing | Review - Stray Gods: The Roleplaying Musical'
+title: "Greek Gods in the Modern World and Some Good Singing | Stray Gods: The Roleplaying Musical Review"
 game: 'Stray Gods: The Roleplaying Musical'
 description: 'Stray Gods: The Roleplaying Musical Graphics & Music'
 featured: false

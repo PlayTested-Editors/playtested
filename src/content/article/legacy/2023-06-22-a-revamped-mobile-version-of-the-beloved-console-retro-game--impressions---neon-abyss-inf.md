@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-06-22-a-revamped-mobile-version-of-the-beloved-console-retro-game-impressions-neon-abyss-inf
-title: 'A revamped mobile version of the beloved console retro game | Impressions - Neon Abyss: Infinite'
+title: "Revamped Mobile Version of the Beloved Console Retro Game | Neon Abyss: Infinite First Impressions"
 game: 'Neon Abyss: Infinite'
 description: 'Neon Abyss: Infinite, the revamped mobile version of the beloved PC and console retro game, brings the addictive gameplay and stylish retro aesthetics to the mobile platform. This adaptation to touch controls is well-executed, providing players with a seamless experience on their mobile devices. Although the game retains its core mechanics and charm, it introduces some changes, including free-to-play elements and gacha mechanics. While Neon Abyss: Infinite shows great promise, it is important to note that the game is in Early Access, and therefore, still requires optimization and improvement.'
 featured: false

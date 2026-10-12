@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-03-03-a-decent-sci-fi-shooter-with-a-surprisingly-good-story-full-review-scars-above
-title: A decent sci-fi shooter with a surprisingly good story | Full Review - Scars Above
+title: "Decent Sci-Fi Shooter With a Surprisingly Good Story | Scars Above Full Review"
 game: Scars Above
 description: Scars Above is a new third person sci-fi shooter that puts players in the shoes of Kara, and a scientist who’s part of a team tasked to investigate a mysterious alien structure that randomly appeared in Earth’s orbit.
 featured: false

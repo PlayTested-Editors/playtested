@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-03-11-an-accurate-depiction-of-hacking-first-impressions-the-lonely-hacker
-title: An accurate depiction of hacking | First Impressions - The Lonely Hacker
+title: "Accurate Depiction of Hacking | The Lonely Hacker First Impressions"
 game: The Lonely Hacker
 description: As a video game, The Lonely Hacker hits all the right notes when it comes to the depiction of how hacking is done in real life. Real terminologies used such as exploits, botnets, keyloggers, injections, and many more are integrated in the gameplay. This may all seem mumbo jumbo for the layman, but trust me, it’s as real as it can get for a video game.
 featured: false

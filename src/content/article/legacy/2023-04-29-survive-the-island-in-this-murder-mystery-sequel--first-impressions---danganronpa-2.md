@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-04-29-survive-the-island-in-this-murder-mystery-sequel-first-impressions-danganronpa-2
-title: Survive the Island in this murder mystery sequel | First Impressions - Danganronpa 2
+title: "Survive the Island in This Murder Mystery Sequel | Danganronpa 2 First Impressions"
 game: Danganronpa 2
 description: 'Closely following in the footsteps of the first game, Danganronpa 2: Goodbye Despair is another entry into the intriguing murder mystery game series featuring high school students trapped in their school and forced to kill each other to survive.'
 featured: false

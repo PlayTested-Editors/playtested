@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-02-08-its-up-to-our-party-of-cute-princesses-to-save-the-world-in-this-jrpg-asdivine-saga-fu
-title: it's up to our party of cute princesses to save the world in this JRPG | Asdivine Saga - Full Review
+title: "It's Up to Our Party of Cute Princesses to Save the World in This JRPG | Asdivine Saga Full Review"
 game: Asdivine Saga
 description: Asdivine Saga is another Retro-JRPG in the likes of classic Final Fantasy games like FFV and FFVI, The latest standalone entry in the somewhat popular and at the same time obscure retro-style JRPG series Asdivine.
 featured: false

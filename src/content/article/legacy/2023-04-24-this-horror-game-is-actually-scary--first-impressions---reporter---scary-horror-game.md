@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-04-24-this-horror-game-is-actually-scary-first-impressions-reporter-scary-horror-game
-title: This horror game is actually scary | First Impressions - Reporter - Scary Horror Game
+title: "This Horror Game Is Actually Scary | Reporter - Scary Horror Game First Impressions"
 game: Reporter - Scary Horror Game
 description: Reporter - Scary Horror Game 8.7 Action Survival horror
 featured: false

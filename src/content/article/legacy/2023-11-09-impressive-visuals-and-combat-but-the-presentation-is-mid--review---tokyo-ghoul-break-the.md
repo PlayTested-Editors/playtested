@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-11-09-impressive-visuals-and-combat-but-the-presentation-is-mid-review-tokyo-ghoul-break-the
-title: 'Impressive visuals and combat but the presentation is mid | Review - Tokyo Ghoul: Break the Chains'
+title: "Impressive Visuals and Combat but the Presentation Is Mid | Tokyo Ghoul: Break the Chains Review"
 game: 'Tokyo Ghoul: Break the Chains'
 description: 'Tokyo Ghoul: Break the Chains -- RPG Strategy'
 featured: false

@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-06-06-a-satisfying-experience-of-rhythmic-mouse-swiping-or-stick-flicking-full-review-doombl
-title: A satisfying experience of rhythmic mouse swiping or stick flicking | Full Review - Doomblade
+title: "Satisfying Experience of Rhythmic Mouse Swiping or Stick Flicking | Doomblade Full Review"
 game: DOOMBLADE
 description: Doomblade is a 2D platforming metroidvania with unique combat and platforming mechanics, developed by Muro Studios and published by Iceberg Interactive for PC.
 featured: false

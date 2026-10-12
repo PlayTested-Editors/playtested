@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-05-09-fun-funny-and-goofy-full-review-what-the-car
-title: Fun, Funny, and Goofy | Full Review - WHAT THE CAR?
+title: "Fun, Funny, and Goofy | WHAT THE CAR? Full Review"
 game: WHAT THE CAR?
 description: WHAT THE CAR? Is an absurd “racing” game featuring an ever evolving race car that is just about everything you could think of except being an actual car.
 featured: false

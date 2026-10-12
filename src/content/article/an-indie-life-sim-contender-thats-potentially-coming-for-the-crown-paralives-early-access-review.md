@@ -1,6 +1,5 @@
 ---
-title: An Indie Life Sim Contender That's Potentially Coming for the Crown |
-  Paralives - Early Access Review
+title: "Indie Life Sim Contender That's Potentially Coming for the Crown | Paralives Early Access Review"
 pubDate: 2026-05-31T23:21:00.000+08:00
 draft: false
 description: Paralives—a new, scrappy, hand-drawn-esque indie game built by

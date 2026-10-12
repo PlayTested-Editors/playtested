@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2022-11-22-hunt-vampires-with-style-evil-west-short-review
-title: Hunt vampires, with style | Evil West - Short Review
+title: "Hunt Vampires, With Style | Evil West Short Review"
 game: Evil West
 description: Welcome to Evil West. A third person twisted mashup of all the gritty genres that we all hate to love. Steampunk, Western, Supernatural Horror, Gothic, Souls-like, Shooter; you name it, Evil West has got it.
 featured: false

@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2022-12-15-get-cozy-or-go-on-an-adventure-aka-review
-title: Get cozy, or go on an adventure | Aka - Review
+title: "Get Cozy, or Go on an Adventure | Aka Review"
 game: Aka
 description: Ever watched a slice-of-life anime and wished “I would love to be transported to that world and just live in peace”? Well, this brand new game titled Aka can allow you to virtually fulfill that wish. You can go on an adventure, explore the world, or maybe just settle peacefully and find inner peace.
 featured: false

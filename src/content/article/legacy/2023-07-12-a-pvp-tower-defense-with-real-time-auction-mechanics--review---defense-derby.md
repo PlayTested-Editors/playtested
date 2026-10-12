@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-07-12-a-pvp-tower-defense-with-real-time-auction-mechanics-review-defense-derby
-title: A PvP tower defense with real-time auction mechanics | Review - Defense Derby
+title: "PvP Tower Defense With Real-Time Auction Mechanics | Defense Derby Review"
 game: Defense Derby
 description: lyndonguitar Download Defense Derby is a mobile multiplayer tower defense game that brings unique mechanics with its gameplay. With a captivating combination of hero collection and a unique bidding system, this title offers an addictive and strategic experience.
 featured: false

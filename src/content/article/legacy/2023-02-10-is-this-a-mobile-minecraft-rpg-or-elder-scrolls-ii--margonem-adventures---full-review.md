@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-02-10-is-this-a-mobile-minecraft-rpg-or-elder-scrolls-ii-margonem-adventures-full-review
-title: Is this a Mobile Minecraft RPG or Elder Scrolls II? | Margonem Adventures - Full Review
+title: "Is This a Mobile Minecraft RPG or Elder Scrolls II? | Margonem Adventures Full Review"
 game: Margonem
 description: Margonem Adventures is a first person RPG and 3D dungeon crawler with Minecraft looking graphics, packed in traditional mobile game format, for better or for worse.
 featured: false

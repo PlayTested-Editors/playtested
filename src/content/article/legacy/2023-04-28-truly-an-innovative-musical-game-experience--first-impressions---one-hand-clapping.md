@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-04-28-truly-an-innovative-musical-game-experience-first-impressions-one-hand-clapping
-title: Truly an innovative musical game experience | First Impressions - One Hand Clapping
+title: "Truly an Innovative Musical Game Experience | One Hand Clapping First Impressions"
 game: One Hand Clapping
 description: Developed by Bad Dream Games and published by HandyGames, One Hand Clapping is a one-of-a-kind 2D puzzle platformer that combines music, platforming, and puzzle-solving in a unique and innovative way that is sure to captivate players, and make them vocally exhausted.
 featured: false

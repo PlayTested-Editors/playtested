@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-05-09-a-cartoon-ized-starcraft-for-mobile-first-impressions-iron-marines
-title: A cartoon-ized StarCraft for mobile | First Impressions - Iron Marines+
+title: "Cartoon-ized StarCraft for Mobile | Iron Marines+ First Impressions"
 game: Iron Marines
 description: Iron Marines+ is a real time strategy game released for mobile devices originally back in 2017, and has since been ported to PC, and then recently released as Iron Marines+, a version of the game that is exclusive to Apple Arcade, a subscription-based gaming service offered by Apple.
 featured: false

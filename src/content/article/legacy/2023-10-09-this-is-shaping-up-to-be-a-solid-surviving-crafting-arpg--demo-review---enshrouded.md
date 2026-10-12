@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-10-09-this-is-shaping-up-to-be-a-solid-surviving-crafting-arpg-demo-review-enshrouded
-title: This is shaping up to be a solid surviving crafting ARPG | Demo Review - Enshrouded
+title: "This Is Shaping Up to Be a Solid Surviving Crafting ARPG | Enshrouded Demo Review"
 game: Review - Enshrouded
 description: ✨Overview Enshrouded is an exciting upcoming game that seamlessly blends survival, crafting, and action RPG combat set in a vast, voxel-based continent, this open-world adventure offers players the freedom to build, craft, and fight.
 featured: false

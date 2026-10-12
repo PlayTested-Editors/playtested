@@ -1,6 +1,5 @@
 ---
-title: One of the best Third Person Military Shooters out there | Ghost Recon
-  Wildlands Review
+title: "One of the Best Third Person Military Shooters Out There | Ghost Recon Wildlands Review"
 pubDate: 2026-07-24T18:14:00.000+08:00
 draft: false
 description: Ghost Recon Wildlands is a massive, open-world tactical shooter

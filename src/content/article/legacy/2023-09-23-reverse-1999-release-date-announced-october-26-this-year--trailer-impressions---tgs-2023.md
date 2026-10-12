@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-09-23-reverse-1999-release-date-announced-october-26-this-year-trailer-impressions-tgs-2023
-title: 'Reverse: 1999 Release Date Announced! October 26 this year! | Trailer Impressions - TGS 2023'
+title: "Reverse: 1999 Release Date Announced! October 26 This Year! | TGS 2023 Trailer Impressions"
 game: Trailer Impressions - TGS 2023
 description: "The opening scene of the new Reverse: 1999 trailer sets the tone with an impressive CG cutscene, once again showcasing the game's unique and excellent voice acting. Notably, Schneider, one of the prominent Arcanist characters in the trailer, impressively sports an Italian accent."
 featured: false

@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-05-18-retro-platforming-action-seamless-character-switching-full-review-exolotl-zian
-title: 'Retro platforming action, seamless character switching | Full Review - Exolotl : Zian'
+title: "Retro Platforming Action, Seamless Character Switching | Exolotl: Zian Full Review"
 game: 'Exolotl: ZIAN'
 description: 'Exolotl : Zian is a platformer game with charming retro pixel art style, unique character designs inspired by the cute animal axolotl, and a seamless character switching gameplay mechanic, the game offers a nostalgic experience with a touch of innovation.'
 featured: false

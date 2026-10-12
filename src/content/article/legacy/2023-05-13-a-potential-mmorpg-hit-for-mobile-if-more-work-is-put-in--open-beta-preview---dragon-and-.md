@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-05-13-a-potential-mmorpg-hit-for-mobile-if-more-work-is-put-in-open-beta-preview-dragon-and
-title: A potential MMORPG hit for mobile, if more work is put in | Open Beta Preview - Dragon and Home
+title: "Potential MMORPG Hit for Mobile, If More Work Is Put In | Dragon and Home Open Beta Preview"
 game: Open Beta Preview - Dragon and Home
 description: Dragon and Home is a MMORPG sandbox crafting game that already been released for PC in 2021 and is currently on Open Beta for mobile devices in the North American Region.
 featured: false

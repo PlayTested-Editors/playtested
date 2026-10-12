@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-05-24-how-to-train-your-dragons-but-you-have-to-collect-them-first-first-impressions-dragon
-title: How to train your dragons, but you have to collect them first | First Impressions - Dragon Arise
+title: "How to Train Your Dragons, but You Have to Collect Them First | Dragon Arise First Impressions"
 game: Dragon Arise
 description: Dragon Arise is a dragon-themed RPG that features the player taking on the role of the main character who is transported into a dragon world in yet another Isekai-esque premise. As the prophesied savior of the Dragon Islands, your mission is to lead a legion of dragons against the encroaching curse and restore balance to the lands.
 featured: false

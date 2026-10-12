@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-11-28-a-compelling-experience-for-any-rogue-lite-arena-survival-enjoyers-review-immortal-sur
-title: A compelling experience for any rogue-lite arena survival enjoyers | Review - Immortal Survivors
+title: "Compelling Experience for Any Rogue-Lite Arena Survival Enjoyers | Immortal Survivors Review"
 game: Immortal Survivors
 description: Immortal Survivors is a rogue-lite arena survival game that was recently released on Android here on Taptap. It takes players on a journey through the demon-infested land of Shenzhou, as one of the warriors tasked to regain back the land
 featured: false

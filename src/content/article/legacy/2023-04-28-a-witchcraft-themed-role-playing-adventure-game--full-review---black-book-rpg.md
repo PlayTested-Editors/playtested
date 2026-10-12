@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-04-28-a-witchcraft-themed-role-playing-adventure-game-full-review-black-book-rpg
-title: A witchcraft-themed role-playing adventure game | Full Review - Black Book RPG
+title: "Witchcraft-Themed Role-Playing Adventure Game | Black Book RPG Full Review"
 game: Black Book RPG
 description: Black Book RPG is an interesting mix of classic adventure gameplay, role-playing decision making, and turn-based deck building combat,
 featured: false

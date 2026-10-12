@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-03-31-restore-the-planet-one-step-at-a-time-first-impressions-terra-nil
-title: Restore the planet, one step at a time | First Impressions - Terra Nil
+title: "Restore the Planet, One Step at a Time | Terra Nil First Impressions"
 game: Terra Nil
 description: What if the idea of a city building game is turned on its head? Whereas the main objective of the game is not to build a huge bustling city, but instead to build a natural living world without any trace of technology or artificiality? Terra Nil is exactly that game for a change. A strategy game where players construct and deconstruct terraforming structures with the ultimate goal of restoring the land.
 featured: false

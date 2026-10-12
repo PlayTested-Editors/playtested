@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-05-09-beautiful-pixel-art-simple-side-scrolling-strategy-full-review-kingdom-two-crowns
-title: Beautiful pixel art, simple side scrolling strategy | Full Review - Kingdom Two Crowns+
+title: "Beautiful Pixel Art, Simple Side Scrolling Strategy | Kingdom Two Crowns+ Full Review"
 game: 'Kingdom: Two Crowns'
 description: lyndonguitar Get Kingdom Two Crowns+ is a 2D side scrolling strategy game that features beautiful pixel art, a serene soundtrack, and challenging empire management strategy gameplay.
 featured: false

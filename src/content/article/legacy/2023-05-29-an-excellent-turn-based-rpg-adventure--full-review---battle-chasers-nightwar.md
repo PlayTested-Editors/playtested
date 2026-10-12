@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-05-29-an-excellent-turn-based-rpg-adventure-full-review-battle-chasers-nightwar
-title: 'An excellent turn-based RPG adventure | Full Review - Battle Chasers: Nightwar'
+title: "Excellent Turn-Based RPG Adventure | Battle Chasers: Nightwar Full Review"
 game: 'Battle Chasers: Nightwar'
 description: 'Battle Chasers: Nightwar Battle Chasers: Nightwar is a turn-based RPG game in a fantasy world where players command a group of heroes on a quest to uncover the secrets of The Lost Vale and defeat an evil sorceress.'
 featured: false

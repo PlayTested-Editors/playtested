@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-05-09-temple-run-still-holds-up-many-years-later-full-review-temple-run
-title: Temple Run still holds up, many years later | Full Review - Temple Run+
+title: "Temple Run Still Holds Up, Many Years Later | Temple Run+ Full Review"
 game: Temple Run
 description: Temple Run is an addictive and engaging reaction-based high score game that was first released in 2011 by Imangi Studios. The game has become a classic in the mobile gaming world, with millions of downloads, a large following of dedicated players, and has spawned multiple sequels and homages.
 featured: false

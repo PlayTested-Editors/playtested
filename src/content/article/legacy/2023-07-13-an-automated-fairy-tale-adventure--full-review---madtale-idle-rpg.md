@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-07-13-an-automated-fairy-tale-adventure-full-review-madtale-idle-rpg
-title: 'An automated fairy tale adventure | Full Review - Madtale: Idle RPG'
+title: "Automated Fairy Tale Adventure | Madtale: Idle RPG Full Review"
 game: 'Madtale: Idle RPG'
 description: Madtale is a mobile idle RPG game that puts players in a dark fairy tale world filled with captivating stories and charming characters — heroes and villains, both familiar or not.
 featured: false

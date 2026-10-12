@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-10-24-plenty-of-game-modes-plenty-of-fun-review-brawl-stars
-title: Plenty of game modes, plenty of fun | Review - Brawl Stars
+title: "Plenty of Game Modes, Plenty of Fun | Brawl Stars Review"
 game: Brawl Stars
 description: Brawl Stars, developed and published by Supercell, has been lighting up mobile gaming since its release on December 12, 2018, and has no plans on stopping. This multiplayer online battle arena and third-person hero shooter brings together a diverse cast of characters called Brawlers and unique fun gameplay modes.
 featured: false

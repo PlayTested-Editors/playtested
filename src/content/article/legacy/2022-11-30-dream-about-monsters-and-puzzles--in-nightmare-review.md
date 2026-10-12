@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2022-11-30-dream-about-monsters-and-puzzles-in-nightmare-review
-title: Dream about Monsters and Puzzles | In Nightmare Review
+title: "Dream About Monsters and Puzzles | In Nightmare Review"
 game: In Nightmare
 description: Ever wanted to step in a kid's shoes once again? dream and let your imaginations run wild? Yes? Well unfortunately for you, you are now a kid named Bill, and he has nightmares.
 featured: false

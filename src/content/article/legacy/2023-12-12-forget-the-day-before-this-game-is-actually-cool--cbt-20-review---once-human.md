@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-12-12-forget-the-day-before-this-game-is-actually-cool-cbt-20-review-once-human
-title: Forget The Day Before, this game is actually cool | CBT 2.0 Review - Once Human
+title: "Forget The Day Before, This Game Is Actually Cool | Once Human CBT 2.0 Review"
 game: The Day Before
 description: Once Human is an upcoming fascinating amalgamation of multiple video game themes; Death Stranding, Control, and Alan Wake, blending post-apocalyptic and sci-fi elements into a genre that I somewhat found surprising and out-of-place, ---- an open-world sandbox. The game introduces players to a world ravaged by the Stardust, an alien entity infesting everything, turning them into monstrous forms. As a Meta-Human, players harness the power of Stardust to survive, fight, build, and explore in a world where humanity is on the brink of extinction.
 featured: false

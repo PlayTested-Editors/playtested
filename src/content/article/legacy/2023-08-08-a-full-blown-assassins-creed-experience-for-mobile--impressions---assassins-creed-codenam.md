@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-08-08-a-full-blown-assassins-creed-experience-for-mobile-impressions-assassins-creed-codenam
-title: A full-blown Assassin’s Creed experience for mobile | Impressions - Assassin's Creed Codename Jade
+title: "Full-Blown Assassin's Creed Experience for Mobile | Assassin's Creed Codename Jade First Impressions"
 game: Assassin's Creed Codename Jade
 description: Assassin's Creed Codename Jade is a mobile spin-off of the Assassin’s Creed series, set in the third century BC during the time of the Qin dynasty in ancient China. In this game, players take on the role of Xia, an adopted child of the master Wei Yu, who embarks on a quest for revenge after their close friend is betrayed. As the story progresses, Xia uncovers secrets about the past and a powerful force that threatens to destroy everything they hold dear. For those confused, this is different from the upcoming Assassin’s Creed codename Red, which is set in another oriental region, Japan.
 featured: false

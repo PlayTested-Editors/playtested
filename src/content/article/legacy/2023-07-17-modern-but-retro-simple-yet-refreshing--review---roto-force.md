@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-07-17-modern-but-retro-simple-yet-refreshing-review-roto-force
-title: Modern but retro, simple yet refreshing | Review - Roto Force
+title: "Modern but Retro, Simple Yet Refreshing | Roto Force Review"
 game: Roto Force
 description: lyndonguitar Roto Force is a retro-inspired twin-stick shooter that turns the genre on its own with its unique take. Instead of moving around the levels freely, you move around the inverted planet-esque environment. You move around the level like a hamster on a wheel and try to avoid enemies that usually spawn at the center. Despite it being retro in its aesthetics and soundtrack, the gameplay couldn't be more modern with its fluid touch-based controls and movement mechanics.
 featured: false

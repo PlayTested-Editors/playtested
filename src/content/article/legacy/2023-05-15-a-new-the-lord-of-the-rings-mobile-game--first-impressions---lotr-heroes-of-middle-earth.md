@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-05-15-a-new-the-lord-of-the-rings-mobile-game-first-impressions-lotr-heroes-of-middle-earth
-title: A new The Lord of the Rings mobile game! | First Impressions - LOTR Heroes of Middle Earth
+title: "A New The Lord of the Rings Mobile Game! | LOTR Heroes of Middle Earth First Impressions"
 game: 'LotR: Heroes of Middle-earth'
 description: 'The Lord of the Rings: Heroes 7.7 RPG Fantasy Download'
 featured: false

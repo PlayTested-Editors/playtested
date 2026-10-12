@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-07-13-fairy-tales-and-idle-rpg-combined-first-impressions-madtale-idle-rpg
-title: 'Fairy tales and Idle RPG combined | First Impressions - Madtale: Idle RPG'
+title: "Fairy Tales and Idle RPG Combined | Madtale: Idle RPG First Impressions"
 game: 'Madtale: Idle RPG'
 description: With its unique art style, engaging narratives, and various gameplay features, Madtale aims to offer an enjoyable idle RPG gaming experience for players on iOS and Android devices with its recent release last July 12.
 featured: false

@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2024-02-22-not-what-i-was-expecting-for-the-rainbow-six-franchise-but-wow-review-rainbow-six-smol
-title: Not what I was expecting for the Rainbow Six franchise, but WOW! | Review - Rainbow Six SMOL
+title: "Not What I Was Expecting for the Rainbow Six Franchise, but WOW! | Rainbow Six SMOL Review"
 game: Rainbow Six SMOL
 description: 'Rainbow Six: SMOL - NETFLIX 6.3 Adventure Action Download'
 featured: false

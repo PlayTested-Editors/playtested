@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-01-08-solve-candy-crush-like-puzzles-to-save-the-island-while-battling-depression-roccos-islan
-title: Solve candy crush-like puzzles to save the Island, while battling depression | Rocco's Island-review
+title: "Solve Candy Crush-like Puzzles to Save the Island, While Battling Depression | Rocco's Island Review"
 game: Rocco's Island
 description: "Rocco's Island is an atmospheric point-and-click adventure game with a big focus on puzzles and storytelling. Released last year on PC, Rocco's Island: Ring to End the Pain has been recently ported to mobile platforms as Rocco's Island: Pocket Edition. It is exactly the same game on PC, except for the newly adapted touch controls."
 featured: false

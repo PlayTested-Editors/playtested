@@ -20,7 +20,7 @@ tags:
   - xbox
   - console
 thumb: /images/reviews/ff16-0.avif
-title: The Most Cinematic And Mature Final Fantasy To Date | Final Fantasy XVI Review
+title: "Most Cinematic and Mature Final Fantasy to Date | Final Fantasy XVI Review"
 game: Final Fantasy XVI
 ---
 

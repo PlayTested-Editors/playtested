@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-11-06-cbt-sign-ups-are-now-live-impressions-zenless-zone-zero-teaser
-title: CBT sign-ups are now live! | Impressions - Zenless Zone Zero Teaser
+title: "CBT Sign-Ups Are Now Live! | Zenless Zone Zero Teaser First Impressions"
 game: Zenless Zone Zero Teaser
 description: Gget ready to embark on an epic journey into the post-apocalyptic metropolis of New Eridu! Zenless Zone Zero's Closed Beta Test (CBT) sign-up is officially live, and this is your chance to dive into the urban fantasy world filled with action and intrigue.
 featured: false

@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-04-15-a-pokemon-ized-mega-man-game-first-impressions-mega-man-battle-network-legacy-collecti
-title: A Pokemon-ized Mega Man game? | First Impressions - Mega Man Battle Network Legacy Collection
+title: "Pokemon-ized Mega Man Game? | Mega Man Battle Network Legacy Collection First Impressions"
 game: Mega Man Battle Network Legacy Collection
 description: Mega Man Battle Network Legacy Collection is a grand compilation of the six-part Mega Man Battle Network games (including the dual iterations of 3, 4, 5,  and 6) that were originally released way back in the 2000s for the Game Boy Advance, now ported and remastered for newer gen consoles – Switch, Playstation, and PC. With three games comprising each two Volumes. The game maintains the same GBA 3:2 ratio aspect ratio and instead inserts Mega Man backgrounds for the remaining screen space, with no option for black bars.
 featured: false

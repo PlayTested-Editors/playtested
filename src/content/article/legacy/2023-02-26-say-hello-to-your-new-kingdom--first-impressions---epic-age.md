@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-02-26-say-hello-to-your-new-kingdom-first-impressions-epic-age
-title: Say hello to your new kingdom | First Impressions - Epic Age
+title: "Say Hello to Your New Kingdom | Epic Age First Impressions"
 game: Epic Age
 description: Epic Age is a strategy / civilization management game set in the middle ages, but pools over heroes and civilizations from all across history in an ultimate strategy showdown that features heroes such as Leonidas, Spartacus, Alexander the Great; and civilizations like Persians, Egyptians, Romans, and many more
 featured: false

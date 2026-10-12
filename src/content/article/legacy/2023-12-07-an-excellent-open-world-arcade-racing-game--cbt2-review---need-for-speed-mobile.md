@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-12-07-an-excellent-open-world-arcade-racing-game-cbt2-review-need-for-speed-mobile
-title: An excellent open-world arcade racing game! | CBT2 Review - Need for Speed Mobile
+title: "Excellent Open-World Arcade Racing Game! | Need for Speed Mobile CBT2 Review"
 game: CBT2 Review - Need for Speed Mobile
 description: Need for Speed™ MobileGlobal 8.6 Racing Multiplayer Pre-register
 featured: false

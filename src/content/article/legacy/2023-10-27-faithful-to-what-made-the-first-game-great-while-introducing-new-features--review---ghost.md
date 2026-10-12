@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-10-27-faithful-to-what-made-the-first-game-great-while-introducing-new-features-review-ghost
-title: Faithful to what made the first game great while introducing new features | Review - Ghostrunner 2
+title: "Faithful to What Made the First Game Great While Introducing New Features | Ghostrunner 2 Review"
 game: Ghostrunner 2
 description: Ghostrunner 2 is a game that features lightning-fast, one-hit-kill combat and parkour gameplay. Developed by One More Level and published by 505 Games, this game aims to capture the essence of the first while expanding on its foundation, offering a compelling experience for fans and newcomers alike.
 featured: false

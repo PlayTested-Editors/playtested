@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-11-16-second-closed-beta-test-is-live-now-cbt-impressions-tarisland
-title: Second Closed Beta Test is live now! | CBT Impressions - Tarisland
+title: "Second Closed Beta Test Is Live Now! | Tarisland CBT Impressions"
 game: CBT Impressions - Tarisland
 description: Tarisland embarks on a journey to capture the magic of classic MMOs while introducing its own twists. it currently has an on-going second closed beta test that runs from November 16 and will last for at least two weeks.
 featured: false

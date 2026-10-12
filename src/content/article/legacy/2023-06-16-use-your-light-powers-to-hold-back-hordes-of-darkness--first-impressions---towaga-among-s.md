@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-06-16-use-your-light-powers-to-hold-back-hordes-of-darkness-first-impressions-towaga-among-s
-title: Use your light powers to hold back hordes of darkness | First Impressions - Towaga Among Shadows
+title: "Use Your Light Powers to Hold Back Hordes of Darkness | Towaga Among Shadows First Impressions"
 game: 'Towaga: Among Shadows'
 description: "Towaga: Among Shadows is a  2D shoot 'em up game that blends dual/single stick shooting and tower defense elements. It was previously released for Switch, PC, Playstation, Apple Arcade, and has since made its way to mobile platforms (iOS, Android) with a recent release last June 15, 2023."
 featured: false

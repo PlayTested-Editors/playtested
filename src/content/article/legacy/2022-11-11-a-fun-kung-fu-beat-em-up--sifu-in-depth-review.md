@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2022-11-11-a-fun-kung-fu-beat-em-up-sifu-in-depth-review
-title: "A fun Kung fu beat' em up | SIFU: In-Depth Review"
+title: "Fun Kung Fu Beat' Em Up | SIFU Full Review"
 game: Sifu
 description: If you’re looking for a martial arts game that will remind you of the classic kung-fu movies you loved as a kid (maybe until now), SIFU has got it for you. It is now released for the Nintendo Switch.
 featured: false

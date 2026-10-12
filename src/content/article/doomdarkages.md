@@ -20,7 +20,7 @@ tags:
   - xbox
   - console
 thumb: /images/reviews/2025-07-31-doom-dark-ages-0.avif
-title: "The Best Game In The Trilogy | Doom: Dark Ages Review"
+title: "Best Game in the Trilogy | Doom: Dark Ages Review"
 game: "Doom: Dark Ages"
 ---
 

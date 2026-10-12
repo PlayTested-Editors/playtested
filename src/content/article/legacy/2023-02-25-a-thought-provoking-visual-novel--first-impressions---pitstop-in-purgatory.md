@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-02-25-a-thought-provoking-visual-novel-first-impressions-pitstop-in-purgatory
-title: A thought provoking visual novel | First Impressions - Pitstop in Purgatory
+title: "Thought Provoking Visual Novel | Pitstop in Purgatory First Impressions"
 game: Pitstop in Purgatory
 description: Pitstop in Purgatory is a visual novel and point-and-click adventure hybrid developed by Tymedust Games in a two-month timeframe, which is surprising considering the compelling writing.
 featured: false

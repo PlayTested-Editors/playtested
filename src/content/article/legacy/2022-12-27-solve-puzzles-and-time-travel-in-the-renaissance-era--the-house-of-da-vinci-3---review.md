@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2022-12-27-solve-puzzles-and-time-travel-in-the-renaissance-era-the-house-of-da-vinci-3-review
-title: Solve puzzles and time travel in the Renaissance era | The House of Da Vinci 3 - Review
+title: "Solve Puzzles and Time Travel in the Renaissance Era | The House of Da Vinci 3 Review"
 game: The House of Da Vinci 3
 description: The House of Da Vinci 3 has come to PC and it is an impressive port of a mobile escape room game. Set in the Renaissance era, you play as Giacomo, series protagonist and a friend of Leonardo Da Vinci in a puzzle solving adventure across space… as well as time.
 featured: false

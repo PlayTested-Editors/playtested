@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-11-08-metria-finally-launches-globally-launch-impressions-metria
-title: Metria finally launches globally | Launch Impressions - Metria
+title: "Metria Finally Launches Globally | Metria Launch Impressions"
 game: Launch Impressions - Metria
 description: Metria is an action RPG game that recently had a global release on November 7, 2023. The game features a promising storyline, vibrant and colorful cel-shaded, anime-inspired graphics, third-person combat with various character classes, and seamless character switching.
 featured: false

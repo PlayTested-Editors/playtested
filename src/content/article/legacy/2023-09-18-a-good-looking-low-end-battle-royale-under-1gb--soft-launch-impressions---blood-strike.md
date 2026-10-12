@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-09-18-a-good-looking-low-end-battle-royale-under-1gb-soft-launch-impressions-blood-strike
-title: A good looking low-end battle royale under 1GB | Soft Launch Impressions - Blood Strike
+title: "Good Looking Low-End Battle Royale Under 1GB | Blood Strike Soft Launch Impressions"
 game: Soft Launch Impressions - Blood Strike
 description: Blood Strike was recently soft-launched in Brazil for Android devices on September 15th, 2023, in an invite-only state. Notably, the game isn't strictly region-locked; anyone with an invite code can access it without the need for a VPN. Alternatively, players can choose to overcome in-game challenges for a chance to gain access. Want an access code? Read the Review here https://www.taptap.io/post/6310730 and you’ll find the codes hidden somewhere.
 featured: false

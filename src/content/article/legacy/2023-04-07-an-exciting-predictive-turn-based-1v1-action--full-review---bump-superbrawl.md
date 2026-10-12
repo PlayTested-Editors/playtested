@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-04-07-an-exciting-predictive-turn-based-1v1-action-full-review-bump-superbrawl
-title: An exciting predictive turn-based 1v1 action | Full Review - BUMP! Superbrawl
+title: "Exciting Predictive Turn-Based 1v1 Action | BUMP! Superbrawl Full Review"
 game: BUMP! Superbrawl
 description: BUMP! Superbrawl is a tactical strategy game that pits players’ team of heroes against each other in exciting predictive turn-based matches.
 featured: false

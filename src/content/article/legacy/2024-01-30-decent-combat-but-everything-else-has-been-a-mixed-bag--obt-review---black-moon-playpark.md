@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2024-01-30-decent-combat-but-everything-else-has-been-a-mixed-bag-obt-review-black-moon-playpark
-title: Decent combat, but everything else has been a mixed bag | OBT Review - Black Moon Playpark
+title: "Decent Combat, but Everything Else Has Been a Mixed Bag | Black Moon Playpark OBT Review"
 game: OBT Review - Black Moon Playpark
 description: ✨Overview Black Moon Playpark is a mobile action role-playing game (RPG) developed by PlayPark, which has recently launched into open beta testing last January 25. Black Moon promises an immersive 2D anime aesthetic and dynamic side scrolling beat ‘em up gameplay.
 featured: false

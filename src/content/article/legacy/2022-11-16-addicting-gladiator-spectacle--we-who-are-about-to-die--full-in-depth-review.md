@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2022-11-16-addicting-gladiator-spectacle-we-who-are-about-to-die-full-in-depth-review
-title: Addicting Gladiator Spectacle! | We Who Are About to Die | Full In-Depth Review
+title: "Addicting Gladiator Spectacle! | We Who Are About to Die Full Review"
 game: Full
 description: With how popular rogue-lite games are becoming lately, as well as the consistent popularity of the Ancient Rome setting throughout the years, I’m a bit surprised that we don’t have enough Gladiator style focused games already. Saturating the market like the zombie or world war tropes we have today. That soon is about to change, as we now have We Who Are About to Die, recently released on Early Access.
 score: 6

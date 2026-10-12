@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-05-10-ninja-turtles-gets-the-hades-rogue-lite-treatment-first-impressions-tmnt-splintered-fa
-title: Ninja Turtles gets the Hades rogue-lite treatment | First Impressions - TMNT Splintered Fate
+title: "Ninja Turtles Gets the Hades Rogue-Lite Treatment | TMNT Splintered Fate First Impressions"
 game: TMNT Splintered Fate
 description: TMNT Splintered Fate is a rogue-lite hack and slash action RPG game featuring kinetic action-packed gameplay, fluid combat system, and an addictive dungeon crawling element.
 featured: false

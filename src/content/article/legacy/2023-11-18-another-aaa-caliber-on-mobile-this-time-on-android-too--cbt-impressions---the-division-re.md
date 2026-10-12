@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-11-18-another-aaa-caliber-on-mobile-this-time-on-android-too-cbt-impressions-the-division-re
-title: Another AAA-caliber on Mobile, this time on Android too | CBT Impressions - The Division Resurgence
+title: "Another AAA-Caliber on Mobile, This Time on Android Too | The Division Resurgence CBT Impressions"
 game: CBT Impressions - The Division Resurgence
 description: The Division Resurgence, one of Ubisoft's installments in the popular action RPG series (alongside the upcoming The Division Heartland), brings the post-apocalyptic world of The Division to mobile devices. This fully-fledged third-person shooter attempts to capture the essence of its console predecessors while catering to the unique challenges and opportunities presented by mobile gaming. As a player with an extensive history in the franchise, diving into the mobile adaptation raised questions about how well the gritty realism and addictive gameplay loop of The Division could be translated to the smaller screen.
 featured: false

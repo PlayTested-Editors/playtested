@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-07-18-only-for-those-looking-to-punish-and-frustrate-themselves-review-dumb-ways-to-climb
-title: Only for those looking to punish and frustrate themselves | Review - Dumb Ways to Climb
+title: "Only for Those Looking to Punish and Frustrate Themselves | Dumb Ways to Climb Review"
 game: Dumb Ways to Climb
 description: Dumb Ways to Climb, developed by PlaySide Studios Ltd, attempts to combine the charm of the Dumb Ways to Die franchise with the viral gameplay of the popular vertical platformer PC game Only Up!.
 featured: false

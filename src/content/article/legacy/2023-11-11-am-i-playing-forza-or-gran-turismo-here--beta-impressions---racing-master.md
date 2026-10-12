@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-11-11-am-i-playing-forza-or-gran-turismo-here-beta-impressions-racing-master
-title: Am I playing Forza or Gran Turismo here? | Beta Impressions - Racing Master
+title: "Am I Playing Forza or Gran Turismo Here? | Racing Master Beta Impressions"
 game: Racing Master
 description: Racing Master is a mobile racing game developed by both Netease and Codemaster and features amazing visuals, presentation, and is loaded with gameplay content. The game is currently on a closed beta test from Nov 9 to Nov 28 for the US region, with a full data wipe afterwards. The official release date is still unannounced.
 featured: false

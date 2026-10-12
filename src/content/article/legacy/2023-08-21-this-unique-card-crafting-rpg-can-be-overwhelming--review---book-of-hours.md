@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-08-21-this-unique-card-crafting-rpg-can-be-overwhelming-review-book-of-hours
-title: This unique card-crafting RPG can be overwhelming | Review - Book of Hours
+title: "This Unique Card-Crafting RPG Can Be Overwhelming | Book of Hours Review"
 game: BOOK OF HOURS
 description: Book of Hours, a brand new creation by Weather Factory, invites you to embark on a journey that explores the deepest recesses of the occult and the unknown. This intricate game offers a multi-faceted experience that combines investigation, crafting, and introspection to create a truly unique adventure.
 featured: false

@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-05-09-the-most-absurd-racing-game-ive-played-first-impressions-what-the-car
-title: The most absurd racing game I’ve played | First Impressions - WHAT THE CAR?
+title: "Most Absurd Racing Game I've Played | WHAT THE CAR? First Impressions"
 game: WHAT THE CAR?
 description: WHAT THE CAR? is a mobile game exclusive to Apple Arcade that features a quirky and humorous gameplay experience.
 featured: false

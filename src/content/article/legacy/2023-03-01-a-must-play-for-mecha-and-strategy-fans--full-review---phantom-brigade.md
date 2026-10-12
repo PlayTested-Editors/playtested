@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-03-01-a-must-play-for-mecha-and-strategy-fans-full-review-phantom-brigade
-title: A must-play for Mecha and Strategy fans | Full Review - Phantom Brigade
+title: "Must-Play for Mecha and Strategy Fans | Phantom Brigade Full Review"
 game: Phantom Brigade
 description: Phantom Brigade is turn-based tactical RPG puts players in charge of the Phantom Brigade, a band of mech pilots trying to liberate its land from its oppressive invaders.
 score: 7.5

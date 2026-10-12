@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-10-04-a-f2p-battle-royale-based-on-the-hit-anime-series-first-impressions-my-hero-ultra-rumb
-title: A F2P battle royale based on the hit anime series | First Impressions - MY HERO ULTRA RUMBLE
+title: "F2P Battle Royale Based on the Hit Anime Series | MY HERO ULTRA RUMBLE First Impressions"
 game: MY HERO ULTRA RUMBLE
 description: Right from the start, MY HERO ULTRA RUMBLE immerses you in the world of Heroes and Quirks, and it's exhilarating. The game is action-packed and really captures the vibe of the anime so well in its battles and combat, delivering an authentic anime gaming experience in battle royale format.
 featured: false

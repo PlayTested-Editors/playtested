@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-06-14-shows-a-lot-of-promise-but-there-are-caveats-alpha-review-metria
-title: Shows a lot of promise, but there are caveats | Alpha Review - Metria
+title: "Shows a Lot of Promise, but There Are Caveats | Metria Alpha Review"
 game: Alpha Review - Metria
 description: RPG METRIA the Starlight 7.6 Editors' Choice RPG Download
 featured: false

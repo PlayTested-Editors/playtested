@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-05-19-a-dog-guiding-humans-through-a-mysterious-and-surreal-world-first-impressions-humanity
-title: A dog guiding humans through a mysterious and surreal world | First Impressions - HUMANITY
+title: "Dog Guiding Humans Through a Mysterious and Surreal World | HUMANITY First Impressions"
 game: Humanity
 description: HUMANITY takes players on a thought-provoking and visually mesmerizing adventure as they control a dog guiding literal crowds of humans through a mysterious and surreal world. With its unique puzzle mechanics, striking visuals, and immersive atmosphere, this third-person puzzle game for PC and PlayStation offers an experience that is both challenging and captivating.
 featured: false

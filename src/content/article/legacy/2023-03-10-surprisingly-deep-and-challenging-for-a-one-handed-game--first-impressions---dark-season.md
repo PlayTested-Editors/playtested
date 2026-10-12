@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-03-10-surprisingly-deep-and-challenging-for-a-one-handed-game-first-impressions-dark-season
-title: Surprisingly deep and challenging for a one-handed game | First Impressions - Dark Season
+title: "Surprisingly Deep and Challenging for a One-Handed Game | Dark Season First Impressions"
 game: Dark Season
 description: Dark Season is a brand new RPG mobile game designed for one-handed play. It is currently available on Android only in the Korean Language, an unfortunate news for international players. But barring some language barriers, it is still highly playable and the game is easy to understand.
 featured: false

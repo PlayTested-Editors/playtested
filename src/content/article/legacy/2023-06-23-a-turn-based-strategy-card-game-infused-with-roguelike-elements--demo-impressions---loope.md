@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-06-23-a-turn-based-strategy-card-game-infused-with-roguelike-elements-demo-impressions-loope
-title: A turn-based strategy card game infused with roguelike elements | Demo Impressions - Looper Tactics
+title: "Turn-Based Strategy Card Game Infused With Roguelike Elements | Looper Tactics Demo Impressions"
 game: Impressions - Looper Tactics
 description: Looper Tactics aims to combine turn-based strategy and roguelike mechanics, providing an interesting twist on traditional deck building. The core gameplay revolves around navigating a tile-based map, strategically moving your hero across various terrains and encountering both friend and foe. The procedurally generated world every run ensures that each playthrough feels fresh and unpredictable. Throughout the game, you will have encounters with various friendly or neutral beings, many of whom offer you a choice between different bonuses and items to purchase, such as new cards, minions, power-ups, or upgrades.
 featured: false

@@ -1,5 +1,5 @@
 ---
-title: A Gripping Co-Op Horror With a Few Stray Asteroids | Directive 8020 Review
+title: "Gripping Co-Op Horror With a Few Stray Asteroids | Directive 8020 Review"
 pubDate: 2026-07-20T12:02:00.000+08:00
 draft: false
 description: Supermassive Games has carved out a very specific, entertaining

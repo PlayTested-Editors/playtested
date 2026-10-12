@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-04-07-my-bullet-swarm-vs-the-zombie-swarm-first-impressions-the-doomsland-survivors
-title: 'My bullet swarm vs the zombie swarm | First Impressions - The Doomsland: Survivors'
+title: "My Bullet Swarm vs the Zombie Swarm | The Doomsland: Survivors First Impressions"
 game: 'The Doomsland: Survivors'
 description: "The Doomsland: Survivors is a top-down shooter with rogue-lite elements that will leave you on the edge of your seat. From the moment you start playing, you'll be thrown into a world overrun by human zombies and other zombified creatures and mutants, and it's up to you to fight your way through hordes of enemies to survive, one room at a time."
 featured: false

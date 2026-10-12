@@ -21,7 +21,7 @@ tags:
   - xbox
   - console
 thumb: /images/reviews/alan-wake-2-0.avif
-title: Remedy's best offering since Max Payne 1 and 2 | Alan Wake 2 Review
+title: "Remedy's Best Offering Since Max Payne 1 and 2 | Alan Wake 2 Review"
 game: Alan Wake 2
 ---
 

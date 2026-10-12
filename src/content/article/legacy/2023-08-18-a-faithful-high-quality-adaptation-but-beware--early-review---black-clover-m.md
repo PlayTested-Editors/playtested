@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-08-18-a-faithful-high-quality-adaptation-but-beware-early-review-black-clover-m
-title: A faithful high-quality adaptation, but beware | Early Review - Black Clover M
+title: "Faithful High-Quality Adaptation, but Beware | Black Clover M Early Review"
 game: Early Review - Black Clover M
 description: lyndonguitar Black Clover M is a brand new gacha RPG mobile title developed by VIC Games Studio that has recently soft launched in Canada, with progression to carry over into the global launch that will follow.
 featured: false

@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-07-06-a-new-captain-tsubasa-game-for-mobile-cbt-impressions-captain-tsubasa-ace
-title: 'A new Captain Tsubasa game for mobile! | CBT Impressions - CAPTAIN TSUBASA: ACE'
+title: "New Captain Tsubasa Game for Mobile! | CAPTAIN TSUBASA: ACE CBT Impressions"
 game: 'CBT Impressions - CAPTAIN TSUBASA: ACE'
 description: 'CAPTAIN TSUBASA: ACE is centered around participating in soccer matches wherein you control the entire team: Making passes, tackling, defending, and trying to score a goal. Just a typical soccer video game like FIFA with a touch of anime action, arcadeyness, and simplicity to it.'
 featured: false

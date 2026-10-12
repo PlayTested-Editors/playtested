@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-12-01-a-mobile-port-of-a-masterpiece-executed-perfectly-review-hitman-blood-money-reprisal
-title: 'A mobile port of a masterpiece, executed perfectly | Review - Hitman: Blood Money — Reprisal'
+title: "Mobile Port of a Masterpiece, Executed Perfectly | Hitman: Blood Money — Reprisal Review"
 game: 'Hitman: Blood Money — Reprisal'
 description: 'Hitman: Blood Money — Reprisal 9.1 Blood Action Get'
 featured: false

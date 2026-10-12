@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-08-15-a-low-stress-pvp-shooter-first-impressions-protectors-shooter-legends
-title: 'A low stress PvP shooter? | First Impressions - Protectors: Shooter Legends'
+title: "Low Stress PvP Shooter? | Protectors: Shooter Legends First Impressions"
 game: 'Protectors: Shooter Legends'
 description: 'Protectors: Shooter Legends is a free-to-play casual and bite-sized 4v4 multiplayer shooter that captures the essence of quick-paced battles. Set in a futuristic world where humanity thrives after overcoming past struggles, players step into the shoes of unique heroes armed with distinctive guns and abilities. The game boasts a diverse range of exciting game modes and maps and offers 4v4 PvP shooting battles.'
 featured: false

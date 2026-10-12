@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2024-02-05-now-on-mobile-is-it-still-that-visual-and-cinematic-masterpiece-review-death-stranding
-title: Now on mobile, is it still that visual and cinematic masterpiece? | Review - Death Stranding
+title: "Now on Mobile, Is It Still That Visual and Cinematic Masterpiece? | Death Stranding Review"
 game: Death Stranding
 description: Death Stranding is an action-adventure game developed by Kojima Productions and directed by Hideo Kojima. Initially released for the PlayStation 4 in 2019, with a subsequent release for Microsoft Windows and now for iOS/iPadOS/Mac Apple devices, the game has garnered attention for its unconventional gameplay mechanics, immersive storytelling, and cinematic presentation. The game is currently being sold in the App Store for $19.99, 50% cheaper than current other offerings.
 featured: true

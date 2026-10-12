@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-09-19-choose-a-level-plan-your-heist-and-execute-it-with-your-crew-first-impressions-payday
-title: Choose a level, plan your heist, and execute it with your crew | First Impressions - PAYDAY 3
+title: "Choose a Level, Plan Your Heist, and Execute It With Your Crew | PAYDAY 3 First Impressions"
 game: Payday 3
 description: PAYDAY 3 continues that tradition of delivering classic cooperative heist experiences, allowing players to plan and execute elaborate robberies with friends.  The game is set to be released on September 21, 2023 for PC, Xbox, and PlayStation.
 featured: false

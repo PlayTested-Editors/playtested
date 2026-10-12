@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-10-04-a-very-short-lived-charming-adventure-with-room-to-grow-full-review-strange-hill
-title: A very short-lived charming adventure with room to grow | | Full Review - Strange Hill
+title: "Very Short-Lived Charming Adventure With Room to Grow | Strange Hill Full Review"
 game: Strange Hill
 description: ✨Overview Strange Hill is a third-person platformer adventure that recently made its debut on Android and iOS, with a PC (Steam) release soon. This open-world game invites players to the peculiar town of Strange Hill, filled with interactive environments, intriguing quests, and a dash of thrill and mystery.
 featured: false

@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2024-01-04-sets-itself-apart-in-a-genre-of-singleplayer-and-coop-experiences-review-darzas-domini
-title: Sets itself apart in a genre of singleplayer and coop experiences | Review - Darza's Dominion
+title: "Sets Itself Apart in a Genre of Singleplayer and Coop Experiences | Darza's Dominion Review"
 game: Darza's Dominion
 description: Darza's Dominion is an MMO rogue-like game that originally released on mobile five years ago. It was subsequently shut down, brought to PC last year, and has now just relaunched on Android a few days ago with a complete rework of the game.
 featured: false

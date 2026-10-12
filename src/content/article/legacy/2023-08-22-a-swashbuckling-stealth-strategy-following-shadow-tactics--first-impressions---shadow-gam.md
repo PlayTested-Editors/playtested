@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-08-22-a-swashbuckling-stealth-strategy-following-shadow-tactics-first-impressions-shadow-gam
-title: A swashbuckling stealth strategy, following Shadow Tactics | First Impressions - Shadow Gambit
+title: "Swashbuckling Stealth Strategy, Following Shadow Tactics | Shadow Gambit First Impressions"
 game: Shadow Gambit
 description: 'Old gamers would likely recognize the gameplay of Shadow Gambit: The Cursed Crew as being very similar to the Commandos series, while younger gamers might see the resemblance with Shadow Tactics instead. This is due to the fact that it serves as its spiritual successor, if the ‘Shadow’ in the title and same developers are not yet a dead giveaway.'
 featured: false

@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-06-06-a-highly-unique-take-on-the-metroidvania-genre-first-impressions-doomblade
-title: A highly unique take on the Metroidvania genre | First Impressions - Doomblade
+title: "Highly Unique Take on the Metroidvania Genre | Doomblade First Impressions"
 game: DOOMBLADE
 description: Doomblade, offers a highly unique take on the Metroidvania genre. With its innovative combat mechanics featuring precision-based clicking much like mouse rhythm games like Osu!, or twin stick shooter style of combat when using controllers.
 featured: false

@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-01-18-not-sure-if-this-game-is-cute-or-spooky-children-of-silentown-review
-title: Not sure if this game is cute or spooky | Children of Silentown - Review
+title: "Not Sure If This Game Is Cute or Spooky | Children of Silentown Review"
 game: Children of Silentown
 description: There's a certain cuteness in this game; the playful nature of the children, the slice of life presentation, and the lighthearted puzzling elements. At the same time, Children of Silentown is spooky and creepy; from the Tim Burton-esque art style with big white creepy eyes, to the foreboding nature of the story with nightmares and monsters.
 featured: false

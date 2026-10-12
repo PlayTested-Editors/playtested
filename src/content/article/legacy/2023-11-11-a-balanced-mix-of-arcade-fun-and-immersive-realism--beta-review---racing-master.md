@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-11-11-a-balanced-mix-of-arcade-fun-and-immersive-realism-beta-review-racing-master
-title: A balanced mix of arcade fun and immersive realism | Beta Review - Racing Master
+title: "Balanced Mix of Arcade Fun and Immersive Realism | Racing Master Beta Review"
 game: Beta Review - Racing Master
 description: Racing Master, a mix of arcade and realistic sim racing game, zooms onto the mobile and PC gaming scene with a Closed Regional Beta Test for the US region, this closed beta runs from November 9 to November 28, 2023, offering players a glimpse of the game before an official release. (note that beta progress will be wiped out)
 featured: false

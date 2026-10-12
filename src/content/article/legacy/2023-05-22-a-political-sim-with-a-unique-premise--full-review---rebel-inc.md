@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-05-22-a-political-sim-with-a-unique-premise-full-review-rebel-inc
-title: A political sim with a unique premise | Full Review - Rebel Inc.
+title: "Political Sim With a Unique Premise | Rebel Inc. Full Review"
 game: Rebel Inc.
 description: From the same studio behind the popular game Plague Inc., Rebel Inc. puts players in the role of a leader tasked with stabilizing a war-torn region by managing military and civilian initiatives, balancing the needs of the population, and combating insurgent forces.
 featured: false

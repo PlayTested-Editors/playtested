@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2022-12-24-solve-intricate-puzzles-bend-space-and-time-the-house-of-da-vinci-3-first-impressions
-title: Solve intricate puzzles, bend space and time | The House of Da Vinci 3 - First Impressions
+title: "Solve Intricate Puzzles, Bend Space and Time | The House of Da Vinci 3 First Impressions"
 game: The House of Da Vinci 3
 description: The House of Da Vinci 3 has come to PC and it is so far an impressive port of a mobile game. Set in the Renaissance era, you play as Giacomo, series protagonist and a friend of Leonardo da Vinci in a puzzle solving adventure across space… as well as time.
 featured: false

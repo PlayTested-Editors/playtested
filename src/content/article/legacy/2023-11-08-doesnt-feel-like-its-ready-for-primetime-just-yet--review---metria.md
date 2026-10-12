@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-11-08-doesnt-feel-like-its-ready-for-primetime-just-yet-review-metria
-title: Doesn't feel like it's ready for primetime just yet | Review - Metria
+title: "Doesn't Feel Like It's Ready for Primetime Just Yet | Metria Review"
 game: METRIA
 description: Metria, an action RPG that first caught my attention during its testing phases in June and July, has finally made its global debut on November 7. This game showcases a vibrant, anime-inspired world with promises of hack and slash third-person combat.
 featured: false

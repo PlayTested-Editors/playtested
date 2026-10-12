@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-05-18-a-dark-fantasy-themed-tactics-squad-rpg-game-closed-beta-impressions-annulus
-title: A dark fantasy-themed tactics squad RPG game | Closed Beta Impressions - ANNULUS
+title: "Dark Fantasy-Themed Tactics Squad RPG Game | ANNULUS Closed Beta Impressions"
 game: Closed Beta Impressions - ANNULUS
 description: ANNULUS is a turn-based tactics game that takes place in medieval times, specifically in Europe during the age of chivalry, but with dark Cthulhu undertones that permeate the narrative and atmosphere.
 featured: false

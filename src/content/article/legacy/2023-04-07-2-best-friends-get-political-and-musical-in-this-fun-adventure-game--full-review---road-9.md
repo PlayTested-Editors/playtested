@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-04-07-2-best-friends-get-political-and-musical-in-this-fun-adventure-game-full-review-road-9
-title: '2 best friends get political, and musical in this fun adventure game | Full Review - Road 96: Mile 0'
+title: "2 Best Friends Get Political, and Musical in This Fun Adventure Game | Road 96: Mile 0 Full Review"
 game: 'Road 96: Mile 0'
 description: 'Road 96: Mile 0 is a narratively-driven first-person adventure game with political commentary and dystopian themes.'
 featured: false

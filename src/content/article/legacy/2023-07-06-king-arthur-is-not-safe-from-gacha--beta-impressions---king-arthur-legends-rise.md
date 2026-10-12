@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-07-06-king-arthur-is-not-safe-from-gacha-beta-impressions-king-arthur-legends-rise
-title: 'King Arthur is not safe from gacha | Beta Impressions - King Arthur: Legends Rise'
+title: "King Arthur Is Not Safe From Gacha | King Arthur: Legends Rise Beta Impressions"
 game: 'King Arthur: Legends Rise'
 description: 'King Arthur: Legends Rise is an upcoming turn-based squad RPG coming to Android, iOS and PC, with options for cross-play and cross-progression. An Open Beta Test is now available only for Android which will last until the official launch date. According to the iOS app store page, the placeholder expected release date is December 5, 2023, however take this info with a grain of salt.'
 featured: false

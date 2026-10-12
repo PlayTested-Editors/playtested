@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-09-26-the-best-arcade-football-game-so-far-review-ea-sports-fc-mobile-24
-title: The best arcade football game so far? | Review - EA SPORTS FC™ MOBILE 24
+title: "Best Arcade Football Game So Far? | EA SPORTS FC MOBILE 24 Review"
 game: EA SPORTS FC™ MOBILE 24
 description: EA SPORTS FC™ Mobile SoccerGlobal 8.1 Editors' Choice Sports Download
 featured: false

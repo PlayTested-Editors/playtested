@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2024-01-29-a-beautiful-horror-game-where-your-choices-matter-review-paper-lily-chapter-1
-title: A beautiful horror game where your choices matter | Review - Paper Lily - Chapter 1
+title: "Beautiful Horror Game Where Your Choices Matter | Paper Lily - Chapter 1 Review"
 game: Paper Lily - Chapter 1
 description: Paper Lily - Chapter 1 9.4 Adventure RPG Get
 featured: false

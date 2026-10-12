@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-06-30-a-unique-concept-that-falls-short-on-its-execution-full-review-spiritle
-title: A unique concept that falls short on its execution | Full Review - Spiritle
+title: "Unique Concept That Falls Short on Its Execution | Spiritle Full Review"
 game: Spiritle
 description: 'Spiritle is a 4-player turn-based strategy battle digital board game available both on PC and mobile with crossplay functionality. You take on the role of a Spirit among the 4 elements: Nature, Earth, Water and Fire, and engage in other fallen souls to reclaim their place in the world tree.'
 featured: false

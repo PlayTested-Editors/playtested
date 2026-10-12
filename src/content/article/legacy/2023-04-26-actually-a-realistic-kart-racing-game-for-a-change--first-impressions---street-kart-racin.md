@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-04-26-actually-a-realistic-kart-racing-game-for-a-change-first-impressions-street-kart-racin
-title: Actually a realistic Kart Racing game for a change | First Impressions - Street Kart Racing
+title: "Actually a Realistic Kart Racing Game for a Change | Street Kart Racing First Impressions"
 game: Street Kart Racing
 description: Street Kart Racing is not your typical Kart Racing game, it doesn’t feature arcade controls, power-ups, whimsical characters, and third person camera. Instead, it is a racing-sim in the likes of Gran Turismo or Assetto Corsa. That means first-person driving camera, realistic driving physics, photorealistic visuals, and  pure racing gameplay.
 featured: false

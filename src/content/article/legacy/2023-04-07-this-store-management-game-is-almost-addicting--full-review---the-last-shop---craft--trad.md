@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-04-07-this-store-management-game-is-almost-addicting-full-review-the-last-shop-craft-trad
-title: This store management game is almost addicting | Full Review - The Last Shop - Craft & Trade
+title: "This Store Management Game Is Almost Addicting | The Last Shop - Craft & Trade Full Review"
 game: The Last Shop - Craft & Trade
 description: The Last Shop - Craft & Trade is a store management game where players manage a town shop, selling weapons, armors, and supplies to adventurers in a survivalist town across an apocalyptic setting.
 featured: false

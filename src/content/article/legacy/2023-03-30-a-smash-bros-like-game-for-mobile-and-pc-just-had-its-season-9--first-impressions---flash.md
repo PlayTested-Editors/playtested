@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-03-30-a-smash-bros-like-game-for-mobile-and-pc-just-had-its-season-9-first-impressions-flash
-title: A Smash Bros-like game for Mobile and PC just had its Season 9 | First Impressions - Flash Party
+title: "Smash Bros-like Game for Mobile and PC Just Had Its Season 9 | Flash Party First Impressions"
 game: Flash Party
 description: I tried out Flash Party recently, coinciding with the recent update Season 9 and I got to say, after going in blind in playing it, the graphics and gameplay actually wowed me. I am using an old 2018 flagship android phone to play it and the visuals still look crisp and nice with console levels of quality that even looks better than the Switch’s own Super Smash Bros.
 featured: false

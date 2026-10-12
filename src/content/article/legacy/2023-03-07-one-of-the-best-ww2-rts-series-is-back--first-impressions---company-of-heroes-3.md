@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-03-07-one-of-the-best-ww2-rts-series-is-back-first-impressions-company-of-heroes-3
-title: One of the best WW2 RTS series is back | First Impressions - Company of Heroes 3
+title: "One of the Best WW2 RTS Series Is Back | Company of Heroes 3 First Impressions"
 game: Company of Heroes 3
 description: Company of Heroes 3 sets players in the midst of World War II as they take command of their armies and engage in tactical battles against player and/or AI controlled enemies. While the game's multiplayer and skirmish modes are a major draw for many players, the single-player experience is equally engaging and worth playing.
 featured: false

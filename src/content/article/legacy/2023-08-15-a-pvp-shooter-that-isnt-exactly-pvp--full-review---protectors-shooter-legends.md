@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-08-15-a-pvp-shooter-that-isnt-exactly-pvp-full-review-protectors-shooter-legends
-title: 'A PvP shooter that isn’t exactly PvP | Full Review - Protectors: Shooter Legends'
+title: "PvP Shooter That Isn't Exactly PvP | Protectors: Shooter Legends Full Review"
 game: 'Protectors: Shooter Legends'
 description: 'Protectors: Shooter Legends is a third-person shooter with PvE and PvP gameplay. This 4v4 title is all about clashing with opponents in thrilling battles across a range of engaging game modes and maps. Featuring a diverse cast of heroes, each armed with a unique weapon and ability.'
 featured: false

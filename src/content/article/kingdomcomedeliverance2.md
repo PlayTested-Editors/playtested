@@ -19,7 +19,7 @@ tags:
   - xbox
   - console
 thumb: /images/reviews/2025-06-27-kcd2-0.avif
-title: "The Most Immersive Medieval RPG | Kingdom Come: Deliverance 2 Review"
+title: "Most Immersive Medieval RPG | Kingdom Come: Deliverance 2 Review"
 game: "Kingdom Come: Deliverance 2"
 ---
 

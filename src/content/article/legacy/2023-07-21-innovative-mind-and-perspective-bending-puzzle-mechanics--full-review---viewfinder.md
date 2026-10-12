@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-07-21-innovative-mind-and-perspective-bending-puzzle-mechanics-full-review-viewfinder
-title: Innovative mind and perspective bending puzzle mechanics | Full Review - Viewfinder
+title: "Innovative Mind and Perspective Bending Puzzle Mechanics | Viewfinder Full Review"
 game: Viewfinder
 description: Viewfinder Viewfinder is a puzzle game where players reshape reality by placing works of art in the world. Uncover mysteries, solve engaging puzzles, and explore captivating environments in this innovative and imaginative journey of discovery.
 featured: false

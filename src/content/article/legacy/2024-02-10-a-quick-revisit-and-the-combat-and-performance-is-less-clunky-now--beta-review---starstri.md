@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2024-02-10-a-quick-revisit-and-the-combat-and-performance-is-less-clunky-now-beta-review-starstri
-title: A quick revisit, and the combat and performance is less clunky now | Beta Review - Starstride
+title: "Quick Revisit, and the Combat and Performance Is Less Clunky Now | Starstride Beta Review"
 game: Beta Review - Starstride
 description: Starstride, an upcoming MMORPG blending elements of high fantasy and sci-fi, continues its journey with a new beta test, yet again inviting players to further explore its expansive universe, quickly following a previous test phase that started last January. The new beta runs from February 7 to February 20, 2024, and I was able to revisit and try out the game again.
 featured: false

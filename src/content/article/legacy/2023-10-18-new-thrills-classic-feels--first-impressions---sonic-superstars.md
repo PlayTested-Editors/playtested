@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-10-18-new-thrills-classic-feels-first-impressions-sonic-superstars
-title: New Thrills. Classic Feels. | First Impressions - Sonic Superstars
+title: "New Thrills. Classic Feels. | Sonic Superstars First Impressions"
 game: Sonic Superstars
 description: Sonic Superstars brings back the magic of the original Sonic titles that graced the Genesis and Mega Drive, and it does so with a fresh modern twist. As one of the first video game franchises I’ve ever played, I couldn't help but feel a rush of nostalgia and joy.
 featured: false

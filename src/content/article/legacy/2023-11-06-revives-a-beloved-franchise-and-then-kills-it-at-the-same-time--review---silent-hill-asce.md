@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-11-06-revives-a-beloved-franchise-and-then-kills-it-at-the-same-time-review-silent-hill-asce
-title: Revives a beloved franchise and then kills it at the same time | Review - Silent Hill Ascension
+title: "Revives a Beloved Franchise and Then Kills It at the Same Time | Silent Hill Ascension Review"
 game: 'Silent Hill: Ascension'
 description: 'Silent Hill: Ascension is an ambitious interactive horror television series set in the iconic universe of the Silent Hill video game franchise. Developed by Genvid Technologies and Behaviour Interactive in collaboration with Konami Digital Entertainment, the project marks a significant departure from the traditional survival horror gameplay that has defined the Silent Hill series. Instead, Ascension adopts a format reminiscent of interactive storytelling games like Until Dawn and The Dark Pictures Anthology while integrating a unique app-based or web-based interactive component. The game playable on both Android, iOS, or via web-browser.'
 featured: false

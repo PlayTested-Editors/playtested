@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-11-07-a-surprising-video-game-adaptation-30-years-later-first-impressions-robocop-rogue-city
-title: A surprising video game adaptation, 30+ years later | First Impressions - Robocop Rogue City
+title: "Surprising Video Game Adaptation, 30+ Years Later | Robocop Rogue City First Impressions"
 game: 'RoboCop: Rogue City'
 description: "RoboCop: Rogue City is one of the most surprising game releases this year (and one of the most unexpected announcements from as far back as 2021). Just when you might have thought that RoboCop isn't the pop culture icon it once was, it has returned from dormancy and come back to life."
 featured: false

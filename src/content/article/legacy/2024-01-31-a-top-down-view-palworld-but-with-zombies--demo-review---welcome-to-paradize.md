@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2024-01-31-a-top-down-view-palworld-but-with-zombies-demo-review-welcome-to-paradize
-title: A top-down view Palworld but with Zombies | Demo Review - Welcome to ParadiZe
+title: "Top-Down View Palworld but With Zombies | Welcome to ParadiZe Demo Review"
 game: Review - Welcome to ParadiZe
 description: Welcome to ParadiZe 5.9 Zombies Survival PS Version
 featured: false

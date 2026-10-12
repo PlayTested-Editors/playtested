@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-08-16-just-ignore-the-story-because-this-game-is-a-blast-full-review-blazblue-entropy-effect
-title: Just ignore the story, because this game is a blast | Full Review - BlazBlue Entropy Effect
+title: "Just Ignore the Story, Because This Game Is a Blast | BlazBlue Entropy Effect Full Review"
 game: BlazBlue Entropy Effect
 description: lyndonguitar Steam BlazBlue Entropy Effect is a 2D side-scrolling Roguelite game developed by 91Act. strangely set in the expansive BlazBlue franchise. Released on Steam in Early Access, this game invites players into a world where the beloved BlazBlue characters meet the dynamic mechanics of a Roguelite adventure.
 featured: false

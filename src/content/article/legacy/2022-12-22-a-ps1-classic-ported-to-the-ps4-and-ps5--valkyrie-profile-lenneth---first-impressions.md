@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2022-12-22-a-ps1-classic-ported-to-the-ps4-and-ps5-valkyrie-profile-lenneth-first-impressions
-title: 'A PS1 classic ported to the PS4 and PS5 | Valkyrie Profile: Lenneth - First Impressions'
+title: "PS1 Classic Ported to the PS4 and PS5 | Valkyrie Profile: Lenneth First Impressions"
 game: 'Valkyrie Profile: Lenneth'
 description: 'Valkyrie Profile has come a long way from its PS1 origins, its PSP re-release the Valkyrie Profile: Lenneth, the recent mobile ports, to now its modern PS4 and PS5 release.'
 featured: false

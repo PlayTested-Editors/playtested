@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-09-03-can-this-cute-challenger-dethrone-gang-beasts-impressions-party-animals
-title: Can this cute challenger dethrone Gang Beasts?! | Impressions - Party Animals
+title: "Can This Cute Challenger Dethrone Gang Beasts?! | Party Animals First Impressions"
 game: Party Animals
 description: Party Animals is a multiplayer physics-based brawler and party game developed by Recreate Games and published by Source Technology. The game features a variety of anthropomorphic animals with unique looks engaging in chaotic and fun-filled battles.
 featured: false

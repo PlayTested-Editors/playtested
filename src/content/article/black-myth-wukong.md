@@ -1,6 +1,5 @@
 ---
-title: "Way more forgiving and fun than I expected and I love it | Black Myth:
-  Wukong Review"
+title: "Way More Forgiving and Fun Than I Expected and I Love It | Black Myth: Wukong Review"
 pubDate: 2026-05-10T12:22:00.000+08:00
 draft: false
 description: "Black Myth: Wukong is an action-RPG rooted deeply in the

@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2022-12-06-shoot-em-up-without-the-shoot-em-swordship-review
-title: Shoot ‘em up, without the Shoot’ em | Swordship - Review
+title: "Shoot 'Em Up, Without the Shoot' Em | Swordship Review"
 game: Swordship
 description: Dodge ‘em up is a genre entirely new to me, and so far I like the concept. Swordship is one such game, it takes the notion of shoot ‘em up but removes the shooting part and makes the fundamental gameplay all about the art of dodging and deception.
 featured: false

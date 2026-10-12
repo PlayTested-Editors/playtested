@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-09-08-pro-evolution-soccer-has-certainly-come-a-long-way-review-efootball-2024
-title: Pro Evolution Soccer has certainly come a long way | Review - eFootball 2024
+title: "Pro Evolution Soccer Has Certainly Come a Long Way | eFootball 2024 Review"
 game: eFootball 2024
 description: "The Pro Evolution Soccer (PES) game series — also previously known as Winning Eleven in some regions — has certainly come a long way. From its PlayStation “Goal Storm” roots to its rebranding into the now-fledgling free-to-play game eFootball, and now with its newest yearly iteration: eFootball 2024. Whether that journey has been for better or worse, well, I'd let my review speak for itself."
 featured: false

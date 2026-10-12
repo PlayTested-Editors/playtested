@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2024-01-15-starting-the-new-year-with-a-great-indie-banger-review-momodora-moonlit-farewell
-title: 'Starting the new year with a great indie banger | Review - Momodora: Moonlit Farewell'
+title: "Starting the New Year With a Great Indie Banger | Momodora: Moonlit Farewell Review"
 game: 'Momodora: Moonlit Farewell'
 description: 'Momodora: Moonlit Farewell is the latest installment in the Momodora game series. After an almost a decade of absence, Momodora is finally back. It offers a blend of Metroidvania and 2D Souls-like gameplay wrapped in a retro pixel art style. Set in the village of Koho, the game follows the High Priestess Momo Reinol as she embarks on a divine mission to save her people from a demonic invasion unleashed by a malevolent bellringer.'
 featured: false

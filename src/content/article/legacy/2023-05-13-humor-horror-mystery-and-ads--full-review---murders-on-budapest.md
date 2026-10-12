@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-05-13-humor-horror-mystery-and-ads-full-review-murders-on-budapest
-title: Humor, horror, mystery, and ads | Full Review - Murders on Budapest
+title: "Humor, Horror, Mystery, and Ads | Murders on Budapest Full Review"
 game: Murders on Budapest
 description: Murders on Budapest is a narratively focused murder mystery game with both comedic and horror undertones and presented in a messaging app style format.
 featured: false

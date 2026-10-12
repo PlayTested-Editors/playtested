@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-11-06-its-an-amalgamation-of-gaming-netflix-and-twitch-impressions-silent-hill-ascension
-title: It's an amalgamation of Gaming, Netflix, and Twitch | Impressions - Silent Hill Ascension
+title: "It's an Amalgamation of Gaming, Netflix, and Twitch | Silent Hill Ascension First Impressions"
 game: 'Silent Hill: Ascension'
 description: Over these past week I "participated" in the release of a brand new and ambitious horror game called Silent Hill Ascension, set in the iconic universe of the Silent Hill video game franchise. From the get go, it's a significant departure from the well-known Silent Hill survival horror gameplay style, moving towards a more Supermassive Games-style interactive storytelling akin to titles like Until Dawn, The Dark Pictures Anthology, and games such as The Quarry.
 featured: false

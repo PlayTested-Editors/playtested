@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-12-11-and-the-wgoty-goes-to-early-access-review-the-day-before
-title: And the WGOTY goes to… | Early Access Review - The Day Before
+title: "And the WGOTY Goes To… | The Day Before Early Access Review"
 game: Early Access Review - The Day Before
 description: The Day Before is a survival horror extraction shooter with multiplayer elements, it was initially hyped as a massive multiplayer experience, comparable to The Division or DayZ. However, it's off to a rocky Early Access start with numerous delays leading up to this Early Access release, trademark disputes, and major performance issues. The game's ambitious promises have not been met, leading to widespread disappointment among players.
 featured: false

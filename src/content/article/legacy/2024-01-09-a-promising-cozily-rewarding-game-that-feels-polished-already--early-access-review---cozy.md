@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2024-01-09-a-promising-cozily-rewarding-game-that-feels-polished-already-early-access-review-cozy
-title: A promising cozily rewarding game that feels polished already | Early Access Review - Cozy Islands
+title: "Promising Cozily Rewarding Game That Feels Polished Already | Cozy Islands Early Access Review"
 game: Early Access Review - Cozy Islands
 description: Cozy Islands – craft & build revolves around crafting and building, offering players the opportunity to construct their dream village step by step. Developed and provided by Tetrox Limited, it is currently in early access for Android users in the United States, although I was able to access it here on TapTap, even without the need for a VPN. The free-to-play game seems to be fully offline for now with online functionality and in-app purchases.
 featured: false

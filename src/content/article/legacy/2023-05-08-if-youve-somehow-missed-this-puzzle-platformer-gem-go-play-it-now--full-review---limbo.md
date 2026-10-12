@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-05-08-if-youve-somehow-missed-this-puzzle-platformer-gem-go-play-it-now-full-review-limbo
-title: If you’ve somehow missed this puzzle-platformer gem, go play it now | Full Review - LIMBO+
+title: "If You've Somehow Missed This Puzzle-Platformer Gem, Go Play It Now | LIMBO+ Full Review"
 game: Limbo
 description: lyndonguitar Get LIMBO is a puzzle-platformer game with simple controls, minimalistic visuals, and a depressing tone. Developed by Playdead that was first released in 2010. It has since been ported to various platforms, such as iOS back in 2021.
 featured: false

@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-09-07-hours-of-cooperative-and-competitive-fun-full-review-synced
-title: Hours of cooperative and competitive fun! | Full Review - SYNCED
+title: "Hours of Cooperative and Competitive Fun! | SYNCED Full Review"
 game: SYNCED
 description: lyndonguitar Get SYNCED is an ambitious entry into the looter shooter genre, offering a unique blend of cooperative and PvP gameplay set in a post-apocalyptic world overrun by advanced nanomachines. It takes a lot of inspirations from other genres too, mixing rogue-lite elements, battle royale mechanics, and even Pokemon style of capturing and commanding powerful Nano creatures. SYNCED is set to release on September 8 for PC, Xbox, and Playstation systems.
 featured: false

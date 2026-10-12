@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2024-01-23-creating-overpowered-builds-has-never-been-this-simple-review-time-to-strike-demo
-title: Creating overpowered builds has never been this simple | Review - Time to Strike (Demo)
+title: "Creating Overpowered Builds Has Never Been This Simple | Time to Strike (Demo) Review"
 game: Time to Strike (Demo)
 description: Time to Strike is as an upcoming bullet hell rogue-like twin stick shooter, teasing players with its demo available on Steam and a scheduled release in Q1 2024. It aims to provide streamlined gameplay with a sprinkle of chaos and unpredictability. With 30+ weapons, 30+ powerful mods, 80+ fun relics, and 5 challenging boss fights in the full version.
 featured: false

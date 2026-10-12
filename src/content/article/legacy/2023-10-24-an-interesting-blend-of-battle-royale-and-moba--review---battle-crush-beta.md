@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-10-24-an-interesting-blend-of-battle-royale-and-moba-review-battle-crush-beta
-title: An interesting blend of Battle Royale and MOBA | Review - Battle Crush Beta
+title: "Interesting Blend of Battle Royale and MOBA | Battle Crush Beta Review"
 game: Battle Crush Beta
 description: Battle Crush (Beta), is an upcoming game that boldly combines the intense battle royale format with the strategic depth of a MOBA in a bite sized manner. Developed by NCOSFT, this multiplayer action game seeks to carve its own niche by combining two genres. It is coming for Android, Nintendo Switch, and PC (Steam), with an ongoing Closed Beta Test from Oct 23 to Oct 30. It will feature full cross-play support between these platforms.
 featured: false

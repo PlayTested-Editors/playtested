@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-03-10-single-handedly-assemble-your-team-of-heroes-literally-full-review-rumble-heroes
-title: Single-handedly assemble your team of heroes, literally | Full Review - Rumble Heroes
+title: "Single-Handedly Assemble Your Team of Heroes, Literally | Rumble Heroes Full Review"
 game: Rumble Heroes
 description: 'Rumble Heroes : Adventure RPG is a free-to-play mobile RPG where players control a ragtag team of heroes looking to save the princess.'
 featured: false

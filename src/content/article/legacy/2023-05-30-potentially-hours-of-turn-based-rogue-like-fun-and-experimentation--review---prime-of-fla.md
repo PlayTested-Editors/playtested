@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-05-30-potentially-hours-of-turn-based-rogue-like-fun-and-experimentation-review-prime-of-fla
-title: Potentially hours of turn-based rogue-like fun and experimentation | Review - Prime of Flames
+title: "Potentially Hours of Turn-Based Rogue-like Fun and Experimentation | Prime of Flames Review"
 game: Prime of Flames
 description: lyndonguitar Download In Prime of Flames, the story revolves around the protagonist, who assumes the role of the "Star Envoy." As the Star Envoy, the player embarks on a quest to uncover the truth behind the disaster that befell the land, taking command of warriors from different clans, each possessing unique talents and abilities.
 featured: false

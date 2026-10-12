@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-10-12-stealth-is-back-but-does-it-return-to-its-roots-review-assassins-creed-mirage
-title: Stealth is back, but does it return to its roots? | Review - Assassin's Creed Mirage
+title: "Stealth Is Back, but Does It Return to Its Roots? | Assassin's Creed Mirage Review"
 game: Assassin's Creed Mirage
 description: Assassin's Creed Mirage takes players on a journey to 9th-century Baghdad during the anarchy at Samarra, delivering a fresh installment in the long-running Assassin's Creed series. Developed and published by Ubisoft, this thirteenth major release in the series follows in the footsteps of its predecessor, Assassin's Creed Valhalla.
 featured: false

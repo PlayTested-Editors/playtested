@@ -1,5 +1,5 @@
 ---
-title: "Takes Turn-Based RPG To New Heights | Clair Obscur: Expedition 33 Review"
+title: "Takes Turn-Based RPG to New Heights | Clair Obscur: Expedition 33 Review"
 pubDate: 2025-06-06
 draft: false
 description: "Clair Obscur: Expedition 33 reinvents turn-based RPGs with a

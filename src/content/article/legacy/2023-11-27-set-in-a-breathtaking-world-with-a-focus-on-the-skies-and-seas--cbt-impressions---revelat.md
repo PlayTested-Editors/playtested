@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-11-27-set-in-a-breathtaking-world-with-a-focus-on-the-skies-and-seas-cbt-impressions-revelat
-title: Set in a breathtaking world with a focus on the skies and seas | CBT Impressions - Revelation M
+title: "Set in a Breathtaking World With a Focus on the Skies and Seas | Revelation M CBT Impressions"
 game: CBT Impressions - Revelation M
 description: Set in a breathtaking fantasy world with a focus on the skies and seas, Revelation M casts players as new adventurers embarking on a journey of exploration, discovery, and adventure.
 featured: false

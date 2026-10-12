@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-09-23-indie-spotlight-rhythm-game-date-sim-and-visual-novel-impressions-concerto-on-white-de
-title: '[Indie Spotlight] Rhythm game, date sim, and visual novel? | Impressions - Concerto on White (Demo)'
+title: "[Indie Spotlight] Rhythm Game, Date Sim, and Visual Novel? | Concerto on White (Demo) First Impressions"
 game: Concerto on White (Demo)
 description: Concerto on White consists of two main ideas blended into one harmonious composition. The school academy life, and actual rhythm game gameplay. The school academy life is where you can attend classes, interact with your schoolmates, and practice music, all presented in a chapter-style visual novel storytelling.
 featured: false

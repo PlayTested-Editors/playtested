@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2024-07-26-one-of-the-most-naturally-cinematic-games-ive-played-in-recent-years-helldivers-2-late
-title: One of the most naturally cinematic games I've played in recent years | Helldivers 2 - Review
+title: "One of the Most Naturally Cinematic Games I've Played in Recent Years | Helldivers 2 Review"
 game: HELLDIVERS 2
 description: For the past few months, there is only one game that has mostly kept me busy playing throughout sleepness nights and weekends, and you're probably tired of hearing about it. Helldivers 2. A coop shooter with hardcore elements and action-packed cinematic gameplay.
 featured: true

@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-04-27-unlock-the-witchcraft-secrets-of-the-black-book-first-impressions-black-book-rpg
-title: Unlock the witchcraft secrets of the Black Book | First Impressions - Black Book RPG
+title: "Unlock the Witchcraft Secrets of the Black Book | Black Book RPG First Impressions"
 game: Black Book RPG
 description: Black Book RPG is a witchcraft-themed adventure role-playing game that puts players in a dark and mystical world inspired by Russian folklore. Developed by Morteshka and published by HypeTrain Digital, the game features an intruiging story, a beautiful art style, and adventure RPG mechanics.
 featured: false

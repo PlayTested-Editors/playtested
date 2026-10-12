@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-12-19-a-promising-celestial-journey-through-love-and-danger-cbt-review-love-and-deepspace
-title: A promising celestial journey through love and danger | CBT Review - Love and Deepspace
+title: "Promising Celestial Journey Through Love and Danger | Love and Deepspace CBT Review"
 game: CBT Review - Love and Deepspace
 description: Love and DeepspaceGlobal 5.8 Simulation Story Rich Download
 featured: false

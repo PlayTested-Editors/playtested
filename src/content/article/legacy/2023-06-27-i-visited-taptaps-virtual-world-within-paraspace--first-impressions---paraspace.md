@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-06-27-i-visited-taptaps-virtual-world-within-paraspace-first-impressions-paraspace
-title: I visited TapTap's virtual world within ParaSpace! | First Impressions - ParaSpace
+title: "I Visited TapTap's Virtual World Within ParaSpace! | ParaSpace First Impressions"
 game: ParaSpace
 description: I recently had the pleasure of exploring ParaSpace, an avatar-based online virtual platform that offers a plethora of immersive experiences and endless opportunities for connection and creativity. It is currently conducting an Android Beta Test right now exclusively available here on TapTap, with a special partnership content ‘TapTap world’ coming soon for TapTap users to chill around and relax in.
 featured: false

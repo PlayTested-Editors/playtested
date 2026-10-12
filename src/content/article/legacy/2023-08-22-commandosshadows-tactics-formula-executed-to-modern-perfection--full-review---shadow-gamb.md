@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-08-22-commandosshadows-tactics-formula-executed-to-modern-perfection-full-review-shadow-gamb
-title: Commandos/Shadows Tactics formula executed to modern perfection | Full Review - Shadow Gambit
+title: "Commandos/Shadows Tactics Formula Executed to Modern Perfection | Shadow Gambit Full Review"
 game: Shadow Gambit
 description: 'Shadow Gambit: The Cursed Crew Shadow Gambit: The Cursed Crew is a stealth strategy game that transports players to an alternate history of the Golden Age of Piracy. Players assume the role of Afia, a cursed pirate with a daring mission – to gather the legendary Black Pearls and bring her cursed crew back to life.'
 featured: false

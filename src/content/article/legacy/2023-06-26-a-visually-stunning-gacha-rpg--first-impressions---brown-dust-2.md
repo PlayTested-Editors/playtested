@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-06-26-a-visually-stunning-gacha-rpg-first-impressions-brown-dust-2
-title: A visually stunning Gacha RPG | First Impressions - Brown Dust 2
+title: "Visually Stunning Gacha RPG | Brown Dust 2 First Impressions"
 game: Brown Dust 2
 description: Brown Dust 2, the somewhat both direct and spiritual successor to the popular Brave 9 / Brown Dust, takes players on a grander journey filled with time travel, world-traveling elements, and captivating narratives.
 featured: false

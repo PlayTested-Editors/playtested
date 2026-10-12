@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2022-12-14-a-disturbingly-funny-comedy-fps-game-high-on-life-review
-title: A disturbingly funny comedy FPS game | High on Life - Review
+title: "Disturbingly Funny Comedy FPS Game | High on Life Review"
 game: High on Life
 description: You are fresh out of high school; no job, no experience, no goals in life. Intergalactic aliens invade and want to get high off of humans. You stumble upon a sentient talking pistol. What do you do? Why not hunt them for bounties, with firepower assistance from an arsenal of talking guns. High on Life is a new crazy game from the creator of the animated TV series Rick and Morty, that is literally high on all fronts; talking self-aware guns, weirding looking aliens to slaughter in style, and unfiltered abusive dialogue.
 featured: false

@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2024-01-09-a-great-concept-yet-unpolished-pvppve-adventure-review-wondererseternal-world
-title: A great concept yet unpolished PvP/PvE adventure | Review - Wonderers:Eternal World
+title: "Great Concept Yet Unpolished PvP/PvE Adventure | Wonderers:Eternal World Review"
 game: Wonderers:Eternal World
 description: '✨Overview Wonderers: Eternal World is an online ARPG game that features strategic 4v4 PvP team-battles, as well as a rogue-lite dungeon crawling PvE game mode. Developed for iOS, Android, and PC, with cross-platform play, the game officially launched on January 8th, catering to players in the Philippines, Singapore, Malaysia, and Australia.'
 featured: false

@@ -21,7 +21,7 @@ tags:
   - xbox
   - console
 thumb: /images/reviews/2025-07-16-the-alters-0.avif
-title: An Unexpected Thought Provoking Surprise | The Alters Review
+title: "Unexpected Thought Provoking Surprise | The Alters Review"
 game: The Alters
 ---
 

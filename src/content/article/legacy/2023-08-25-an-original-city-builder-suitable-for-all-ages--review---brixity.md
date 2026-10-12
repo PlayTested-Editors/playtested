@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-08-25-an-original-city-builder-suitable-for-all-ages-review-brixity
-title: An original city-builder suitable for all ages | Review - BRIXITY
+title: "Original City-Builder Suitable for All Ages | BRIXITY Review"
 game: BRIXITY
 description: lyndonguitar Download BRIXITY is an innovative sandbox city-building game that invites players to embark on a creative journey of restoration and construction. Set in a world that suffered a collapse five centuries ago, players are tasked with rebuilding Earth using the remarkable BRIX technology.
 featured: false

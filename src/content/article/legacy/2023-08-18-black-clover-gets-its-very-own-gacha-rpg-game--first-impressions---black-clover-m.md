@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-08-18-black-clover-gets-its-very-own-gacha-rpg-game-first-impressions-black-clover-m
-title: Black Clover gets its very own gacha RPG game | First Impressions - Black Clover M
+title: "Black Clover Gets Its Very Own Gacha RPG Game | Black Clover M First Impressions"
 game: Black Clover M
 description: Drawing inspiration from the beloved anime and manga series, Black Clover M presents players with a high-quality adaptation that seamlessly integrates iconic scenes into the gameplay. The exceptional quality of animation brings the Manga and Anime into life, creating a visually striking experience. With cel-shaded graphics characteristic of anime adaptations, the game does justice to the visual aesthetics of the anime.
 featured: false

@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-03-05-a-perplexing-enjoyable-turn-based-rpg-full-review-limbus-company
-title: A perplexing enjoyable turn-based RPG | Full Review - Limbus Company
+title: "Perplexing Enjoyable Turn-Based RPG | Limbus Company Full Review"
 game: Limbus Company
 description: Limbus Company is a narratively driven turn-based RPG game with gacha elements. Made for mobile phones and also ported to PCs.
 featured: false

@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-05-16-a-satisfying-pvp-tower-defense-and-hero-fusing-game-full-review-guardian-chronicle-r
-title: A satisfying PvP tower defense and hero fusing game | Full Review - Guardian Chronicle R
+title: "Satisfying PvP Tower Defense and Hero Fusing Game | Guardian Chronicle R Full Review"
 game: Guardian Chronicle
 description: Guardian Chronicle R is a tower defense hero collecting game featuring puzzle elements and PvP / coop action.
 featured: false

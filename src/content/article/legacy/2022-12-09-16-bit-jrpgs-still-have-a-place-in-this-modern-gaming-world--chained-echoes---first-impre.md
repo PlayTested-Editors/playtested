@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2022-12-09-16-bit-jrpgs-still-have-a-place-in-this-modern-gaming-world-chained-echoes-first-impre
-title: 16-bit JRPGs still have a place in this modern gaming world | Chained Echoes - First Impressions
+title: "16-Bit JRPGs Still Have a Place in This Modern Gaming World | Chained Echoes First Impressions"
 game: Chained Echoes
 description: Nostalgia is a powerful thing, so powerful that the once bygone era of 16-bit video games is now back and currently an oversaturated market more than ever. Every once in a while though, you find a gem worth playing. This time, it's titled Chained Echoes, a nostalgic 16-bit JRPG game in a fantasy world where Dragons and Mechas exist.
 featured: false

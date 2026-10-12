@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-06-08-collect-animal-waifus-in-this-visually-impressive-gacha-game-full-review-kemono-friend
-title: 'Collect animal waifus in this visually impressive gacha game | Full Review - Kemono Friends: Kingdom'
+title: "Collect Animal Waifus in This Visually Impressive Gacha Game | Kemono Friends: Kingdom Full Review"
 game: 'Kemono Friends: Kingdom'
 description: 'lyndonguitar Get Kemono Friends: Kingdom is a gacha mobile game set in a unique world filled with delightful animal Friends. With its engaging storyline, strategic turn-based RPG gameplay, and a diverse roster of charming animal-themed characters, this game promises to offer an enjoyable experience for both fans and newcomers to the Kemono Friends franchise. It is coming soon with an Open Beta Test scheduled for June 21!'
 featured: false

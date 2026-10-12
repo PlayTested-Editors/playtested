@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-11-28-tower-defense-card-collecting-and-real-time-pvp-impressions-rebel-bots-epic-war-pvp-cl
-title: 'Tower defense, card-collecting, and real-time PvP | Impressions - Rebel Bots: Epic War PvP Clash'
+title: "Tower Defense, Card-Collecting, and Real-Time PvP | Rebel Bots: Epic War PvP Clash First Impressions"
 game: 'Rebel Bots: Epic War PvP Clash'
 description: "Rebel Bots: Epic War PvP Clash is a game where strategic depth meets chaotic warfare. This unique fusion of tower defense, card-collecting, and real-time combat promises an experience that's both familiar and refreshingly distinct."
 featured: false

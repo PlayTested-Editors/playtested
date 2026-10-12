@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-11-28-add-this-to-the-growing-list-of-rogue-lite-arena-survival-games-impressions-immortal-s
-title: Add this to the growing list of rogue-lite arena survival games | Impressions - Immortal Survivors
+title: "Add This to the Growing List of Rogue-Lite Arena Survival Games | Immortal Survivors First Impressions"
 game: Immortal Survivors
 description: Immortal Survivors is a recently released rogue-lite arena survival game on Android via TapTap that takes players on a journey through the demon-infested land of Shenzhou. The game boasts a distinctive art style, merging traditional Chinese drawings with cartoon graphics, offering a unique visual experience.
 featured: false

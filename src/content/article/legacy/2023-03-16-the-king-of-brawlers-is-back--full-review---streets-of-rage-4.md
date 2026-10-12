@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-03-16-the-king-of-brawlers-is-back-full-review-streets-of-rage-4
-title: The King of Brawlers is back! | Full Review - Streets of Rage 4
+title: "King of Brawlers Is Back! | Streets of Rage 4 Full Review"
 game: Streets of Rage 4
 description: Streets of Rage 4 is a side-scrolling retro beat 'em up game that truly captures the essence of the original series while also bringing modern elements to the table.
 featured: false

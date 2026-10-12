@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-06-12-challenging-and-satisfying-pixelated-souls-like-combat-full-review-bleak-sword-dx
-title: Challenging and satisfying pixelated souls-like combat | Full Review - Bleak Sword DX
+title: "Challenging and Satisfying Pixelated Souls-like Combat | Bleak Sword DX Full Review"
 game: Bleak Sword DX
 description: Bleak Sword DX Bleak Sword DX is a pixel art soulslike-roguelite that offers an enhanced version of the original game for PC and Switch, following its initial exclusive release on Apple Arcade.
 featured: false

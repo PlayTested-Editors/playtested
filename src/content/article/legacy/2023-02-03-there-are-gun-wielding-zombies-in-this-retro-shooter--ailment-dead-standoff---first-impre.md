@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-02-03-there-are-gun-wielding-zombies-in-this-retro-shooter-ailment-dead-standoff-first-impre
-title: 'There are gun wielding zombies in this retro shooter | Ailment: dead standoff - First Impressions'
+title: "There Are Gun Wielding Zombies in This Retro Shooter | Ailment: dead standoff First Impressions"
 game: 'Ailment: dead standoff'
 description: 'Ailment: dead standoff is a single-stick shooter with a retro pixel-art take, plus an interesting story as an extra bonus. Of course, if you see the word “dead” in the title, it better include zombies, and it does.'
 featured: false

@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2022-11-17-aliens-invade-and-its-beautiful-somerville-full-review
-title: Aliens invade, and it’s beautiful | Somerville - Full Review
+title: "Aliens Invade, and It's Beautiful | Somerville Full Review"
 game: Somerville
 description: "Somerville is a sci-fi adventure / puzzle game where you control a man and his family caught up right in the middle of an alien invasion doomsday scenario. The opening sequence starts relatively slow: what's presented to you is a slice of life in a small farm house: A couple, a toddler, and a dog. The presentation feels very surreal that you almost can relate to it, especially with the random static noise emanating from the family TV. Then the mysterious somber nature ramps up rather quickly into a full blown alien invasion, perfectly capturing that feeling of being randomly caught up in it on a personal level. You can just about see yourself in the character’s shoes while playing. Imagining if such things happened to you and your family instead."
 score: 7

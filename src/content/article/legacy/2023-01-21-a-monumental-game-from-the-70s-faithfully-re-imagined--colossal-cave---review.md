@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-01-21-a-monumental-game-from-the-70s-faithfully-re-imagined-colossal-cave-review
-title: A monumental game from the 70s faithfully re-imagined | Colossal Cave - Review
+title: "Monumental Game From the 70s Faithfully Re-Imagined | Colossal Cave Review"
 game: Colossal Cave
 description: You’ve read it right, 70s. If you were somehow already a gamer in the 1970s, you might have played one of the most influential video games of all time in Colossal Cave Adventure. This newly released title is a remake of that classic text-based adventure.
 featured: false

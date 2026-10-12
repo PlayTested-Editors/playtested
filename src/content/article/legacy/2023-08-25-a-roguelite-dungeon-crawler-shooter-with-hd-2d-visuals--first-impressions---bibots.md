@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-08-25-a-roguelite-dungeon-crawler-shooter-with-hd-2d-visuals-first-impressions-bibots
-title: A roguelite dungeon crawler shooter with HD-2D visuals | First Impressions - Bibots
+title: "Roguelite Dungeon Crawler Shooter With HD-2D Visuals | Bibots First Impressions"
 game: Bibots
 description: 'The gameplay mechanics in Bibots follow a classic twin-stick shooter formula: character movement is controlled using the left stick, while aiming and shooting are executed with the right stick. A well-timed dodge mechanic proves crucial for evading enemy projectiles, and the inclusion of obtainable secondary attacks, like grenades or flying discs, adds tactical depth.'
 featured: false

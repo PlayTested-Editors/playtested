@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-09-08-great-compilation-but-leans-too-heavily-on-gacha-full-review-final-fantasy-vii-ever-cr
-title: 'Great compilation, but leans too heavily on gacha | Full Review - Final Fantasy VII: Ever Crisis'
+title: "Great Compilation, but Leans Too Heavily on Gacha | Final Fantasy VII: Ever Crisis Full Review"
 game: 'Final Fantasy VII: Ever Crisis'
 description: 'lyndonguitar Get Final Fantasy VII: Ever Crisis is a gacha mobile RPG that attempts to bridge the gap between nostalgia and mobile gaming. Developed by Applibot and published by Square Enix, it delves into the rich world of Final Fantasy VII, encapsulating the original game, its spin-offs, and even an original storyline.'
 featured: false

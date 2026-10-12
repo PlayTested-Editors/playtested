@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-10-16-bold-new-era-same-classic-total-war-full-review-total-war-pharoah
-title: 'Bold new era, same classic Total War | Full Review - Total War: PHAROAH'
+title: "Bold New Era, Same Classic Total War | Total War: PHAROAH Full Review"
 game: 'Total War: PHAROAH'
 description: 'Total War: PHARAOH is an refreshing addition to the popular Total War series, with a unique blend of historical strategy and grandeur, set in ancient Egypt. Developed by Creative Assembly, this title delves deep into the mystical world of pharaohs and pyramids, delivering a gaming experience that is somewhat both exhilarating and educational… ableit with creative liberties.'
 featured: false

@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-08-23-two-potatoes-equals-one-garlic-impressions-cats-soup-magic-recipe
-title: 'Two Potatoes equals one Garlic!?! | Impressions - Cats & Soup : Magic Recipe'
+title: "Two Potatoes Equals One Garlic!?! | Cats & Soup: Magic Recipe First Impressions"
 game: 'Cats & Soup : Magic Recipe'
 description: "Cats & Soup: Magic Recipe welcomes players to a charming beachside kingdom that oozes with wholesome vibes. The visuals are charming, characterized by a hand-painted art style that invokes the warmth and charm of a beloved children's storybook."
 featured: false

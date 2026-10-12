@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-05-03-sync-with-the-beat-battle-robots-try-again-first-impressions-city-of-beats
-title: Sync with the beat, battle robots, try again | First Impressions - City of Beats
+title: "Sync With the Beat, Battle Robots, Try Again | City of Beats First Impressions"
 game: City of Beats
 description: City of Beats places a strong emphasis on music as a fundamental component of the gameplay, rather than simply serving as background sound. The game utilizes synchronized beats to enhance the player's experience, with even explosions, hazards, and projectiles matching the rhythm to create a harmonious connection between the player's reactions, reflexes, and the music.
 featured: false

@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-04-20-minecrafts-pikmin-style-spin-off-game-first-impressions-minecraft-legends
-title: Minecraft's Pikmin-style spin-off game | First Impressions - Minecraft Legends
+title: "Minecraft's Pikmin-Style Spin-Off Game | Minecraft Legends First Impressions"
 game: Minecraft Legends
 description: Minecraft Legends is a refreshing new take on the Minecraft brand with its shift into a third person action-strategy gameplay. It’s not the OG Minecraft gameplay we know and love, but it is STILL distinctively Minecraft in both the looks and the tone.
 featured: false

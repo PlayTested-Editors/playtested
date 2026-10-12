@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-06-20-still-in-early-access-but-already-more-fun-than-battlefield-2042-review-battlebit-remast
-title: 'Still in Early Access, but already more fun than Battlefield 2042 | Review: BattleBit Remastered'
+title: "Still in Early Access, but Already More Fun Than Battlefield 2042 | BattleBit Remastered Review"
 game: BattleBit Remastered
 description: lyndonguitar Test BattleBit Remastered is a massive multiplayer first-person shooter that combines elements of the classic Battlefield games with its own unique  blocky twist.
 featured: false

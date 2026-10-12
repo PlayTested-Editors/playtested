@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-10-11-a-devilish-hack-and-slash-gacha-grindfest-final-cbt-review-dmc-peak-of-combat
-title: 'A devilish hack and slash gacha grindfest | Final CBT Review - DMC: Peak of Combat'
+title: "Devilish Hack and Slash Gacha Grindfest | DMC: Peak of Combat Final CBT Review"
 game: 'Final CBT Review - DMC: Peak of Combat'
 description: 'Devil May Cry: Peak of CombatGlobal 7.8 Action Hack And Slash Get'
 featured: false

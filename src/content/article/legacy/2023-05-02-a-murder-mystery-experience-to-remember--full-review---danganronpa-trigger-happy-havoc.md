@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-05-02-a-murder-mystery-experience-to-remember-full-review-danganronpa-trigger-happy-havoc
-title: 'A murder mystery experience to remember | Full Review - Danganronpa: Trigger Happy Havoc'
+title: "Murder Mystery Experience to Remember | Danganronpa: Trigger Happy Havoc Full Review"
 game: 'Danganronpa: Trigger Happy Havoc'
 description: 'Danganronpa: Trigger Happy Hav Danganronpa: Trigger Happy Havoc is a visual novel murder mystery title that was originally released for PSP back in 2010 and was ported to mobile platforms in 2012.'
 featured: false

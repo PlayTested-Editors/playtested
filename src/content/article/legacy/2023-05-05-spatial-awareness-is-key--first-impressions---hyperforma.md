@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-05-05-spatial-awareness-is-key-first-impressions-hyperforma
-title: Spatial awareness is key | First Impressions - Hyperforma
+title: "Spatial Awareness Is Key | Hyperforma First Impressions"
 game: Hyperforma
 description: Hyperforma is a literal unique take on the Breakout puzzle formula, bounce around the levels, punch your way through the defenses, and hack the system in this unique puzzle game.
 featured: false

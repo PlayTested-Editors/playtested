@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-05-02-feels-like-youre-solving-a-puzzle-and-playing-a-card-game-at-the-same-time-full-review
-title: Feels like you’re solving a puzzle and playing a card game at the same time | Full Review - Card Hog
+title: "Feels Like You're Solving a Puzzle and Playing a Card Game at the Same Time | Card Hog Full Review"
 game: Card Hog
 description: Card Hog - Dungeon Crawler is a card swiping rogue-lite mobile game that combines elements of card game, dungeon crawling, and sliding mechanics as seen in block or number puzzle games such as Unblock me or 2048.
 featured: false

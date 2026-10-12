@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-09-18-rotk-game-formula-but-made-with-mobile-gaming-in-mind-first-impressions-infinite-borde
-title: ROTK game formula, but made with mobile gaming in mind | First Impressions - Infinite Borders
+title: "ROTK Game Formula, but Made With Mobile Gaming in Mind | Infinite Borders First Impressions"
 game: Infinite Borders
 description: Infinite Borders is an engaging strategy game that transports players to the heart of the Three Kingdoms period. You'll have the chance to align yourself with legendary heroes, conquer new lands, and wage epic battles against formidable foes.
 featured: false

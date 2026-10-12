@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-06-01-intense-combat-system-a-rich-narrative-and-stunning-visuals-review-myth-gods-of-asgard
-title: 'Intense combat system, a rich narrative, and stunning visuals | Review - Myth: Gods of Asgard'
+title: "Intense Combat System, a Rich Narrative, and Stunning Visuals | Myth: Gods of Asgard Review"
 game: 'Myth: Gods of Asgard'
 description: 'lyndonguitar Download Myth: Gods of Asgard is a hack and slash action role-playing game set in Norse mythology, with a visually stunning art style, combat, and a gacha system.'
 featured: false

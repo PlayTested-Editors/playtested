@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-02-01-a-new-spongebob-game-spongebob-squarepants-the-cosmic-shake-first-impressions
-title: 'A new SpongeBob game! | SpongeBob SquarePants: The Cosmic Shake - First Impressions'
+title: "New SpongeBob Game! | SpongeBob SquarePants: The Cosmic Shake First Impressions"
 game: 'SpongeBob SquarePants: The Cosmic Shake'
 description: "There is a new SpongeBob game in town, and it is the spiritual successor to 2020's Battle for Bikini Bottom – Rehydrated, which is in itself a remake of the original 2003 Battle for Bikini Bottom. SpongeBob SquarePants: The Cosmic Shake is a 3D platformer game that is based on the Nickelodeon animated series SpongeBob SquarePants."
 featured: false

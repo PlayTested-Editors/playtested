@@ -21,7 +21,7 @@ tags:
   - xbox
   - console
 thumb: /images/reviews/2024-09-26-batman-arkham-origins-0.avif
-title: Don't Sleep On This Batman Arkham game | Batman Arkham Origins Review
+title: "Don't Sleep on This Batman Arkham Game | Batman Arkham Origins Review"
 game: Batman Arkham Origins
 ---
 

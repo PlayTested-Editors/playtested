@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-10-03-the-mobile-version-of-football-manager-readies-for-a-new-season-review-soccer-manager
-title: The mobile 'version' of Football Manager readies for a new season | Review - Soccer Manager 2024
+title: "Mobile 'Version' of Football Manager Readies for a New Season | Soccer Manager 2024 Review"
 game: Soccer Manager 2024
 description: Soccer Manager 2024 - Football 8.1 Sports Football
 featured: false

@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-03-28-a-beautiful-reimagining-of-a-classic-survival-horror-game-full-review-resident-evil-4
-title: A beautiful reimagining of a classic survival horror game | Full Review - Resident Evil 4 Remake
+title: "Beautiful Reimagining of a Classic Survival Horror Game | Resident Evil 4 Remake Full Review"
 game: Resident Evil 4
 description: Resident Evil 4 is the remake of the survivor horror classic bearing the same name back in 2005, as players continue the story of Leon S. Kennedy from Resident Evil 2, and his brand new mission to find the kidnapped daughter of the US president.
 featured: true

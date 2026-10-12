@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-05-31-cute-girls-in-a-gacha-shooter-closed-beta-impressions-snowbreak-containment-zone
-title: 'Cute girls in a gacha shooter | Closed Beta Impressions - Snowbreak: Containment Zone'
+title: "Cute Girls in a Gacha Shooter | Snowbreak: Containment Zone Closed Beta Impressions"
 game: 'Closed Beta Impressions - Snowbreak: Containment Zone'
 description: 'In Snowbreak: Containment Zone, the player assumes the role of an Adjutant, navigating the mysterious and devastated ‘containment zone’ while controlling a squad of waifu heroes with diverse skills, gun types, and abilities. The game features a gacha system for unlocking and acquiring new heroes, each with their own unique traits and tiers.'
 featured: false

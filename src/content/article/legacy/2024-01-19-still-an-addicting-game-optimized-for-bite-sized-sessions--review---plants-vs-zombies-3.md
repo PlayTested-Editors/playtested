@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2024-01-19-still-an-addicting-game-optimized-for-bite-sized-sessions-review-plants-vs-zombies-3
-title: Still an addicting game optimized for bite-sized sessions | Review - Plants vs Zombies 3
+title: "Still an Addicting Game Optimized for Bite-Sized Sessions | Plants vs Zombies 3 Review"
 game: Plants Vs Zombies 3
 description: 'Plants vs. Zombies 3: Welcome to Zomburbia, is the third main installment of the popular tower defense game series developed by PopCap Games. In the game, players must defend their home from waves of zombies by strategically placing different types of plants in their yard.'
 featured: false

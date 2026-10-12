@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2022-12-26-a-classic-ps1-era-rpg-game-that-still-holds-up-to-this-day-valkyrie-profile-lenneth-re
-title: 'A classic PS1-era RPG game that still holds up to this day | Valkyrie Profile: Lenneth - Review'
+title: "Classic PS1-Era RPG Game That Still Holds Up to This Day | Valkyrie Profile: Lenneth Review"
 game: 'Valkyrie Profile: Lenneth'
 description: 'Valkyrie Profile has come a long way from its PS1 origins, its PSP re-release the Valkyrie Profile: Lenneth, the recent mobile ports, to now its modern PS4 and PS5 release.'
 featured: false

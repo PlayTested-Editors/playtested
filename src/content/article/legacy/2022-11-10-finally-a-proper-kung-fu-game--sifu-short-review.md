@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2022-11-10-finally-a-proper-kung-fu-game-sifu-short-review
-title: 'Finally, a proper Kung fu game! | SIFU: Short Review'
+title: "Finally, a Proper Kung Fu Game! | SIFU Short Review"
 game: Sifu
 description: If you’re looking for a martial arts game that will remind you of the classic kung-fu movies you loved as a kid (maybe until now), SIFU has got it for you. Finally, It is now released for the Nintendo Switch.
 featured: false

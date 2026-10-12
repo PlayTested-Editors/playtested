@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-03-14-a-hardcore-puzzle-hacking-game-not-for-the-faint-hearted-full-review-cyber-protocol
-title: A hardcore puzzle hacking game not for the faint-hearted | Full Review - Cyber Protocol
+title: "Hardcore Puzzle Hacking Game Not for the Faint-Hearted | Cyber Protocol Full Review"
 game: Cyber Protocol
 description: Cyber Protocol is an arcade puzzle game that will test your problem solving skills, patience, and memory. Built under the guise of a simple hacking sliding mini-game, Cyber Protocol is much more than it meets the eye. It is frantic, hardcore, and unforgiving.
 featured: false

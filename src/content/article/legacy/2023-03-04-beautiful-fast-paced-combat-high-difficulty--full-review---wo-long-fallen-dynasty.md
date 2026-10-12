@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-03-04-beautiful-fast-paced-combat-high-difficulty-full-review-wo-long-fallen-dynasty
-title: 'Beautiful fast-paced combat, high difficulty | Full Review - Wo Long: Fallen Dynasty'
+title: "Beautiful Fast-Paced Combat, High Difficulty | Wo Long: Fallen Dynasty Full Review"
 game: 'Wo Long: Fallen Dynasty'
 description: 'Wo Long: Fallen Dynasty is a fast-paced, souls-like third person RPG set in a fictionalized version of ancient Three Kingdoms China.'
 featured: false

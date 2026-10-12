@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-01-13-the-greatest-one-piece-game-so-far-one-piece-odyssey-review
-title: The greatest ONE PIECE game so far! | ONE PIECE ODYSSEY - Review
+title: "Greatest ONE PIECE Game So Far! | ONE PIECE ODYSSEY Review"
 game: One Piece Odyssey
 description: ONE PIECE ODYSSEY is something special. A rare occurrence; there’s finally a good Anime game that isn’t a hack and slash or a fighting game, as it instead features a fresh JRPG turn-based combat system. A nice change of pace and a solid design decision worthy of our attention.
 featured: false

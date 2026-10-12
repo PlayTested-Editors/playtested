@@ -21,7 +21,7 @@ tags:
   - xbox
   - console
 thumb: /images/reviews/2025-03-30-ac-shadows-0.avif
-title: The Best AC In The Last Ten Years | Assassin’s Creed Shadows Review
+title: "Best AC in the Last Ten Years | Assassin's Creed Shadows Review"
 game: Assassin’s Creed Shadows
 ---
 

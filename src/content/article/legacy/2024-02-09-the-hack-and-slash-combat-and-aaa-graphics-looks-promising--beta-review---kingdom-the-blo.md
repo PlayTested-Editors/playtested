@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2024-02-09-the-hack-and-slash-combat-and-aaa-graphics-looks-promising-beta-review-kingdom-the-blo
-title: 'The hack-and-slash combat and AAA graphics looks promising | Beta Review - Kingdom: The Blood'
+title: "Hack-and-Slash Combat and AAA Graphics Looks Promising | Kingdom: The Blood Beta Review"
 game: 'Beta Review - Kingdom: The Blood'
 description: '✨Overview Kingdom: The Blood is an upcoming third person ARPG developed based on the popular Netflix miniseries Kingdom. Set in ancient Korea during a zombie apocalypse, the game combines historical elements with undead mayhem ‘Jiangshi’ to create unique setting. Kingdom: The Blood features AAA-level of graphics, hack and slash combat, and live service elements.'
 featured: false

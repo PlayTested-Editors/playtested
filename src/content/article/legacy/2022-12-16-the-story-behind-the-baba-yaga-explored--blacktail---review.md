@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2022-12-16-the-story-behind-the-baba-yaga-explored-blacktail-review
-title: The story behind the Baba Yaga explored | Blacktail - Review
+title: "Story Behind the Baba Yaga Explored | Blacktail Review"
 game: Blacktail
 description: Slavic fairy tales, good and evil, and a first person archery survival adventure. The story behind the infamous Baba Yaga is explored in this new game titled Blacktail. You play as the teenage girl Yaga, trying to find his twin sister Zora and other children who have all gone missing.
 featured: false

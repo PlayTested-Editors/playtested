@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-09-23-indie-spotlight-rhythm-and-storytelling-for-your-ears-review-concerto-on-white-demo
-title: '[Indie Spotlight] Rhythm and Storytelling for your ears | Review - Concerto on White (Demo)'
+title: "[Indie Spotlight] Rhythm and Storytelling for Your Ears | Concerto on White (Demo) Review"
 game: Concerto on White (Demo)
 description: I was fortunate enough to be able to try out the Android demo for the upcoming Concerto on White, and I was pleasantly impressed by its blend of rhythm-based gaming, musical simulation, and visual novel style storytelling.
 featured: false

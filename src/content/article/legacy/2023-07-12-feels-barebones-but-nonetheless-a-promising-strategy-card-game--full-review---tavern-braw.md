@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-07-12-feels-barebones-but-nonetheless-a-promising-strategy-card-game-full-review-tavern-braw
-title: Feels barebones but nonetheless a promising strategy card game | Full Review - Tavern Brawls
+title: "Feels Barebones but Nonetheless a Promising Strategy Card Game | Tavern Brawls Full Review"
 game: Tavern Brawls
 description: lyndonguitar Download In Tavern Brawls, players engage in thrilling card battles with tactical and resource management elements, choose a hero character to lead the battles, strategize your cards, and watch them battle it out... automatically.
 featured: false

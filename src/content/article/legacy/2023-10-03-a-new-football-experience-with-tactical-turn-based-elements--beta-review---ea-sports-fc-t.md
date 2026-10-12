@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-10-03-a-new-football-experience-with-tactical-turn-based-elements-beta-review-ea-sports-fc-t
-title: A new football experience with tactical turn-based elements | Beta Review - EA Sports FC Tactical
+title: "New Football Experience With Tactical Turn-Based Elements | EA Sports FC Tactical Beta Review"
 game: Beta Review - EA Sports FC Tactical
 description: EA SPORTS FC™ TacticalGlobal 7.7 Sports Turn-Based Tactics Pre-register
 featured: false

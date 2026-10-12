@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-03-01-an-innovative-turn-based-combat-with-mechs-first-impressions-phantom-brigade
-title: An innovative turn-based combat with Mechs! | First Impressions - Phantom Brigade
+title: "Innovative Turn-Based Combat With Mechs! | Phantom Brigade First Impressions"
 game: Phantom Brigade
 description: Set in a dystopian future, the game puts players in the shoes of a team of customizable mech pilots fighting against a powerful military. This team is the titular Phantom Brigade.
 featured: false

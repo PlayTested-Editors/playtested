@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-07-17-gear-up-shoot-and-loot-extract-trade-first-impressions-arena-breakout
-title: Gear up, Shoot and Loot, Extract, Trade | First Impressions - Arena Breakout
+title: "Gear Up, Shoot and Loot, Extract, Trade | Arena Breakout First Impressions"
 game: Arena Breakout
 description: Set in a war-torn city Kamona with a post-apocalyptic atmosphere, Arena Breakout drops players into the midst of a fierce battle for survival. You'll find yourself navigating through desolate streets, abandoned buildings, and treacherous alleyways, all while engaging in heart-pounding do-or-die firefights against both AI-controlled enemies and other players. The game's atmosphere is amazing, immersing you in a war-torn world where danger lurks around every corner.
 featured: false

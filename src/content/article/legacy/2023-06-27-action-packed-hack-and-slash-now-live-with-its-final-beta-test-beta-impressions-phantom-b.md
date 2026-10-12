@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-06-27-action-packed-hack-and-slash-now-live-with-its-final-beta-test-beta-impressions-phantom-b
-title: 'Action-packed hack and slash now live with its final beta test!| Beta Impressions: Phantom Blade: EX'
+title: "Action-Packed Hack and Slash Now Live With Its Final Beta Test! | Phantom Blade: EX Beta Impressions"
 game: 'Phantom Blade: EX'
 description: 'Phantom Blade: Executioners offers a fast-paced experience that requires players to utilize two-button abilities along with dodge/roll, jump, and parry/block actions. The game provides a plethora of unlockable abilities/skills that can be mixed, matched, and synergized to create amazing combos.'
 featured: false

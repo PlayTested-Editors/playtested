@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-06-08-an-amnesia-game-but-now-you-can-have-a-weapon-first-impressions-amnesia-the-bunker
-title: 'An Amnesia game, but now you can have a weapon* | First Impressions - Amnesia: The Bunker'
+title: "Amnesia Game, but Now You Can Have a Weapon* | Amnesia: The Bunker First Impressions"
 game: 'Amnesia: The Bunker'
 description: 'Amnesia: The Bunker offers a chilling and unforgettable first person horror experience through its gripping atmosphere, non-linear gameplay, resource management mechanics, and a dynamic AI-driven monster.'
 featured: false

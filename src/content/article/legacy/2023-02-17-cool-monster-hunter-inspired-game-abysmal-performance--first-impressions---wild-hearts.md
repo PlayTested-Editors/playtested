@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-02-17-cool-monster-hunter-inspired-game-abysmal-performance-first-impressions-wild-hearts
-title: Cool Monster Hunter inspired game, abysmal performance | First Impressions - Wild Hearts
+title: "Cool Monster Hunter Inspired Game, Abysmal Performance | Wild Hearts First Impressions"
 game: Wild Hearts
 description: 'Wild Hearts is a new game that offers a unique blend of Monster Hunter-style gameplay and Fortnite building mechanics: an ancient technology called Karakuri magic. Players take on the role of a customizable hunter tasked with tracking down and defeating massive monsters known as Kemono, which are negatively affecting the world of Azuma and its inhabitants.'
 featured: false

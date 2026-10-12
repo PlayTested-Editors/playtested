@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-02-25-launch-rockets-into-space-in-realistic-fashion-first-impressions-kerbal-space-program
-title: Launch rockets into space, in realistic fashion | First Impressions - Kerbal Space Program 2
+title: "Launch Rockets Into Space, in Realistic Fashion | Kerbal Space Program 2 First Impressions"
 game: Kerbal Space Program 2
 description: Kerbal Space Program 2, or KSP2, is essentially a space flight simulator that offers players the opportunity to design, engineer, build, and launch their own rockets, spacecraft, and planes as they attempt to explore the vast reaches of the fictional Kerbol System and beyond.
 featured: false

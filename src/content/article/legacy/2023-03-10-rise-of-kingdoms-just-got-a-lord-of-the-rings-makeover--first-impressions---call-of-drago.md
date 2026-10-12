@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-03-10-rise-of-kingdoms-just-got-a-lord-of-the-rings-makeover-first-impressions-call-of-drago
-title: Rise of Kingdoms just got a Lord of the Rings makeover | First Impressions - Call of Dragons
+title: "Rise of Kingdoms Just Got a Lord of the Rings Makeover | Call of Dragons First Impressions"
 game: Call of Dragons
 description: From the makers of the popular strategy game Rise of Kingdoms, comes another similar game with a new fresh coat of paint, Call of Dragons.
 featured: false

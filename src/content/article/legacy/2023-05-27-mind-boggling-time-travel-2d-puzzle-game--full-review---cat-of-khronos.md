@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-05-27-mind-boggling-time-travel-2d-puzzle-game-full-review-cat-of-khronos
-title: Mind-boggling time travel 2D puzzle game | Full Review - Cat of Khronos
+title: "Mind-Boggling Time Travel 2D Puzzle Game | Cat of Khronos Full Review"
 game: Cat of Khronos
 description: Cat of Khronos is a time traveling puzzle game with mind bending mechanics that is sure to keep players captivated and their brains challenged as they navigate through various “4D” puzzles
 featured: false

@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-03-26-beautiful-captivating-albeit-short-lived-full-review-lucid-lenses
-title: Beautiful, captivating, albeit short-lived | Full Review - Lucid Lenses
+title: "Beautiful, Captivating, Albeit Short-Lived | Lucid Lenses Full Review"
 game: Lucid Lenses
 description: Lucid Lenses is a narratively-driven romantic adventure game featuring mesmerizing puzzles and clever interactions, bolstered by a nice soft vibrant painting-like artwork.
 featured: false

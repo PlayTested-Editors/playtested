@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-10-27-this-3d-cyberpunk-ninja-simulator-gets-a-sequel-first-impressions-ghostrunner-2
-title: This 3D cyberpunk ninja simulator gets a sequel | First Impressions - Ghostrunner 2
+title: "This 3D Cyberpunk Ninja Simulator Gets a Sequel | Ghostrunner 2 First Impressions"
 game: Ghostrunner 2
 description: Ghostrunner 2 is an exciting sequel to the original Ghostrunner released in 2020, which kind a took some spotlight out of Cyberpunk 2077 especially with its similar themes, the sequel builds on the elements that made the first game great while introducing new features and gameplay mechanics.
 featured: false

@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-05-21-would-you-like-to-know-more-early-access-impressions-starship-troopers-extermination
-title: 'Would you like to know more? | Early Access Impressions - Starship Troopers: Extermination'
+title: "Would You Like to Know More? | Starship Troopers: Extermination Early Access Impressions"
 game: 'Starship Troopers: Extermination'
 description: 'Starship Troopers: Extermination is a 16 player co-op FPS for PC that has just recently been released in early access. Players can experience the thrill of battling hordes of bugs alongside fellow troopers.'
 featured: false

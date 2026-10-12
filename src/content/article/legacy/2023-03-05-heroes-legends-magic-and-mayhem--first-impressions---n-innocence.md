@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-03-05-heroes-legends-magic-and-mayhem-first-impressions-n-innocence
-title: Heroes, legends, magic, and mayhem | First Impressions - N-INNOCENCE
+title: "Heroes, Legends, Magic, and Mayhem | N-INNOCENCE First Impressions"
 game: N-INNOCENCE
 description: N-INNOCENCE is a mobile game that takes you on a journey through a world of heroes, legends, magic, and mayhem. With its gacha-infused side-scrolling RPG fighting gameplay, this game offers a unique experience that is both addicting and exciting. It is currently out now at a limited capacity, for North American Regions only on both Android and iOS.
 featured: false

@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-05-25-a-high-quality-gacha-game-first-impressions-aether-gazer
-title: A high quality gacha game? | First Impressions - Aether Gazer
+title: "High Quality Gacha Game? | Aether Gazer First Impressions"
 game: Aether Gazer
 description: Aether Gazer is a Action RPG gacha game set in a virtual world where humans have transcended into after a catastrophic war and have since forgotten their true origins. Players take on the role of the administrator of “Aether Gazer''. Fighters called Modifiers are tasked to protect this virtual world from corrupted beings called Visbanes.
 featured: false

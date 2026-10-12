@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-06-04-breathes-new-life-into-the-series-first-impressions-street-fighter-6
-title: Breathes new life into the series | First Impressions - Street Fighter 6
+title: "Breathes New Life Into the Series | Street Fighter 6 First Impressions"
 game: Street Fighter 6
 description: Street Fighter 6 has come a long way. It features a 18-character roster of both new and returning fighters rendered in new Full 3D art style that looks much closer now to contemporaries like Tekken, than the classic 2D or artistic visuals of Street Fighter, however, the spirit of Street Fighter is still felt here. Street Fighter 6’s roster of 18 characters is mostly familiar, with 12 returning characters and six being entirely new.
 featured: false

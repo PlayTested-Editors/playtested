@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-07-06-legends-rise-gachas-roll-beta-opens-now-for-all-beta-review-king-arthur-legends-rise
-title: 'Legends rise, gachas roll, beta opens, now for all | Beta Review - King Arthur: Legends Rise'
+title: "Legends Rise, Gachas Roll, Beta Opens, Now for All | King Arthur: Legends Rise Beta Review"
 game: 'King Arthur: Legends Rise'
 description: 'lyndonguitar Download King Arthur: Legends Rise is an ambitious turn-based squad RPG that invites players to embark on a dark and mysterious journey inspired by the mythical adventures of the titular legendary King Arthur. This game takes the familiar tale of Arthurian legends and infuses it with stunning AAA level of graphics, turn-based RPG combat, hero collecting gacha mechanics, and a touch of kingdom management.'
 featured: false

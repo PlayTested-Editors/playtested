@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-05-19-a-dreamy-puzzle-game-with-a-unique-concept-full-review-humanity
-title: A dreamy puzzle game with a unique concept | Full Review - HUMANITY
+title: "Dreamy Puzzle Game With a Unique Concept | HUMANITY Full Review"
 game: Humanity
 description: HUMANITY HUMANITY is a third-person puzzle game available for PC and PlayStation where you assume the role of a dog guiding crowds of humans to their destination.
 featured: false

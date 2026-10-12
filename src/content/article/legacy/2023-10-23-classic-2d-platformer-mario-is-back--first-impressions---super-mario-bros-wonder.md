@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-10-23-classic-2d-platformer-mario-is-back-first-impressions-super-mario-bros-wonder
-title: Classic 2D platformer Mario is back! | First Impressions - Super Mario Bros. Wonder
+title: "Classic 2D Platformer Mario Is Back! | Super Mario Bros. Wonder First Impressions"
 game: Super Mario Bros. Wonder
 description: I never was a big Super Mario fan, but I did play a lot of it during my NES and SNES childhood days. It's one of the earliest gaming experiences I've ever had, especially with Super Mario Bros. 1 and 3. I also a played some Mario Kart on the Switch and their recent 3D platformers, but Wonder is just really special. Classic 2D platformer Mario is back, and it's probably the best Super Mario game to date.
 featured: false

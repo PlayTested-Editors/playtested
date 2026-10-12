@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2024-02-02-an-exhilarating-combat-experience-with-missed-opportunites-review-one-punch-man-world
-title: 'An exhilarating combat experience with missed opportunites | Review - One Punch Man: World'
+title: "Exhilarating Combat Experience With Missed Opportunites | One Punch Man: World Review"
 game: 'One Punch Man: World'
 description: 'One Punch Man: WorldSEA 8.5 RPG Action PC Version'
 featured: false

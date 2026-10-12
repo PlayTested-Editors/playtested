@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-03-19-the-prequel-that-i-never-knew-i-needed-first-impressions-bayonetta-origins
-title: The prequel that I never knew I needed | First Impressions - Bayonetta Origins
+title: "Prequel That I Never Knew I Needed | Bayonetta Origins First Impressions"
 game: Bayonetta Origins
 description: 'Bayonetta is a series that has never been known for its immersive storytelling and child friendly nature, but that is about to change with the release of Bayonetta Origins: Cereza and the Lost Demon. Teased as a secret chapter in Bayonetta 3, it is a full blown adventure game with a children’s book style approach. It is now available for the Nintendo Switch as an exclusive, following Bayonetta 2 and 3.'
 featured: false

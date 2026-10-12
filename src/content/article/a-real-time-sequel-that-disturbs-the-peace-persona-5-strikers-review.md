@@ -1,5 +1,5 @@
 ---
-title: "A Real-Time Sequel That Disturbs The Peace | Persona 5 Strikers Review "
+title: "Real-Time Sequel That Disturbs the Peace | Persona 5 Strikers Review"
 pubDate: 2026-07-18T00:30:00.000+08:00
 draft: false
 description: Persona 5 Strikers rolls up not as some cheap, slapped-together

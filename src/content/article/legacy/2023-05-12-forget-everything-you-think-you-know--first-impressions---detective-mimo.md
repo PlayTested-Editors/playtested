@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-05-12-forget-everything-you-think-you-know-first-impressions-detective-mimo
-title: Forget everything you think you know | First Impressions - Detective Mimo
+title: "Forget Everything You Think You Know | Detective Mimo First Impressions"
 game: Detective Mimo
 description: Detective Mimo is a charming and self-aware detective game that's perfect for fans of mystery and adventure games with a nice touch of fourth wall breaking. The game follows the titular detective cat Mimo as she solves crimes around town, and it's up to the player to help him piece together the clues and catch the culprit.
 featured: false

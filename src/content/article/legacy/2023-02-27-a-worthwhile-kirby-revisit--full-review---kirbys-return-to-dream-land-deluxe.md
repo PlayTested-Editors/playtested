@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-02-27-a-worthwhile-kirby-revisit-full-review-kirbys-return-to-dream-land-deluxe
-title: A worthwhile Kirby revisit | Full Review - Kirby's Return to Dream Land Deluxe
+title: "Worthwhile Kirby Revisit | Kirby's Return to Dream Land Deluxe Full Review"
 game: Kirby’s Return to Dream Land Deluxe
 description: The added Deluxe in the title does not really do the game’s title justice, as Kirby's Return to Dream Land Deluxe is a full-on remake of the original game, which was released for the Wii console back in 2011.
 score: 9.0

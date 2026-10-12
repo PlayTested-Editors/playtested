@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2024-01-11-faithful-dynamic-combat-but-definitely-not-peak-of-combat-review-devil-may-cry-peak-of
-title: Faithful dynamic combat, but definitely not ‘Peak of Combat’ | Review - Devil May Cry Peak of Combat
+title: "Faithful Dynamic Combat, but Definitely Not 'Peak of Combat' | Devil May Cry Peak of Combat Review"
 game: 'Devil May Cry: Peak of Combat'
 description: 'Devil May Cry: Peak of CombatGlobal 7.8 Action Hack And Slash Get'
 featured: false

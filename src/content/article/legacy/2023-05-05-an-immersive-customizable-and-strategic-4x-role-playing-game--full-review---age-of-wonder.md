@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-05-05-an-immersive-customizable-and-strategic-4x-role-playing-game-full-review-age-of-wonder
-title: An immersive, customizable, and strategic 4X role-playing game | Full Review - Age of Wonders 4
+title: "Immersive, Customizable, and Strategic 4X Role-Playing Game | Age of Wonders 4 Full Review"
 game: Age of Wonders 4
 description: In Age of Wonders 4, players take on the role of a leader of an extremely customizable faction in the game and strive to conquer the land in various ways, participate in diplomacy, combat, research, and empire management gameplay to create a deeply immersive and strategic gameplay. Players will be able to customize their armies, heroes, and cities, as well as explore a vast and dynamic world filled with hidden treasures and powerful artifacts.
 featured: false

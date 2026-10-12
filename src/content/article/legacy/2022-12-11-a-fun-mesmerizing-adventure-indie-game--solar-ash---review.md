@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2022-12-11-a-fun-mesmerizing-adventure-indie-game-solar-ash-review
-title: A fun mesmerizing adventure indie game | Solar Ash - Review
+title: "Fun Mesmerizing Adventure Indie Game | Solar Ash Review"
 game: Solar Ash
 description: Glide your way into a satisfying melancholic lightshow in style. Solar Ash’s artistic style is as joyfully vibrant as it is depressingly dark, as you journey through and across space and time inside a blackhole called the Ultravoid.
 featured: false

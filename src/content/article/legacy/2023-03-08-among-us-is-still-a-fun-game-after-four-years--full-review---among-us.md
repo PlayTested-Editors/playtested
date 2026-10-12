@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-03-08-among-us-is-still-a-fun-game-after-four-years-full-review-among-us
-title: Among Us is still a fun game after four years | Full Review - Among Us
+title: "Among Us Is Still a Fun Game After Four Years | Among Us Full Review"
 game: Among Us
 description: Among Us is a multiplayer deduction party game set on a spaceship where players take on the role of either a Crewmate or a killer Impostor.
 featured: false

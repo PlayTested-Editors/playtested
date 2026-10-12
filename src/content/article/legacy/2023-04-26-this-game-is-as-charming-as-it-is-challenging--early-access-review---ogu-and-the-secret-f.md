@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-04-26-this-game-is-as-charming-as-it-is-challenging-early-access-review-ogu-and-the-secret-f
-title: This game is as charming as it is challenging | Early Access Review - Ogu and the Secret Forest
+title: "This Game Is as Charming as It Is Challenging | Ogu and the Secret Forest Early Access Review"
 game: Early Access Review - Ogu and the Secret Forest
 description: Ogu and the Secret Forest 9.1 Adventure Healing Test
 featured: false

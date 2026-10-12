@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-11-20-a-contender-for-wgoty-review-the-walking-dead-destinies
-title: 'A contender for WGOTY | Review - The Walking Dead: Destinies'
+title: "Contender for WGOTY | The Walking Dead: Destinies Review"
 game: 'The Walking Dead: Destinies'
 description: 'The Walking Dead: Destinies 8.7 Action Action role-playing'
 featured: false

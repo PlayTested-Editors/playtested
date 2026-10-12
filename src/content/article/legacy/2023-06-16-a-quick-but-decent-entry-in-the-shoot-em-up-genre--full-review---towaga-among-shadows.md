@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-06-16-a-quick-but-decent-entry-in-the-shoot-em-up-genre-full-review-towaga-among-shadows
-title: A quick but decent entry in the shoot 'em up genre | Full Review - Towaga Among Shadows
+title: "Quick but Decent Entry in the Shoot 'Em Up Genre | Towaga Among Shadows Full Review"
 game: 'Towaga: Among Shadows'
 description: 'Towaga: Among Shadows Set in a mysterious and dark Aztec-inspired world, Towaga: Among Shadows places players in the role of Chimu, a masked protagonist with supernatural powers, tasked with defending the sacred Temple of Towaga from relentless hordes of shadow creatures.'
 featured: false

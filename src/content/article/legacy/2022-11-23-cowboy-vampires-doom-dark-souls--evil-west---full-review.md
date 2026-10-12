@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2022-11-23-cowboy-vampires-doom-dark-souls-evil-west-full-review
-title: Cowboy, Vampires, Doom, Dark Souls | Evil West - Full Review
+title: "Cowboy, Vampires, Doom, Dark Souls | Evil West Full Review"
 game: Evil West
 description: Evil West is a newly released third person twisted mashup of all the gritty genres that we all hate to love. Steampunk, Western, Supernatural Horror, Gothic, Souls-like, Shooter, and the like.
 featured: false

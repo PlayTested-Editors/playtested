@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-02-26-this-arcade-shootem-up-has-mesmerizing-visuals-first-impressions-zerovector
-title: This arcade shoot’em up has mesmerizing visuals | First Impressions - ZeroVector
+title: "This Arcade Shoot'em Up Has Mesmerizing Visuals | ZeroVector First Impressions"
 game: ZeroVector
 description: ZeroVector is an arcade vertical shoot’em up designed to be played with one finger, which is used to move the player's ship. The ship automatically fires at enemies, and the player must avoid the incoming projectiles cluttering the map.
 featured: false

@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-05-02-a-unique-mind-bending-tower-defense-game-full-review-defense-derby
-title: A unique mind bending tower defense game | Full Review - Defense Derby
+title: "Unique Mind Bending Tower Defense Game | Defense Derby Full Review"
 game: Defense Derby
 description: Defense Derby is a mobile multiplayer tower defense game featuring hero collection and a unique mind bending multiplayer format. It is currently in a beta test until May 11.
 featured: false

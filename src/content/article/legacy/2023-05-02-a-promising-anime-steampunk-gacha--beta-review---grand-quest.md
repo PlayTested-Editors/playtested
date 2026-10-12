@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-05-02-a-promising-anime-steampunk-gacha-beta-review-grand-quest
-title: A promising anime steampunk gacha | Beta Review - Grand Quest
+title: "Promising Anime Steampunk Gacha | Grand Quest Beta Review"
 game: Beta Review - Grand Quest
 description: lyndonguitar Pre-register Grand Quest is an all-new gacha third person game in a world where magic and technology co-exist. A Closed Beta Test is now open to players in the United States and Japan, with plans for more regions coming in later.
 featured: false

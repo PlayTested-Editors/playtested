@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-07-18-a-puzzle-game-disguised-as-a-cyberpunk-turn-based-hack-and-slash-review-red-ronin
-title: A puzzle game disguised as a cyberpunk turn-based hack and slash | Review - Red Ronin
+title: "Puzzle Game Disguised as a Cyberpunk Turn-Based Hack and Slash | Red Ronin Review"
 game: Red Ronin
 description: Red Ronin is a turn-based dash 'n slash game that follows the story of a bloodthirsty ronin named Red, seeking revenge alongside her companion bot, ISAAC. Betrayed by her former team, Red sets out on a relentless journey for revenge.
 featured: false

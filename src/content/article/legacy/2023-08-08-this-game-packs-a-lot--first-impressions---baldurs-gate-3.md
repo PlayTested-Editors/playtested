@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-08-08-this-game-packs-a-lot-first-impressions-baldurs-gate-3
-title: This game packs a LOT! | First Impressions - Baldur's Gate 3
+title: "This Game Packs a LOT! | Baldur's Gate 3 First Impressions"
 game: Baldur's Gate 3
 description: Baldur's Gate 3, an epic RPG developed by Larian Studios and building on the legacy of the iconic Baldur's Gate series, was released in early access in 2020 and was met with an overwhelmingly positive response, reinvigorating interest in D&D-based video games. Larian Studios embraced the complexities of D&D's 5th Edition, creating a game that felt akin to playing the tabletop version virtually, for better and for worse. The vast world, intricate systems, and captivating storytelling that come with the experience of D&D are promised, resonating with long-time fans and newcomers alike. Now, three years later, Baldur’s Gate 3 is officially out on PC.
 featured: false

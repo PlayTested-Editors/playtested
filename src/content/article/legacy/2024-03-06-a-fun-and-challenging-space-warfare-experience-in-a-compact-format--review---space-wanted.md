@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2024-03-06-a-fun-and-challenging-space-warfare-experience-in-a-compact-format-review-space-wanted
-title: A fun and challenging space warfare experience in a compact format | Review - Space Wanted
+title: "Fun and Challenging Space Warfare Experience in a Compact Format | Space Wanted Review"
 game: Space Wanted
 description: ✨Overview Space Wanted is a brand new mobile space shooter and warfare game featuring rogue-lite elements and a time survival aspect. As a single-player roguelike experience set in space, players are tasked with commanding a fleet of ships to take down space pirates in intense battles. The game is exclusively available here on TapTap for Android (Mobile) and has just been released.
 featured: false

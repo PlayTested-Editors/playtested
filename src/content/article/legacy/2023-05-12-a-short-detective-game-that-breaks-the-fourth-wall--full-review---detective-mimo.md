@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-05-12-a-short-detective-game-that-breaks-the-fourth-wall-full-review-detective-mimo
-title: A short detective game that breaks the fourth wall | Full Review - Detective Mimo
+title: "Short Detective Game That Breaks the Fourth Wall | Detective Mimo Full Review"
 game: Detective Mimo
 description: Detective Mimo is a delightful and entertaining game that combines classic point-and-click detective gameplay with a charming and whimsical visual style. The game's use of fourth-wall breaking elements adds an extra layer of intrigue and keeps players on their toes, always expecting the unexpected.
 featured: false

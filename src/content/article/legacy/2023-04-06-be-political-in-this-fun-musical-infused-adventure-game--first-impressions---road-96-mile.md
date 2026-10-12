@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-04-06-be-political-in-this-fun-musical-infused-adventure-game-first-impressions-road-96-mile
-title: 'Be political in this fun musical-infused adventure game | First Impressions - Road 96: Mile 0'
+title: "Be Political in This Fun Musical-Infused Adventure Game | Road 96: Mile 0 First Impressions"
 game: 'Road 96: Mile 0'
 description: 'Road 96: Mile 0 is actually the prequel to the critically acclaimed game Road 96, bearing the same first-person adventure gameplay, emphasizing narrative choices, consequences to actions, and social commentary. However, the gameplay setup is very much different from each other, especially with Road 96: Mile 0’s focus on a more fixed narrative, coupled with musical and rhythm themes.'
 featured: false

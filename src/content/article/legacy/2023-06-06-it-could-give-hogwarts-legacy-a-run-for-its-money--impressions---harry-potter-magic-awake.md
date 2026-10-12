@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-06-06-it-could-give-hogwarts-legacy-a-run-for-its-money-impressions-harry-potter-magic-awake
-title: 'It could give Hogwarts: Legacy a run for its money | Impressions - Harry Potter: Magic Awakened'
+title: "It Could Give Hogwarts: Legacy a Run for Its Money | Harry Potter: Magic Awakened First Impressions"
 game: 'Harry Potter: Magic Awakened'
 description: 'Harry Potter: Magic Awakened re-introduces us to the world of wizarding once again, following a similar path to the one Harry Potter took, with Hagrid guiding us and leading us through Diagon Alley for school supplies. It allows us to customize our appearance and attire, introduces us to the deck-based combat system, and lets us choose owls as companions, among many other features.'
 featured: false

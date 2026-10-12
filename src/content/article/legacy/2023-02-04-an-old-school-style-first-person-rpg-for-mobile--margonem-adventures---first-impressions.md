@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-02-04-an-old-school-style-first-person-rpg-for-mobile-margonem-adventures-first-impressions
-title: An old-school style first person RPG for Mobile! | Margonem Adventures - First Impressions
+title: "Old-School Style First Person RPG for Mobile! | Margonem Adventures First Impressions"
 game: Margonem
 description: At first glance, youngsters might think of this game as Minecraft inspired with its blocky looking graphics. For the more aged gamer, It looks like The Elder Scrolls I or II. And they’re both right, as Margonem Adventures looks as if The Elder Scrolls II got upgraded to Minecraft graphics.
 featured: false

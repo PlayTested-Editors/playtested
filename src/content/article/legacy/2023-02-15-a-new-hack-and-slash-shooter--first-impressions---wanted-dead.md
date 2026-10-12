@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-02-15-a-new-hack-and-slash-shooter-first-impressions-wanted-dead
-title: 'A new hack and slash shooter! | First Impressions - Wanted: Dead'
+title: "New Hack and Slash Shooter! | Wanted: Dead First Impressions"
 game: 'Wanted: Dead'
 description: 'Wanted: Dead a new action-packed game that blends the fast-paced gameplay of a hack and slash game with the excitement of a third-person shooter.'
 featured: false

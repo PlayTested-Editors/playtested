@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-05-02-air-hockey-and-moba-had-a-baby-first-impressions-omega-strikers
-title: Air Hockey and MOBA had a baby | First Impressions - Omega Strikers
+title: "Air Hockey and MOBA Had a Baby | Omega Strikers First Impressions"
 game: Omega Strikers
 description: Imagine if Air Hockey was instead played in human size with six players having their own superhuman powers with absolutely no physical restraints or rules, Omega Strikers is exactly just that and more. It is a 3v3 free-to-play multiplayer game that is available for Mobile, PC, Xbox, Playstation, and Switch, with complete crossplay functionality. For the purpose of this article, I will be talking about the Mobile version with predominantly touchscreen controls.
 featured: false

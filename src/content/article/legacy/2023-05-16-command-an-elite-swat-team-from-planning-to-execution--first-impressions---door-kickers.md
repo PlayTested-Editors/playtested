@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-05-16-command-an-elite-swat-team-from-planning-to-execution-first-impressions-door-kickers
-title: Command an elite SWAT team from planning to execution | First Impressions - Door Kickers
+title: "Command an Elite SWAT Team From Planning to Execution | Door Kickers First Impressions"
 game: Door Kickers
 description: At its core, Door Kickers is a top-down real-time strategy game that puts you in command of an elite SWAT team, from planning to execution. Your mission is to neutralize threats, save hostages, and complete objectives within a variety of scenarios. The game's strength lies in its tactical depth — both in pre-planning and in the actual real-time execution, offering an impressive array of tools and options to tackle each mission.
 featured: false

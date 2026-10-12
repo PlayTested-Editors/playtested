@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-10-16-lords-of-the-fallen-bravely-steps-once-again-for-a-second-shot-impressions-lords-of-th
-title: Lords of the Fallen bravely steps once again for a second shot | Impressions - Lords of the Fallen
+title: "Lords of the Fallen Bravely Steps Once Again for a Second Shot | Lords of the Fallen First Impressions"
 game: Lords of the Fallen
 description: I first noticed this interesting game -- Lords of the Fallen -- many years ago on Steam, but I never got around to playing it. It appeared on my radar quite a few times, especially during Steam sales, but I never had the chance to try it. Fortunately, they made a reboot, and I played that instead.
 featured: false

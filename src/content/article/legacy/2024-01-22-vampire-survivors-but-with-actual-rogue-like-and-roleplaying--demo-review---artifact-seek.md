@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2024-01-22-vampire-survivors-but-with-actual-rogue-like-and-roleplaying-demo-review-artifact-seek
-title: Vampire Survivors but with ACTUAL rogue-like and roleplaying | Demo Review - Artifact Seeker
+title: "Vampire Survivors but With ACTUAL Rogue-like and Roleplaying | Artifact Seeker Demo Review"
 game: Review - Artifact Seeker
 description: Artifact Seeker presents itself as a promising 3D Roguelike Survivor RPG game with bullet hell arena elements. Having recently released its demo on January 14, the game offers players a taste of what's to come, featuring two playable characters and the initial two chapters. The full game is just slated as ‘Coming Soon’ on Steam with no clear date yet.
 featured: false

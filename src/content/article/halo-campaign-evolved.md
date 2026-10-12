@@ -1,5 +1,5 @@
 ---
-title: Excellent Entry or Re-entry Point Into Halo | Halo Campaign Evolved
+title: "Excellent Entry or Re-Entry Point Into Halo | Halo Campaign Evolved Review"
 pubDate: 2026-10-12T12:42:24.644+08:00
 draft: false
 description: Halo Campaign Evolved delivers a tight, 10-to-12-hour blast from start to finish that perfectly balances modern conventions with classic magic.

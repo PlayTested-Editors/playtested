@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2024-01-23-not-really-a-detective-game-but-a-solid-visual-novel-experience-nonetheless-review-met
-title: Not really a 'Detective' game but a solid visual novel experience nonetheless | Review - Methods
+title: "Not Really a 'Detective' Game but a Solid Visual Novel Experience Nonetheless | Methods Review"
 game: Methods
 description: 'Methods: Detective Competition 8.7 Point & Click Story Rich $3.49'
 featured: false

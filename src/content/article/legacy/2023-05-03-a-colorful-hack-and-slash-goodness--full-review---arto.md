@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-05-03-a-colorful-hack-and-slash-goodness-full-review-arto
-title: A colorful hack and slash goodness | Full Review - Arto
+title: "Colorful Hack and Slash Goodness | Arto Full Review"
 game: Arto
 description: Arto Arto is an action-adventure hack and slash game featuring a world full of — or devoid of — vibrant colors, an action-packed challenging combat, and a mesmerizing atmosphere.
 featured: false

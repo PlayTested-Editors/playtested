@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-09-22-a-potentially-enjoyable-magical-sandbox-pvppve-experience-review-dark-and-light-mobile
-title: A potentially enjoyable magical sandbox PvP/PvE experience | Review - Dark and Light Mobile (Beta)
+title: "Potentially Enjoyable Magical Sandbox PvP/PvE Experience | Dark and Light Mobile (Beta) Review"
 game: Dark and Light
 description: Dark and Light MobileGlobal 6.5 Adventure Action Download
 featured: false

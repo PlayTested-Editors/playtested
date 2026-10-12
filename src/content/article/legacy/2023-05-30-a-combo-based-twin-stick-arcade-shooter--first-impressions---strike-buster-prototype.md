@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-05-30-a-combo-based-twin-stick-arcade-shooter-first-impressions-strike-buster-prototype
-title: A combo-based twin-stick arcade shooter | First Impressions - Strike Buster Prototype
+title: "Combo-Based Twin-Stick Arcade Shooter | Strike Buster Prototype First Impressions"
 game: Strike Buster Prototype
 description: Playing Strike Buster Prototype, it definitely reminded me of the retro arcade space shoot ‘em ups I’ve played in my childhood during my PS1 days, such as Ray Crisis and Einhander. However, it blends retro aesthetics with modern gameplay elements such as a physics system and twin stick controls. The game is already available on PC and Switch, but I was able to try out the Android demo version of the game, bringing the arcade shooter into the mobile platform.
 featured: false

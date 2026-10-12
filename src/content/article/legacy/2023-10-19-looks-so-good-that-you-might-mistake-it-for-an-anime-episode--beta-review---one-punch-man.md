@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-10-19-looks-so-good-that-you-might-mistake-it-for-an-anime-episode-beta-review-one-punch-man
-title: 'Looks so good that you might mistake it for an anime episode | Beta Review - One Punch Man: World'
+title: "Looks So Good That You Might Mistake It for an Anime Episode | One Punch Man: World Beta Review"
 game: 'Beta Review - One Punch Man: World'
 description: 'One Punch Man: WorldSEA 8.5 RPG Action PC Version'
 featured: false

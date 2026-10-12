@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-02-24-a-world-suddenly-invaded-by-orcs-first-impressions-redemption-reapers
-title: A world suddenly invaded by Orcs | First Impressions - Redemption Reapers
+title: "World Suddenly Invaded by Orcs | Redemption Reapers First Impressions"
 game: Redemption Reapers
 description: Redemption Reapers is a dark fantasy RPG game that promises a gripping story and a challenging turn-based tactics gameplay.
 featured: false

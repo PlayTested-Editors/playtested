@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-11-09-tokyo-ghoul-is-now-back-in-mobile-gacha-form-first-impressions-tokyo-ghoul-break-the-c
-title: 'Tokyo Ghoul is now back! in mobile gacha form | First Impressions - Tokyo Ghoul: Break the Chains'
+title: "Tokyo Ghoul Is Now Back! In Mobile Gacha Form | Tokyo Ghoul: Break the Chains First Impressions"
 game: 'Tokyo Ghoul: Break the Chains'
 description: 'The core gameplay of Tokyo Ghoul: Break the Chains revolves around turn-based card battles. Cards are randomly drawn for the player depending on their character roster, and use them strategically in battles. The game offers more than 30 characters to choose from, allowing players to create their own powerful lineup.'
 featured: false

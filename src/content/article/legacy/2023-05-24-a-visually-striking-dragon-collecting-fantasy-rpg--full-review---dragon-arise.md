@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-05-24-a-visually-striking-dragon-collecting-fantasy-rpg-full-review-dragon-arise
-title: A visually striking dragon collecting fantasy RPG! | Full Review - Dragon Arise
+title: "Visually Striking Dragon Collecting Fantasy RPG! | Dragon Arise Full Review"
 game: Dragon Arise
 description: Dragon Arise is a dragon collecting fantasy RPG that takes players on a whimsical journey into a world filled with dragons and epic battles.
 featured: false

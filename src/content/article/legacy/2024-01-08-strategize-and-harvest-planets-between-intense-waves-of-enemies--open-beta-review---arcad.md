@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2024-01-08-strategize-and-harvest-planets-between-intense-waves-of-enemies-open-beta-review-arcad
-title: Strategize and harvest planets between intense waves of enemies | Open Beta Review - Arcadium
+title: "Strategize and Harvest Planets Between Intense Waves of Enemies | Arcadium Open Beta Review"
 game: Open Beta Review - Arcadium
 description: Arcadium - Space Odyssey 7.8 Action Action Roguelike Test
 featured: false

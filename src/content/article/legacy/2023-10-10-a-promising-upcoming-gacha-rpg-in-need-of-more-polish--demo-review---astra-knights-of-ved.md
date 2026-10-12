@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-10-10-a-promising-upcoming-gacha-rpg-in-need-of-more-polish-demo-review-astra-knights-of-ved
-title: 'A promising upcoming gacha RPG in need of more polish | Demo Review - ASTRA: Knights of Veda'
+title: "Promising Upcoming Gacha RPG in Need of More Polish | ASTRA: Knights of Veda Demo Review"
 game: 'Review - ASTRA: Knights of Veda'
 description: 'ASTRA: Knights of Veda 7.8 Action RPG Get'
 featured: false

@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2024-02-15-a-modern-yet-conservative-and-impressive-remaster-review-tomb-raider-i-iii-remastered
-title: A modern yet conservative and impressive remaster | Review - Tomb Raider I-III Remastered
+title: "Modern Yet Conservative and Impressive Remaster | Tomb Raider I-III Remastered Review"
 game: Tomb Raider I-III Remastered
 description: Tomb Raider I-III Remastered Starring Lara Croft 7.6 Action Adventure
 featured: false

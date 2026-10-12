@@ -23,7 +23,7 @@ tags:
   - nintendo switch
   - console
 thumb: /images/reviews/2025-08-05-disco-elysium-0.avif
-title: A Profound Mind-Bending Detective RPG | Disco Elysium (The Final Cut) Review
+title: "Profound Mind-Bending Detective RPG | Disco Elysium (The Final Cut) Review"
 game: Disco Elysium
 ---
 

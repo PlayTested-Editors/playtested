@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-03-17-a-premium-gacha-rpg-game-what-full-review-evertale
-title: A premium gacha RPG game, what? | Full Review - Evertale
+title: "Premium Gacha RPG Game, What? | Evertale Full Review"
 game: Evertale
 description: Evertale is a JRPG turn-based combat game that draws heavy inspiration from the Pokemon series of video games, by featuring monster and character collecting aspects, packaged in a gacha gaming manner.
 featured: false

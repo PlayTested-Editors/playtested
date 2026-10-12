@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-01-30-hitman-keeps-the-stealth-genre-alive-and-kicking-hitman-world-of-assassination-full-re
-title: Hitman keeps the stealth-genre alive and kicking | HITMAN World of Assassination - Full Review
+title: "Hitman Keeps the Stealth-Genre Alive and Kicking | HITMAN World of Assassination Full Review"
 game: Hitman
 description: In a world full of disappointing sequels, reboots, and spiritual successors. We have one of the rarest examples of a franchise that has gotten better in time in HITMAN World of Assassination.
 featured: true

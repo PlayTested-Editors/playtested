@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-11-07-remembers-what-made-games-fun-but-still-tries-to-modernize-it-anyway-review-robocop-ro
-title: Remembers what made games fun, but still tries to modernize it anyway | Review - Robocop Rogue City
+title: "Remembers What Made Games Fun, but Still Tries to Modernize It Anyway | Robocop Rogue City Review"
 game: 'RoboCop: Rogue City'
 description: "RoboCop: Rogue City is one of the most surprising game releases this year (and one of the most unexpected announcements from as far back as 2021). Just when you might have thought that RoboCop isn't the pop culture icon it once was, it has returned from dormancy and come back to life. Developing a video game adaptation of an action movie from 1987 isn't typically a top priority for most developers and publishers these days. However, Teyon and Nacon aren't your typical companies. Fortunately, they understandably want to capitalize on the coolness of '80s action movies, having previously delivered the mildly excellent Terminator: Resistance in 2019. And now, we have RoboCop: Rogue City."
 featured: false

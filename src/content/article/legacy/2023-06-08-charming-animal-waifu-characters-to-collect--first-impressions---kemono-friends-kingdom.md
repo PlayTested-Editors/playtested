@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-06-08-charming-animal-waifu-characters-to-collect-first-impressions-kemono-friends-kingdom
-title: 'Charming animal waifu characters to collect | First Impressions - Kemono Friends: Kingdom'
+title: "Charming Animal Waifu Characters to Collect | Kemono Friends: Kingdom First Impressions"
 game: 'Kemono Friends: Kingdom'
 description: 'Blending elements of trajectory-based launching akin to Angry Birds with turn-based RPG mechanics, Kemono Friends: Kingdom offers a slight spin on a familiar gameplay format and it is coming soon with an Open Beta Test scheduled for June 21!'
 featured: false

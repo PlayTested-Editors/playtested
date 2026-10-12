@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-04-08-a-minimalistic-rhythm-game-with-lines-and-circles-first-impressions-rizline
-title: A minimalistic rhythm game with lines and circles | First Impressions - Rizline
+title: "Minimalistic Rhythm Game With Lines and Circles | Rizline First Impressions"
 game: Rizline
 description: Minimalistic vertical lines that flow through the screen, lines that are swaying along with the music. and a two finger simple touch controls that anyone can follow — Rizline is a new rhythm game from Pigeon Games — the same makers of another popular rhythm game titled Phigros. I had the chance to try this game out and it's really a lot of fun and can cater both casual and hardcore rhythm enthusiasts.
 featured: false

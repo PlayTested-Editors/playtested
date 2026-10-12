@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-05-17-a-promising-game-but-seriously-needs-a-lot-of-work-full-review-somnolent-action-rpg-fa
-title: 'A promising game, but seriously needs a lot of work | Full Review - Somnolent: Action RPG Fantasy'
+title: "Promising Game, but Seriously Needs a Lot of Work | Somnolent: Action RPG Fantasy Full Review"
 game: 'Somnolent: Action RPG Fantasy'
 description: 'Somnolent: Action RPG Fantasy is a third person action RPG game set in a world where dreams exist and can be entered by warriors called dreamwalkers.'
 featured: false

@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-02-22-a-welcome-mix-of-bioshock-and-fallout-full-review-atomic-heart
-title: A welcome mix of Bioshock and Fallout | Full Review - Atomic Heart
+title: "Welcome Mix of Bioshock and Fallout | Atomic Heart Full Review"
 game: Atomic Heart
 description: Atomic Heart is a new Action-FPS game with RPG, Open World, and horror elements, set in a utopian soviet-era society gone wrong.
 score: 7.5

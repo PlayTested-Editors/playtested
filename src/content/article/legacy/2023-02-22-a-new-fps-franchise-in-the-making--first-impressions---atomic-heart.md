@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-02-22-a-new-fps-franchise-in-the-making-first-impressions-atomic-heart
-title: A new FPS franchise in the making | First Impressions - Atomic Heart
+title: "New FPS Franchise in the Making | Atomic Heart First Impressions"
 game: Atomic Heart
 description: Atomic Heart is an action FPS game that completely caught me by surprise. For an upcoming new developer — Mundfish —  who has only developed a now discontinued VR game so far, that hasn’t stopped them from delivering an impressive game, and they have really hit it out of the park with this one.
 featured: false

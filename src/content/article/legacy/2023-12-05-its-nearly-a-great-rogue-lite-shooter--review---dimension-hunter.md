@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-12-05-its-nearly-a-great-rogue-lite-shooter-review-dimension-hunter
-title: It's nearly a great rogue-lite shooter | Review - Dimension Hunter
+title: "It's Nearly a Great Rogue-Lite Shooter | Dimension Hunter Review"
 game: Dimension Hunter
 description: Dimension Hunter is a roguelike pixel art twin stick mobile shooter takes players in a journey through ever-changing dimensions filled with vicious monsters. As players navigate dungeons, confront challenging bosses, and explore diverse environments, the dynamic nature of Dimension Hunter keeps each playthrough fresh and exciting.
 featured: false

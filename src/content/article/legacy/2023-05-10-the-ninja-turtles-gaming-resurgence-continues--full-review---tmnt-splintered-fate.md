@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-05-10-the-ninja-turtles-gaming-resurgence-continues-full-review-tmnt-splintered-fate
-title: The Ninja Turtles' gaming resurgence continues | Full Review - TMNT Splintered Fate
+title: "Ninja Turtles' Gaming Resurgence Continues | TMNT Splintered Fate Full Review"
 game: TMNT Splintered Fate
 description: TMNT Splintered Fate is a brand new Ninja Turtles game with a rogue-lite spin on the gameplay, heavily inspired by Hades with its hack-and-slash mechanics, single special ability, and room after room upgrades.
 featured: false

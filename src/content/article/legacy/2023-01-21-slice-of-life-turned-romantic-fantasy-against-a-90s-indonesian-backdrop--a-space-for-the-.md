@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-01-21-slice-of-life-turned-romantic-fantasy-against-a-90s-indonesian-backdrop-a-space-for-the
-title: Slice-of-life turned romantic fantasy against a 90’s Indonesian backdrop | A Space for the Unbound
+title: "Slice-of-Life Turned Romantic Fantasy Against a 90's Indonesian Backdrop | A Space for the Unbound Review"
 game: A Space for the Unbound
 description: A Space for the Unbound is the story of a boy and a girl — both with supernatural powers — in a slice-of-life turned fantasy romance adventure against a 90’s Indonesian backdrop. A nice change of setting from the usual Japanese-themed similar works of art, like the popular Makoto Shinkai Anime movies Your Name and Weathering with You, all embodied in video game format.
 featured: true

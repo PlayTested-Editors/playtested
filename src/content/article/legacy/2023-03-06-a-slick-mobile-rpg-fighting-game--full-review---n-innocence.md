@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-03-06-a-slick-mobile-rpg-fighting-game-full-review-n-innocence
-title: A slick mobile RPG fighting game! | Full Review - N-INNOCENCE
+title: "Slick Mobile RPG Fighting Game! | N-INNOCENCE Full Review"
 game: N-INNOCENCE
 description: N-INNOCENCE is an upcoming brawler RPG game set in a fantasy world full of familiar heroes and legends. An English version is currently out now at a limited capacity, for North American Regions only on both Android and iOS.
 featured: false

@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-08-06-a-reskinned-fifa-mobile-or-much-more-ea-sports-fc-mobile-beta-first-impressions
-title: A reskinned FIFA Mobile or much more? | EA Sports FC Mobile Beta - First Impressions
+title: "Reskinned FIFA Mobile or Much More? | EA Sports FC Mobile Beta First Impressions"
 game: EA Sports FC Mobile Beta
 description: EA Sports FC Mobile has entered beta right now in limited regions, just over a month before its official release. I was fortunate enough to try out two of its main game modes as well as explore a bit the game’s mechanics, such as acquiring new players, customization of your club, and soccer team.
 featured: false

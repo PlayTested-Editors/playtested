@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-05-31-fun-gunplay-meets-cute-gacha-girls-closed-beta-review-snowbreak-containment-zone
-title: 'Fun gunplay meets cute gacha girls | Closed Beta Review - Snowbreak: Containment Zone'
+title: "Fun Gunplay Meets Cute Gacha Girls | Snowbreak: Containment Zone Closed Beta Review"
 game: 'Snowbreak: Containment Zone'
 description: 'lyndonguitar Get Snowbreak: Containment Zone is a third person PVE-shooter set in a futuristic post-apocalyptic world featuring AAA level of visuals, waifu characters, and gacha gaming mechanics.'
 featured: false

@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-09-23-indie-spotlight-a-charming-pixel-rogue-lite-for-pc-and-soon-mobile-review-metal-mind
-title: '[Indie Spotlight] A charming pixel rogue-lite for PC and soon Mobile! | Review - Metal Mind'
+title: "[Indie Spotlight] A Charming Pixel Rogue-Lite for PC and Soon Mobile! | Metal Mind Review"
 game: Metal Mind
 description: ✨Overview Metal Mind is a pixel rogue-lite stick shooter where players take on the role of a mech that can change its parts and gear on the fly. The game was originally released on PC (Steam) last year for an upfront cost of $18, but I had the privilege of trying out a pre-release build of the Android version, and I must say, it transitions quite seamlessly to the mobile platform, if not even better suited for it.
 featured: false

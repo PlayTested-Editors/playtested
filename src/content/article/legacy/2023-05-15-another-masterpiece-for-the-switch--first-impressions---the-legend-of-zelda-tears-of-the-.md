@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-05-15-another-masterpiece-for-the-switch-first-impressions-the-legend-of-zelda-tears-of-the
-title: 'Another masterpiece for the Switch? | First Impressions - The Legend of Zelda: Tears of the Kingdom'
+title: "Another Masterpiece for the Switch? | The Legend of Zelda: Tears of the Kingdom First Impressions"
 game: 'The Legend of Zelda: Tears of the Kingdom'
 description: 'The Legend of Zelda: Tears of the Kingdom (NS) 9.2 Open World RPG'
 featured: false

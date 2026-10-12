@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-10-24-collect-chibi-heroes-strategize-deploy-first-impressions-knightcore-sword-of-kingdom
-title: 'Collect chibi heroes, strategize, deploy | First Impressions - Knightcore: Sword of Kingdom'
+title: "Collect Chibi Heroes, Strategize, Deploy | Knightcore: Sword of Kingdom First Impressions"
 game: 'Knightcore: Sword of Kingdom'
 description: "Knightcore: Sword of Kingdom revolves around the players' role as Lords tasked with leading their chibi looking Heroes and Legions to restore Camelot, which is ravaged by the Time Holes that players will need to close.  It recently launched globally last October 20, 2023."
 featured: false

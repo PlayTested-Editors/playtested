@@ -1,6 +1,5 @@
 ---
-title: A soothing slice-of-life romantic adventure that's wonderfully genuine |
-  Haven Review
+title: "Soothing Slice-of-Life Romantic Adventure That's Wonderfully Genuine | Haven Review"
 pubDate: 2025-09-28T07:05:00.000+08:00
 draft: false
 description: "Haven is a compelling, highly stylized adventure that excels as a

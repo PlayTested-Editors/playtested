@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-05-09-a-2d-side-scrolling-strategy-game-first-impressions-kingdom-two-crowns
-title: A 2D side scrolling strategy game? | First Impressions - Kingdom Two Crowns+
+title: "2D Side Scrolling Strategy Game? | Kingdom Two Crowns+ First Impressions"
 game: 'Kingdom: Two Crowns'
 description: Kingdom Two Crowns+ 9.5 Strategy Side Scroller Get
 featured: false

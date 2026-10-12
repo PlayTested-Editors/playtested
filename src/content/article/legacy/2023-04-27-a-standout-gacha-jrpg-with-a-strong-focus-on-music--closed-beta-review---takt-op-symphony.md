@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-04-27-a-standout-gacha-jrpg-with-a-strong-focus-on-music-closed-beta-review-takt-op-symphony
-title: A standout gacha JRPG with a strong focus on music | Closed Beta Review - Takt Op. Symphony
+title: "Standout Gacha JRPG With a Strong Focus on Music | Takt Op. Symphony Closed Beta Review"
 game: Closed Beta Review - Takt Op. Symphony
 description: Takt Op. (also known as Takt Op. Symphony) is a role-playing game developed by Game Studio and Namco Bandai for iOS and Android devices. It is the counterpart game of the anime television series Takt Op. Destiny, set in a world where music has the power to control everything, and players take on the role of a conductor who must lead their orchestra of powerful warriors called musicarts in battles against monsters and other foes.
 featured: false

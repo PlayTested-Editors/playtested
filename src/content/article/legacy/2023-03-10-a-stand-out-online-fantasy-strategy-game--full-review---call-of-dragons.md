@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-03-10-a-stand-out-online-fantasy-strategy-game-full-review-call-of-dragons
-title: A stand out online fantasy strategy game | Full Review - Call of Dragons
+title: "Stand Out Online Fantasy Strategy Game | Call of Dragons Full Review"
 game: Call of Dragons
 description: Call of Dragons is a new upcoming fantasy strategy mobile game that features city-building aspects combined with strategy war game and RPG elements. It is currently available for testing on mobile devices and for PC as well as an emulated-port.
 featured: false

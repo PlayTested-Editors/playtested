@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-09-17-pinocchio-meets-dark-souls-first-impressions-lies-of-p
-title: Pinocchio meets Dark Souls | First Impressions - Lies of P
+title: "Pinocchio Meets Dark Souls | Lies of P First Impressions"
 game: Lies Of P
 description: Lies of P offers a fresh twist on the classic story of Pinocchio, set against the backdrop of the enchanting 19th century Belle Époque era.  The game plunges players into the city of Krat, a place powered by the mysterious mineral Ergo but now plagued by a frenzy that has turned its puppet inhabitants against humanity. The game weaves a dark and compelling tale of a city torn apart by greed and the lust for power. As the silent Pinocchio, the player is tasked with navigating this perilous world while concealing and “lying” his true identity as a puppet.
 featured: false

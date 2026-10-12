@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-10-11-global-release-is-now-coming-soon-final-cbt-impressions-dmc-peak-of-combat
-title: 'Global Release is now coming soon | Final CBT Impressions - DMC: Peak of Combat'
+title: "Global Release Is Now Coming Soon | DMC: Peak of Combat Final CBT Impressions"
 game: 'Final CBT Impressions - DMC: Peak of Combat'
 description: 'When I previewed the game back a few months ago, I touted it as a game that stays true to its roots gameplay wise. Well, Devil May Cry: Peak of Combat continues to uphold the core hack-and-slash gameplay style that the series is renowned for.'
 featured: false

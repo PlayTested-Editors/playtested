@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-09-19-a-vast-fantasy-world-filled-with-random-events-and-choices-review-dragonheir-silent-go
-title: 'A vast fantasy world filled with random events and choices | Review - Dragonheir: Silent Gods'
+title: "Vast Fantasy World Filled With Random Events and Choices | Dragonheir: Silent Gods Review"
 game: 'Dragonheir: Silent Gods'
 description: 'Dragonheir: Silent Gods is a high-fantasy RPG game with immersive role playing elements, intriguing narrative, and a relaxing tactical combat experience. Set in a universe where chaos and order collide, and gods and mortals are inextricably linked. It is now available for both PC and Mobile and features crossplay and cross progression capabilities.'
 featured: false

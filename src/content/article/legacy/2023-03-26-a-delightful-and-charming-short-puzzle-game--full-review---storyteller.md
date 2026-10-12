@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-03-26-a-delightful-and-charming-short-puzzle-game-full-review-storyteller
-title: A delightful and charming short puzzle game | Full Review - Storyteller
+title: "Delightful and Charming Short Puzzle Game | Storyteller Full Review"
 game: Storyteller
 description: Storyteller is a charming puzzle game where you literally need to tell stories in order to solve the puzzles and achieve the required ending.
 featured: false

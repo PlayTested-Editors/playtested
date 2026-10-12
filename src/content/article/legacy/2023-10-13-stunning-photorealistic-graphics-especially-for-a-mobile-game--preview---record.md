@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-10-13-stunning-photorealistic-graphics-especially-for-a-mobile-game-preview-record
-title: Stunning photorealistic graphics, especially for a mobile game | Preview - REC.O.R.D.
+title: "Stunning Photorealistic Graphics, Especially for a Mobile Game | REC.O.R.D. Preview"
 game: REC.O.R.D.
 description: When I first saw the game reveal of Unrecord four months ago, I was immediately wowed by its ultra-realistic graphics that use body cam-style first-person perspective, blending seamlessly with photorealistic visuals and animations resulting in terrifyingly lifelike visuals. However, this is not Unrecord, but a mobile game titled REC.O.R.D. It's pretty darn close though, even the similar names speaks for themselves.
 featured: false

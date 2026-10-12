@@ -21,7 +21,7 @@ tags:
   - xbox
   - console
 thumb: /images/reviews/2024-09-26-batman-arkham-knight-0.avif
-title: The Peak Batman Video Game Experience | Batman Arkham Knight Review
+title: "Peak Batman Video Game Experience | Batman Arkham Knight Review"
 game: Batman Arkham Knight
 ---
 

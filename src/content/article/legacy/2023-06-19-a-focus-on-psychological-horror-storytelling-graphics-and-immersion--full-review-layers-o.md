@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-06-19-a-focus-on-psychological-horror-storytelling-graphics-and-immersion-full-review-layers-o
-title: 'A focus on psychological horror, storytelling, graphics, and immersion | Full Review: Layers of Fear'
+title: "Focus on Psychological Horror, Storytelling, Graphics, and Immersion | Layers of Fear Full Review"
 game: Layers of Fear
 description: Layers of Fear (2023) is a psychological horror game that takes players on a chilling journey through the twisted minds of various artists; the painter, the daughter, the musician, and the actor.
 featured: false

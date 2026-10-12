@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-10-20-exploration-preparation-protection-and-extermination-first-impressions-endless-dungeon
-title: Exploration, preparation, protection, and extermination | First Impressions - ENDLESS Dungeon
+title: "Exploration, Preparation, Protection, and Extermination | ENDLESS Dungeon First Impressions"
 game: Endless Dungeon
 description: In Endless Dungeon, you explore a mysterious abandoned space station alongside other stranded heroes. Prepare for the dangers that lie ahead by managing your resources and constructing defenses, protecting the Crystal Bot from harm, and eliminating any hostiles that stand ready to kill you, be they monsters, bugs, or robots.
 featured: false

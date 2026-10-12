@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-10-03-a-rogue-lite-game-with-a-simple-premise-but-engaging-mechanics-full-review-ignistone
-title: A rogue-lite game with a simple premise but engaging mechanics | Full Review - IGNISTONE
+title: "Rogue-Lite Game With a Simple Premise but Engaging Mechanics | IGNISTONE Full Review"
 game: IGNISTONE
 description: ✨Overview IGNISTONE takes players on a journey into the heart of darkness, where they descend beneath the surface to the mines in search of the stolen Ignistone. This roguelike adventure promises a blend of strategy and skill in a simple package as you engage in one-on-one combat against thieving adversaries. While it may give off the visual vibes of classic PS2, Nintendo, or even early 2000’s flash games, IGNISTONE manages to instill a modern gameplay experience with its rogue-lite mechanics.
 featured: false

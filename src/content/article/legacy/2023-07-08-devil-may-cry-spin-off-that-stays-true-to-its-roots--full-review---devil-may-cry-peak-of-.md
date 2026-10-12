@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-07-08-devil-may-cry-spin-off-that-stays-true-to-its-roots-full-review-devil-may-cry-peak-of
-title: 'Devil May Cry spin-off that stays true to its roots | Full Review - Devil May Cry: Peak of Combat'
+title: "Devil May Cry Spin-Off That Stays True to Its Roots | Devil May Cry: Peak of Combat Full Review"
 game: 'Devil May Cry: Peak of Combat'
 description: 'lyndonguitar Get Devil May Cry: Peak of Combat is an upcoming free to play mobile game entry in the Devil May Cry franchise, filled with the same hack and slash gameplay style the series is known for, of course, sprinkled in with mobile game mechanics such as gacha system and live service elements.'
 featured: false

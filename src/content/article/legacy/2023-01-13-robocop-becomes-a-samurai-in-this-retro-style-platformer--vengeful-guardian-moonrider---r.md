@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-01-13-robocop-becomes-a-samurai-in-this-retro-style-platformer-vengeful-guardian-moonrider-r
-title: 'Robocop becomes a samurai in this retro style platformer | Vengeful Guardian: Moonrider - Review'
+title: "Robocop Becomes a Samurai in This Retro Style Platformer | Vengeful Guardian: Moonrider Review"
 game: 'Vengeful Guardian: Moonrider'
 description: 'Vengeful Guardian: Moonrider is an authentic recreation of the classic 90s ninja video games like Ninja Gaiden, Shinobi, and Shadow of the Ninja. The 16-bit music, art style, and gameplay are all captured perfectly without a miss. Going in blind, you would think it is a remaster or port of a real existing 90s game.'
 featured: false

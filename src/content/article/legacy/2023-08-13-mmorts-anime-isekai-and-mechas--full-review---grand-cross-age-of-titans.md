@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-08-13-mmorts-anime-isekai-and-mechas-full-review-grand-cross-age-of-titans
-title: 'MMORTS, Anime, Isekai, and Mechas | Full Review - Grand Cross: Age of Titans'
+title: "MMORTS, Anime, Isekai, and Mechas | Grand Cross: Age of Titans Full Review"
 game: 'Grand Cross: Age of Titans'
 description: 'lyndonguitar Download Grand Cross: Age of Titans is a newly released video game that blends elements of anime-style aesthetics, storytelling, city-building strategy, and intense troop battles. It was globally released for iOS, Android, and PC last August 1. Developed by Netmarble, the same studio behind the renowned RPG game Seven Deadly Sins: Grand Cross, even though they both Grand Cross in their names, the games are not connected storywise'
 featured: false

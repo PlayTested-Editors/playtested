@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-09-15-hunt-monsters-wherever-you-go-in-real-world-locations-review-monster-hunter-now
-title: Hunt Monsters wherever you go, in real world locations | Review - Monster Hunter Now
+title: "Hunt Monsters Wherever You Go, in Real World Locations | Monster Hunter Now Review"
 game: Monster Hunter Now
 description: lyndonguitar Download Monster Hunter Now is an augmented reality (AR) mobile game that integrates the Monster Hunter universe with real-world locations. Developed by Niantic, the same company behind the global AR hit Pokémon Go, this game allows players to use their smartphones to interact with a virtual overlay of the Monster Hunter world superimposed onto their real-world environment.
 featured: false

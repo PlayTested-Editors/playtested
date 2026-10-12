@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-07-12-this-charming-jrpg-needs-more-time-in-the-oven-but-shows-potential-review-knightingale
-title: This charming JRPG needs more time in the oven, but shows potential | Review - Knightingale
+title: "This Charming JRPG Needs More Time in the Oven, but Shows Potential | Knightingale Review"
 game: Knightingale
 description: lyndonguitar Knightingale is an upcoming HD-2D RPG game with an adventurous story, engaging turn-based combat, and traditional gacha mechanics.
 featured: false

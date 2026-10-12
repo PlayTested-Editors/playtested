@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-10-03-using-just-a-mouse-to-play-this-cool-parry-based-roguelite-game-first-impressions-igni
-title: Using just a mouse to play this cool parry-based Roguelite game | First Impressions - IGNISTONE
+title: "Using Just a Mouse to Play This Cool Parry-Based Roguelite Game | IGNISTONE First Impressions"
 game: IGNISTONE
 description: Ignistone invites players to embark on a treacherous but captivating journey into the mysterious Mines below the surface, as they seek to recover the stolen Ignistone. In this roguelite adventure, players engage in head-on 1v1 combat against thieving adversaries, utilizing a variety of swords and amulets to enhance their character's abilities.
 featured: false

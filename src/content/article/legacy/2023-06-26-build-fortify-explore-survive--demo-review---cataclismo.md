@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-06-26-build-fortify-explore-survive-demo-review-cataclismo
-title: Build, Fortify, Explore, Survive | Demo Review - Cataclismo
+title: "Build, Fortify, Explore, Survive | Cataclismo Demo Review"
 game: Review - Cataclismo
 description: Cataclismo is a town building and tower defense real-time pausable strategy game where you build and defend the towers and walls of humanity that are struggling to survive in a fantasy world plagued by a hazardous mist and eerie creatures.
 featured: false

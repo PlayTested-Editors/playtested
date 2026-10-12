@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-12-10-a-deep-and-addicting-rogue-like-space-deckbuilder-review-star-survivor
-title: A deep and addicting rogue-like space deckbuilder | Review - Star Survivor
+title: "Deep and Addicting Rogue-like Space Deckbuilder | Star Survivor Review"
 game: Star Survivor
 description: Star Survivor, initially released in Early Access on PC earlier this year, has now made its way to mobile phones this December. The game is a top-down space shooter and seems to be a mash up of multiple genres. It features a Space Shooter premise, Vampire Survivor gameplay, Deck building mechanics, and Rogue-lite progression that all results into a unique experience that has translated well into mobile.
 featured: false

@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-01-14-you-can-learn-more-about-trains-in-this-game-simrail-the-railway-simulator-first-imp
-title: You can learn more about Trains in this game | SimRail - The Railway Simulator - First Impressions
+title: "You Can Learn More About Trains in This Game | SimRail - The Railway Simulator First Impressions"
 game: SimRail - The Railway Simulator
 description: 'As a kid, I have always been fascinated by trains, well I think most of us were. Beyond that childhood fantasy and riding trains for travel, I never really got interested in trains as a grown up, until now. Fortunately, we now have SimRail - The Railway Simulator as a brand new addition to the list of growing video game train simulators, the caveat: it’s still in Early Access.'
 featured: false

@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-07-16-building-upon-the-momentum-set-by-vampire-survivors-and-brotato-beta-review-limbo-disc
-title: Building upon the momentum set by Vampire Survivors and Brotato | Beta Review - Limbo Disco
+title: "Building Upon the Momentum Set by Vampire Survivors and Brotato | Limbo Disco Beta Review"
 game: Beta Review - Limbo Disco
 description: Limbo Disco is an upcoming free-to-play mobile game that combines elements of roguelike, wave survival, and cartoon aesthetics. The game follows in the footsteps of similar titles Vampire Survivors and Brotato, with its addicting allure entirely playable with one-hand.
 featured: false

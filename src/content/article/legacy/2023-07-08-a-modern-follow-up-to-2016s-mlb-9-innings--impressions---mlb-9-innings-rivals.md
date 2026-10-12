@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-07-08-a-modern-follow-up-to-2016s-mlb-9-innings-impressions-mlb-9-innings-rivals
-title: A modern follow-up to 2016’s MLB 9 Innings | Impressions - MLB 9 Innings Rivals
+title: "Modern Follow-Up to 2016's MLB 9 Innings | MLB 9 Innings Rivals First Impressions"
 game: MLB 9 Innings Rivals
 description: MLB 9 Innings Rivals is a modern follow-up to MLB 9 Innings (currently MLB 9 Innings 23), a game that was originally released way back in 2016. MLB 9 Innings Rivals features significantly improved graphics, new mechanics, and fresh ideas to enhance the addicting player collecting and fantasy baseball gameplay.
 featured: false

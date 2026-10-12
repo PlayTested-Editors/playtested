@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-04-18-a-brand-new-experience-to-discover-review-vampire-survivors-tides-of-the-foscari
-title: 'A brand new experience to discover | Review - Vampire Survivors: Tides of the Foscari'
+title: "Brand New Experience to Discover | Vampire Survivors: Tides of the Foscari Review"
 game: Vampire Survivors
 description: The award-winning game Vampire Survivors has recently released its second DLC, titled 'Tides of the Foscari.' This DLC is available for $1.99 on all platforms, including Android and iOS devices. It adds a ton of content to the already amazing value of the original game, which is completely free-to-play.
 featured: false

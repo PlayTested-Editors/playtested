@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-05-28-a-bite-sized-classic-survival-horror-experience-full-review-heaven-dust
-title: A bite-sized classic survival horror experience | Full Review - Heaven Dust
+title: "Bite-Sized Classic Survival Horror Experience | Heaven Dust Full Review"
 game: Heaven Dust
 description: Heaven Dust is an old-school-style zombie survival horror game that combines puzzle-solving, storytelling, and a classic isometric third person view.
 featured: false

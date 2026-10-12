@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-08-29-a-promising-game-held-back-by-questionable-monetization-decisions-early-access-review
-title: A promising game held back by questionable monetization decisions | Early Access Review - Wayfinder
+title: "Promising Game Held Back by Questionable Monetization Decisions | Wayfinder Early Access Review"
 game: Early Access Review - Wayfinder
 description: Wayfinder was recently released in paid early access form last August 18, debuting amidst a host of server problems that garnered an initial overwhelmingly negative reaction. More recently, servers have been patched up and the queues have gone from literal hours to just a minute or less. More than a week after its release, I was finally able to personally experience the game and see firsthand what all the fuss is about.
 featured: false

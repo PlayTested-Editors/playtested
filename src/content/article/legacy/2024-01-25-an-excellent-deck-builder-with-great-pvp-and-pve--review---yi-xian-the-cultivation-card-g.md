@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2024-01-25-an-excellent-deck-builder-with-great-pvp-and-pve-review-yi-xian-the-cultivation-card-g
-title: 'An excellent deck builder with great PVP and PVE | Review - Yi Xian: The Cultivation Card Game'
+title: "Excellent Deck Builder With Great PVP and PVE | Yi Xian: The Cultivation Card Game Review"
 game: 'Yi Xian: The Cultivation Card Game'
 description: 'Yi Xian: The Cultivation Card Game is an online deck-building game that blends elements of card battles, autochess, and rogue-like genres. With both a focus on both PvP and PvE modes, players embark on a journey of cultivation, drawing cards and strategically building decks from scratch.'
 featured: false

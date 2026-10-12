@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-05-29-turn-based-rpg-with-some-pretty-cool-mechanics-first-impressions-battle-chasers-nightw
-title: 'Turn-based RPG, with some pretty cool mechanics | First Impressions - Battle Chasers: Nightwar'
+title: "Turn-Based RPG, With Some Pretty Cool Mechanics | Battle Chasers: Nightwar First Impressions"
 game: 'Battle Chasers: Nightwar'
 description: "Battle Chasers: Nightwar is a role-playing game (RPG) developed by Airship Syndicate and published by THQ Nordic. An adaptation of Joe Madureira's fantasy comic book series of the same name and originally released as a PC game, it has been ported to the mobile platforms as well. For the purpose of this review, I will be talking about the Android version."
 featured: false

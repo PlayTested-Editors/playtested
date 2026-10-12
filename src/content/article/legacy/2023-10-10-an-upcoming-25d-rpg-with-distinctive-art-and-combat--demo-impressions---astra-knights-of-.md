@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-10-10-an-upcoming-25d-rpg-with-distinctive-art-and-combat-demo-impressions-astra-knights-of
-title: 'An upcoming 2.5D RPG with distinctive art and combat | Demo Impressions - ASTRA: Knights of Veda'
+title: "Upcoming 2.5D RPG With Distinctive Art and Combat | ASTRA: Knights of Veda Demo Impressions"
 game: 'Impressions - ASTRA: Knights of Veda'
 description: 'ASTRA: Knights of Veda is an upcoming 2.5D gacha RPG with a captivating dark narrative and visually captivating art. It is set to release on PC, with a demo already available for players to try, and a mobile version is also in development. The gameplay in ASTRA shares similarities with titles such as Dragon Blaze and Astlibra Revision, offering a hack and slash RPG experience.'
 featured: false

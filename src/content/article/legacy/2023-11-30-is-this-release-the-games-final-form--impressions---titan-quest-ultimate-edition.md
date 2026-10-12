@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-11-30-is-this-release-the-games-final-form-impressions-titan-quest-ultimate-edition
-title: 'Is this release the game’s final form? | Impressions - Titan Quest: Ultimate Edition'
+title: "Is This Release the Game's Final Form? | Titan Quest: Ultimate Edition First Impressions"
 game: 'Titan Quest: Ultimate Edition'
 description: 'Titan Quest: Ultimate Edition serves as a complete compilation of the whole Titan Quest saga, and has all the updates and DLCs included. A classic ARPG title that has stood the test of time and continues to captivate audiences across different platforms.'
 featured: false

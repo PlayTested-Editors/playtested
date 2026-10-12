@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-11-23-a-frantic-dance-of-survival-cooperation-and-resource-management-early-review-lethal-co
-title: A frantic dance of survival, cooperation, and resource management | Early Review - Lethal Company
+title: "Frantic Dance of Survival, Cooperation, and Resource Management | Lethal Company Early Review"
 game: Early Review - Lethal Company
 description: Lethal Company is a first-person survival co-op game with a unique combination of survival, cooperation, and resource management, focusing on meeting quotas as objectives and navigating through eerie environments. The game was released in Early Access on October 24, 2023, and is rapidly gaining popularity recently. The game is designed around a maximum four-player co-op experience, but it is also playable solo or with more than four people with the use of mods.
 featured: false

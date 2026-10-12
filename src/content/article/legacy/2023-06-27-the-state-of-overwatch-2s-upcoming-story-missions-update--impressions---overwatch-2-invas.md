@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-06-27-the-state-of-overwatch-2s-upcoming-story-missions-update-impressions-overwatch-2-invas
-title: 'The state of Overwatch 2’s upcoming Story Missions update | Impressions - Overwatch 2: Invasion'
+title: "State of Overwatch 2's Upcoming Story Missions Update | Overwatch 2: Invasion First Impressions"
 game: Overwatch 2
 description: 'Set to launch on August 10, 2023, Overwatch 2: Invasion will transport players back into the heart of the action-packed narrative of Overwatch 2, immersing them in thrilling PvE story missions against the formidable forces of Null Sector.'
 featured: false

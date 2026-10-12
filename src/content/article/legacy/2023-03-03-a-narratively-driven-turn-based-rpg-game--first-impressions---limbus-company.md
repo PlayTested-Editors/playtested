@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-03-03-a-narratively-driven-turn-based-rpg-game-first-impressions-limbus-company
-title: A narratively driven turn-based RPG game | First Impressions - Limbus Company
+title: "Narratively Driven Turn-Based RPG Game | Limbus Company First Impressions"
 game: Limbus Company
 description: Limbus Company is a free-to-play turn-based RPG game with a focus on storytelling, available for Mobile and PC platforms.
 featured: false

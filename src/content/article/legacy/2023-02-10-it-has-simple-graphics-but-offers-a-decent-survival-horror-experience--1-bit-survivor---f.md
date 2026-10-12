@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-02-10-it-has-simple-graphics-but-offers-a-decent-survival-horror-experience-1-bit-survivor-f
-title: It has simple graphics but offers a decent survival horror experience | 1 Bit Survivor - Full Review
+title: "It Has Simple Graphics but Offers a Decent Survival Horror Experience | 1 Bit Survivor Full Review"
 game: 1 Bit Survivor
 description: 1 Bit Survivor is a rogue-lite survival horror with simplistic 1-bit graphics but an artistic stylized presentation. The atmosphere is definitely classic Resident Evil 2 and 3-style, an obvious inspiration especially with sound bits when starting a session complete with typewriter sounds to tell the story, and the menacing sound effects that you hear. The comparison however ends there as the gameplay features a 1-bit retro game design and monochromatic graphics.
 featured: false

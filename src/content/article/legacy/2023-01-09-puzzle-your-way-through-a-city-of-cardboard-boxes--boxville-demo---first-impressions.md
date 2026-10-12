@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-01-09-puzzle-your-way-through-a-city-of-cardboard-boxes-boxville-demo-first-impressions
-title: Puzzle your way through a city of cardboard boxes | Boxville Demo - First Impressions
+title: "Puzzle Your Way Through a City of Cardboard Boxes | Boxville Demo First Impressions"
 game: Boxville
 description: We have another point-and-click puzzle game ported to the mobile platform yet again with Boxville. I’ve just played the demo and it immediately places you right after the beginning of the game. To avoid spoilers, there is no plot or backstory presented, but the world is inhabited by tin-can like humanoid beings living in cute cardboard boxes resembling into a somewhat peaceful city.
 featured: false

@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-06-20-its-literally-rainbow-six-siege-with-aliens-first-impressions-rainbow-six-extraction
-title: 'It’s literally Rainbow Six: Siege with Aliens | First Impressions - Rainbow Six: Extraction'
+title: "It's Literally Rainbow Six: Siege With Aliens | Rainbow Six: Extraction First Impressions"
 game: 'Rainbow Six: Extraction'
 description: 'Developed and published by Ubisoft, Rainbow Six: Extraction brings together the tactical prowess and intensity of Rainbow Six Siege with a thrilling PvE (Player vs. Environment) experience, heavily inspired by the successful limited-time game mode, Outbreak, in Rainbow Six Siege, Extraction expands upon that cooperative gameplay experience.'
 featured: false

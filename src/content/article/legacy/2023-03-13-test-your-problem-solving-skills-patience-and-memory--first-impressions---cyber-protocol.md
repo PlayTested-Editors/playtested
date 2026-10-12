@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-03-13-test-your-problem-solving-skills-patience-and-memory-first-impressions-cyber-protocol
-title: Test your problem solving skills, patience, and memory | First Impressions - Cyber Protocol
+title: "Test Your Problem Solving Skills, Patience, and Memory | Cyber Protocol First Impressions"
 game: Cyber Protocol
 description: Cyber Protocol is an cyberpunk arcade puzzle game with a high degree of difficulty and hardcore elements. It is currently available for iOS, PC, Xbox, and Switch, but this article will be focusing on the recently released iOS version.
 featured: false

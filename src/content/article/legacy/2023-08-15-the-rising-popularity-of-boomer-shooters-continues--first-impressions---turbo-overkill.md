@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-08-15-the-rising-popularity-of-boomer-shooters-continues-first-impressions-turbo-overkill
-title: The rising popularity of boomer shooters continues | First Impressions - Turbo Overkill
+title: "Rising Popularity of Boomer Shooters Continues | Turbo Overkill First Impressions"
 game: Turbo Overkill
 description: Turbo Overkill is a high-octane first-person shooter that blends the intense bullet-hell and high speed action of retro titles like Doom and Quake with a cyberpunk aesthetic. The game thrusts players into a dystopian future where advanced technology and chaos converge.
 featured: false

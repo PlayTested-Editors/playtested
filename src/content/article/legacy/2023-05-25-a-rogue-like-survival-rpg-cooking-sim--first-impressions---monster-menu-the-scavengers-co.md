@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-05-25-a-rogue-like-survival-rpg-cooking-sim-first-impressions-monster-menu-the-scavengers-co
-title: "A rogue-like survival RPG cooking sim? | First Impressions - \uFEFFMonster Menu: The Scavenger's Cookbook"
+title: "Rogue-like Survival RPG Cooking Sim? | Monster Menu: The Scavenger's Cookbook First Impressions"
 game: Monster Menu - The Scavenger's Cookbook
 description: "Monster Menu: The Scavenger's Cookbook is a game that attempts to blend elements of rogue-like dungeon crawling, survival crafting, cooking sim, and turn-based combat mechanics. It features cel-shaded anime chibi art style and a third person view gameplay."
 featured: false

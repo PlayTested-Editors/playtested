@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2024-02-08-pretty-solid-and-exciting-but-the-visuals-seem-downgraded-demo-review-final-fantasy-7
-title: Pretty solid and exciting, but the visuals seem downgraded? | Demo Review - Final Fantasy 7 Rebirth
+title: "Pretty Solid and Exciting, but the Visuals Seem Downgraded? | Final Fantasy 7 Rebirth Demo Review"
 game: Review - Final Fantasy 7 Rebirth
 description: Final Fantasy VII Rebirth 9.0 Action Adventure PS Version
 featured: false

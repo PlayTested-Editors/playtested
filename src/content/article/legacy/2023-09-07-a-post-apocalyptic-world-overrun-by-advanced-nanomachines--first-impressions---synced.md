@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-09-07-a-post-apocalyptic-world-overrun-by-advanced-nanomachines-first-impressions-synced
-title: A post-apocalyptic world overrun by advanced nanomachines | First Impressions - SYNCED
+title: "Post-Apocalyptic World Overrun by Advanced Nanomachines | SYNCED First Impressions"
 game: SYNCED
 description: SYNCED is a looter shooter with a gameplay that revolves around players venturing into the semi-open world to clear out increasingly challenging segments that are infested with nano creatures. These missions culminate in intense boss fights that require teamwork, strategy, and coordination when in team-based mode, but the game is also viable when played Solo, such is my experience for the majority of my PvE playthrough.
 featured: false

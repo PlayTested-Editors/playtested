@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-05-30-a-waifu-rogue-like-strategy-without-gacha-elements-first-impressions-prime-of-flames
-title: A waifu rogue-like strategy WITHOUT gacha elements! | First Impressions - Prime of Flames
+title: "Waifu Rogue-like Strategy WITHOUT Gacha Elements! | Prime of Flames First Impressions"
 game: Prime of Flames
 description: Prime of Flames is an roguelike strategy game that seamlessly blends elements of turn-based strategy and party role-playing elements, creating a captivating gameplay experience. Developed by Indie devs Rayka Studio, this title offers a plethora of engaging features, diverse character choices, and waifu characters. Surprisingly, it’s not a gacha game!
 featured: false

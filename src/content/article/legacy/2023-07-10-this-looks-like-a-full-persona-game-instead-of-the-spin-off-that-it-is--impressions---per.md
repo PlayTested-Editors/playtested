@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-07-10-this-looks-like-a-full-persona-game-instead-of-the-spin-off-that-it-is-impressions-per
-title: This looks like a full Persona game instead of the spin-off that it is | Impressions - Persona 5 X
+title: "This Looks Like a Full Persona Game Instead of the Spin-Off That It Is | Persona 5 X First Impressions"
 game: Persona 5 X
 description: 'Persona 5: The Phantom X -- Action RPG'
 featured: false

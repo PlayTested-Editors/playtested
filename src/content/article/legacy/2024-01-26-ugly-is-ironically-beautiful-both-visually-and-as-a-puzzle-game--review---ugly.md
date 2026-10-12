@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2024-01-26-ugly-is-ironically-beautiful-both-visually-and-as-a-puzzle-game-review-ugly
-title: Ugly is ironically Beautiful both visually and as a puzzle game | Review - Ugly
+title: "Ugly Is Ironically Beautiful Both Visually and as a Puzzle Game | Ugly Review"
 game: Ugly
 description: ✨Overview Ugly is a 2D puzzle platformer that immerses players with an innovative mirror and swapping mechanic. The game centers on unraveling the protagonist's mysterious past through a series of intricate puzzle rooms and challenging boss encounters. The game released recently on both iOS and Android, following a release last year on Steam for PC.
 featured: false

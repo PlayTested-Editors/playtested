@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-11-30-a-very-short-lived-pro-environment-info-video-disguised-as-a-game-review-domino-the-li
-title: A very short-lived pro-environment info-video disguised as a game | Review - DOMINO The Little One
+title: "Very Short-Lived Pro-Environment Info-Video Disguised as a Game | DOMINO The Little One Review"
 game: 'DOMINO: The Little One'
 description: DOMINO The Little One 7.7 Adventure Platformer Get
 featured: false

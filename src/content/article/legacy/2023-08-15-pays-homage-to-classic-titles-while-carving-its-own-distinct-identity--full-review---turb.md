@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-08-15-pays-homage-to-classic-titles-while-carving-its-own-distinct-identity-full-review-turb
-title: Pays homage to classic titles while carving its own distinct identity | Full Review - Turbo Overkill
+title: "Pays Homage to Classic Titles While Carving Its Own Distinct Identity | Turbo Overkill Full Review"
 game: Turbo Overkill
 description: Turbo Overkill Turbo Overkill is a high-octane first-person shooter that blends the intense bullet-hell and high speed action of retro titles like Doom and Quake with a cyberpunk aesthetic. The game thrusts players into a dystopian future where advanced technology and chaos converge.
 featured: false

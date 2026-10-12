@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-09-24-indie-spotlight-dragons-and-magic-meets-space-travel-and-technology-early-preview-star
-title: '[Indie Spotlight] Dragons and Magic meets Space Travel and Technology | Early Preview - Starstride'
+title: "[Indie Spotlight] Dragons and Magic Meets Space Travel and Technology | Starstride Early Preview"
 game: Early Preview - Starstride
 description: ✨Overview Starstride is an online hack and slash action RPG where dragons and magic meet space travel and technology. I had the opportunity to play a seemingly very early version of the game, which is currently in development, and it holds a lot of promise. The game is planned for release on both mobile and PC (Steam), although a clear release timeline has not been provided yet.
 featured: false

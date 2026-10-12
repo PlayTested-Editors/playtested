@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-10-23-nintendos-farewell-masterpiece-song-for-the-switch-review-super-mario-bros-wonder
-title: Nintendo's farewell masterpiece song for the Switch | Review - Super Mario Bros. Wonder
+title: "Nintendo's Farewell Masterpiece Song for the Switch | Super Mario Bros. Wonder Review"
 game: Super Mario Bros. Wonder
 description: Developed and published by Nintendo for the Nintendo Switch, Super Mario Bros. Wonder marks the return of traditional side-scrolling Mario after a decade-long hiatus. The game introduces us to the Flower Kingdom, a vibrant and fantastical world neighboring Mushroom Kingdom that's filled with surprises and extraordinary gameplay mechanics.
 featured: false

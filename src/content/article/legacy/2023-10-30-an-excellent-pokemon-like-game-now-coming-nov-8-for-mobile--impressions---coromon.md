@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-10-30-an-excellent-pokemon-like-game-now-coming-nov-8-for-mobile-impressions-coromon
-title: An excellent Pokemon-like game now coming Nov 8 for Mobile! | Impressions - Coromon
+title: "Excellent Pokemon-like Game Now Coming Nov 8 for Mobile! | Coromon First Impressions"
 game: Coromon
 description: Coromon is a soon to be mobile game that combines elements of classic monster-taming RPGs with its own unique twists, making it appealing to both fans of the genre and those looking for something fresh.
 featured: false

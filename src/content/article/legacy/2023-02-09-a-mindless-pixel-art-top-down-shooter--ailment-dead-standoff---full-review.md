@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-02-09-a-mindless-pixel-art-top-down-shooter-ailment-dead-standoff-full-review
-title: 'A mindless pixel-art top down shooter | Ailment: dead standoff - Full Review'
+title: "Mindless Pixel-Art Top Down Shooter | Ailment: dead standoff Full Review"
 game: 'Ailment: dead standoff'
 description: 'Ailment: dead standoff is a single-stick top down corridor shooter with retro pixel-art and an interesting story as a bonus. Of course, if you see the word “dead” in the title, it better include zombies, and it does — with a twist.'
 featured: false

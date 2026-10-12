@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-06-16-a-full-on-video-game-adaptation-of-the-anime-series-first-impressions-laid-back-camp-a
-title: A full-on video game adaptation of the anime series | First Impressions - Laid-Back Camp All-in-one
+title: "Full-On Video Game Adaptation of the Anime Series | Laid-Back Camp All-in-one First Impressions"
 game: Laid-Back Camp All-in-one
 description: Laid-Back Camp All -in -one is a full-on video game adaptation of the Laid-Back Camp (also known as Yuru Camp) anime series and allows players to personally take the characters on camping trips, with over 1000 types of camping gear, character cosmetics, and vehicles across various beautiful sceneries.
 featured: false

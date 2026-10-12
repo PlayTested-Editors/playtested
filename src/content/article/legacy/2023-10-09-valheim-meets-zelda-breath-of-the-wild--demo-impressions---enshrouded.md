@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-10-09-valheim-meets-zelda-breath-of-the-wild-demo-impressions-enshrouded
-title: Valheim meets Zelda Breath of the Wild? | Demo Impressions - Enshrouded
+title: "Valheim Meets Zelda Breath of the Wild? | Enshrouded Demo Impressions"
 game: Impressions - Enshrouded
 description: Just recently, I tried the 8-hour free demo of the upcoming game on Steam - Enshrouded and had a great time, even if I only played it in singleplayer. The demo allows you to play through the initial quests, helping players become familiar with the game and see what it's like.
 featured: false

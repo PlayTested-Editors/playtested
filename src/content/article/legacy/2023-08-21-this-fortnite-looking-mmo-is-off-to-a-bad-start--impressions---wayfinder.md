@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-08-21-this-fortnite-looking-mmo-is-off-to-a-bad-start-impressions-wayfinder
-title: This Fortnite-looking MMO is off to a bad start | Impressions - Wayfinder
+title: "This Fortnite-Looking MMO Is Off to a Bad Start | Wayfinder First Impressions"
 game: Wayfinder
 description: Wayfinder, an Online Action Role Playing Game, takes players on an adventure through a world filled with stylized characters, third person combat, and procedurally generated dungeons. While it draws parallels to games like Dauntless, Fortnite, and Darksiders, it is also promising to also bring its own unique elements to the table. The game features an intriguing blend of MMO lite and RPG elements, promising a mix of action-packed combat and immersive storytelling.
 featured: false

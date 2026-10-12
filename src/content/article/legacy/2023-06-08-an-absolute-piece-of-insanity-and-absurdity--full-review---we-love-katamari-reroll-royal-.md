@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-06-08-an-absolute-piece-of-insanity-and-absurdity-full-review-we-love-katamari-reroll-royal
-title: An absolute piece of insanity and absurdity | Full Review - We Love Katamari REROLL+ Royal Reverie
+title: "Absolute Piece of Insanity and Absurdity | We Love Katamari REROLL+ Royal Reverie Full Review"
 game: We Love Katamari REROLL+ Royal Reverie
 description: We Love Katamari REROLL+ Royal Reverie We Love Katamari REROLL+ Royal Reverie is a remastered version of the beloved second title in the Katamari Damacy series released for modern systems; PC, Playstation, Xbox, and Switch.
 featured: false

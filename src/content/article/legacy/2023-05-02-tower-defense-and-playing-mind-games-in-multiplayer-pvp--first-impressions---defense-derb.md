@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-05-02-tower-defense-and-playing-mind-games-in-multiplayer-pvp-first-impressions-defense-derb
-title: Tower Defense and playing mind games in multiplayer PvP | First Impressions - Defense Derby
+title: "Tower Defense and Playing Mind Games in Multiplayer PvP | Defense Derby First Impressions"
 game: Defense Derby
 description: Defense Derby is a simple game to play, monsters attack your square castle, and you have to place a variety of heroes on top of it to effectively survive the waves of enemies marching around and towards your castle gate.
 featured: false

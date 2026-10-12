@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-05-27-retro-dungeon-crawling-rpg-and-tower-defense-fused-together-first-impressions-dwerve
-title: Retro dungeon crawling RPG and tower defense fused together | First Impressions - Dwerve
+title: "Retro Dungeon Crawling RPG and Tower Defense Fused Together | Dwerve First Impressions"
 game: Dwerve
 description: 'Dwerve is a captivating blend of retro art dungeon crawling RPG and tower defense combat, enveloped in a high fantasy narrative featuring Dwarves, Elves, and Trolls. Recently released for PC, with a mobile version on the horizon, I had the opportunity to test the demo version called Dwerve: Prologue.'
 featured: false

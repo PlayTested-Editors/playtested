@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-07-08-the-mobile-game-for-baseball-fans-review-mlb-9-innings-rivals
-title: THE mobile game for baseball fans | Review - MLB 9 Innings Rivals
+title: "THE Mobile Game for Baseball Fans | MLB 9 Innings Rivals Review"
 game: MLB 9 Innings Rivals
 description: lyndonguitar Download MLB 9 Innings Rivals is a brand new mobile game for baseball fans, featuring console level visuals, simple gameplay, fantasy baseball management, and player collecting mechanics.
 featured: false

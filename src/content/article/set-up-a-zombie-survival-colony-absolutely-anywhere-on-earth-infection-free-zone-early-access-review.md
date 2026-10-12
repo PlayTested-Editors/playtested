@@ -1,6 +1,5 @@
 ---
-title: Set up a zombie survival colony absolutely anywhere on Earth | Infection
-  Free Zone Early Access Review
+title: "Set Up a Zombie Survival Colony Absolutely Anywhere on Earth | Infection Free Zone Early Access Review"
 pubDate: 2026-07-17T09:32:00.000+08:00
 draft: false
 description: Infection Free Zone is a real-time strategy title uses open-source

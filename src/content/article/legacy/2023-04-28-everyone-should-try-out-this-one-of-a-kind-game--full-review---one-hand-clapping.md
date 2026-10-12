@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-04-28-everyone-should-try-out-this-one-of-a-kind-game-full-review-one-hand-clapping
-title: Everyone should try out this one of a kind game | Full Review - One Hand Clapping
+title: "Everyone Should Try Out This One of a Kind Game | One Hand Clapping Full Review"
 game: One Hand Clapping
 description: One Hand Clapping One Hand Clapping is a 2D puzzle platformer game with innovative singing mechanics that requires the use of your microphone as a control input. It is available for PC, Xbox Playstation, Switch, and Mobile.
 featured: false

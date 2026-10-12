@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-02-25-a-cinematic-dark-fantasy-tactical-rpg-experience-full-review-redemption-reapers
-title: A cinematic dark fantasy Tactical RPG experience | Full Review - Redemption Reapers
+title: "Cinematic Dark Fantasy Tactical RPG Experience | Redemption Reapers Full Review"
 game: Redemption Reapers
 description: Redemption Reapers is a dark fantasy Tactical / Strategy RPG game with heavy narrative elements and a challenging turn-based tactics gameplay.
 score: 5.5

@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-08-21-your-answers-will-affect-your-fate-dramatically-review-the-cosmic-wheel-sisterhood
-title: Your answers will affect your fate, dramatically | Review - The Cosmic Wheel Sisterhood
+title: "Your Answers Will Affect Your Fate, Dramatically | The Cosmic Wheel Sisterhood Review"
 game: The Cosmic Wheel Sisterhood
 description: The Cosmic Wheel Sisterhood is a captivating story-driven game that presents players with an immersive narrative experience that revolves around Fortuna, a fortune-teller Witch banished to exile on an asteroid. Developed by the creators of The Red Strings Club and feeling like a spiritual successor, The game's premise is rooted in crafting a personalized Tarot deck, reclaiming freedom, and influencing the destiny of the cosmic Witch society.
 featured: false

@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-04-07-pays-homage-to-the-history-of-video-games-that-feels-both-old-and-fresh-full-review-ev
-title: Pays homage to the history of video games that feels both old and fresh | Full Review - Evoland 2
+title: "Pays Homage to the History of Video Games That Feels Both Old and Fresh | Evoland 2 Full Review"
 game: Evoland 2
 description: Evoland 2 is a classic / modern adventure RPG game with a time-traveling theme, not just with the settings, but with whole video game eras and genres altogether.
 featured: false

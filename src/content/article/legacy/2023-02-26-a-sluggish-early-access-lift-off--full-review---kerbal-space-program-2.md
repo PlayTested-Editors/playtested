@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-02-26-a-sluggish-early-access-lift-off-full-review-kerbal-space-program-2
-title: A sluggish Early Access lift-off | Full Review - Kerbal Space Program 2
+title: "Sluggish Early Access Lift-Off | Kerbal Space Program 2 Full Review"
 game: Kerbal Space Program 2
 description: Kerbal Space Program 2 is now released in Early Access. Is it a decent follow-up to one of the greatest spacecraft physics simulation games of all time — Kerbal Space Program?
 featured: false

@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-09-15-a-great-start-for-a-rebirth-of-a-franchise-full-review-mortal-kombat-1
-title: A great start for a rebirth of a franchise | Full Review - Mortal Kombat 1
+title: "Great Start for a Rebirth of a Franchise | Mortal Kombat 1 Full Review"
 game: Mortal Kombat 1
 description: lyndonguitar Get Mortal Kombat 1 is an upcoming fighting game that serves as both a sequel to Mortal Kombat 11 and a reboot of the series. It features a restarted universe with new origins for the characters and a fresh storyline, set to be released for PC, PS, Xbox, and Switch.
 featured: false

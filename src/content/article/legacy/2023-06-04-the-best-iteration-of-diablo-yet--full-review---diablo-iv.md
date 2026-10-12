@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-06-04-the-best-iteration-of-diablo-yet-full-review-diablo-iv
-title: The best iteration of Diablo yet | Full Review - Diablo IV
+title: "Best Iteration of Diablo Yet | Diablo IV Full Review"
 game: Diablo IV
 description: Diablo® IV Diablo IV is the upcoming installment in the popular action role-playing game series developed by Blizzard Entertainment. The game is set to release for PC, PlayStation, and Xbox on June 6, 2023.
 featured: false

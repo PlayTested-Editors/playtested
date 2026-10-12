@@ -1,5 +1,5 @@
 ---
-title: The King of Rogue-lites is Back and More Fun Than Ever | Hades II Review
+title: "King of Rogue-Lites Is Back and More Fun Than Ever | Hades II Review"
 pubDate: 2025-12-05T21:43:00.000+08:00
 draft: false
 description: "How do you follow up a game that redefined its genre and was

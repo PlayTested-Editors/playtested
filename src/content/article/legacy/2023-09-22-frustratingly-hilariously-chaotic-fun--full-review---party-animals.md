@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-09-22-frustratingly-hilariously-chaotic-fun-full-review-party-animals
-title: Frustratingly hilariously chaotic fun | Full Review - Party Animals
+title: "Frustratingly Hilariously Chaotic Fun | Party Animals Full Review"
 game: Party Animals
 description: Party Animals is a multiplayer physics-based brawler and party game developed by Recreate Games and published by Source Technology. This game brings a delightful selection of cute anthropomorphic animals in chaotic battles, similar to like Gang Beasts and Gummy Life. With its unique blend of physics-based combat and Fall Guys-style objectives, it offers players a hilariously chaotic fun experience.
 featured: false

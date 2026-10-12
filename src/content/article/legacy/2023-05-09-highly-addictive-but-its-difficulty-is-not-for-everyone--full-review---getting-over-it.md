@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-05-09-highly-addictive-but-its-difficulty-is-not-for-everyone-full-review-getting-over-it
-title: Highly addictive, but its difficulty is not for everyone | Full Review - Getting Over It+
+title: "Highly Addictive, but Its Difficulty Is Not for Everyone | Getting Over It+ Full Review"
 game: Getting Over It+
 description: lyndonguitar Get Getting Over It+ is a physics-based platformer that will require your patience, dexterity, and problem solving skills… well mostly, your patience.
 featured: false

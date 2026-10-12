@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-08-31-team-based-fps-with-destructible-environments-soft-launch-impressions-rainbow-six-mobi
-title: Team-based FPS with destructible environments | Soft Launch Impressions - Rainbow Six Mobile
+title: "Team-Based FPS With Destructible Environments | Rainbow Six Mobile Soft Launch Impressions"
 game: Soft Launch Impressions - Rainbow Six Mobile
 description: Rainbow Six Mobile features the same PvP FPS experience that started with Rainbow Six Siege back in 2015, which has continuously been updated throughout the years with new content, operators, and changes.
 featured: false

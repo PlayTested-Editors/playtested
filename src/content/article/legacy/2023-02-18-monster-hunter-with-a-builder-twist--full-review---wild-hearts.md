@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-02-18-monster-hunter-with-a-builder-twist-full-review-wild-hearts
-title: Monster Hunter with a 'builder' twist | Full Review - Wild Hearts
+title: "Monster Hunter With a 'Builder' Twist | Wild Hearts Full Review"
 game: Wild Hearts
 description: 'Wild Hearts may look like a Monster Hunter-clone at surface level, but it’s much more than that, with various twists and additions to the formula by way of incorporating elements from other games like Fortnite, Ark: Survival, and even Death Stranding.'
 featured: false

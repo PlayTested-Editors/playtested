@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-11-28-quick-intense-battles-that-follows-the-clash-royale-formula-review-rebel-bots-epic-war
-title: 'Quick intense battles that follows the Clash Royale formula |Review - Rebel Bots: Epic War PvP Clash'
+title: "Quick Intense Battles That Follows the Clash Royale Formula | Rebel Bots: Epic War PvP Clash Review"
 game: 'Rebel Bots: Epic War PvP Clash'
 description: 'Rebel Bots: Epic War PvP RTS 6.2 Strategy PvP Download'
 featured: false

@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-09-18-a-middle-ground-between-call-of-duty-warzone-and-apex-legends-soft-launch-review-blood
-title: 'A middle ground between Call of Duty: Warzone and Apex Legends | Soft Launch Review - Blood Strike'
+title: "Middle Ground Between Call of Duty: Warzone and Apex Legends | Blood Strike Soft Launch Review"
 game: 'Call of Duty: Warzone'
 description: 'Blood Strike is a fast-paced battle royale FPS designed with high-octane action in mind. It draws inspiration from popular titles like COD: Warzone and Apex Legends and aims to provide an engaging experience while also prioritizing optimization for lower-end devices. Remarkably, the game maintains a compact installation size, occupying only roughly 1GB.'
 featured: false

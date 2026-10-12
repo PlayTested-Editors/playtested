@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-11-17-risk-of-rain-but-top-down-and-on-mobile-closed-beta-impressions-risk-of-rain-hostile-w
-title: 'Risk of Rain but top-down and on mobile | Closed Beta Impressions - Risk of Rain: Hostile Worlds'
+title: "Risk of Rain but Top-Down and on Mobile | Risk of Rain: Hostile Worlds Closed Beta Impressions"
 game: 'Closed Beta Impressions - Risk of Rain: Hostile Worlds'
 description: 'Risk of Rain: Hostile Worlds is the latest addition to the Risk of Rain series alongside the recently released Risk of Rain Returns, it ventures into uncharted territory by bringing the beloved roguelite experience to the mobile platform.'
 featured: false

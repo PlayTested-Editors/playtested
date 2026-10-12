@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-07-06-new-dlc-nope-its-just-the-incredible-modders-full-review-hollow-knight-pale-court
-title: 'New DLC? Nope it’s just the incredible modders | Full Review - Hollow Knight: Pale Court'
+title: "New DLC? Nope It's Just the Incredible Modders | Hollow Knight: Pale Court Full Review"
 game: Hollow Knight
 description: Hollow Knight Hollow Knight - Pale Court is a brand new fan-made DLC for the critically acclaimed game Hollow Knight, featuring brand new bosses, charms, artwork, and secrets.
 featured: false

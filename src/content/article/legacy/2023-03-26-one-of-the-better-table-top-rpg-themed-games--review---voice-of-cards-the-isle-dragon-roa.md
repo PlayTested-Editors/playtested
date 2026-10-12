@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-03-26-one-of-the-better-table-top-rpg-themed-games-review-voice-of-cards-the-isle-dragon-roa
-title: 'One of the better table-top RPG themed games | Review - Voice of Cards: The Isle Dragon Roars'
+title: "One of the Better Table-Top RPG Themed Games | Voice of Cards: The Isle Dragon Roars Review"
 game: 'Voice of Cards: The Isle Dragon Roars'
 description: 'Voice of Cards: The Isle Dragon Roars is an RPG game with table-top card-game inspired presentation and mechanics. Released in 2021 for the Playstation 4, Nintendo Switch, and PC, it has now been recently ported for Android and iOS mobile platforms.'
 featured: false

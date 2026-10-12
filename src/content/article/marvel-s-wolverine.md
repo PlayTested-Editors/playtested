@@ -1,5 +1,5 @@
 ---
-title: A Berserker Barrage With a Few Rough Edges | Marvel's Wolverine Review
+title: "Berserker Barrage With a Few Rough Edges | Marvel's Wolverine Review"
 pubDate: 2026-10-08T18:16:45.573+08:00
 draft: false
 description: Marvel's Wolverine drops you straight into the adamantium-laced skeleton of Marvel’s most iconic, cigar-chomping mutant. Unlike the sprawling, sky-scraping sandbox of Insomniac's Spider-Man, Logan's adventure trades open-world for a tight, linear, narrative-driven action-adventure structure.

@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-02-03-can-you-survive-28-days-in-this-1-bit-survival-adventure-1-bit-survivor-first-impressi
-title: Can you survive 28 days in this 1-bit survival adventure? | 1 Bit Survivor - First Impressions
+title: "Can You Survive 28 Days in This 1-Bit Survival Adventure? | 1 Bit Survivor First Impressions"
 game: 1 Bit Survivor
 description: You have exactly 28 days left to reach the bunker before they bomb the city. You have your trusty car, and a new cat for a companion. You need to stop for gas once a day, and has 4 bullets remaining. Can you survive all 28 days in 1 Bit Survivor?
 featured: false

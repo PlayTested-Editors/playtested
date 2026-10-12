@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-04-13-beautiful-immersive-but-very-short-lived-full-review-tron-identity
-title: 'Beautiful, Immersive, but very short-lived | Full Review - Tron: Identity'
+title: "Beautiful, Immersive, but Very Short-Lived | Tron: Identity Full Review"
 game: 'Tron: Identity'
 description: 'Tron: Identity is a visual novel adventure game set in the world of Tron, where players play in the role of Query, a detective program tasked to investigate a mysterious situation.'
 featured: false

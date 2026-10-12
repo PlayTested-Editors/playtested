@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-05-09-an-equally-creepy-and-unique-prequel-that-stands-on-its-own-full-review-very-little-ni
-title: An equally creepy and unique prequel that stands on its own | Full Review - Very Little Nightmares+
+title: "Equally Creepy and Unique Prequel That Stands on Its Own | Very Little Nightmares+ Full Review"
 game: Very Little Nightmares
 description: Very Little Nightmares is a puzzle-platformer game developed by Alike Studio and published by Bandai Namco Entertainment. As a prequel to the popular horror game Little Nightmares, this game boasts a similar eerie and suspenseful atmosphere while providing an original, captivating storyline and gameplay that stands on its own.
 featured: false

@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2024-02-26-a-remarkable-arpg-perfectly-balanced-between-depth-and-accessibility-review-last-epoch
-title: A remarkable ARPG perfectly balanced between depth and accessibility | Review - Last Epoch
+title: "Remarkable ARPG Perfectly Balanced Between Depth and Accessibility | Last Epoch Review"
 game: Last Epoch
 description: ✨Overview Last Epoch is an action role-playing game (ARPG) developed by Eleventh Hour Games. This indie title features a pretty cool time-traveling mechanic, allowing players to explore different eras and alter the course of history. The game features a deep character customization, with a variety of classes and skill trees to choose from, as well as a robust crafting system. Players can embark on quests, battle hordes of enemies, and collect powerful loot as they unravel the mysteries of the world of Eterra — past, present, and future. Last Epoch was released on February 22, 2024, after nearly five years in Early Access.
 featured: false

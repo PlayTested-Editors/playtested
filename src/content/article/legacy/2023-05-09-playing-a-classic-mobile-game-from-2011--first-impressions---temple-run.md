@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-05-09-playing-a-classic-mobile-game-from-2011-first-impressions-temple-run
-title: Playing a classic mobile game from 2011 | First Impressions - Temple Run+
+title: "Playing a Classic Mobile Game From 2011 | Temple Run+ First Impressions"
 game: Temple Run
 description: Temple Run+ which was released for the subscription-based gaming service offered by Apple just recently, is the Apple Arcade version of the game Temple Run, where players take on the role of an adventurer who must endlessly run through the temple, avoiding obstacles, collecting coins, and trying to outrun a group of demonic monkeys chasing after them.
 featured: false

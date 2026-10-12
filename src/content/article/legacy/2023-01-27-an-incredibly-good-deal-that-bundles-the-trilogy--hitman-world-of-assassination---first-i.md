@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-01-27-an-incredibly-good-deal-that-bundles-the-trilogy-hitman-world-of-assassination-first-i
-title: An incredibly good deal that bundles the trilogy | HITMAN World of Assassination - First Impressions
+title: "Incredibly Good Deal That Bundles the Trilogy | HITMAN World of Assassination First Impressions"
 game: Hitman
 description: HITMAN World of Assassination is a stealth-action sandbox game that puts us in the shoes of the genetically engineered clone named Agent 47, a highly skilled assassin working for an organization called the International Contract Agency. The whole premise is centered around Agent 47 taking different contracts across the globe, setting the stage for the different multinational sandbox levels that acts as our murder playground.
 featured: false

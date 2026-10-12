@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2024-03-05-a-fun-mmo-that-doesnt-take-much-effort-or-no-effort-at-all-preview-immortal-kingdoms
-title: A fun MMO that doesn’t take much effort (or no effort at all) | Preview - Immortal Kingdoms
+title: "Fun MMO That Doesn't Take Much Effort (or No Effort at All) | Immortal Kingdoms Preview"
 game: Immortal Kingdoms
 description: ✨Overview Immortal Kingdoms is an upcoming fantasy MMORPG for both mobile and PC. The game promises a variety of gameplay mechanics, including solid idle RPG features that allows players to automate many aspects of the game, as well as traditional MMORPG elements such as PvP, PvE, character progression, and customization.
 featured: false

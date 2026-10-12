@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-07-23-build-your-team-and-climb-the-tower-first-impressions-tower-of-god-new-world
-title: 'Build your team and climb the tower | First Impressions - Tower of God: New World'
+title: "Build Your Team and Climb the Tower | Tower of God: New World First Impressions"
 game: 'Tower of God: NEW WORLD'
 description: "Tower of God: New World is an idle RPG gacha game where players assume the role of a new character inserted into the original narrative, following Bam's footsteps and experiencing the adventure firsthand. The game introduces a new player-named character, along with his navigator and tutorial guide Rin, bridging the gameplay mechanics with the overarching storyline. Through Rin's guidance, players become an integral part of the Tower's world, forging their path, and interacting with iconic characters."
 featured: false

@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-05-05-a-unique-spin-on-the-breakout-puzzle-formula-full-review-hyperforma
-title: A unique spin on the 'Breakout' puzzle formula | Full Review - Hyperforma
+title: "Unique Spin on the 'Breakout' Puzzle Formula | Hyperforma Full Review"
 game: Hyperforma
 description: Hyperforma is a puzzle game that takes players on a journey through a mysterious and futuristic world featuring spatial-based puzzles and various geometric shapes.
 featured: false

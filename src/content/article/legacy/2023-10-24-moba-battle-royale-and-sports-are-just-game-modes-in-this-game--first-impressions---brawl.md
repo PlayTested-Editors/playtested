@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-10-24-moba-battle-royale-and-sports-are-just-game-modes-in-this-game-first-impressions-brawl
-title: MOBA, Battle Royale, and Sports are just game modes in this game | First Impressions - Brawl Stars
+title: "MOBA, Battle Royale, and Sports Are Just Game Modes in This Game | Brawl Stars First Impressions"
 game: Brawl Stars
 description: Brawl Stars offers a unique blend of strategy and action. Players control Brawlers, characters with unique quirky abilities, and can team-up with others in various game modes, each one having a different objective. From battle royale style of gameplay to sports-like team-based matches, Players can invite friends to play with them up to the maximum team size of the game mode.
 featured: false

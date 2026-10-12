@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-05-28-pays-homage-to-the-classic-survival-horror-games-of-the-past-first-impressions-heaven
-title: Pays homage to the classic survival horror games of the past | First Impressions - Heaven Dust
+title: "Pays Homage to the Classic Survival Horror Games of the Past | Heaven Dust First Impressions"
 game: Heaven Dust
 description: Heaven Dust, developed and published by One Gruel Studio, is a zombie survival game that aims to capture the essence of classic survival horror titles like the original Resident Evil titles while delivering a modernized 3D experience.
 featured: false

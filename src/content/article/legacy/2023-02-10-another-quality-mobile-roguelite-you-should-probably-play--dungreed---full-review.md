@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-02-10-another-quality-mobile-roguelite-you-should-probably-play-dungreed-full-review
-title: Another quality mobile roguelite you should probably play! | Dungreed - Full Review
+title: "Another Quality Mobile Roguelite You Should Probably Play! | Dungreed Full Review"
 game: Dungreed
 description: In the indie-games industry, production costs are limited. Usually, game creators cannot always afford to create photorealistic graphics and an expansive combination of story and gameplay. This usually leads to popular common denominators, such as retro art-style, and rogue-like gameplay, and Dungreed is one such example. The only difference now lies in the gameplay, does Dungreed have what it takes to get your attention?
 featured: false

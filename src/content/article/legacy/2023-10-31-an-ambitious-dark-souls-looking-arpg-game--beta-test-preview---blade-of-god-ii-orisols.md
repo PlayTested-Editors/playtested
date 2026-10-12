@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-10-31-an-ambitious-dark-souls-looking-arpg-game-beta-test-preview-blade-of-god-ii-orisols
-title: 'An ambitious Dark Souls-looking ARPG game | Beta Test Preview - Blade of God II: Orisols'
+title: "Ambitious Dark Souls-Looking ARPG Game | Blade of God II: Orisols Beta Test Preview"
 game: 'Beta Test Preview - Blade of God II: Orisols'
 description: "Blade of God X: OrisolsGlobal 8.7 Editors' Choice Action PC Version"
 featured: false

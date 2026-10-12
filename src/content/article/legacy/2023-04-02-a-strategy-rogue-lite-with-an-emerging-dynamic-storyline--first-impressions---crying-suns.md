@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-04-02-a-strategy-rogue-lite-with-an-emerging-dynamic-storyline-first-impressions-crying-suns
-title: A strategy rogue-lite with an emerging dynamic storyline | First Impressions - Crying Suns
+title: "Strategy Rogue-Lite With an Emerging Dynamic Storyline | Crying Suns First Impressions"
 game: Crying Suns
 description: Crying Suns' narrative themes are boasted as having been inspired by Dune and Foundation, in which for any hardcore sci-fi fans, know that this is probably two of the best source materials a story could be inspired by.
 featured: false

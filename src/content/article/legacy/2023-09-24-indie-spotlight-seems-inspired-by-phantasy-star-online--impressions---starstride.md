@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-09-24-indie-spotlight-seems-inspired-by-phantasy-star-online-impressions-starstride
-title: '[Indie Spotlight] Seems inspired by Phantasy Star Online | Impressions - Starstride'
+title: "[Indie Spotlight] Seems Inspired by Phantasy Star Online | Starstride First Impressions"
 game: Starstride
 description: Starstride is an online Action RPG that blends the unlikely combination of high fantasy with sci-fi, and it works out quite well. Two allied factions, Neoterrans and Wokens, are at war against a mysterious alien civilization. Your character is one of the few powerful fighters remaining after a mysterious defeat at the hands of the enemy's leader.
 featured: false

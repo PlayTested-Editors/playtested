@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-10-29-remedys-best-offering-since-max-payne-1-and-2-first-impressions-alan-wake-ii
-title: Remedy's best offering since Max Payne 1 and 2? | First Impressions - Alan Wake II
+title: "Remedy's Best Offering Since Max Payne 1 and 2? | Alan Wake II First Impressions"
 game: Alan Wake II
 description: Alan Wake II is a thrilling continuation of Remedy Entertainment's captivating narrative-driven games. The game features Remedy's signature storytelling prowess and delivers a survival-horror game experience impressive next-gen level of graphics and innovative gameplay features.
 featured: false

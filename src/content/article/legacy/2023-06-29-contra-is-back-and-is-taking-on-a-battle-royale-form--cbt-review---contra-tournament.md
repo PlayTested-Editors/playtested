@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-06-29-contra-is-back-and-is-taking-on-a-battle-royale-form-cbt-review-contra-tournament
-title: 'Contra is back and is taking on a battle royale form | CBT Review - Contra: Tournament'
+title: "Contra Is Back and Is Taking on a Battle Royale Form | Contra: Tournament CBT Review"
 game: 'CBT Review - Contra: Tournament'
 description: 'Contra: Tournament brings the iconic Contra series to the mobile battle royale genre, offering players a fresh take on the popular gaming formula. A Closed Beta Test for Contra: Tournament has recently started, allowing players to experience and provide feedback on this upcoming new title.'
 featured: false

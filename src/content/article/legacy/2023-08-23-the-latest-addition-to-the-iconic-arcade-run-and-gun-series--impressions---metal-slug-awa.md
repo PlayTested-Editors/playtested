@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-08-23-the-latest-addition-to-the-iconic-arcade-run-and-gun-series-impressions-metal-slug-awa
-title: 'The latest addition to the iconic arcade run-and-gun series | Impressions - Metal Slug: Awakening'
+title: "Latest Addition to the Iconic Arcade Run-and-Gun Series | Metal Slug: Awakening First Impressions"
 game: 'Metal Slug: Awakening'
 description: 'Metal Slug: Awakening, the latest addition to the Metal Slug series, combines nostalgia with modern mobile gaming dynamics. While adhering to the classic run-and-gun formula that fans adore, the game introduces a control scheme tailored to touch controls, offering accessibility for players of all levels.  It even includes an auto-target feature.'
 featured: false

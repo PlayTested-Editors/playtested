@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-04-25-a-very-charming-2d-action-adventure-game-early-access-impressions-ogu-and-the-secret-f
-title: A very charming 2D action-adventure game | Early Access Impressions - Ogu and the Secret Forest
+title: "Very Charming 2D Action-Adventure Game | Ogu and the Secret Forest Early Access Impressions"
 game: Early Access Impressions - Ogu and the Secret Forest
 description: Ogu and the Secret Forest 9.1 Adventure Healing Test
 featured: false

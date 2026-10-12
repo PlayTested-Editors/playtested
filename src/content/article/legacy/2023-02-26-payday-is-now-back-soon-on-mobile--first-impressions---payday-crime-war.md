@@ -2,7 +2,7 @@
 author: lyndonguitar
 category: Review
 slug: 2023-02-26-payday-is-now-back-soon-on-mobile-first-impressions-payday-crime-war
-title: 'PAYDAY is now back soon on mobile! | First Impressions - PAYDAY: Crime War'
+title: "PAYDAY Is Now Back Soon on Mobile! | PAYDAY: Crime War First Impressions"
 game: 'PAYDAY: Crime War'
 description: 'In PAYDAY: Crime War, you are in a squad of bank robbers and you have to perform heists such as robbing banks or jewelry stores to progress throughout this fun cooperative FPS game. You can either do it silently or face the wrath of endless cop raids while trying to steal and escape.'
 featured: false
