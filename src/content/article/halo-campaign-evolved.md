@@ -24,9 +24,15 @@ score: 8
 game: Halo Campaign Evolved
 ---
 
-I finally jumped into *Halo Campaign Evolved*, and let me tell you, it was an absolute blast just like old times, but with a visual makeover. Having played through the original and the *Master Chief Collection* campaigns just for the pure fun of it, returning to where it all began — rebuilt from the ground up — felt like slipping into a familiar, upgraded suit of Mjolnir armor.
+I finally jumped into *Halo Campaign Evolved*, and let me tell you, it was an absolute 
+
+<img src="/images/uploads/medaltvhalocampaignevolved20260731171052820-25af25.avif" alt="" class="img-wrap img-wrap-right rounded shadow" style="width: 40%;" />
+
+blast just like old times, but with a visual makeover. Having played through the original and the *Master Chief Collection* campaigns just for the pure fun of it, returning to where it all began — rebuilt from the ground up — felt like slipping into a familiar, upgraded suit of Mjolnir armor.
 
 *Halo* is probably the quintessential sci-fi console first-person shooter, for a lot of people at least. You step into the boots of the Master Chief, a hulking, green-armored astronaut looking super-soldier, as you crash-land on a mysterious, massive ringworld known as the **Halo**. Along with an AI companion named Cortana, your mission is to rally scattered human marines, uncover the secrets of the ring, and fight off an alliance of alien zealots known as the Covenant — and eventually, something far worse.
+
+<img src="/images/uploads/rawg-1-halo-campaign-evolved-d8c4ca.avif" alt="" class="img-wrap img-wrap-left rounded shadow" style="width: 40%;" />
 
 The moment-to-moment gameplay loop revolves around a delicate dance of shooting, melee, and grenade-tossing, commonly referred to as the "golden triangle" of *Halo*. You scavenge alien weapons, hijack enemy vehicles, and navigate semi-massive sandboxes filled with dynamic AI enemies that actually react to your tactics. They throw grenades, try to flank, and coordinate against you. It’s a formula that revolutionized console shooters, and this remake aims to present that core loop with a thoroughly modern coat of paint.
 
@@ -45,17 +51,25 @@ The moment-to-moment gameplay loop revolves around a delicate dance of shooting,
 
 ### Modernizing the Mechanics - Good or Bad?
 
+<img src="/images/uploads/steam-1-halo-campaign-evolved-premium-edition-up-cc6109.avif" alt="" class="img-wrap img-wrap-left rounded shadow" style="width: 40%;" />
+
 In this new remake, we have addition of sprint and regenerating health. Purists feared this wouldn't be right and destroy the feel of the classics, but honestly? They got it right. As a casual fan of the classics, the changes didn't shatter the illusion; it just played like good old *Halo* to me. They translated the core feeling perfectly. The jumping physics, the snappy gunplay, and the clunkiness of the marines all feel exactly as they should. Having weapons from later entries sprinkled in is the cherry on top, expanding your tactical options. Apparently there are some bugs in the game like AI pathing, hitbox, or aim magnetting issues, but i personally didn't experience them or they were patched right after, maybe because i played this game weeks after release.
 
 ### A Fresh Coat of Paint (and a New Optional Camera)
 
 Visually, the game is undeniably stunning. I thought the *Anniversary Edition* already looked great, but *Campaign Evolved* finds an even higher ceiling. However, this complete engine overhaul comes with trade-offs. You can no longer instantly swap between classic and remastered graphics at the press of a button. More importantly, the global illumination, while technically impressive, adds some noticeable noise in darker corridors. I also wasn't a fan of how the new geometry handled the distant Halo ring — it indeed lost some of that massive, imposing scale from the original skyboxes. So I agree with the online critics regarding that.
 
+![](/images/uploads/medaltvhalocampaignevolved20260806102921183-72d14b.avif)
+
 That said, the visual and mechanical shifts allow for some brilliant additions, most notably the new third-person mode toggled via Skulls. I played half of my 10-12 hour run this way. It gives the game a fresh *Gears of War* POV, which is not only a fun twist but a fantastic accessibility option for players who suffer from FPS motion sickness or just outright prefer third person camera in their games.
 
 ### Mission Design and Additions
 
-The developers didn't just stop at the engine nor the mechanics; they actively improved the pacing. Infamous levels have been reeled in. For example The Library, and the updated design makes it vastly superior to the original slog. They also successfully reduced the repetitive copy-paste rooms in Assault on the Control Room. There’s even a nice little "prequel" mission added in. While it’s not exactly vital to the overarching lore, more *Halo* is always better in my book, and it serves as a fun bonus.
+The developers didn't just stop at the engine nor the mechanics; they actively 
+
+<img src="/images/uploads/medaltvhalocampaignevolved20260827152614815-2d9131.avif" alt="" class="img-wrap img-wrap-right rounded shadow" style="width: 40%;" />
+
+improved the pacing. Infamous levels have been reeled in. For example The Library, and the updated design makes it vastly superior to the original slog. They also successfully reduced the repetitive copy-paste rooms in Assault on the Control Room. There’s even a nice little "prequel" mission added in. While it’s not exactly vital to the overarching lore, more *Halo* is always better in my book, and it serves as a fun bonus.
 
 ### Conclusion
 
