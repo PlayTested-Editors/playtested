@@ -1,32 +1,78 @@
 <script lang="ts">
+  import { untrack } from "svelte";
   import Modal from "../ui/Modal.svelte";
   import { toast } from "../state.svelte";
-  import { AI_SERVICES, buildPrompt, parseReply } from "./ai-prompt";
+  import { AI_LEVELS, AI_SERVICES, buildPrompt, parseReply, type AiLevel } from "./ai-prompt";
 
   let {
     open = $bindable(false),
     hasBody = false,
     hasTitle = false,
+    articleTitle = "",
+    articleBody = "",
+    articleGame = "",
     onuse,
   }: {
     open?: boolean;
     hasBody?: boolean;
     hasTitle?: boolean;
-    onuse: (draft: { title: string | null; score: number | null; body: string; mode: "replace" | "append" }) => void;
+    /** The article as it is now: Low and Medium work on this text. */
+    articleTitle?: string;
+    articleBody?: string;
+    articleGame?: string;
+    onuse: (draft: { title: string | null; score: number | null; body: string; mode: "replace" | "append"; level: AiLevel }) => void;
   } = $props();
 
+  const readLevel = (): AiLevel => {
+    try {
+      const v = localStorage.getItem("studio.aiLevel");
+      return v === "low" || v === "medium" ? v : "high";
+    } catch {
+      return "high";
+    }
+  };
+
+  let level = $state<AiLevel>(readLevel());
   let game = $state("");
   let score = $state("");
-  let notes = $state("");
+  let notes = $state(""); // High: rough notes
+  let text = $state(""); // Low / Medium: the review to correct
   let reply = $state("");
   let useTitle = $state(true);
   let copied = $state(false);
 
-  let prompt = $derived(buildPrompt({ game, score, notes }));
+  let fixing = $derived(level !== "high");
+  let prompt = $derived(buildPrompt({ game, score, notes: fixing ? text : notes, level }));
   let parsed = $derived(reply.trim() ? parseReply(reply, game) : null);
 
+  const words = (s: string) => s.split(/\s+/).filter(Boolean).length;
+  // The text sent for correcting, without its "# Title" line, to compare lengths.
+  let sentWords = $derived(words(text.replace(/^\s*#{1,2}\s+.*\n?/, "")));
+  let change = $derived(parsed && sentWords ? (words(parsed.body) - sentWords) / sentWords : 0);
+
+  function fillFromArticle() {
+    text = (articleTitle.trim() ? `# ${articleTitle.trim()}\n\n` : "") + articleBody.trim();
+  }
+
+  function setLevel(l: AiLevel) {
+    level = l;
+    try {
+      localStorage.setItem("studio.aiLevel", l);
+    } catch {
+      /* remembered for this visit only */
+    }
+    if (l !== "high" && !text.trim()) fillFromArticle();
+    useTitle = l === "high" ? !hasTitle : true;
+  }
+
+  // Only when the dialog opens: never while someone is editing inside it.
   $effect(() => {
-    if (open) useTitle = !hasTitle;
+    if (open)
+      untrack(() => {
+        useTitle = fixing ? true : !hasTitle;
+        if (!game.trim()) game = articleGame;
+        if (fixing) fillFromArticle(); // always start from the latest text
+      });
   });
 
   async function copyPrompt() {
@@ -60,7 +106,7 @@
 
   function use(mode: "replace" | "append") {
     if (!parsed?.body) return;
-    onuse({ title: useTitle && parsed.title ? parsed.title : null, score: parsed.score, body: parsed.body, mode });
+    onuse({ title: useTitle && parsed.title ? parsed.title : null, score: parsed.score, body: parsed.body, mode, level });
     reply = "";
     open = false;
   }
@@ -70,40 +116,90 @@
 
 <Modal bind:open title="Write with AI" size="lg">
   <div class="space-y-6 text-sm">
-    <p class="text-slate-600 dark:text-slate-300">
-      Turn your raw notes into a structured first draft with the AI you already use (ChatGPT, Gemini, Claude…). It writes; <b>you stay the reviewer</b>: read it, fix
-      what's wrong, and make it sound like you before you submit.
-    </p>
+    <!-- How much the AI may change -->
+    <section class="space-y-2">
+      <h3 class="font-semibold">How much should the AI change?</h3>
+      <div class="grid gap-2 sm:grid-cols-3" role="radiogroup" aria-label="How much the AI may change">
+        {#each AI_LEVELS as l}
+          <button
+            type="button"
+            role="radio"
+            aria-checked={level === l.key}
+            class="rounded-xl p-3 text-left ring-1 transition-colors {level === l.key
+              ? 'bg-indigo-50 ring-2 ring-indigo-500 dark:bg-indigo-500/10 dark:ring-indigo-400'
+              : 'ring-slate-200 hover:bg-slate-50 dark:ring-slate-700 dark:hover:bg-slate-800/60'}"
+            onclick={() => setLevel(l.key)}
+          >
+            <span class="flex items-baseline gap-2">
+              <span class="text-[10px] font-bold uppercase tracking-wider {level === l.key ? 'text-indigo-600 dark:text-indigo-300' : 'text-slate-400'}">{l.name}</span>
+              <b class="text-slate-900 dark:text-slate-100">{l.label}</b>
+            </span>
+            <span class="mt-1 block text-xs text-slate-500 dark:text-slate-400">{l.hint}</span>
+          </button>
+        {/each}
+      </div>
+    </section>
 
-    <!-- 1. Notes -->
+    {#if fixing}
+      <p class="text-slate-600 dark:text-slate-300">
+        Checks the text you've already written with the AI you use (ChatGPT, Gemini, Claude…). {level === "low"
+          ? "It only fixes mistakes, so it still reads exactly like you."
+          : "It smooths awkward sentences but keeps your voice and opinions."}
+      </p>
+    {:else}
+      <p class="text-slate-600 dark:text-slate-300">
+        Turn your raw notes into a structured first draft with the AI you already use (ChatGPT, Gemini, Claude…). It writes; <b>you stay the reviewer</b>: read it,
+        fix what's wrong, and make it sound like you before you submit.
+      </p>
+    {/if}
+
+    <!-- 1. Notes, or the text to check -->
     <section class="space-y-3">
-      <h3 class="flex items-center gap-2 font-semibold"><span class={step}>1</span> Your notes</h3>
-      <div class="grid gap-3 sm:grid-cols-[1fr_8rem]">
+      <h3 class="flex items-center gap-2 font-semibold"><span class={step}>1</span> {fixing ? "Your text" : "Your notes"}</h3>
+      <div class="grid gap-3 {fixing ? '' : 'sm:grid-cols-[1fr_8rem]'}">
         <div>
           <label class="label" for="ai-game">Game</label>
           <input id="ai-game" class="input" placeholder="e.g. 007 First Light" bind:value={game} />
         </div>
+        {#if !fixing}
+          <div>
+            <label class="label" for="ai-score">Score (optional)</label>
+            <input id="ai-score" class="input" inputmode="decimal" placeholder="8.5" bind:value={score} />
+          </div>
+        {/if}
+      </div>
+      {#if fixing}
         <div>
-          <label class="label" for="ai-score">Score (optional)</label>
-          <input id="ai-score" class="input" inputmode="decimal" placeholder="8.5" bind:value={score} />
+          <div class="mb-1.5 flex items-end justify-between gap-2">
+            <label class="label !mb-0" for="ai-text">The review to check</label>
+            <button type="button" class="text-xs font-medium text-indigo-600 hover:underline dark:text-indigo-400" onclick={fillFromArticle}>Reload from my article</button>
+          </div>
+          <textarea
+            id="ai-text"
+            class="input min-h-[140px] font-mono text-xs"
+            placeholder="Your article is empty. Write it first, or paste the text you want checked here."
+            bind:value={text}
+          ></textarea>
+          <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">Filled in from your article. Edit it here if you only want part of it checked.</p>
         </div>
-      </div>
-      <div>
-        <label class="label" for="ai-notes">Your thoughts, in any order</label>
-        <textarea
-          id="ai-notes"
-          class="input min-h-[140px]"
-          placeholder="What you loved, what annoyed you, moments you remember, what you played on, how long… Bullet points, chat logs, half sentences: all fine."
-          bind:value={notes}
-        ></textarea>
-      </div>
+      {:else}
+        <div>
+          <label class="label" for="ai-notes">Your thoughts, in any order</label>
+          <textarea
+            id="ai-notes"
+            class="input min-h-[140px]"
+            placeholder="What you loved, what annoyed you, moments you remember, what you played on, how long… Bullet points, chat logs, half sentences: all fine."
+            bind:value={notes}
+          ></textarea>
+        </div>
+      {/if}
     </section>
 
     <!-- 2. Copy + open AI -->
     <section class="space-y-3">
       <h3 class="flex items-center gap-2 font-semibold"><span class={step}>2</span> Copy the prompt and paste it into your AI</h3>
       <div class="flex flex-wrap items-center gap-2">
-        <button type="button" class="btn-primary" onclick={copyPrompt}>{copied ? "Copied ✓" : "Copy prompt"}</button>
+        <button type="button" class="btn-primary" disabled={fixing && !text.trim()} onclick={copyPrompt}>{copied ? "Copied ✓" : "Copy prompt"}</button>
         <span class="text-xs text-slate-500">then open:</span>
         {#each AI_SERVICES as s}
           <a class="btn-secondary !py-1.5" href={s.url} target="_blank" rel="noopener noreferrer">{s.name} ↗</a>
@@ -115,8 +211,12 @@
       </details>
       <ul class="list-disc space-y-1 pl-5 text-xs text-slate-500 dark:text-slate-400">
         <li>Start a <b>new chat</b>, paste with Ctrl+V and send.</li>
-        <li>Not happy? Ask follow-ups in the same chat, like "more about the combat" or "shorter intro", then copy its final version.</li>
-        <li>Check facts it adds (names, dates, prices, platforms). AI sometimes makes those up.</li>
+        {#if fixing}
+          <li>Long review? If the AI stops halfway, ask it to "continue", then copy the whole corrected text.</li>
+        {:else}
+          <li>Not happy? Ask follow-ups in the same chat, like "more about the combat" or "shorter intro", then copy its final version.</li>
+          <li>Check facts it adds (names, dates, prices, platforms). AI sometimes makes those up.</li>
+        {/if}
       </ul>
     </section>
 
@@ -137,11 +237,21 @@
           {#if parsed.title}
             <label class="flex items-start gap-2">
               <input type="checkbox" class="mt-0.5" bind:checked={useTitle} />
-              <span>Use its title: <b>{parsed.title}</b>{hasTitle ? " (replaces your current title)" : ""}</span>
+              <span>{fixing ? "Use the corrected title" : "Use its title"}: <b>{parsed.title}</b>{hasTitle ? " (replaces your current title)" : ""}</span>
             </label>
           {/if}
-          {#if parsed.score !== null}<p class="mt-1">Score found: <b>{parsed.score}</b> (filled in if the article has no score yet)</p>{/if}
-          <p class="mt-1 text-slate-500">{parsed.body.split(/\s+/).filter(Boolean).length} words of article text.</p>
+          {#if parsed.score !== null && !fixing}<p class="mt-1">Score found: <b>{parsed.score}</b> (filled in if the article has no score yet)</p>{/if}
+          {#if fixing}
+            <p class="mt-1 text-slate-500">{sentWords} words sent, {words(parsed.body)} words back.</p>
+            {#if Math.abs(change) > (level === "low" ? 0.05 : 0.15)}
+              <p class="mt-1 font-medium text-amber-700 dark:text-amber-300">
+                That's {Math.round(Math.abs(change) * 100)}% {change > 0 ? "longer" : "shorter"}: more than a {level === "low" ? "grammar check" : "light polish"} should change. Check nothing was cut or added.
+              </p>
+            {/if}
+            <p class="mt-1 text-slate-500">After replacing, check that your images and links are still in place.</p>
+          {:else}
+            <p class="mt-1 text-slate-500">{words(parsed.body)} words of article text.</p>
+          {/if}
         </div>
       {/if}
     </section>
@@ -149,7 +259,9 @@
 
   {#snippet footer()}
     <button type="button" class="btn-secondary" onclick={() => (open = false)}>Close</button>
-    {#if hasBody}
+    {#if fixing}
+      <button type="button" class="btn-primary" disabled={!parsed?.body} onclick={() => use("replace")}>Replace my text</button>
+    {:else if hasBody}
       <button type="button" class="btn-secondary" disabled={!parsed?.body} onclick={() => use("append")}>Add below my text</button>
       <button type="button" class="btn-primary" disabled={!parsed?.body} onclick={() => use("replace")}>Replace my text</button>
     {:else}

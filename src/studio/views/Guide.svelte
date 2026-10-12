@@ -206,7 +206,7 @@
 
     <section id="types" class="scroll-mt-20">
       <h2 class={h2}>What you can write</h2>
-      <p class={lead}>Not every piece has to be a full review. Most of the site is actually shorter writing. Pick whichever fits how much you've played and what you want to say.</p>
+      <p class={lead}>You can review practically any video game you like, on any platform. And not just games: tech and hardware count too, like a Steam Deck or a ROG Ally. Not every piece has to be a full review either. Most of the site is actually shorter writing. Pick whichever fits how much you've played and what you want to say.</p>
       <div class="grid gap-3 sm:grid-cols-2">
         {#each types as t}
           <div class="{card} relative overflow-hidden pl-6">
@@ -226,6 +226,7 @@
         {/each}
       </div>
       <div class="mt-3 space-y-2">
+        <p class={note}><b class={noteB}>Games are mostly your own, for now.</b> The site is still new. We do get free game keys from time to time, but not nearly enough for everyone. So review the games you really want to play and would get on your own anyway. That also makes for the most honest reviews.</p>
         <p class={note}><b class={noteB}>Already reviewed on the site? Write yours anyway.</b> A game can have reviews from several authors. A second opinion, a different platform, or a look back after big patches all help readers. Reading the existing review first helps yours add something new.</p>
         <p class={note}><b class={noteB}>Have older reviews?</b> Bring them over. Reviews you wrote on your own blog, Steam, Facebook or a forum are welcome, as long as you wrote them. Set <b>Details → Publish date</b> to when you first wrote it, and it appears in the right place on the site's timeline instead of looking brand new. If it was posted somewhere else first, mention where in a note to the chief editor.</p>
         <p class={note}><b class={noteB}>Not sure which one it is?</b> Write what you have and submit it. The chief editor can help pick the right label, and a first impression can always grow into a full review later.</p>
@@ -293,10 +294,10 @@
 
     <section id="ai" class="scroll-mt-20">
       <h2 class={h2}>Using AI</h2>
-      <p class={lead}>You can use <b>Write with AI</b> in the editor to turn your rough notes into a structured draft. That's what it's for. The opinions are yours.</p>
+      <p class={lead}><b>Write with AI</b> in the editor has three levels: <b>Low</b> only fixes grammar, <b>Medium</b> also smooths a few sentences, and <b>High</b> turns rough notes into a full draft. Whichever you pick, the opinions are yours.</p>
       {@render dodont(
         "Great uses",
-        ["Turning your notes, chat logs and brain-dumps into a first draft.", "Fixing grammar, flow and structure.", "Reading it through afterwards and rewriting anything that doesn't sound like you."],
+        ["Checking the grammar of something you wrote, or turning your notes, chat logs and brain-dumps into a first draft.", "Fixing grammar, flow and structure.", "Reading it through afterwards and rewriting anything that doesn't sound like you."],
         "Please avoid",
         ["Asking AI to review a game you haven't played.", "Keeping details you didn't experience, or \"facts\" you haven't checked.", "Pasting the reply without reading it. The final article should sound like you."],
       )}

@@ -52,7 +52,71 @@ Reply with only the finished review in Markdown, starting with the title line, a
 Input
 `;
 
-export function buildPrompt(input: { game: string; score: string; notes: string }): string {
+/**
+ * How much the AI may change. "high" writes a full review from rough notes
+ * (PROMPT above); "low" and "medium" work on text the writer already has.
+ */
+export type AiLevel = "low" | "medium" | "high";
+
+export const AI_LEVELS: { key: AiLevel; name: string; label: string; hint: string }[] = [
+  { key: "low", name: "Low", label: "Grammar only", hint: "Fixes spelling, grammar and punctuation. Your words stay as they are." },
+  { key: "medium", name: "Medium", label: "Light polish", hint: "Grammar plus small rephrases for flow. Keeps your voice, structure and length." },
+  { key: "high", name: "High", label: "Full draft", hint: "Turns rough notes into a complete, structured review." },
+];
+
+// Shared by "low" and "medium": what must come back untouched.
+const KEEP = `- Keep the Markdown exactly as it is: headings (#, ##, ###), lists, bold and italics.
+- Leave image lines, links and HTML tags (such as <img ...>) exactly as they are, in the same places.
+- Keep the score and any numbers as they are.
+- Keep the existing spelling style (American or British).`;
+
+const LOW_PROMPT = `Role
+
+You are a careful proofreader for a video game review site.
+
+Task
+
+Fix spelling, grammar and punctuation in the review below. That is all.
+
+Rules
+
+- Do not rephrase sentences or change word choices, tone, slang or gaming terms unless they are clearly a mistake.
+- Do not add, remove or reorder anything. Keep every paragraph and every list item.
+${KEEP}
+
+Reply with only the corrected review in Markdown, starting with its first line, and no other commentary.
+
+Review
+`;
+
+const MEDIUM_PROMPT = `Role
+
+You are an editor for a video game review site.
+
+Task
+
+Proofread the review below and lightly polish it.
+
+Rules
+
+- Fix spelling, grammar and punctuation.
+- You may rephrase awkward or unclear sentences so they read smoothly, but keep the writer's voice, opinions, humour, slang and gaming terms.
+- Keep the length about the same. Do not add new points, facts or examples, and do not remove any.
+- Keep the structure: the same headings, sections, lists and order.
+${KEEP}
+
+Reply with only the polished review in Markdown, starting with its first line, and no other commentary.
+
+Review
+`;
+
+export function buildPrompt(input: { game: string; score: string; notes: string; level?: AiLevel }): string {
+  if (input.level === "low" || input.level === "medium") {
+    const lines = [input.level === "low" ? LOW_PROMPT : MEDIUM_PROMPT];
+    if (input.game.trim()) lines.push(`(The game is ${input.game.trim()}; keep its name spelled exactly like that.)`, "");
+    lines.push(input.notes.trim() || "[PASTE YOUR REVIEW HERE]");
+    return lines.join("\n");
+  }
   const lines = [PROMPT];
   if (input.game.trim()) lines.push(`Game: ${input.game.trim()}`);
   lines.push(input.score.trim() ? `My score: ${input.score.trim()}/10` : "My score: none given");

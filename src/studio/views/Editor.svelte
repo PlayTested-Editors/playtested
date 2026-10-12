@@ -122,12 +122,15 @@
   }
 
   /** A draft from the "Write with AI" guide. The old text stays in History. */
-  function useAiDraft(d: { title: string | null; score: number | null; body: string; mode: "replace" | "append" }) {
+  function useAiDraft(d: { title: string | null; score: number | null; body: string; mode: "replace" | "append"; level: "low" | "medium" | "high" }) {
     if (!data) return;
     if (d.title) data.title = d.title;
     if (d.score !== null && (data.score === null || data.score === undefined)) data.score = d.score;
     data.body = d.mode === "append" && data.body.trim() ? `${data.body.trimEnd()}\n\n${d.body}` : d.body;
-    toast(d.mode === "append" ? "Draft added below your text" : "Draft added. Now make it yours.", "success");
+    toast(
+      d.level !== "high" ? "Corrections applied. Give it a quick read." : d.mode === "append" ? "Draft added below your text" : "Draft added. Now make it yours.",
+      "success",
+    );
   }
   const readMode = () => {
     try {
@@ -1131,7 +1134,7 @@
       </div>
     </div>
   {/if}
-  <AiWriteGuide bind:open={aiOpen} hasBody={Boolean(data.body.trim())} hasTitle={Boolean(data.title.trim())} onuse={useAiDraft} />
+  <AiWriteGuide bind:open={aiOpen} hasBody={Boolean(data.body.trim())} hasTitle={Boolean(data.title.trim())} articleTitle={data.title} articleBody={data.body} articleGame={data.game ?? ""} onuse={useAiDraft} />
 
   <Modal open={leaveChoice !== null} title="Keep this draft?" size="sm" onclose={() => leaveChoice?.("stay")}>
     <p class="text-sm text-slate-600 dark:text-slate-300">
