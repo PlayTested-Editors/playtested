@@ -11,14 +11,14 @@ tags:
   - PC
   - Console
 featured: false
-thumb: /images/uploads/20251231134528_1.avif
+thumb: /images/uploads/chained-echoes-1.avif
 author: mcytg
 game: Chained Echoes
 gallery:
-  - /images/uploads/20230625233109_1.avif
-  - /images/uploads/20230625234639_1.avif
-  - /images/uploads/20230625235808_1.avif
-  - /images/uploads/20251230144743_1.avif
+  - /images/uploads/chained-echoes-2.avif
+  - /images/uploads/chained-echoes-3.avif
+  - /images/uploads/chained-echoes-4.avif
+  - /images/uploads/chained-echoes-5.avif
 score: 7.5
 ---
 **Chained Echoes** is an indie game that will give you a sense of familiarity if you have a broad knowledge on various JRPG franchises, notable references include Chrono Trigger and Final Fantasy VI, to name a few. Some cut scenes are familiar to the player because of its references to older games, and it is known to break the fourth wall, especially when it comes to character banter.

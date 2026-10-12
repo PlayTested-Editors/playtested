@@ -163,7 +163,9 @@ async function uploadBase(env: Env, meta: { filename: string; articleId?: string
     const a = await env.DB.prepare("SELECT slug, title, json_extract(draft_json, '$.game') AS game FROM articles WHERE id = ?")
       .bind(meta.articleId)
       .first<{ slug: string; title: string; game: string | null }>();
-    if (a) base = slugify(a.game || "") || (/^untitled-/.test(a.slug) ? "" : a.slug) || slugify((a.title || "").split("|").pop() || "");
+    // Apostrophes vanish rather than becoming dashes: "Marvel's Wolverine" → "marvels-wolverine".
+    const clean = (s: string) => slugify(s.replace(/['’]/g, ""));
+    if (a) base = clean(a.game || "") || (/^untitled-/.test(a.slug) ? "" : a.slug) || clean((a.title || "").split("|").pop() || "");
   }
   if (!base) base = slugify(meta.filename.replace(/\.[a-z0-9]+$/i, "").replace(/\d{5,}/g, " "));
   base = base.slice(0, 50).replace(/-+$/, "") || "image";

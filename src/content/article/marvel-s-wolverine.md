@@ -7,7 +7,7 @@ category: Review
 tags:
   - Console
 featured: false
-thumb: /images/uploads/wolverine06-82b052.avif
+thumb: /images/uploads/marvels-wolverine-1.avif
 author: lyndonguitar
 slug: marvel-s-wolverine
 score: 7.8
@@ -20,7 +20,7 @@ Beneath a few undeniable rough edges and some early-game sluggishness lies a gen
 
 ### **The Most Iconic Mutant, Now Playable**
 
-<img src="/images/uploads/wolverine01-761acb.avif" alt="" class="img-wrap img-wrap-left rounded shadow" style="width: 40%;" />
+<img src="/images/uploads/marvels-wolverine-2.avif" alt="" class="img-wrap img-wrap-left rounded shadow" style="width: 40%;" />
 
 *Marvel's Wolverine* drops you straight into the adamantium-laced skeleton of Marvel’s most iconic, cigar-chomping mutant. Unlike the sprawling, sky-scraping sandbox of Insomniac's *Spider-Man*, Logan's adventure trades open-world for a tight, linear, narrative-driven action-adventure structure. It’s an intentional design choice that works heavily in the game's favor: Wolverine isn't meant to swing across a city doing fetch quests and patrolling a city; he's a hunter on a collision course with dark conspiracies, carving a bloody path from claustrophobic back-alleys to hidden research facilities.
 
@@ -46,7 +46,7 @@ The core gameplay loop centers on aggressive, high-risk brawling interspersed wi
 
 ### **The Good, the Bad, and the Ugly**
 
-<img src="/images/uploads/wolverine05-f4f529.avif" alt="" class="img-wrap img-wrap-right rounded shadow" style="width: 40%;" />
+<img src="/images/uploads/marvels-wolverine-3.avif" alt="" class="img-wrap img-wrap-right rounded shadow" style="width: 40%;" />
 
 Pre-release discourse was dominated by hyper-analyzed stills of supposedly ugly and ‘western’ character models, particularly Jean Grey. In actuality, Jean looks completely fine in motion and dare I say beautiful; the pre-launch panic was the textbook result of a bad still angle going viral. The game's environmental presentation is where the graphics engine flexes hardest. Shady dive bars, snow-covered wilderness, and sleek high-tech labs are drenched in moody, atmospheric lighting, detailed surface textures, and an impressive level of physical destructibility that complements the violence. Logan’s regeneration is also there, his flesh knitting back together over adamantium bones in real time during heated fights, although, I’m not a fan of the clothes healing themselves as well, even if there was an in-universe explanation for it in the game, still not a fan.
 
@@ -56,7 +56,7 @@ Thankfully, the moment Logan dons the iconic suit and pulls down the cowl, the a
 
 ### **From Button-Masher to Berserker**
 
-<img src="/images/uploads/wolverine02-73a6ed.avif" alt="" class="img-wrap img-wrap-left rounded shadow" style="width: 40%;" />
+<img src="/images/uploads/marvels-wolverine-4.avif" alt="" class="img-wrap img-wrap-left rounded shadow" style="width: 40%;" />
 
 The first two hours of *Marvel's Wolverine* do not make the best first impression mechanically. Without your abilities unlocked, combat boils down to repeatedly mashing Square, occasionally hitting Triangle, and waiting out generic strike animations. Early encounters feel repetitive and deceptively shallow, lacking the fluid rhythm you expect from modern character-action titles.
 
@@ -66,7 +66,7 @@ Between the blood-soaked brawls, the game breaks up the pacing with environmenta
 
 The actual platforming feels appropriately heavy and feral. Digging your adamantium claws into sheer cliff faces to scale walls, squeezing through tight corridors, and lunging across massive gaps gives the traversal a visceral crunch. While these non-combat sections are fairly linear and won't exactly challenge your reflexes, they serve as a much-needed palate cleanser, letting you catch your breath and take in the stunning environments before diving headfirst into the next berserker bloodbath. Aside from that, there are also moments where you can approach things with stealth, but fortunately most of these are optional (unlike in Spider-Man) so you can just hop in head first and start to slice and dice enemies in plain sight.
 
-<img src="/images/uploads/wolverine04-1c9b15.avif" alt="" class="img-wrap img-wrap-right rounded shadow" style="width: 40%;" />
+<img src="/images/uploads/marvels-wolverine-5.avif" alt="" class="img-wrap img-wrap-right rounded shadow" style="width: 40%;" />
 
 Where the system stumbles slightly is its ceiling. By the late game, when you have unlocked every branch of the upgrade tree, you start bumping against the boundaries of the combo system. The move pool is punchy, but the actual input routes remain relatively limited. Hardcore hack-and-slash veterans will definitely notice the lack of varied moveset, abilities, and combos. You're left wishing for just two or three additional combo variations to really let you customize your offensive flow during extended endurance fights, especially when you want to do the Nightmare Trials, which is essentially the extra content/challenges for players to do, outside the storyline missions.This involves different sets of challenges, from Platforming, Combat, and pure Time-Trial like Survival. There is also a rogue-lite like mode in the game wherein you can choose different upgrades in between waves for example, significantly increased damage at the cost of the rage meter being reset everytime you take damage.
 
@@ -74,7 +74,7 @@ Where the system stumbles slightly is its ceiling. By the late game, when you ha
 
 Narratively, the campaign follows familiar comic book conventions. In the opening acts, certain plot beats rely heavily on sheer coincidence—characters running into each other at opportune moments, villains leaving convenient audio logs or delivering revealing monologues, and rapid narrative pivots that can feel a bit jarring. There are also a few lines of dialogue that lean too hard into cheesy modern comic tropes, producing occasional cringe-worthy lines between characters who should feel more grounded.
 
-<img src="/images/uploads/wolverine03-d13915.avif" alt="" class="img-wrap img-wrap-right rounded shadow" style="width: 40%;" />
+<img src="/images/uploads/marvels-wolverine-6.avif" alt="" class="img-wrap img-wrap-right rounded shadow" style="width: 40%;" />
 
 Yet, despite those early script hiccups, the story's forward momentum builds up into a satisfactory pay off. As the issue deepens, the stakes escalate dramatically, shifting from an intimate revenge chase into a full-scale mutant crisis. The final acts are exceptionally paced, stringing together relentless boss encounters, massive cinematic set-pieces, and genuine goosebump moments that honor decades of Wolverine lore.
 

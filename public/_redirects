@@ -1,3 +1,43 @@
 # Old CMS address -> studio
 /admin /studio/ 302
 /admin/* /studio/ 302
+
+# Renamed images (readable names) -> keep old links working
+/images/uploads/20251231134528_1.avif /images/uploads/chained-echoes-1.avif 301
+/images/uploads/20230625233109_1.avif /images/uploads/chained-echoes-2.avif 301
+/images/uploads/20230625234639_1.avif /images/uploads/chained-echoes-3.avif 301
+/images/uploads/20230625235808_1.avif /images/uploads/chained-echoes-4.avif 301
+/images/uploads/20251230144743_1.avif /images/uploads/chained-echoes-5.avif 301
+/images/uploads/20250914180214_1.avif /images/uploads/octopath-traveler-1.avif 301
+/images/uploads/20260417155604_1.avif /images/uploads/pragmata-1.avif 301
+/images/uploads/cp207700.avif /images/uploads/cyberpunk-2077-1.avif 301
+/images/uploads/cp207701.avif /images/uploads/cyberpunk-2077-2.avif 301
+/images/uploads/cp207702.avif /images/uploads/cyberpunk-2077-3.avif 301
+/images/uploads/cp207703.avif /images/uploads/cyberpunk-2077-4.avif 301
+/images/uploads/cp207705.avif /images/uploads/cyberpunk-2077-5.avif 301
+/images/uploads/cp207708.avif /images/uploads/cyberpunk-2077-6.avif 301
+/images/uploads/cp207706.avif /images/uploads/cyberpunk-2077-7.avif 301
+/images/uploads/cp207707.avif /images/uploads/cyberpunk-2077-8.avif 301
+/images/uploads/cp207704.avif /images/uploads/cyberpunk-2077-9.avif 301
+/images/uploads/d802001.avif /images/uploads/directive-8020-1.avif 301
+/images/uploads/d802000.avif /images/uploads/directive-8020-2.avif 301
+/images/uploads/d802002.avif /images/uploads/directive-8020-3.avif 301
+/images/uploads/d802003.avif /images/uploads/directive-8020-4.avif 301
+/images/uploads/d802004.avif /images/uploads/directive-8020-5.avif 301
+/images/uploads/d802005.avif /images/uploads/directive-8020-6.avif 301
+/images/uploads/d802006.avif /images/uploads/directive-8020-7.avif 301
+/images/uploads/steam-1-halo-campaign-evolved-af4409.avif /images/uploads/halo-campaign-evolved-1.avif 301
+/images/uploads/steam-1-halo-campaign-evolved-premium-edition-up-cc6109.avif /images/uploads/halo-campaign-evolved-2.avif 301
+/images/uploads/medaltvhalocampaignevolved20260806102921183-72d14b.avif /images/uploads/halo-campaign-evolved-3.avif 301
+/images/uploads/medaltvhalocampaignevolved20260806104001453-217fd4.avif /images/uploads/halo-campaign-evolved-4.avif 301
+/images/uploads/medaltvhalocampaignevolved20260827152614815-2d9131.avif /images/uploads/halo-campaign-evolved-5.avif 301
+/images/uploads/medaltvhalocampaignevolved20260731171052820-25af25.avif /images/uploads/halo-campaign-evolved-6.avif 301
+/images/uploads/medaltvhalocampaignevolved20260731171957607-27cf6d.avif /images/uploads/halo-campaign-evolved-7.avif 301
+/images/uploads/steam-1-halo-campaign-evolved-80faab.avif /images/uploads/halo-campaign-evolved-8.avif 301
+/images/uploads/rawg-1-halo-campaign-evolved-d8c4ca.avif /images/uploads/rawg-halo-campaign-evolved-9.avif 301
+/images/uploads/wolverine06-82b052.avif /images/uploads/marvels-wolverine-1.avif 301
+/images/uploads/wolverine01-761acb.avif /images/uploads/marvels-wolverine-2.avif 301
+/images/uploads/wolverine05-f4f529.avif /images/uploads/marvels-wolverine-3.avif 301
+/images/uploads/wolverine02-73a6ed.avif /images/uploads/marvels-wolverine-4.avif 301
+/images/uploads/wolverine04-1c9b15.avif /images/uploads/marvels-wolverine-5.avif 301
+/images/uploads/wolverine03-d13915.avif /images/uploads/marvels-wolverine-6.avif 301

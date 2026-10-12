@@ -13,7 +13,7 @@ tags:
   - PC
   - Console
 featured: false
-thumb: /images/uploads/20260417155604_1.avif
+thumb: /images/uploads/pragmata-1.avif
 author: mcytg
 game: PRAGMATA
 gallery:

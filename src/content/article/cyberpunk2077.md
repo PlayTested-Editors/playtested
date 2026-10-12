@@ -12,18 +12,18 @@ tags:
   - PC
   - Console
 featured: false
-thumb: /images/uploads/cp207700.avif
+thumb: /images/uploads/cyberpunk-2077-1.avif
 author: lyndonguitar
 game: Cyberpunk 2077
 gallery:
-  - /images/uploads/cp207701.avif
-  - /images/uploads/cp207702.avif
-  - /images/uploads/cp207703.avif
-  - /images/uploads/cp207705.avif
-  - /images/uploads/cp207708.avif
-  - /images/uploads/cp207706.avif
-  - /images/uploads/cp207707.avif
-  - /images/uploads/cp207704.avif
+  - /images/uploads/cyberpunk-2077-2.avif
+  - /images/uploads/cyberpunk-2077-3.avif
+  - /images/uploads/cyberpunk-2077-4.avif
+  - /images/uploads/cyberpunk-2077-5.avif
+  - /images/uploads/cyberpunk-2077-6.avif
+  - /images/uploads/cyberpunk-2077-7.avif
+  - /images/uploads/cyberpunk-2077-8.avif
+  - /images/uploads/cyberpunk-2077-9.avif
 score: 9.5
 ---
 There has been a lot of discourse about Cyberpunk 2077, one of the biggest games to come out in the last five years, and one that has seen its own share of controversies and backlash from its poorly received launch until the developers slowly fixed their game over time to what it is today. 

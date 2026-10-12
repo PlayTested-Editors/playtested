@@ -15,18 +15,18 @@ tags:
   - PC
   - Console
 featured: false
-thumb: /images/uploads/d802001.avif
+thumb: /images/uploads/directive-8020-1.avif
 author: lyndonguitar
 game: Directive 8020
 slug: directive-8020
 gallery:
-  - /images/uploads/d802000.avif
-  - /images/uploads/d802001.avif
-  - /images/uploads/d802002.avif
-  - /images/uploads/d802003.avif
-  - /images/uploads/d802004.avif
-  - /images/uploads/d802005.avif
-  - /images/uploads/d802006.avif
+  - /images/uploads/directive-8020-2.avif
+  - /images/uploads/directive-8020-1.avif
+  - /images/uploads/directive-8020-3.avif
+  - /images/uploads/directive-8020-4.avif
+  - /images/uploads/directive-8020-5.avif
+  - /images/uploads/directive-8020-6.avif
+  - /images/uploads/directive-8020-7.avif
 score: 7.6
 ---
 Supermassive Games has carved out a very specific, entertaining niche for couch co-op horror nights, and *Directive 8020* continues that tradition well. I recently ran through the campaign with two mostly non-gamer friends, splitting the character roster among the three of us. As a gripping, interactive sci-fi movie that you can theorize about on the couch while the plot unfolds, it does its job admirably. However, as an actual video game, it introduces a few clunky mechanics and pacing issues that occasionally drag down the stellar setting.
