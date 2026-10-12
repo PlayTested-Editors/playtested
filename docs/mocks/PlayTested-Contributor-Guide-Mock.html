@@ -1,0 +1,444 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Contributor Guide Mock</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@600;700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #f1f5f9; --panel: #ffffff; --panel-2: #f8fafc; --line: #e2e8f0; --text: #0f172a; --muted: #64748b; --soft: #94a3b8;
+    --indigo: #4f46e5; --indigo-soft: #eef2ff; --indigo-text: #4338ca; --green: #15803d; --green-soft: #dcfce7; --amber: #b45309; --amber-soft: #fef3c7;
+    --rose: #be123c; --rose-soft: #ffe4e6; --sky: #0369a1; --sky-soft: #e0f2fe; --violet: #6d28d9; --violet-soft: #ede9fe;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #020617; --panel: #0f172a; --panel-2: #111c33; --line: #1e293b; --text: #e2e8f0; --muted: #94a3b8; --soft: #64748b;
+      --indigo: #6366f1; --indigo-soft: rgba(99,102,241,.14); --indigo-text: #a5b4fc; --green: #4ade80; --green-soft: rgba(74,222,128,.12); --amber: #fbbf24; --amber-soft: rgba(251,191,36,.12);
+      --rose: #fb7185; --rose-soft: rgba(251,113,133,.12); --sky: #7dd3fc; --sky-soft: rgba(56,189,248,.12); --violet: #c4b5fd; --violet-soft: rgba(139,92,246,.14);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #020617; --panel: #0f172a; --panel-2: #111c33; --line: #1e293b; --text: #e2e8f0; --muted: #94a3b8; --soft: #64748b;
+    --indigo: #6366f1; --indigo-soft: rgba(99,102,241,.14); --indigo-text: #a5b4fc; --green: #4ade80; --green-soft: rgba(74,222,128,.12); --amber: #fbbf24; --amber-soft: rgba(251,191,36,.12);
+    --rose: #fb7185; --rose-soft: rgba(251,113,133,.12); --sky: #7dd3fc; --sky-soft: rgba(56,189,248,.12); --violet: #c4b5fd; --violet-soft: rgba(139,92,246,.14);
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  html { scroll-padding-top: 56px; }
+  body { background: var(--bg); color: var(--text); font: 15px/1.6 "Segoe UI", system-ui, -apple-system, sans-serif; min-height: 100vh; }
+  button { font: inherit; color: inherit; }
+  a { color: var(--indigo-text); }
+  .brand, h1, h2, h3 { font-family: "Chakra Petch", "Segoe UI", sans-serif; letter-spacing: 0; }
+
+  /* ---- Mock controls (not part of the design) ---- */
+  .mockbar { position: sticky; top: 0; z-index: 50; display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; padding: 8px 16px;
+    background: #fde68a; color: #422006; font-size: 12px; border-bottom: 1px solid #f59e0b; }
+  .seg { display: inline-flex; background: rgba(0,0,0,.08); border-radius: 8px; padding: 2px; }
+  .seg button { border: 0; background: transparent; padding: 3px 10px; border-radius: 6px; cursor: pointer; font-weight: 600; }
+  .seg button[aria-pressed="true"] { background: #fff; box-shadow: 0 1px 2px rgba(0,0,0,.15); }
+
+  /* ---- Studio shell ---- */
+  .studio { display: grid; grid-template-columns: 240px 1fr; min-height: calc(100vh - 41px); }
+  .side { border-right: 1px solid var(--line); background: var(--panel); padding: 16px 12px; display: flex; flex-direction: column; gap: 2px; }
+  .side .logo { display: flex; gap: 10px; align-items: center; padding: 4px 8px 16px; font-weight: 700; }
+  .side .logo svg { width: 28px; height: 28px; }
+  .side a { display: flex; gap: 10px; align-items: center; padding: 8px 12px; border-radius: 8px; color: var(--muted); text-decoration: none; font-size: 14px; font-weight: 600; }
+  .side a.on { background: var(--indigo-soft); color: var(--indigo-text); }
+  .side a svg { width: 18px; height: 18px; flex: none; }
+  .side .sep { height: 1px; background: var(--line); margin: 8px 4px; }
+
+  .main { padding: 32px 24px 80px; min-width: 0; }
+  .wrap { max-width: 1120px; margin: 0 auto; display: grid; grid-template-columns: minmax(0, 1fr) 220px; gap: 40px; }
+  .toc { position: sticky; top: 64px; align-self: start; font-size: 13px; }
+  .toc p { margin: 0 0 8px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--soft); }
+  .toc a { display: block; padding: 4px 10px; border-left: 2px solid var(--line); color: var(--muted); text-decoration: none; }
+  .toc a:hover { color: var(--text); border-color: var(--soft); }
+
+  header.hero { margin-bottom: 28px; }
+  header.hero .kicker { display: inline-block; font-size: 12px; font-weight: 700; color: var(--indigo-text); background: var(--indigo-soft); padding: 2px 10px; border-radius: 999px; }
+  h1 { font-size: 34px; line-height: 1.15; margin: 12px 0 10px; }
+  header.hero p { margin: 0; color: var(--muted); font-size: 16px; max-width: 64ch; }
+
+  section { margin: 0 0 40px; }
+  h2 { font-size: 23px; margin: 0 0 6px; }
+  h2 + .lead { margin: 0 0 18px; color: var(--muted); }
+  h3 { font-size: 17px; margin: 0 0 4px; }
+  p { margin: 0 0 12px; }
+  ul { margin: 0 0 12px; padding-left: 20px; }
+  li { margin: 4px 0; }
+
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 18px 20px; }
+  .grid { display: grid; gap: 12px; }
+  .g2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .principle { display: flex; gap: 14px; }
+  .principle .ico { flex: none; width: 36px; height: 36px; border-radius: 10px; display: grid; place-items: center; background: var(--indigo-soft); color: var(--indigo-text); }
+  .principle .ico svg { width: 20px; height: 20px; }
+  .principle p { margin: 0; color: var(--muted); font-size: 14px; }
+
+  /* Article types */
+  .type { position: relative; overflow: hidden; }
+  .type .bar { position: absolute; inset: 0 auto 0 0; width: 4px; }
+  .type .top { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 10px; margin-bottom: 8px; }
+  .chip { display: inline-block; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 999px; white-space: nowrap; }
+  .meta { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 10px; }
+  .meta span { font-size: 12px; color: var(--muted); background: var(--panel-2); border: 1px solid var(--line); border-radius: 6px; padding: 1px 8px; }
+  .type p { font-size: 14px; }
+  .type .eg { font-size: 13px; color: var(--muted); border-top: 1px dashed var(--line); padding-top: 10px; margin: 10px 0 0; }
+  .type .eg b { color: var(--text); font-weight: 600; }
+  .t-fi .bar { background: var(--sky); } .t-fi .chip { background: var(--sky-soft); color: var(--sky); }
+  .t-sr .bar { background: var(--green); } .t-sr .chip { background: var(--green-soft); color: var(--green); }
+  .t-fr .bar { background: var(--indigo); } .t-fr .chip { background: var(--indigo-soft); color: var(--indigo-text); }
+  .t-wu .bar { background: var(--violet); } .t-wu .chip { background: var(--violet-soft); color: var(--violet); }
+
+  .note { border-radius: 12px; padding: 12px 16px; font-size: 14px; background: var(--sky-soft); color: var(--text); border: 1px solid transparent; }
+  .note b { color: var(--sky); }
+  .warn { background: var(--amber-soft); } .warn b { color: var(--amber); }
+
+  /* Structure outline */
+  .outline { counter-reset: s; list-style: none; padding: 0; margin: 0; }
+  .outline li { counter-increment: s; display: grid; grid-template-columns: 30px 1fr; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--line); margin: 0; }
+  .outline li:last-child { border-bottom: 0; }
+  .outline li::before { content: counter(s); width: 26px; height: 26px; border-radius: 8px; background: var(--panel-2); border: 1px solid var(--line); display: grid; place-items: center; font-size: 12px; font-weight: 700; color: var(--muted); }
+  .outline b { display: block; }
+  .outline span { color: var(--muted); font-size: 14px; }
+  code { font: 13px/1.4 ui-monospace, "Cascadia Code", Consolas, monospace; background: var(--panel-2); border: 1px solid var(--line); border-radius: 5px; padding: 0 5px; }
+
+  /* Scores */
+  .scores { display: grid; gap: 8px; }
+  .score { display: grid; grid-template-columns: 70px 1fr; gap: 14px; align-items: center; }
+  .score .n { font-family: "Chakra Petch", sans-serif; font-weight: 700; font-size: 15px; text-align: center; border-radius: 10px; padding: 6px 0; background: var(--panel-2); border: 1px solid var(--line); }
+  .score p { margin: 0; font-size: 14px; }
+  .score p b { display: inline; }
+
+  /* Do / Don't */
+  .dd { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .dd .card h3 { display: flex; align-items: center; gap: 8px; }
+  .dd ul { list-style: none; padding: 0; margin: 0; font-size: 14px; }
+  .dd li { padding-left: 22px; position: relative; }
+  .dd .do li::before { content: "✓"; position: absolute; left: 0; color: var(--green); font-weight: 700; }
+  .dd .dont li::before { content: "✕"; position: absolute; left: 0; color: var(--rose); font-weight: 700; }
+
+  /* Steps */
+  .steps { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
+  .steps li { display: grid; grid-template-columns: 34px 1fr; gap: 12px; margin: 0; }
+  .steps .num { width: 34px; height: 34px; border-radius: 999px; background: var(--indigo); color: #fff; display: grid; place-items: center; font-weight: 700; font-family: "Chakra Petch", sans-serif; }
+  .steps li > div > b { display: block; }
+  .steps span { color: var(--muted); font-size: 14px; }
+
+  .check { list-style: none; padding: 0; margin: 0; columns: 2; column-gap: 24px; }
+  .check li { break-inside: avoid; padding-left: 26px; position: relative; font-size: 14px; margin: 0 0 8px; }
+  .check li::before { content: ""; position: absolute; left: 0; top: 3px; width: 15px; height: 15px; border-radius: 4px; border: 1.5px solid var(--soft); }
+
+  .titles { list-style: none; padding: 0; margin: 0; font-size: 14px; }
+  .titles li { padding: 7px 0; border-bottom: 1px solid var(--line); }
+  .titles li:last-child { border-bottom: 0; }
+  .titles .hook { font-weight: 600; }
+  .titles .game { color: var(--muted); }
+
+  @media (max-width: 1100px) { .wrap { grid-template-columns: 1fr; } .toc { display: none; } }
+  @media (max-width: 760px) {
+    .studio { grid-template-columns: 1fr; } .side { display: none; }
+    .main { padding: 20px 16px 60px; }
+    .g2, .dd { grid-template-columns: 1fr; }
+    .check { columns: 1; }
+    h1 { font-size: 28px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="mockbar">
+  <b>MOCK</b> Contributor guide · lives at Studio sidebar → <b>Guide</b>, linked from the welcome screen and the editor's ⋯ menu
+  <span class="seg" role="group" aria-label="Theme">
+    <button type="button" data-theme-set="light">Light</button>
+    <button type="button" data-theme-set="dark" aria-pressed="true">Dark</button>
+  </span>
+</div>
+
+<div class="studio">
+  <nav class="side" aria-label="Studio">
+    <div class="logo brand">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><rect x="2" y="8" width="28" height="17" rx="8" fill="#2373D8"/><circle cx="22" cy="15" r="2" fill="#B6F03C"/><circle cx="25" cy="18" r="2" fill="#B6F03C"/><path d="M8 16.5h6M11 13.5v6" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
+      PlayTested Studio
+    </div>
+    <a href="#"><svg fill="none" viewBox="0 0 24 24" stroke-width="1.6" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m2.25 12 8.954-8.955a1.126 1.126 0 0 1 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75"/></svg>Dashboard</a>
+    <a href="#"><svg fill="none" viewBox="0 0 24 24" stroke-width="1.6" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"/></svg>Articles</a>
+    <a href="#"><svg fill="none" viewBox="0 0 24 24" stroke-width="1.6" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m2.25 15.75 5.16-5.16a2.25 2.25 0 0 1 3.18 0l5.16 5.16m-1.5-1.5 1.41-1.41a2.25 2.25 0 0 1 3.18 0l2.91 2.91M3.75 21h16.5A1.5 1.5 0 0 0 21.75 19.5V4.5A1.5 1.5 0 0 0 20.25 3H3.75A1.5 1.5 0 0 0 2.25 4.5v15A1.5 1.5 0 0 0 3.75 21Z"/></svg>Media</a>
+    <a href="#" class="on"><svg fill="none" viewBox="0 0 24 24" stroke-width="1.6" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25"/></svg>Guide</a>
+    <div class="sep"></div>
+    <a href="#"><svg fill="none" viewBox="0 0 24 24" stroke-width="1.6" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 0 0 8.716-6.747M12 21a9.004 9.004 0 0 1-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 0 1 7.843 4.582M12 3a8.997 8.997 0 0 0-7.843 4.582m15.686 0A11.953 11.953 0 0 1 12 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0 1 21 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0 1 12 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 0 1 3 12c0-1.605.42-3.113 1.157-4.418"/></svg>View live site</a>
+  </nav>
+
+  <main class="main">
+    <div class="wrap">
+      <article>
+        <header class="hero">
+          <span class="kicker">Contributor guide</span>
+          <h1>How we write at PlayTested</h1>
+          <p>PlayTested is a no-nonsense game review site: honest takes from people who actually played the game. You don't need to be a professional writer. If you can explain why a game grabbed you (or didn't), you can write for us. This page covers what we value, what you can write, and how an article gets published.</p>
+        </header>
+
+        <!-- 1. Principles -->
+        <section id="principles">
+          <h2>What we stand for</h2>
+          <p class="lead">Every article on the site follows these. If you remember one thing, make it the first one.</p>
+          <div class="grid g2">
+            <div class="card principle">
+              <div class="ico"><svg fill="none" viewBox="0 0 24 24" stroke-width="1.7" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M14.25 6.087c0-.355.186-.676.401-.959.221-.29.349-.634.349-1.003 0-1.036-1.007-1.875-2.25-1.875s-2.25.84-2.25 1.875c0 .369.128.713.349 1.003.215.283.401.604.401.959v0a.64.64 0 0 1-.657.643 48.39 48.39 0 0 1-4.163-.3c.186 1.613.293 3.25.315 4.907a.656.656 0 0 1-.658.663v0c-.355 0-.676-.186-.959-.401a1.647 1.647 0 0 0-1.003-.349c-1.036 0-1.875 1.007-1.875 2.25s.84 2.25 1.875 2.25c.369 0 .713-.128 1.003-.349.283-.215.604-.401.959-.401v0c.31 0 .555.26.532.57a48.039 48.039 0 0 1-.642 5.056c1.518.19 3.058.309 4.616.354a.64.64 0 0 0 .657-.643v0c0-.355-.186-.676-.401-.959a1.647 1.647 0 0 1-.349-1.003c0-1.035 1.008-1.875 2.25-1.875 1.243 0 2.25.84 2.25 1.875 0 .369-.128.713-.349 1.003-.215.283-.4.604-.4.959v0c0 .333.277.599.61.58a48.1 48.1 0 0 0 5.427-.63 48.05 48.05 0 0 0 .582-4.717.532.532 0 0 0-.533-.57v0c-.355 0-.676.186-.959.401-.29.221-.634.349-1.003.349-1.035 0-1.875-1.007-1.875-2.25s.84-2.25 1.875-2.25c.37 0 .713.128 1.003.349.283.215.604.401.96.401v0a.656.656 0 0 0 .658-.663 48.422 48.422 0 0 0-.37-5.36c-1.886.342-3.81.574-5.766.689a.578.578 0 0 1-.61-.58v0Z"/></svg></div>
+              <div><h3>Play it first</h3><p>Everything you write comes from your own time with the game. Never rewrite someone else's review or write a "review" from trailers. Trailer impressions are fine, as long as the title says so.</p></div>
+            </div>
+            <div class="card principle">
+              <div class="ico"><svg fill="none" viewBox="0 0 24 24" stroke-width="1.7" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v17.25m0 0c-1.472 0-2.882.265-4.185.75M12 20.25c1.472 0 2.882.265 4.185.75M18.75 4.97A48.416 48.416 0 0 0 12 4.5c-2.291 0-4.545.16-6.75.47m13.5 0c1.01.143 2.01.317 3 .52m-3-.52 2.62 10.726c.122.499-.106 1.028-.589 1.202a5.988 5.988 0 0 1-2.031.352 5.988 5.988 0 0 1-2.031-.352c-.483-.174-.711-.703-.59-1.202L18.75 4.971Zm-16.5.52c.99-.203 1.99-.377 3-.52m0 0 2.62 10.726c.122.499-.106 1.028-.589 1.202a5.989 5.989 0 0 1-2.031.352 5.989 5.989 0 0 1-2.031-.352c-.483-.174-.711-.703-.59-1.202L5.25 4.971Z"/></svg></div>
+              <div><h3>Honest, and player-first</h3><p>Help the reader answer one question: is this worth my time and money? Be excited when it's earned and say plainly when something doesn't land. Liking a game enough to play it doesn't mean going easy on it.</p></div>
+            </div>
+            <div class="card principle">
+              <div class="ico"><svg fill="none" viewBox="0 0 24 24" stroke-width="1.7" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25"/></svg></div>
+              <div><h3>Story first, no checklists</h3><p>The main experience comes first. Do side content when it adds something, not because an achievement list says so. No grinding just to say you did it.</p></div>
+            </div>
+            <div class="card principle">
+              <div class="ico"><svg fill="none" viewBox="0 0 24 24" stroke-width="1.7" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg></div>
+              <div><h3>Patient gamer... mostly</h3><p>There's no race to be first. Waiting for patches or a sale is fine, and so is jumping in on day one when something excites you. Either way, say which version you played.</p></div>
+            </div>
+            <div class="card principle">
+              <div class="ico"><svg fill="none" viewBox="0 0 24 24" stroke-width="1.7" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 0 1 .865-.501 48.172 48.172 0 0 0 3.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z"/></svg></div>
+              <div><h3>Your voice, your stories</h3><p>Specific moments beat generic praise. "I threw my empty gun at the last guard and it worked" tells readers more than "combat is fun". Write like you'd talk to a friend who games.</p></div>
+            </div>
+            <div class="card principle">
+              <div class="ico"><svg fill="none" viewBox="0 0 24 24" stroke-width="1.7" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223A10.477 10.477 0 0 0 1.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.451 10.451 0 0 1 12 4.5c4.756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 0 1-4.293 5.774M6.228 6.228 3 3m3.228 3.228 3.65 3.65m7.894 7.894L21 21m-3.228-3.228-3.65-3.65m0 0a3 3 0 1 0-4.243-4.243m4.242 4.242L9.88 9.88"/></svg></div>
+              <div><h3>No spoilers</h3><p>Never give away the ending, late twists or final bosses. Talk about how they made you feel instead: "the last few hours hit hard" is enough.</p></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 2. What you can write -->
+        <section id="types">
+          <h2>What you can write</h2>
+          <p class="lead">Not every piece has to be a full review. Most of the site is actually shorter writing. Pick whichever fits how much you've played and what you want to say.</p>
+          <div class="grid g2">
+            <div class="card type t-fi">
+              <div class="bar"></div>
+              <div class="top"><h3>First impressions</h3><span class="chip">Most common</span></div>
+              <div class="meta"><span>300–500 words</span><span>No score</span><span>Category: Review</span></div>
+              <p>You've played a few hours, a demo, a beta or an early access build, and you have thoughts. Say how far in you are, what hooked you, what worries you, and whether it's worth keeping an eye on.</p>
+              <p class="eg">Title ends with <b>First Impressions</b>, or <b>Demo / Early Access / Beta / Trailer Impressions</b>.<br>e.g. <b>16-Bit JRPGs Still Have a Place in This Modern Gaming World | Chained Echoes First Impressions</b></p>
+            </div>
+            <div class="card type t-sr">
+              <div class="bar"></div>
+              <div class="top"><h3>Short review</h3></div>
+              <div class="meta"><span>350–600 words</span><span>Score optional</span><span>Category: Review</span></div>
+              <p>You've finished it (or played enough to judge), but it doesn't need the full treatment. A small game, a quick verdict, or one big reason to play it or skip it. Keep the Pros and Cons and the verdict; skip the long sections.</p>
+              <p class="eg">Title ends with <b>Short Review</b>.<br>e.g. <b>Finally, a Proper Kung Fu Game! | SIFU Short Review</b></p>
+            </div>
+            <div class="card type t-fr">
+              <div class="bar"></div>
+              <div class="top"><h3>Full review</h3></div>
+              <div class="meta"><span>800–1,500 words</span><span>Score</span><span>Category: Review</span></div>
+              <p>The complete verdict on a game you've finished or played deeply. It follows the structure below: hook, premise, Pros and Cons, score, themed sections and a conclusion.</p>
+              <p class="eg">Title ends with <b>Review</b>.<br>e.g. <b>Short but Profound Musical Masterpiece | A Highland Song Review</b></p>
+            </div>
+            <div class="card type t-wu">
+              <div class="bar"></div>
+              <div class="top"><h3>Articles and write-ups</h3></div>
+              <div class="meta"><span>Any length</span><span>No score</span><span>Category: Write-up or Tech</span></div>
+              <p>Anything that isn't about one game: your games of the year, top-10 lists, opinion pieces on industry news, hardware you've used, retrospectives, or tips for a game you know well.</p>
+              <p class="eg">Free-form title.<br>e.g. <b>My 2025 Games of the Year</b> · <b>Instead of Fleeing PC, Sony Should Have Built a Day-One PlayStation Storefront</b></p>
+            </div>
+          </div>
+          <p class="note" style="margin-top:12px"><b>Already reviewed on the site? Write yours anyway.</b> A game can have reviews from several authors. A second opinion, a different platform, or a look back after big patches all help readers. Read the existing review first so yours adds something new, and don't copy its points.</p>
+          <p class="note" style="margin-top:8px"><b>Have older reviews?</b> Bring them over. Reviews you wrote on your own blog, Steam, Facebook or a forum are welcome, as long as you wrote them. Set <b>Details → Publish date</b> to when you first wrote it, and it appears in the right place on the site's timeline instead of looking brand new. If it was posted somewhere else first, mention where in a note to the chief editor.</p>
+          <p class="note" style="margin-top:8px"><b>Not sure which one it is?</b> Write what you have and submit it. The chief editor can help pick the right label, and a first impression can always grow into a full review later.</p>
+        </section>
+
+        <!-- 3. What we judge -->
+        <section id="judge">
+          <h2>What to talk about</h2>
+          <p class="lead">You don't need to cover all of these. Write about what stood out to you.</p>
+          <div class="card">
+            <ul style="margin:0">
+              <li><b>Gameplay and level design.</b> How it plays moment to moment, and whether the systems hold up over time.</li>
+              <li><b>Story, characters and world.</b> Did you care? (Spoiler-free.)</li>
+              <li><b>Art, graphics and sound.</b> Style counts as much as resolution.</li>
+              <li><b>Performance on your setup.</b> Real-world experience, not lab benchmarks. Say what you played on: PC specs, Steam Deck, PS5, phone.</li>
+              <li><b>Time-to-fun and value.</b> How long before it gets good, how long it lasts, and whether it's worth the price, a sale or a subscription.</li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- 4. Structure -->
+        <section id="structure">
+          <h2>The shape of a full review</h2>
+          <p class="lead">Readers know where to look because every review follows the same order. Short pieces can drop sections, but keep the order.</p>
+          <div class="card">
+            <ol class="outline">
+              <li><div><b>Title</b><span>A hook, then the game: <code>Your Hook | Game Name Review</code>. The score goes in the Score field, not the title.</span></div></li>
+              <li><div><b>The hook</b><span>One or two paragraphs about your history with the game: why you picked it up, what you expected.</span></div></li>
+              <li><div><b>The premise</b><span>For someone who has never heard of it: the setting, the goal and what you actually do minute to minute. Don't skip this.</span></div></li>
+              <li><div><b>Pros and Cons</b><span>Two lists under the headings <code>## Pros</code> and <code>## Cons</code>, 3–5 points each. An emoji at the start of each point is our house style.</span></div></li>
+              <li><div><b>Score</b><span>For example <code>## 8.5/10</code>, if you're scoring it.</span></div></li>
+              <li><div><b>Sections</b><span>Two to four themed parts (combat, story, performance…) with <code>###</code> headings. Explain how things work, not just whether you liked them.</span></div></li>
+              <li><div><b>Conclusion</b><span>Under <code>### Conclusion</code>: is it worth playing, and who is it for?</span></div></li>
+            </ol>
+          </div>
+          <p class="note" style="margin-top:12px"><b>Tip:</b> write the game's name in <b>bold</b> when you mention it. <b>Tidy formatting</b> in the editor does this for you, and fixes Pros and Cons lists pasted from Google Docs or an AI chat.</p>
+        </section>
+
+        <!-- 5. Scores -->
+        <section id="scores">
+          <h2>Scoring</h2>
+          <p class="lead">Scores go from 0 to 10 in 0.1 steps. Your words and your score should agree: a 7.5 reads like a fun game with real flaws, not a masterpiece. Only score what you've played enough of. First impressions never get a score.</p>
+          <div class="card scores">
+            <div class="score"><div class="n">9–10</div><p><b>A masterclass.</b> Recommended to almost everyone, and a must-buy for fans of the genre.</p></div>
+            <div class="score"><div class="n">8–8.9</div><p><b>Great.</b> A strong buy for fans and an easy recommendation with minor caveats.</p></div>
+            <div class="score"><div class="n">7–7.9</div><p><b>Good.</b> Fun but flawed, or niche. Wait for a sale or a subscription if you're unsure.</p></div>
+            <div class="score"><div class="n">6–6.9</div><p><b>Mixed.</b> For specific audiences only. Consider a heavy discount or a freebie.</p></div>
+            <div class="score"><div class="n">Below 6</div><p><b>Skip</b>, unless you love the series or one very specific mechanic.</p></div>
+          </div>
+        </section>
+
+        <!-- 6. Titles -->
+        <section id="titles">
+          <h2>Titles</h2>
+          <p class="lead">The part before <code>|</code> is the headline readers see first. Make it say something about the game, not just "A Review".</p>
+          <div class="card">
+            <ul class="titles">
+              <li><span class="hook">Faithful Retelling of a Gruesome Horror Game</span> <span class="game">| Dead Space Remake First Impressions</span></li>
+              <li><span class="hook">Puzzle Your Way Through a City of Cardboard Boxes</span> <span class="game">| Boxville Demo First Impressions</span></li>
+              <li><span class="hook">This Is What a TRUE Sandbox Detective Game Is Like</span> <span class="game">| Shadows of Doubt Early Access Impressions</span></li>
+              <li><span class="hook">Hunt Vampires, With Style</span> <span class="game">| Evil West Short Review</span></li>
+            </ul>
+          </div>
+          <p style="margin-top:12px;font-size:14px;color:var(--muted)">Use Title Case, and spell the game's name exactly as the publisher does. Don't cut "The" or "A" when it's part of the name (<i>The Last of Us</i>, <i>A Highland Song</i>).</p>
+        </section>
+
+        <!-- 7. Images -->
+        <section id="images">
+          <h2>Images</h2>
+          <p class="lead">Images are optional. If you'd rather not deal with them, submit without any and the chief editor will add some.</p>
+          <div class="dd">
+            <div class="card do">
+              <h3>Good</h3>
+              <ul>
+                <li>Your own screenshots. They're the best choice and prove you played it (Steam: F12; consoles: the Share/Capture button).</li>
+                <li>Official screenshots from <b>Media → Find screenshots</b> (Steam, or RAWG for console games). RAWG is credited automatically.</li>
+                <li>A short alt text on each image describing what's in it.</li>
+              </ul>
+            </div>
+            <div class="card dont">
+              <h3>Not okay</h3>
+              <ul>
+                <li>Images from Google search or other review sites. We don't own them.</li>
+                <li>Screenshots that spoil the ending or a late-game boss.</li>
+                <li>Photos of your screen when a screenshot is possible.</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- 8. AI -->
+        <section id="ai">
+          <h2>Using AI</h2>
+          <p class="lead">You can use <b>Write with AI</b> in the editor to turn your rough notes into a structured draft. That's what it's for. But the opinions are yours.</p>
+          <div class="dd">
+            <div class="card do">
+              <h3>Fine</h3>
+              <ul>
+                <li>Turning your notes, chat logs and brain-dumps into a first draft.</li>
+                <li>Fixing grammar, flow and structure.</li>
+                <li>Reading every line afterwards and rewriting anything that doesn't sound like you.</li>
+              </ul>
+            </div>
+            <div class="card dont">
+              <h3>Not okay</h3>
+              <ul>
+                <li>Asking AI to review a game you haven't played.</li>
+                <li>Keeping details you didn't experience, or "facts" you haven't checked.</li>
+                <li>Pasting the reply without reading it. The final article must be yours.</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- 9. Ethics -->
+        <section id="ethics">
+          <h2>Fairness and disclosure</h2>
+          <div class="card">
+            <ul style="margin:0">
+              <li><b>Say how you got the game:</b> bought it, review copy from the publisher, or a subscription such as Game Pass. A sentence in the article is enough.</li>
+              <li><b>Say what you played on,</b> and roughly how far you got or how many hours.</li>
+              <li><b>No paid positive coverage.</b> If anyone offers you something in exchange for a better score, decline and tell the chief editor.</li>
+              <li><b>Be fair to other people.</b> Criticise the game, not the developers or other players.</li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- 10. Workflow -->
+        <section id="publishing">
+          <h2>From draft to published</h2>
+          <p class="lead">Your drafts are private. Nobody else sees them until you submit.</p>
+          <div class="card">
+            <ol class="steps">
+              <li><div class="num">1</div><div><b>New article</b><span>Write in the editor. Everything saves automatically, and <b>History</b> keeps every version, so nothing is lost.</span></div></li>
+              <li><div class="num">2</div><div><b>Fill in Details</b><span>Game name, a one- or two-sentence description, category, tags (platform and genre), and a score if it has one. Writing up something older? Set the publish date to when you wrote it (backdating).</span></div></li>
+              <li><div class="num">3</div><div><b>Add images, if you like</b><span>Upload your own or use Find screenshots in the Media tab. Skip this if you prefer.</span></div></li>
+              <li><div class="num">4</div><div><b>Submit for review</b><span>The chief editor reads it, may tidy it up, and either publishes it or leaves notes asking for changes. Notes appear at the top of your article.</span></div></li>
+              <li><div class="num">5</div><div><b>Published under your byline</b><span>It goes live right away, on a future date (scheduled), or with an earlier date if you backdated it. Dates are in Philippine time (UTC+8).</span></div></li>
+            </ol>
+          </div>
+        </section>
+
+        <!-- 11. Checklist -->
+        <section id="checklist">
+          <h2>Before you submit</h2>
+          <div class="card">
+            <ul class="check">
+              <li>I played what I'm writing about</li>
+              <li>The title says what kind of piece it is</li>
+              <li>The game's name is spelled correctly</li>
+              <li>No spoilers for the ending or late twists</li>
+              <li>I said what I played on and how far I got</li>
+              <li>I said how I got the game</li>
+              <li>The score matches what I wrote (or there's no score)</li>
+              <li>I read the whole thing once, start to finish</li>
+            </ul>
+          </div>
+        </section>
+
+        <section id="help" style="margin-bottom:0">
+          <h2>Questions?</h2>
+          <p style="color:var(--muted)">Leave a note on your article and the chief editor will see it, or email <a href="mailto:lyndon@playtested.net">lyndon@playtested.net</a>. Welcome aboard, and happy writing.</p>
+        </section>
+      </article>
+
+      <aside class="toc" aria-label="On this page">
+        <p>On this page</p>
+        <a href="#principles">What we stand for</a>
+        <a href="#types">What you can write</a>
+        <a href="#judge">What to talk about</a>
+        <a href="#structure">Shape of a full review</a>
+        <a href="#scores">Scoring</a>
+        <a href="#titles">Titles</a>
+        <a href="#images">Images</a>
+        <a href="#ai">Using AI</a>
+        <a href="#ethics">Fairness and disclosure</a>
+        <a href="#publishing">Draft to published</a>
+        <a href="#checklist">Before you submit</a>
+      </aside>
+    </div>
+  </main>
+</div>
+
+<script>
+  (function () {
+    var btns = document.querySelectorAll("[data-theme-set]");
+    function set(t) {
+      document.documentElement.setAttribute("data-theme", t);
+      btns.forEach(function (b) { b.setAttribute("aria-pressed", String(b.getAttribute("data-theme-set") === t)); });
+    }
+    btns.forEach(function (b) { b.addEventListener("click", function () { set(b.getAttribute("data-theme-set")); }); });
+    set("dark");
+  })();
+</script>
+</body>
+</html>
