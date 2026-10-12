@@ -63,6 +63,16 @@ const hasScore = typeof score !== "undefined" && score !== null;
 const gameName = game?.trim() || shortTitle(title);
 const schemaImage = large || thumb ? new URL((large || thumb)!, Astro.site).href : undefined;
 const tagHref = (tag: string) => `/tag/${tag.toLowerCase().replace(/\s+/g, "-")}/`;
+// A wrapped image before the first heading would collide with the gallery when it
+// floats beside the intro (the image gets pushed down and drags the layout with
+// it). Then the gallery sits above the text instead, so the page matches the editor.
+const galleryAbove = (() => {
+  const b = body ?? "";
+  const wrap = b.search(/class="[^"]*\bimg-wrap\b/);
+  if (wrap < 0) return false;
+  const heading = b.search(/^#{1,3}\s|<h[1-3][\s>]/m);
+  return heading < 0 || wrap < heading;
+})();
 // Screenshots imported from RAWG in the studio are named "rawg-<n>-<game>-<id>.<ext>";
 // RAWG's terms ask for a credit link on pages that use them.
 const usesRawg = /\/images\/uploads\/rawg-\d+-[a-z0-9-]+\.[a-z]+/.test([thumb, large, ...gallery, body ?? ""].join(" "));
@@ -262,7 +272,7 @@ const usesRawg = /\/images\/uploads\/rawg-\d+-[a-z0-9-]+\.[a-z]+/.test([thumb, l
 
     {
       gallery.length > 0 && (
-        <div class="not-prose w-full mb-6 lg:float-right lg:w-[44%] lg:max-w-[520px] lg:ml-8 lg:mb-4 lg:mt-1">
+        <div class:list={["not-prose w-full", galleryAbove ? "mx-auto mb-8 max-w-3xl" : "mb-6 lg:float-right lg:w-[44%] lg:max-w-[520px] lg:ml-8 lg:mb-4 lg:mt-1"]}>
           <Carousel images={gallery} heroName={large ? undefined : `hero-${slug}`} priority />
         </div>
       )

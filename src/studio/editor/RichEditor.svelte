@@ -295,6 +295,12 @@
     const sel = editor.state.selection;
     // A selected image or block stays: the new ones go after it instead of replacing it.
     if (typeof at !== "number" && sel instanceof NodeSelection) at = sel.to;
+    // Never split a sentence: with the cursor inside a paragraph's text the images
+    // go after that paragraph (or before it, when the cursor is at its start).
+    const rf = sel.$from;
+    if (typeof at !== "number" && sel.empty && rf.parent.isTextblock && rf.depth >= 1 && rf.parent.content.size > 0) {
+      at = rf.parentOffset === 0 ? rf.before() : rf.after();
+    }
     if (typeof at === "number") editor.chain().focus().insertContentAt(Math.max(0, Math.min(at, editor.state.doc.content.size)), nodes).run();
     else editor.chain().focus().insertContent(nodes).run();
   }

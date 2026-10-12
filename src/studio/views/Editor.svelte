@@ -88,11 +88,15 @@
   /** Pros / Cons sections in the site's usual format (only real, labelled lists). */
   function tidyBody() {
     if (!data) return;
-    const { text, styles, sections } = tidyFormatting(data.body);
-    if (!styles && !sections) return toast("Formatting already looks right. Nothing to change.", "info");
+    const { text, styles, sections, rejoined } = tidyFormatting(data.body);
+    if (!styles && !sections && !rejoined) return toast("Formatting already looks right. Nothing to change.", "info");
     const before = data.body;
     data.body = text;
-    const parts = [sections ? `${sections} Pros/Cons section${sections === 1 ? "" : "s"}` : "", styles ? `removed pasted styling from ${styles} place${styles === 1 ? "" : "s"}` : ""].filter(Boolean);
+    const parts = [
+      sections ? `${sections} Pros/Cons section${sections === 1 ? "" : "s"}` : "",
+      rejoined ? `rejoined ${rejoined} sentence${rejoined === 1 ? "" : "s"} split by an image` : "",
+      styles ? `removed pasted styling from ${styles} place${styles === 1 ? "" : "s"}` : "",
+    ].filter(Boolean);
     toast(`Tidied: ${parts.join(", ")}.`, "success", { label: "Undo", run: () => data && (data.body = before) }, 8000);
   }
 

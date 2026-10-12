@@ -243,10 +243,51 @@ export function stripPastedStyles(markdown: string): { text: string; changed: nu
   return { text, changed };
 }
 
-/** Everything the "Tidy" button does: pasted styling, inline "Pro:"/"Con:" points, then Pros / Cons sections. */
-export function tidyFormatting(markdown: string): { text: string; styles: number; sections: number } {
+// A line that is only an image: <img …> or ![alt](src).
+const IMAGE_LINE = /^\s*(?:<img\b[^>]*>|!\[[^\]]*\]\([^)]*\))\s*$/i;
+// Where a sentence can end (so the paragraph wasn't cut short).
+const ENDS_SENTENCE = /[.!?:;…"”')\]*_>]\s*$/;
+const PLAIN_LINE = (l: string) => l.trim() !== "" && !/^\s*(?:#{1,6}\s|[-*+>|]|\d{1,2}[.)]\s|<|```|~~~)/.test(l);
+
+/**
+ * An image dropped mid-sentence splits the paragraph in two ("…it was an
+ * absolute" / image / "blast just like old times…"). Rejoin the sentence and
+ * put the image(s) at the start of the paragraph instead.
+ */
+export function rejoinSplitParagraphs(markdown: string): { text: string; changed: number } {
+  const lines = markdown.replace(/\r\n/g, "\n").split("\n");
+  let changed = 0;
+  let inFence = false;
+  for (let i = 0; i < lines.length; i++) {
+    if (FENCE.test(lines[i])) inFence = !inFence;
+    if (inFence || !PLAIN_LINE(lines[i]) || ENDS_SENTENCE.test(lines[i])) continue;
+    // The first half must be the end of its paragraph (blank line next).
+    if (lines[i + 1] === undefined || lines[i + 1].trim()) continue;
+    // One or more image lines (blank lines between), then the rest of the sentence.
+    let j = nextContent(lines, i + 1);
+    const images: number[] = [];
+    while (j < lines.length && IMAGE_LINE.test(lines[j])) {
+      images.push(j);
+      j = nextContent(lines, j + 1);
+    }
+    if (!images.length || j >= lines.length || !PLAIN_LINE(lines[j]) || !/^\s*\p{Ll}/u.test(lines[j])) continue;
+    // Find where the first half's paragraph starts.
+    let start = i;
+    while (start > 0 && PLAIN_LINE(lines[start - 1])) start--;
+    const imageLines = images.flatMap((k, n) => (n ? ["", lines[k]] : [lines[k]]));
+    const joined = `${lines[i].trimEnd()} ${lines[j].trimStart()}`;
+    lines.splice(start, j - start + 1, ...imageLines, "", ...lines.slice(start, i), joined);
+    changed++;
+    i = start + imageLines.length;
+  }
+  return { text: lines.join("\n"), changed };
+}
+
+/** Everything the "Tidy" button does: pasted styling, split sentences, inline "Pro:"/"Con:" points, then Pros / Cons sections. */
+export function tidyFormatting(markdown: string): { text: string; styles: number; sections: number; rejoined: number } {
   const a = stripPastedStyles(markdown);
-  const b = tidyLabelledPoints(a.text);
+  const r = rejoinSplitParagraphs(a.text);
+  const b = tidyLabelledPoints(r.text);
   const c = tidyProsCons(b.text);
-  return { text: c.text, styles: a.changed, sections: b.changed + c.changed };
+  return { text: c.text, styles: a.changed, sections: b.changed + c.changed, rejoined: r.changed };
 }
