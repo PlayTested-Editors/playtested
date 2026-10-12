@@ -776,7 +776,15 @@
         Notes{#if openNotes}<span class="ml-1 rounded-full bg-amber-500 px-1.5 text-[10px] font-bold text-white">{openNotes}</span>{/if}
       </button>
       <button class="btn-ghost !px-2.5" data-tour="history" onclick={() => { historyLive = false; panel = panel === "history" ? "none" : "history"; }}>History</button>
-      <button class="btn-ghost hidden !px-2.5 lg:inline-flex" onclick={() => (showPreview = !showPreview)}>{showPreview ? "Hide preview" : "Preview"}</button>
+      <button
+        class="btn-secondary hidden items-center gap-1.5 !px-2.5 lg:inline-flex"
+        aria-pressed={showPreview}
+        title={showPreview ? "Hide the live preview to give the editor the full width" : "Show the live preview beside the editor"}
+        onclick={() => (showPreview = !showPreview)}
+      >
+        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="1.6" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d={showPreview ? "M3.98 8.223A10.477 10.477 0 0 0 1.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.451 10.451 0 0 1 12 4.5c4.756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 0 1-4.293 5.774M6.228 6.228 3 3m3.228 3.228 3.65 3.65m7.894 7.894L21 21m-3.228-3.228-3.65-3.65m0 0a3 3 0 1 0-4.243-4.243m4.242 4.242L9.88 9.88" : "M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"} /></svg>
+        {showPreview ? "Hide preview" : "Show preview"}
+      </button>
       {#if canEdit}
         <button class="btn-secondary" disabled={saving || (!dirty && !conflict)} onclick={() => save(true)}>Save</button>
       {/if}
@@ -856,7 +864,8 @@
   <div class="flex">
     <!-- Editor column -->
     <div class="min-w-0 flex-1 {showPreview ? 'lg:max-w-[52%] xl:max-w-[50%]' : ''}">
-      <div class="mx-auto max-w-3xl px-4 py-6 sm:px-6">
+      <!-- Beside the preview: fill the column. Without it: about the live site's article width. -->
+      <div class="mx-auto px-4 py-6 sm:px-6 {showPreview ? 'max-w-3xl lg:max-w-5xl' : 'max-w-3xl lg:max-w-[1280px]'}">
         {#if changeRequest}
           <button class="mb-5 w-full rounded-xl bg-rose-50 p-4 text-left ring-1 ring-rose-200 transition hover:bg-rose-100 dark:bg-rose-500/10 dark:ring-rose-500/30" onclick={() => (panel = "notes")}>
             <p class="text-xs font-semibold uppercase tracking-wide text-rose-700 dark:text-rose-300">
@@ -1013,8 +1022,19 @@
 
     {#if showPreview}
       <div data-tour="preview" class="sticky top-[57px] hidden h-[calc(100vh-57px)] flex-1 border-l border-slate-200/70 dark:border-slate-800 lg:block" transition:fade={{ duration: 150 }}>
-        <PreviewPane {data} />
+        <PreviewPane {data} onhide={() => (showPreview = false)} />
       </div>
+    {:else}
+      <!-- Hard to miss: a tab on the right edge brings the preview back. -->
+      <button
+        type="button"
+        class="fixed right-0 top-1/2 z-20 hidden -translate-y-1/2 items-center gap-2 rounded-l-xl bg-indigo-600 px-2 py-4 text-xs font-semibold text-white shadow-lg hover:bg-indigo-500 lg:flex lg:flex-col"
+        title="Show the live preview"
+        onclick={() => (showPreview = true)}
+      >
+        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" /></svg>
+        <span class="[writing-mode:vertical-rl] rotate-180">Show preview</span>
+      </button>
     {/if}
   </div>
 

@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { ArticleData } from "../api";
 
-  let { data }: { data: ArticleData } = $props();
+  let { data, onhide }: { data: ArticleData; onhide?: () => void } = $props();
 
   let frame: HTMLIFrameElement;
   let form: HTMLFormElement;
@@ -48,10 +48,15 @@
       <span class="h-2 w-2 rounded-full {loading ? 'bg-amber-400 animate-pulse' : 'bg-emerald-500'}"></span>
       Live preview
     </div>
-    <div class="flex gap-0.5 rounded-lg bg-slate-100 p-0.5 dark:bg-slate-800">
-      {#each [["desktop", "Desktop"], ["mobile", "Phone"]] as [key, label]}
-        <button class="rounded-md px-2.5 py-1 text-xs font-medium transition {device === key ? 'bg-white shadow-sm dark:bg-slate-900' : 'text-slate-500'}" onclick={() => (device = key as typeof device)}>{label}</button>
-      {/each}
+    <div class="flex items-center gap-2">
+      <div class="flex gap-0.5 rounded-lg bg-slate-100 p-0.5 dark:bg-slate-800">
+        {#each [["desktop", "Desktop"], ["mobile", "Phone"]] as [key, label]}
+          <button class="rounded-md px-2.5 py-1 text-xs font-medium transition {device === key ? 'bg-white shadow-sm dark:bg-slate-900' : 'text-slate-500'}" onclick={() => (device = key as typeof device)}>{label}</button>
+        {/each}
+      </div>
+      {#if onhide}
+        <button type="button" class="rounded-lg px-2 py-1 text-xs font-semibold text-slate-600 ring-1 ring-slate-200 hover:bg-slate-100 dark:text-slate-300 dark:ring-slate-700 dark:hover:bg-slate-800" title="Hide the preview to give the editor the full width" onclick={onhide}>Hide ›</button>
+      {/if}
     </div>
   </div>
   <div class="relative flex-1 overflow-hidden bg-slate-200/60 dark:bg-slate-950">
