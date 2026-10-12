@@ -153,9 +153,15 @@ export async function runWatchdog(env: Env): Promise<void> {
     const pct = m.limit ? (m.used / m.limit) * 100 : 0;
     if (pct > worst.pct) worst = { key, pct };
   }
-  const autoLevel: Level = worst.pct >= g.thresholds.essential ? 2 : worst.pct >= g.thresholds.conserve ? 1 : 0;
+  const measured: Level = worst.pct >= g.thresholds.essential ? 2 : worst.pct >= g.thresholds.conserve ? 1 : 0;
+  // Cloudflare's analytics are sampled estimates: right after one big batch (a
+  // bulk content update) a single reading can overshoot wildly (1.6M "rows
+  // written" that settled at 40k ten minutes later). Step down only when two
+  // checks in a row agree; easing back off happens at once.
+  const prev = g.pendingLevel?.day === usage.day ? g.pendingLevel.level : 0;
+  const autoLevel: Level = measured <= g.autoLevel ? measured : (Math.max(g.autoLevel, Math.min(measured, prev)) as Level);
   const alertedToday = g.alerted?.day === usage.day ? g.alerted.level : 0;
-  const patch: Parameters<typeof saveGuards>[1] = { autoLevel, usage: { ...usage, worst } };
+  const patch: Parameters<typeof saveGuards>[1] = { autoLevel, pendingLevel: { day: usage.day, level: measured }, usage: { ...usage, worst } };
 
   if (autoLevel > alertedToday) {
     patch.alerted = { day: usage.day, level: autoLevel };

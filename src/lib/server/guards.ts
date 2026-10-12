@@ -50,6 +50,8 @@ export interface GuardSettings {
   caps: Record<Feature, number>;
   usage?: UsageSnapshot;
   alerted?: { day: string; level: Level };
+  /** The last check's reading, to confirm a step-down on the next check (see watchdog.ts). */
+  pendingLevel?: { day: string; level: Level };
   /** Discord alert switches by kind (see alerts.ts); missing = on. */
   alerts?: Record<string, boolean>;
 }
