@@ -170,7 +170,7 @@ function rankedContext(ranked: { top: Ranked[]; bottom: Ranked[] }, refs: Record
       refs[key] = { url: r.url, title: r.title, label: shortTitle(r.title), score: r.score };
       byUrl.set(r.url, key);
     }
-    return `${key} ${shortTitle(r.title)} | Score: ${r.score}/10 | reviewed ${new Date(r.pubDate).toISOString().slice(0, 10)}`;
+    return `${key} ${shortTitle(r.title)} — ${r.score}/10 (reviewed ${new Date(r.pubDate).toISOString().slice(0, 10)})`;
   };
   if (!ranked.top.length) return "";
   return `HIGHEST-SCORED REVIEWS ON THE WHOLE SITE (cite these by number too):\n${ranked.top.map(line).join("\n")}\n\nLOWEST-SCORED REVIEWS ON THE WHOLE SITE (cite these by number too):\n${ranked.bottom.map(line).join("\n")}`;
@@ -257,7 +257,7 @@ const answer: Handler = async (request, env) => {
 ${CITE_RULE}
 
 RULES:
-- Answer the visitor's search directly in 2–4 sentences (under 90 words). If several games fit, use a short bulleted list (at most 5), each with its score.
+- Answer the visitor's search directly in 2–4 sentences (under 90 words). If several games fit, use a short bulleted list (at most 5), each written like "[1] — 9/10".
 - Use ONLY the material below${rankedText ? " (matching ARTICLES, plus site-wide highest- and lowest-scored lists for best/top/worst questions)" : ""}. If it doesn't answer the search, say in one sentence that PlayTested hasn't covered that — don't guess.
 - No preamble ("Based on the articles…") and no headings. Never mention "the articles" or "the information provided"; speak as the site ("our review").
 
