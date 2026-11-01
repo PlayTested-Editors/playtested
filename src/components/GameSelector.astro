@@ -82,7 +82,8 @@ const isCompare = id === "comparator";
   type Recommended = { name: string; title: string; released: string; image: string | null; url: string | null; review: Review };
 
   const SPINNER = `<svg class="h-4 w-4 animate-spin motion-reduce:animate-none" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path></svg>`;
-  const PULSE = "animate-pulse rounded bg-gray-200 dark:bg-slate-700 motion-reduce:animate-none";
+  // Still placeholders: no pulsing (see CLAUDE.md, UI rules).
+  const PULSE = "rounded bg-gray-200 dark:bg-slate-700";
 
   const yearOf = (d?: string | null) => (d && /^\d{4}/.test(d) ? d.slice(0, 4) : "");
   /** Same game — also matches a name-only pick from ?games= against its RAWG result. */
@@ -136,6 +137,7 @@ const isCompare = id === "comparator";
     const found = new Map<string, Game>();
     let searchCtl: AbortController | null = null;
     let timer = 0;
+    let slowTimer = 0;
     let busy = false;
 
     // e.g. /ai/compare/?games=Hades|Celeste from the recommender's "Compare these picks".
@@ -177,17 +179,29 @@ const isCompare = id === "comparator";
       });
     }
 
+    /** Shown as soon as the visitor types, so a slow game database never looks broken. */
+    function searching(term: string) {
+      clearTimeout(slowTimer);
+      if (term.length < 2) return;
+      spinner.hidden = false;
+      status.textContent = `Searching games for “${term}”…`;
+      slowTimer = window.setTimeout(() => {
+        if (!spinner.hidden) status.textContent = `Still searching for “${term}” — the game database is slow right now…`;
+      }, 4000);
+    }
+
     async function search(term: string) {
       clearTimeout(timer);
       searchCtl?.abort();
       if (term.length < 2) {
+        clearTimeout(slowTimer);
         results.innerHTML = "";
         status.innerHTML = "";
         spinner.hidden = true;
         return;
       }
       const ctl = (searchCtl = new AbortController());
-      spinner.hidden = false;
+      searching(term);
       try {
         const data = await getJson<{ results?: RawgGame[] }>(`/api/rawg-search?query=${encodeURIComponent(term)}`, ctl.signal);
         if (ctl.signal.aborted) return;
@@ -207,7 +221,10 @@ const isCompare = id === "comparator";
         results.innerHTML = "";
         status.innerHTML = noticeHtml(e);
       } finally {
-        if (searchCtl === ctl) spinner.hidden = true;
+        if (searchCtl === ctl) {
+          spinner.hidden = true;
+          clearTimeout(slowTimer);
+        }
       }
     }
 
@@ -300,7 +317,9 @@ const isCompare = id === "comparator";
 
     input.addEventListener("input", () => {
       clearTimeout(timer);
-      timer = window.setTimeout(() => search(input.value.trim()), 350);
+      const term = input.value.trim();
+      searching(term);
+      timer = window.setTimeout(() => search(term), 350);
     });
     input.addEventListener("keydown", (e) => {
       if (e.key === "Enter") {
