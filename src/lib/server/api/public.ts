@@ -113,8 +113,10 @@ const SITE_FACTS = `PlayTested.net is a gaming and tech review site run by lyndo
 
 const CITE_RULE = `HOW TO CITE: each article below has a number like [1]. Write the number in place of the game's name — it renders as a link to our review. GOOD: "You should try [1]." BAD: "You should try Elden Ring [1]."`;
 
+type Ref = { url: string; title: string; label: string; score: number | null };
+
 function buildContext(docs: SearchDoc[]) {
-  const refs: Record<string, { url: string; title: string; label: string; score: number | null }> = {};
+  const refs: Record<string, Ref> = {};
   const blocks = docs.map((d, i) => {
     const n = i + 1;
     refs[`[${n}]`] = { url: d.url, title: d.title, label: shortTitle(d.title), score: d.score };
@@ -124,6 +126,54 @@ function buildContext(docs: SearchDoc[]) {
     return `[${n}] "${d.title}" by ${d.author || "lyndonguitar"} | ${date}${score}\n${passages}`;
   });
   return { refs, text: blocks.join("\n\n") };
+}
+
+// Retrieval only finds a handful of articles, so "what's your highest-rated
+// game?" also gets the site-wide extremes. Read through idx_articles_score
+// (the working-copy score, so over-fetch and use the live values), cached 1h.
+
+type Ranked = { title: string; score: number; url: string; pubDate: number };
+const RANKED_KEY = "chat:ranked:v1";
+const RANKING_RE = /\b(best|top|highest|lowest|worst|greatest|rated|ratings?|scores?|scored|rank\w*|favou?rites?|must[- ]play|recommend\w*)\b/i;
+
+async function rankedReviews(env: Env): Promise<{ top: Ranked[]; bottom: Ranked[] }> {
+  const cached = await env.CACHE.get<{ top: Ranked[]; bottom: Ranked[] }>(RANKED_KEY, "json").catch(() => null);
+  if (cached) return cached;
+  const now = Date.now();
+  const pick = async (dir: "DESC" | "ASC") => {
+    const rows = await env.DB.prepare(
+      `SELECT live_json, live_slug FROM articles WHERE score >= 0 AND live_json IS NOT NULL ORDER BY score ${dir} LIMIT 40`,
+    ).all<ArticleRow>();
+    return rows.results
+      .flatMap((row) => {
+        const live = liveOf(row);
+        const t = live ? Date.parse(live.pubDate) : NaN;
+        // Scheduled posts stay hidden until their date.
+        if (!live || !row.live_slug || typeof live.score !== "number" || !(t <= now)) return [];
+        return [{ title: live.title, score: live.score, url: `/article/${row.live_slug}/`, pubDate: t }];
+      })
+      .sort((a, b) => (dir === "DESC" ? b.score - a.score : a.score - b.score) || b.pubDate - a.pubDate);
+  };
+  const [top, bottom] = await Promise.all([pick("DESC"), pick("ASC")]);
+  const ranked = { top: top.slice(0, 15), bottom: bottom.slice(0, 8) };
+  await env.CACHE.put(RANKED_KEY, JSON.stringify(ranked), { expirationTtl: 3600 }).catch(() => undefined);
+  return ranked;
+}
+
+/** Numbers the ranked reviews after the retrieved ones (reusing a number when it's the same review). */
+function rankedContext(ranked: { top: Ranked[]; bottom: Ranked[] }, refs: Record<string, Ref>): string {
+  const byUrl = new Map(Object.entries(refs).map(([k, r]) => [r.url, k]));
+  const line = (r: Ranked) => {
+    let key = byUrl.get(r.url);
+    if (!key) {
+      key = `[${byUrl.size + 1}]`;
+      refs[key] = { url: r.url, title: r.title, label: shortTitle(r.title), score: r.score };
+      byUrl.set(r.url, key);
+    }
+    return `${key} "${r.title}" | ${new Date(r.pubDate).toISOString().slice(0, 10)} | Score: ${r.score}/10`;
+  };
+  if (!ranked.top.length) return "";
+  return `HIGHEST-SCORED REVIEWS ON THE WHOLE SITE:\n${ranked.top.map(line).join("\n")}\n\nLOWEST-SCORED REVIEWS ON THE WHOLE SITE:\n${ranked.bottom.map(line).join("\n")}`;
 }
 
 const chat: Handler = async (request, env) => {
@@ -142,22 +192,29 @@ const chat: Handler = async (request, env) => {
   const prevUser = messages.filter((m) => m.role === "user").slice(-2, -1)[0]?.content ?? "";
   const aboutPage = pageTitle && /\b(this|it|its|it's|here|the game|the review)\b/i.test(last.content);
   const query = `${aboutPage ? `${shortTitle(pageTitle)} ` : ""}${last.content} ${prevUser}`.slice(0, 400);
-  const docs = await hybridSearch(env, query, { limit: 6 });
+  const wantsRanking = RANKING_RE.test(`${last.content} ${prevUser}`);
+  const [docs, ranked] = await Promise.all([
+    hybridSearch(env, query, { limit: 6 }),
+    wantsRanking ? rankedReviews(env).catch(() => null) : null,
+  ]);
   const { refs, text } = buildContext(docs);
+  const rankedText = ranked ? rankedContext(ranked, refs) : "";
 
   const system: ChatMessage = {
     role: "system",
-    content: `You are the friendly AI guide for PlayTested.net. ${SITE_FACTS}${pageTitle ? `\nThe visitor is currently reading: "${pageTitle}".` : ""}
+    content: `You are the friendly AI guide for PlayTested.net, speaking for the site. ${SITE_FACTS}${pageTitle ? `\nThe visitor is currently reading: "${pageTitle}".` : ""}
 
 ${CITE_RULE}
 
 RULES:
-- Answer from the ARTICLES below. If they don't cover the question, say so briefly and answer generally, suggesting what to search on the site.
+- Answer from the material below: matching ARTICLES${rankedText ? ", plus the site-wide highest- and lowest-scored lists for questions about the best, top or worst games" : ""}.
+- Talk as the site: "our review", "we scored it 9/10". The visitor can't see this material, so never mention "the articles", "the context", "the information provided" or what you were "given".
+- If nothing below covers the question, say PlayTested hasn't reviewed that yet and suggest a related game we did review, or searching the site. You may add general gaming knowledge if you say it isn't from a PlayTested review. Never invent scores.
 - Quote scores and verdicts accurately when you mention them.
 - Keep it conversational and short: 2–4 sentences, or a tight list when comparing several games. Markdown bold and lists are fine; no headings.
 
 ARTICLES:
-${text || "(no matching articles)"}`,
+${text || "(no matching articles)"}${rankedText ? `\n\n${rankedText}` : ""}`,
   };
 
   const upstream = await completeStream(
@@ -325,12 +382,21 @@ async function rawgFetch(env: Env, path: string): Promise<Response> {
   });
 }
 
-const rawgSearch: Handler = async (request, env) => {
-  const q = new URL(request.url).searchParams.get("query");
+const rawgSearch: Handler = async (request, env, ctx) => {
+  const url = new URL(request.url);
+  const q = (url.searchParams.get("query") || "").trim().toLowerCase().slice(0, 100);
   if (!q) return error(400, "Missing search term");
   const blocked = await gate(env, request, "search");
   if (blocked) return blocked;
-  return rawgFetch(env, `/games?search=${encodeURIComponent(q.slice(0, 100))}&page_size=10`);
+
+  // RAWG can take seconds; repeat searches come from this location's edge cache (a no-op on workers.dev).
+  const cacheKey = new Request(`${url.origin}/api/rawg-search?query=${encodeURIComponent(q)}`);
+  const edge = typeof caches !== "undefined" ? (caches as unknown as { default?: Cache }).default : undefined;
+  const hit = await edge?.match(cacheKey).catch(() => undefined);
+  if (hit) return hit;
+  const res = await rawgFetch(env, `/games?search=${encodeURIComponent(q)}&page_size=10`);
+  if (res.ok && edge) ctx.waitUntil(edge.put(cacheKey, res.clone()).catch(() => undefined));
+  return res;
 };
 
 const rawgDetails: Handler = async (request, env) => {
