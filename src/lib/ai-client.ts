@@ -309,6 +309,7 @@ export async function streamAi(
   const decoder = new TextDecoder();
   let buf = "";
   let refsDone = false;
+  let filtered = false;
   const START = "<!--REFS:";
   const END = ":REFS-->";
   try {
@@ -340,13 +341,15 @@ export async function streamAi(
         if (!t.startsWith("data:")) continue; // ": OPENROUTER PROCESSING" keep-alives etc.
         const payload = t.slice(5).trim();
         if (!payload || payload === "[DONE]") continue;
-        let evt: { choices?: { delta?: { content?: string } }[]; error?: unknown };
+        let evt: { choices?: { delta?: { content?: string }; finish_reason?: string | null }[]; error?: unknown };
         try {
           evt = JSON.parse(payload);
         } catch {
           continue;
         }
         if (evt.error) throw new AiError("The AI stopped unexpectedly. Please try again.", 502);
+        // The model's own safety filter sometimes cuts off harmless answers, often after one word.
+        if (evt.choices?.[0]?.finish_reason === "content_filter") filtered = true;
         const delta = evt.choices?.[0]?.delta?.content;
         if (delta) {
           text += delta;
@@ -362,8 +365,11 @@ export async function streamAi(
     if (text) return { text, refs, stopped: true }; // connection dropped mid-answer: keep what arrived
     throw offline();
   }
+  if (filtered && text.trim().length < 40) {
+    throw new AiError("The AI couldn't answer that one. Try asking it a slightly different way.", 502);
+  }
   if (!text.trim()) throw new AiError("The AI didn't come back with an answer. Please try again.", 502);
-  return { text, refs, stopped: false };
+  return { text, refs, stopped: filtered };
 }
 
 /** A friendly inline notice for an error (amber for "paused/too fast", red otherwise). */
