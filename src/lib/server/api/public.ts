@@ -111,7 +111,7 @@ const search: Handler = async (request, env, ctx) => {
 
 const SITE_FACTS = `PlayTested.net is a gaming and tech review site run by lyndonguitar (Lyndon), with reviews of PC, console and mobile games scored out of 10.`;
 
-const CITE_RULE = `HOW TO CITE: each article below has a number like [1]. Write the number in place of the game's name — it renders as a link to our review. GOOD: "You should try [1]." BAD: "You should try Elden Ring [1]."`;
+const CITE_RULE = `HOW TO CITE: each review below has a number like [1]. Every time you mention a reviewed game, write its number in place of its name — the number renders as the game's name, linked to our review. GOOD: "You should try [1]." BAD: "You should try Elden Ring [1]." BAD: "You should try Elden Ring."`;
 
 type Ref = { url: string; title: string; label: string; score: number | null };
 
@@ -170,10 +170,10 @@ function rankedContext(ranked: { top: Ranked[]; bottom: Ranked[] }, refs: Record
       refs[key] = { url: r.url, title: r.title, label: shortTitle(r.title), score: r.score };
       byUrl.set(r.url, key);
     }
-    return `${key} "${r.title}" | ${new Date(r.pubDate).toISOString().slice(0, 10)} | Score: ${r.score}/10`;
+    return `${key} ${shortTitle(r.title)} | Score: ${r.score}/10 | reviewed ${new Date(r.pubDate).toISOString().slice(0, 10)}`;
   };
   if (!ranked.top.length) return "";
-  return `HIGHEST-SCORED REVIEWS ON THE WHOLE SITE:\n${ranked.top.map(line).join("\n")}\n\nLOWEST-SCORED REVIEWS ON THE WHOLE SITE:\n${ranked.bottom.map(line).join("\n")}`;
+  return `HIGHEST-SCORED REVIEWS ON THE WHOLE SITE (cite these by number too):\n${ranked.top.map(line).join("\n")}\n\nLOWEST-SCORED REVIEWS ON THE WHOLE SITE (cite these by number too):\n${ranked.bottom.map(line).join("\n")}`;
 }
 
 const chat: Handler = async (request, env) => {
@@ -237,11 +237,15 @@ const answer: Handler = async (request, env) => {
   const blocked = await gate(env, request, "chat");
   if (blocked) return blocked;
 
-  const docs = await hybridSearch(env, q, { limit: 5, chunks: 2 });
-  if (!docs.length) {
+  const [docs, ranked] = await Promise.all([
+    hybridSearch(env, q, { limit: 5, chunks: 2 }),
+    RANKING_RE.test(q) ? rankedReviews(env).catch(() => null) : null,
+  ]);
+  if (!docs.length && !ranked?.top.length) {
     return cannedStream("PlayTested hasn't covered anything that matches that yet. Try a game's name, a genre, or a platform.");
   }
   const { refs, text } = buildContext(docs);
+  const rankedText = ranked ? rankedContext(ranked, refs) : "";
   const upstream = await completeStream(
     env,
     "Search Answer",
@@ -254,11 +258,11 @@ ${CITE_RULE}
 
 RULES:
 - Answer the visitor's search directly in 2–4 sentences (under 90 words). If several games fit, use a short bulleted list (at most 5), each with its score.
-- Use ONLY the ARTICLES below. If they don't answer it, say in one sentence that PlayTested hasn't covered that — don't guess.
-- No preamble ("Based on the articles…") and no headings.
+- Use ONLY the material below${rankedText ? " (matching ARTICLES, plus site-wide highest- and lowest-scored lists for best/top/worst questions)" : ""}. If it doesn't answer the search, say in one sentence that PlayTested hasn't covered that — don't guess.
+- No preamble ("Based on the articles…") and no headings. Never mention "the articles" or "the information provided"; speak as the site ("our review").
 
 ARTICLES:
-${text}`,
+${text || "(no matching articles)"}${rankedText ? `\n\n${rankedText}` : ""}`,
       },
       { role: "user", content: q },
     ],

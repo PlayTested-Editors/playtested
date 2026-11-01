@@ -25,10 +25,10 @@ const { slug } = Astro.props;
     <div class="space-y-3" data-skeleton>
       {[1, 2].map(() => (
         <div class="flex gap-3">
-          <div class="h-9 w-9 shrink-0 animate-pulse rounded-full bg-gray-200 dark:bg-slate-700" />
+          <div class="h-9 w-9 shrink-0 rounded-full bg-gray-200 dark:bg-slate-700" />
           <div class="flex-1 space-y-2">
-            <div class="h-3 w-32 animate-pulse rounded bg-gray-200 dark:bg-slate-700" />
-            <div class="h-3 w-full animate-pulse rounded bg-gray-200 dark:bg-slate-700" />
+            <div class="h-3 w-32 rounded bg-gray-200 dark:bg-slate-700" />
+            <div class="h-3 w-full rounded bg-gray-200 dark:bg-slate-700" />
           </div>
         </div>
       ))}

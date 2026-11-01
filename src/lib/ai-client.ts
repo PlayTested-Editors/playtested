@@ -72,13 +72,61 @@ export interface RenderOptions {
   refs?: Refs;
   /** "link" turns [n] into links to the cited article; "strip" drops the markers. */
   citations?: "link" | "strip";
-  /** Show a blinking caret at the end (while streaming). */
+  /** Show a caret at the end (while streaming). */
   caret?: boolean;
+  /** Internal: reviews already linked in this answer, so each name is linked once. */
+  linked?: Set<string>;
+}
+
+const escapeRe = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+/** Where `label` appears in `text` as a whole name (case-insensitive), or -1. */
+function mentionAt(text: string, label: string | undefined): number {
+  if (!label || label.length < 3) return -1;
+  const m = new RegExp(`(^|[^\\w])${escapeRe(label)}(?!\\w)`, "i").exec(text);
+  return m ? m.index + m[1].length : -1;
+}
+
+/**
+ * The model doesn't always write [n] and names the game instead ("Tekken 8
+ * scored 10/10"). Link the first plain mention of each review's name.
+ */
+function linkNames(html: string, opts: RenderOptions): string {
+  const linked = opts.linked;
+  if (!linked || !opts.refs || opts.citations === "strip") return html;
+  const cands = Object.values(opts.refs)
+    .filter((r) => r.url && (r.label?.length ?? 0) >= 3 && !linked.has(r.url))
+    .sort((a, b) => b.label!.length - a.label!.length); // "Hades II" before "Hades"
+  if (!cands.length) return html;
+  const anchors: string[] = [];
+  let inLink = 0;
+  const out = html.split(/(<[^>]+>)/).map((part) => {
+    if (part.startsWith("<")) {
+      if (/^<a[\s>]/i.test(part)) inLink++;
+      else if (/^<\/a>/i.test(part)) inLink = Math.max(0, inLink - 1);
+      return part;
+    }
+    if (inLink || !part) return part;
+    let seg = part;
+    for (const r of cands) {
+      if (linked.has(r.url!)) continue;
+      const at = mentionAt(seg, escapeHtml(r.label!));
+      if (at < 0) continue;
+      linked.add(r.url!);
+      const name = seg.slice(at, at + escapeHtml(r.label!).length);
+      anchors.push(`<a href="${escapeHtml(r.url!)}" class="${CITE}" title="${escapeHtml(r.title || r.label!)}">${name}</a>`);
+      // A placeholder, so later names can't match inside this link.
+      seg = `${seg.slice(0, at)}\u0001${anchors.length - 1}\u0001${seg.slice(at + name.length)}`;
+    }
+    return seg;
+  });
+  return out.join("").replace(/\u0001(\d+)\u0001/g, (_, i: string) => anchors[Number(i)]);
 }
 
 const LINK = "font-medium text-indigo-600 dark:text-indigo-400 underline decoration-indigo-300 dark:decoration-indigo-500/60 underline-offset-2 hover:decoration-2";
 const CITE = "font-semibold text-indigo-700 dark:text-indigo-300 underline decoration-dotted decoration-indigo-400 underline-offset-2 hover:decoration-solid";
-const CARET = `<span class="inline-block w-[0.45em] h-[1em] -mb-[0.15em] ml-0.5 rounded-sm bg-current opacity-70 animate-pulse motion-reduce:animate-none" aria-hidden="true"></span>`;
+// A still caret: no blinking (the owner is light-sensitive, see CLAUDE.md).
+const CARET = `<span class="inline-block w-[0.45em] h-[1em] -mb-[0.15em] ml-0.5 rounded-sm bg-current opacity-40" aria-hidden="true"></span>`;
 
 function inline(text: string, opts: RenderOptions): string {
   let s = escapeHtml(text);
@@ -101,6 +149,7 @@ function inline(text: string, opts: RenderOptions): string {
     const parts = nums.split(/\s*,\s*/).map((n) => {
       const r = refs[`[${n}]`];
       if (!r?.url) return null;
+      opts.linked?.add(r.url);
       const label = r.label || r.title || `source ${n}`;
       return `<a href="${escapeHtml(r.url)}" class="${CITE}" title="${escapeHtml(r.title || label)}">${escapeHtml(label)}</a>`;
     });
@@ -119,11 +168,13 @@ function inline(text: string, opts: RenderOptions): string {
     .replace(/__(?=\S)([^_]+?)__/g, "<strong>$1</strong>")
     .replace(/(^|[^*\w])\*(?=\S)([^*\n]+?)\*(?!\w)/g, "$1<em>$2</em>")
     .replace(/\u0000(\d+)\u0000/g, (_, i: string) => `<code class="px-1 py-0.5 rounded bg-black/5 dark:bg-white/10 text-[0.9em]">${codes[Number(i)]}</code>`);
+  s = linkNames(s, opts);
   if (opts.citations === "strip") s = s.replace(/\s+([.,;:!?])/g, "$1");
   return s;
 }
 
-export function renderMarkdown(src: string, opts: RenderOptions = {}): string {
+export function renderMarkdown(src: string, options: RenderOptions = {}): string {
+  const opts: RenderOptions = { ...options, linked: new Set() };
   const blocks: string[] = [];
   let para: string[] = [];
   let list = null as { tag: "ul" | "ol"; items: string[] } | null;
@@ -185,18 +236,29 @@ export function toPlainText(src: string, refs: Refs = {}): string {
     .trim();
 }
 
-/** The refs an answer actually cited, in the order it cited them. */
+/** The refs an answer cited by [n], then the ones it named in plain words, in order. */
 export function citedRefs(text: string, refs: Refs): Ref[] {
+  const src = String(text ?? "");
   const seen = new Set<string>();
   const out: Ref[] = [];
-  for (const m of String(text ?? "").matchAll(/\[(\d{1,2}(?:\s*,\s*\d{1,2})*)\]/g)) {
+  for (const m of src.matchAll(/\[(\d{1,2}(?:\s*,\s*\d{1,2})*)\]/g)) {
     for (const n of m[1].split(/\s*,\s*/)) {
-      const key = `[${n}]`;
-      if (!seen.has(key) && refs[key]?.url) {
-        seen.add(key);
-        out.push(refs[key]);
+      const r = refs[`[${n}]`];
+      if (r?.url && !seen.has(r.url)) {
+        seen.add(r.url);
+        out.push(r);
       }
     }
+  }
+  const named = Object.values(refs)
+    .filter((r) => r.url && !seen.has(r.url))
+    .map((r) => ({ r, at: mentionAt(src, r.label) }))
+    .filter((x) => x.at >= 0)
+    .sort((a, b) => a.at - b.at);
+  for (const { r } of named) {
+    if (seen.has(r.url!)) continue;
+    seen.add(r.url!);
+    out.push(r);
   }
   return out;
 }
@@ -211,7 +273,8 @@ export function sourceChips(list: Ref[]): string {
     .join("");
 }
 
-export const TYPING_DOTS = `<span class="inline-flex items-center gap-1 py-1" aria-label="Thinking"><span class="h-1.5 w-1.5 rounded-full bg-current opacity-60 animate-bounce motion-reduce:animate-none [animation-delay:-0.3s]"></span><span class="h-1.5 w-1.5 rounded-full bg-current opacity-60 animate-bounce motion-reduce:animate-none [animation-delay:-0.15s]"></span><span class="h-1.5 w-1.5 rounded-full bg-current opacity-60 animate-bounce motion-reduce:animate-none"></span></span>`;
+/** Shown until the first words arrive. Still text, no bouncing dots. */
+export const TYPING_DOTS = `<span class="inline-block py-0.5 text-sm italic opacity-70" role="status">Thinking…</span>`;
 
 // ---------------------------------------------------------------------------
 // Requests
