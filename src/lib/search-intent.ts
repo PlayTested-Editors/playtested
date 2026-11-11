@@ -12,7 +12,7 @@
  * has hundreds of "... First Impressions" and "... Full Review" posts.
  */
 
-export type Kind = "impressions" | "review" | "demo" | "earlyaccess" | "preview" | "tech" | "writeup" | "news";
+export type Kind = "impressions" | "quick" | "review" | "demo" | "earlyaccess" | "preview" | "tech" | "writeup" | "news";
 export type Sort = "score" | "lowscore" | "newest" | "oldest";
 
 export interface Intent {
@@ -29,6 +29,7 @@ export interface Intent {
 
 export const KIND_LABEL: Record<Kind, string> = {
   impressions: "first impressions",
+  quick: "quick reviews and first impressions",
   review: "full reviews",
   demo: "demos",
   earlyaccess: "early access",
@@ -53,8 +54,7 @@ const PHRASES: [RegExp, { kind?: Kind; sort?: Sort }][] = [
   [/\bin[- ]depth\b/g, { kind: "review" }],
   [/\bfull(?:y)? (?:in[- ]depth )?reviews?\b/g, { kind: "review" }],
   [/\b(?:final|complete|detailed|proper|long|scored) reviews?\b/g, { kind: "review" }],
-  [/\bquick reviews?\b/g, { kind: "impressions" }],
-  [/\b(?:short|brief|fast) reviews?\b/g, { kind: "impressions" }],
+  [/\b(?:quick|short|brief|fast) reviews?\b/g, { kind: "quick" }],
   [/\bearly[- ]access\b/g, { kind: "earlyaccess" }],
   [/\b(?:write[- ]?ups?|editorials?|opinion pieces?|games? of the year|goty)\b/g, { kind: "writeup" }],
   [/\b(?:top|best|highest|higher)[- ]rated\b/g, { sort: "score" }],
@@ -66,8 +66,8 @@ const PHRASES: [RegExp, { kind?: Kind; sort?: Sort }][] = [
 // Words that are also part of game names ("Full Metal", "Complete Edition", "Quick..."):
 // they only mean a kind of article when the query also says "review(s)".
 const WITH_REVIEW_WORD: Record<string, Kind> = {
-  quick: "impressions",
-  brief: "impressions",
+  quick: "quick",
+  brief: "quick",
   full: "review",
   complete: "review",
   detailed: "review",
@@ -198,7 +198,10 @@ export function kindsOf(d: DocLike): Set<Kind> {
   // "impressions" the word, not "First Impression" in a review headline.
   const impressions = /\bimpressions\b|first looks?|hands[- ]on|early thoughts|quick (?:look|thoughts|take)/.test(t);
   if (impressions) out.add("impressions");
-  if (/\breview\b/.test(t) && !impressions) out.add("review");
+  // A "Quick Review" is its own short format; first impressions are short takes too, so "quick" finds both.
+  const quick = /\bquick review\b/.test(t);
+  if (quick || impressions) out.add("quick");
+  if (/\breview\b/.test(t) && !impressions && !quick) out.add("review");
   if (/\bdemo\b/.test(t)) out.add("demo");
   if (/early access/.test(t)) out.add("earlyaccess");
   if (/preview|trailer|\bbeta\b|playtest/.test(t)) out.add("preview");
