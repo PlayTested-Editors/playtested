@@ -6,6 +6,7 @@ import type { Env } from "../env";
 import { gate } from "../guards";
 import { complete, completeStream, type ChatMessage } from "../openrouter";
 import { chunkArticle, hybridSearch, type SearchDoc } from "../search";
+import { hasIntent, matchesIntent, parseIntent, plainIntent, sortByIntent } from "../../search-intent";
 import { error, json } from "../util";
 import { liveOf, type ArticleRow } from "../articles";
 import { shortTitle } from "../../titles";
@@ -87,21 +88,30 @@ const search: Handler = async (request, env, ctx) => {
 
   // Repeat queries come from this location's edge cache (a no-op on workers.dev).
   const limit = Math.min(Math.max(Number(url.searchParams.get("limit")) || 12, 1), 30);
-  const cacheKey = new Request(`${url.origin}/api/search?q=${encodeURIComponent(q.toLowerCase())}&limit=${limit}`);
+  const cacheKey = new Request(`${url.origin}/api/search?q=${encodeURIComponent(q.toLowerCase())}&limit=${limit}${url.searchParams.has("exact") ? "&exact=1" : ""}`);
   const edge = typeof caches !== "undefined" ? (caches as unknown as { default?: Cache }).default : undefined;
   const hit = await edge?.match(cacheKey).catch(() => undefined);
   if (hit) return hit;
 
   // Only what the results page shows: each article's best passages as short
   // snippets (keyword hits carry <mark> highlights), not the full chunk text.
-  const terms = queryTerms(q);
-  const docs = await hybridSearch(env, q, { limit });
+  // "quick reviews", "best RPGs 9+", "first impressions 2024": the intent words
+  // become filters and ordering, and only what's left is searched. A query that
+  // is all intent ("full reviews") has no text to search: the page lists those
+  // from its static index instead, so it costs no D1 reads.
+  const intent = url.searchParams.has("exact") ? plainIntent(q) : parseIntent(q);
+  const wantsIntent = hasIntent(intent);
+  if (wantsIntent && !intent.text) return json({ q, intent: intent.label, results: [] }, { headers: { "Cache-Control": "public, max-age=300" } });
+  const terms = queryTerms(intent.text);
+  // Over-fetch when filtering: some of the best matches won't be the kind asked for.
+  const ranked = await hybridSearch(env, intent.text, { limit: wantsIntent ? Math.min(limit * 3, 60) : limit });
+  const docs = wantsIntent ? sortByIntent(ranked.filter((d) => matchesIntent(d, intent)), intent).slice(0, limit) : ranked;
   const results = docs.map(({ chunks, description, ...d }) => ({
     ...d,
     description: description && description.length > 300 ? `${description.slice(0, 300)}…` : description,
     chunks: chunks.map((c) => ({ idx: c.idx, heading: c.heading, snippet: c.snippet || excerpt(c.text, terms) })),
   }));
-  const res = json({ q, results }, { headers: { "Cache-Control": "public, max-age=300" } });
+  const res = json({ q, results, ...(wantsIntent ? { intent: intent.label } : {}) }, { headers: { "Cache-Control": "public, max-age=300" } });
   if (edge) ctx.waitUntil(edge.put(cacheKey, res.clone()).catch(() => undefined));
   return res;
 };

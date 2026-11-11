@@ -280,8 +280,16 @@ const STOPWORDS = new Set(
   ),
 );
 
+// "review" is in nearly every title, so it only counts when nothing else is left.
+const GENERIC_TERMS = new Set(["review", "reviews", "reviewed"]);
+
+/** Crude plural trim so "rpgs" and "series" still find "rpg" and "series" (terms are prefix-matched). */
+const stem = (t: string) => (t.length > 3 && t.endsWith("s") && !/(ss|us|is)$/.test(t) ? t.slice(0, -1) : t);
+
 export function ftsQuery(q: string): string | null {
-  const terms = (q.toLowerCase().match(/[a-z0-9]+/g) ?? []).filter((t) => t.length > 1 && !STOPWORDS.has(t)).slice(0, 8);
+  const all = (q.toLowerCase().match(/[a-z0-9]+/g) ?? []).filter((t) => t.length > 1 && !STOPWORDS.has(t)).slice(0, 8);
+  const meaningful = all.filter((t) => !GENERIC_TERMS.has(t));
+  const terms = [...new Set((meaningful.length ? meaningful : all).map(stem))];
   if (!terms.length) return null;
   return terms.map((t) => `"${t}"*`).join(" OR ");
 }

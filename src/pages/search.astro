@@ -19,7 +19,7 @@ const sparkle =
   "M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456z";
 const chip =
   "rounded-full border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-3 py-1.5 text-sm text-gray-700 dark:text-slate-300 hover:border-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 transition-colors";
-const popular = ["Elden Ring", "co-op", "roguelike", "JRPG", "mobile", "horror"];
+const popular = ["Elden Ring", "full reviews", "first impressions", "best JRPG", "co-op demos", "horror"];
 const questions = ["What are the best RPGs you've reviewed?", "Is Black Myth: Wukong worth it?", "Which games are good for couch co-op?"];
 ---
 
@@ -104,6 +104,7 @@ const questions = ["What are the best RPGs you've reviewed?", "Is Black Myth: Wu
     <div class="mt-8">
       <h1 id="results-title" class="text-xl font-bold text-gray-900 sm:text-2xl dark:text-slate-100">Search PlayTested</h1>
       <p id="results-count" class="mt-1 text-sm text-gray-600 dark:text-slate-400" aria-live="polite"></p>
+      <p id="intent-note" hidden class="mt-1 text-sm text-gray-600 dark:text-slate-400"></p>
     </div>
 
     <div id="filters" hidden class="mt-4 flex flex-wrap items-center gap-2 rounded-xl border border-gray-200 bg-white/70 p-3 dark:border-slate-700 dark:bg-slate-800/60">
@@ -173,6 +174,7 @@ const questions = ["What are the best RPGs you've reviewed?", "Is Black Myth: Wu
 <script>
   import MiniSearch from "minisearch";
   import { formatScore } from "../lib/score";
+  import { hasIntent, matchesIntent, parseIntent, plainIntent, sortByIntent, type Intent } from "../lib/search-intent";
   import { navigate } from "astro:transitions/client";
   import {
     citedRefs,
@@ -283,10 +285,20 @@ const questions = ["What are the best RPGs you've reviewed?", "Is Black Myth: Wu
     return indexPromise;
   }
 
-  function quick(idx: Index, q: string, n: number): Doc[] {
-    let hits = idx.mini.search(q, { combineWith: "AND" });
-    if (!hits.length) hits = idx.mini.search(q);
-    return hits.slice(0, n).map((h) => idx.docs.get(String(h.id))!).filter(Boolean);
+  /**
+   * Instant matches. The intent ("quick reviews", "best RPGs", "2024") filters and
+   * orders; what's left of the query is searched. A query that is all intent lists
+   * the matching articles straight from the static index, newest first.
+   */
+  function quick(idx: Index, intent: Intent, n: number): Doc[] {
+    let docs: Doc[];
+    if (intent.text) {
+      let hits = idx.mini.search(intent.text, { combineWith: "AND" });
+      if (!hits.length) hits = idx.mini.search(intent.text);
+      docs = hits.map((h) => idx.docs.get(String(h.id))!).filter(Boolean);
+    } else docs = [...idx.docs.values()]; // the index is already newest first
+    if (hasIntent(intent)) docs = sortByIntent(docs.filter((d) => matchesIntent(d, intent)), intent);
+    return docs.slice(0, n);
   }
 
   // ---------------------------------------------------------------------------
@@ -300,6 +312,7 @@ const questions = ["What are the best RPGs you've reviewed?", "Is Black Myth: Wu
     const askBtn = $<HTMLButtonElement>("ask-ai-btn");
     const titleEl = $<HTMLElement>("results-title");
     const countEl = $<HTMLElement>("results-count");
+    const intentEl = $<HTMLElement>("intent-note");
     const filtersEl = $<HTMLElement>("filters");
     const clearBtn = $<HTMLButtonElement>("f-clear");
     const noticeEl = $<HTMLElement>("search-notice");
@@ -316,7 +329,8 @@ const questions = ["What are the best RPGs you've reviewed?", "Is Black Myth: Wu
     const sel = (name: string) => selects.find((s) => s.dataset.filter === name)!;
 
     const cache = new Map<string, Doc[]>(); // full results per query, for this page view
-    let current = { q: "", results: [] as Doc[], terms: [] as string[], loading: false };
+    let current = { q: "", results: [] as Doc[], terms: [] as string[], loading: false, intent: null as Intent | null };
+    let plainFor = ""; // a query the visitor asked to search as plain words, ignoring "quick", "best", ...
     let shown = PAGE;
     let searchCtl: AbortController | null = null;
     let answerCtl: AbortController | null = null;
@@ -424,6 +438,11 @@ const questions = ["What are the best RPGs you've reviewed?", "Is Black Myth: Wu
       filtersEl.hidden = !q || !current.results.length;
       clearBtn.hidden = !selects.some((s) => s.dataset.filter !== "sort" && s.value);
       titleEl.textContent = q ? `Results for “${q}”` : "Search PlayTested";
+      const it = current.intent;
+      intentEl.hidden = !(q && it && hasIntent(it));
+      if (!intentEl.hidden && it) {
+        intentEl.innerHTML = `Showing <strong class="font-semibold text-gray-800 dark:text-slate-200">${escapeHtml(it.text ? `${it.label} for “${it.text}”` : it.label)}</strong>. <button type="button" data-plain class="font-medium text-indigo-600 hover:underline dark:text-indigo-400">Search “${escapeHtml(q)}” as plain words instead</button>`;
+      }
       if (!q) {
         countEl.textContent = "Search titles, games, platforms and the full text of every review.";
         resultsEl.innerHTML = "";
@@ -471,7 +490,8 @@ const questions = ["What are the best RPGs you've reviewed?", "Is Black Myth: Wu
       }
       searchCtl?.abort();
       const ctl = (searchCtl = new AbortController());
-      current = { q, results: [], terms: termsOf(q), loading: Boolean(q) };
+      const intent = plainFor === q ? plainIntent(q) : parseIntent(q);
+      current = { q, results: [], terms: termsOf(intent.text), loading: Boolean(q), intent };
       shown = PAGE;
       noticeEl.innerHTML = "";
       if (!opts.typing && input.value.trim() !== q) input.value = q;
@@ -490,22 +510,25 @@ const questions = ["What are the best RPGs you've reviewed?", "Is Black Myth: Wu
       // 1. Instant matches from the static index, shown while the full search runs.
       const idx = await loadIndex().catch(() => null);
       if (ctl.signal.aborted) return;
-      const quickDocs = idx ? quick(idx, q, 30) : [];
+      const quickDocs = idx ? quick(idx, intent, hasIntent(intent) && !intent.text ? 200 : 30) : [];
       current.results = quickDocs;
       rebuildFilters();
       render();
 
-      // 2. Full-text hybrid search over whole reviews.
+      // 2. Full-text hybrid search over whole reviews. Not needed when the query is
+      // all intent ("full reviews"): the list above is already complete.
       try {
-        let full = cache.get(q.toLowerCase());
+        const pureIntent = hasIntent(intent) && !intent.text;
+        const key = `${plainFor === q ? "!" : ""}${q.toLowerCase()}`;
+        let full = pureIntent ? [] : cache.get(key);
         if (!full) {
-          const data = await getJson<{ results: Doc[] }>(`/api/search?q=${encodeURIComponent(q)}&limit=30`, ctl.signal);
+          const data = await getJson<{ results: Doc[] }>(`/api/search?q=${encodeURIComponent(q)}&limit=30${plainFor === q ? "&exact=1" : ""}`, ctl.signal);
           full = data.results ?? [];
-          cache.set(q.toLowerCase(), full);
+          cache.set(key, full);
         }
         if (ctl.signal.aborted) return;
         const seen = new Set(full.map((d) => d.slug));
-        current.results = [...full, ...quickDocs.filter((d) => !seen.has(d.slug))];
+        current.results = sortByIntent([...full, ...quickDocs.filter((d) => !seen.has(d.slug))], intent);
       } catch (e) {
         if (isAbort(e) || ctl.signal.aborted) return;
         noticeEl.innerHTML = noticeHtml(e);
@@ -599,8 +622,9 @@ const questions = ["What are the best RPGs you've reviewed?", "Is Black Myth: Wu
       if (q.length < 2) return hideSuggest();
       const idx = await loadIndex().catch(() => null);
       if (input.value.trim() !== q || document.activeElement !== input) return;
-      const terms = termsOf(q);
-      const docs = idx ? quick(idx, q, 6) : [];
+      const intent = parseIntent(q);
+      const terms = termsOf(intent.text);
+      const docs = idx ? quick(idx, intent, 6) : [];
       const row = "flex w-full items-center gap-3 px-3 py-2 text-left";
       suggest.innerHTML =
         docs
@@ -685,6 +709,13 @@ const questions = ["What are the best RPGs you've reviewed?", "Is Black Myth: Wu
       const t = e.target as HTMLElement;
       if (t.closest("[data-clear]")) clearFilters();
       if (t.closest("[data-ask]")) askAi(current.q);
+    });
+    intentEl.addEventListener("click", (e) => {
+      if (!(e.target as HTMLElement).closest("[data-plain]")) return;
+      const q = current.q;
+      plainFor = q;
+      current.q = ""; // so runSearch doesn't treat it as the search already showing
+      runSearch(q);
     });
     moreBtn.addEventListener("click", () => {
       shown += PAGE;
