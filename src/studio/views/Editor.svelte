@@ -771,11 +771,11 @@
       <div class="flex min-w-0 flex-1 items-center gap-2">
         <StateBadge state={articleState} live={detail.article.isLive} pending={detail.article.hasPendingChanges} pubDate={detail.article.pubDate} />
         <span class="hidden truncate text-xs sm:inline {saveError || conflict ? 'text-rose-600' : 'text-slate-500'}" title={saveError ?? ""}>
-          {#if saving}<span class="mr-1 inline-block h-1.5 w-1.5 animate-pulse rounded-full bg-amber-400"></span>{/if}{saveLabel}
+          {#if saving}<span class="mr-1 inline-block h-1.5 w-1.5 rounded-full bg-amber-400"></span>{/if}{saveLabel}
         </span>
         {#if building}
           <span class="hidden items-center gap-1.5 rounded-full bg-amber-50 px-2 py-0.5 text-[11px] font-semibold text-amber-700 ring-1 ring-amber-200 md:inline-flex dark:bg-amber-500/10 dark:text-amber-300 dark:ring-amber-500/30" in:fade>
-            <span class="h-1.5 w-1.5 animate-pulse rounded-full bg-amber-500"></span>Site building…
+            <span class="h-1.5 w-1.5 rounded-full bg-amber-500"></span>Site building…
           </span>
         {/if}
       </div>

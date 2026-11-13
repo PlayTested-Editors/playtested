@@ -56,7 +56,7 @@
   </div>
   <div class="mb-6"><Dropzone onuploaded={(m) => (media = merge(media ?? [], m, true))} /></div>
   {#if !media}
-    <div class="grid grid-cols-2 gap-4 sm:grid-cols-4 lg:grid-cols-6">{#each Array(12) as _}<div class="aspect-square animate-pulse rounded-xl bg-slate-200/60 dark:bg-slate-800"></div>{/each}</div>
+    <p class="py-16 text-center text-sm text-slate-500">Loading…</p>
   {:else if !media.length}
     <p class="py-12 text-center text-sm text-slate-500">No uploads yet.</p>
   {:else}

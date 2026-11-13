@@ -45,7 +45,7 @@
 <div class="flex h-full flex-col">
   <div class="flex items-center justify-between gap-2 border-b border-slate-200/70 bg-white/80 px-3 py-2 backdrop-blur dark:border-slate-800 dark:bg-slate-900/80">
     <div class="flex items-center gap-2 text-xs font-medium text-slate-500">
-      <span class="h-2 w-2 rounded-full {loading ? 'bg-amber-400 animate-pulse' : 'bg-emerald-500'}"></span>
+      <span class="h-2 w-2 rounded-full {loading ? 'bg-amber-400' : 'bg-emerald-500'}"></span>
       Live preview
     </div>
     <div class="flex items-center gap-2">

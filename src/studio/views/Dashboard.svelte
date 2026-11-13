@@ -127,7 +127,7 @@
       <a {href} class="text-xs font-medium text-indigo-600 hover:underline dark:text-indigo-400">View all</a>
     </header>
     {#if !list}
-      <div class="space-y-2 p-3">{#each [1, 2, 3] as _}<div class="h-11 animate-pulse rounded-lg bg-slate-100 dark:bg-slate-800"></div>{/each}</div>
+      <p class="p-6 text-center text-sm text-slate-500">Loading…</p>
     {:else if !list.articles.length}
       <p class="px-3 pb-4 pt-1 text-sm text-slate-500">{empty}</p>
     {:else}

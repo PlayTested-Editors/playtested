@@ -216,7 +216,7 @@
   </div>
 
   {#if !g || !draft}
-    <div class="space-y-4">{#each [1, 2, 3] as _}<div class="h-40 animate-pulse rounded-2xl bg-slate-200/60 dark:bg-slate-800"></div>{/each}</div>
+    <p class="py-16 text-center text-sm text-slate-500">Loading…</p>
   {:else}
     <div class="space-y-6">
       <!-- Usage -->
@@ -353,7 +353,7 @@
           <ul class="mt-3 divide-y divide-slate-100 text-sm dark:divide-slate-800">
             {#each deploys.runs as r (r.id)}
               <li class="flex items-center gap-3 py-2">
-                <span class="h-2 w-2 rounded-full {r.status !== 'completed' ? 'bg-amber-500 animate-pulse' : r.conclusion === 'success' ? 'bg-emerald-500' : 'bg-rose-500'}"></span>
+                <span class="h-2 w-2 rounded-full {r.status !== 'completed' ? 'bg-amber-500' : r.conclusion === 'success' ? 'bg-emerald-500' : 'bg-rose-500'}"></span>
                 <a class="flex-1 truncate hover:text-indigo-600" href={r.html_url} target="_blank" rel="noopener">{r.display_title}</a>
                 <span class="text-xs text-slate-500">{r.status !== "completed" ? r.status.replace("_", " ") : r.conclusion} · {relTime(Date.parse(r.created_at))}</span>
               </li>

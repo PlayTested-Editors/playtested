@@ -91,7 +91,7 @@
     if (deploys.build) return { text: `Live · built ${relTime(deploys.build.builtAt)}`, tone: "emerald" };
     return { text: "Status unknown", tone: "slate" };
   });
-  const dot: Record<string, string> = { slate: "bg-slate-400", amber: "bg-amber-500 animate-pulse", rose: "bg-rose-500", emerald: "bg-emerald-500" };
+  const dot: Record<string, string> = { slate: "bg-slate-400", amber: "bg-amber-500", rose: "bg-rose-500", emerald: "bg-emerald-500" };
 
   // "View as": the chief previews the studio as an editor or contributor.
   let isRealChief = $derived(session.user?.role === "chief" || session.user?.realRole === "chief");

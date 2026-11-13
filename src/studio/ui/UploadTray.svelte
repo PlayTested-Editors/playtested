@@ -35,7 +35,7 @@
             </p>
             {#if u.status === "compressing" || u.status === "uploading" || u.status === "queued"}
               <div class="mt-1 h-1 overflow-hidden rounded-full bg-slate-100 dark:bg-slate-800">
-                <div class="h-full rounded-full bg-indigo-500 transition-all duration-500 {u.status === 'queued' ? 'w-[8%]' : u.status === 'compressing' ? 'w-1/2 animate-pulse' : 'w-[85%] animate-pulse'}"></div>
+                <div class="h-full rounded-full bg-indigo-500 transition-all duration-500 {u.status === 'queued' ? 'w-[8%]' : u.status === 'compressing' ? 'w-1/2' : 'w-[85%]'}"></div>
               </div>
             {/if}
           </div>
