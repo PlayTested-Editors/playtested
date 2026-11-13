@@ -24,15 +24,15 @@ game: Pathogenic
 
 Having played a bit of the full game, I'm happy to report that the game's guts is a lot deeper than the surface-level cut that I initially saw.
 
-Besides the usual passives, upgrade nodes, and external weapons, part of the game has you evolve your amoeba or bacterium, which changes the configuration of your internal and external weapons, grants bonuses / penalties, and also changes your shape, so your gun orientation becomes ever so slightly different.
+<img src="/images/uploads/initial-diagnosis-on-pathogenic-first-impressions-1.avif" alt="" class="img-wrap img-wrap-left rounded shadow" style="width: 40%;" />
 
-![](/images/uploads/initial-diagnosis-on-pathogenic-first-impressions-1.avif)
+Besides the usual passives, upgrade nodes, and external weapons, part of the game has you evolve your amoeba or bacterium, which changes the configuration of your internal and external weapons, grants bonuses / penalties, and also changes your shape, so your gun orientation becomes ever so slightly different.
 
 The evolution largely control the growth of your darling little infections, but just like in real life, you need to find evolutions that help you *now*, while also balancing the long-term implications of undertaking certain evolutionary paths.
 
-**Pathogenic** relies on a lot of close quarters combat, and the wobbly nature of your cellular entity makes it just that much harder to control and aim. But that's by design - enemies are also subject to those same constraints. So when something is about to shoot you, you can forcefully expel some acid (aka shoot a shotgun-like weapon) at a foe to mess up their aim, or knock back a melee foe darting into your fluid-space to avoid damage. 
+**Pathogenic** relies on a lot of close quarters combat, and the wobbly nature of your cellular entity makes it just that much harder to control and aim. But that's by design - enemies are also subject to those same constraints. So when something is about to shoot you, you can forcefully expel some acid (aka shoot a shotgun-like weapon) at a foe to mess up their aim, or knock back a melee foe darting into your fluid-space to avoid damage.
 
-![](/images/uploads/initial-diagnosis-on-pathogenic-first-impressions-2.avif)
+<img src="/images/uploads/initial-diagnosis-on-pathogenic-first-impressions-2.avif" alt="" class="img-wrap img-wrap-right rounded shadow" style="width: 40%;" />
 
 The combat here is quite refreshing, especially coming from the more rigid SHMUP space that relies on pixel-perfect evasion and fixed firing angles. It's a solid game, and I'm hoping to break it (as you do all rogue-likes) someday, but I'm still stuck at the stomach level after 3 hours of play.
 
