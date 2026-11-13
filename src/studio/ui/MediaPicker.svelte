@@ -87,9 +87,10 @@
     open = false;
   }
 
-  // ---- Find screenshots (Steam, then RAWG) --------------------------------
+  // ---- Find screenshots (Steam, then IGDB, then RAWG) ----------------------
   // The editor provides the article's game name (see Editor.svelte).
   const gameName = getContext<(() => string) | undefined>("studio.game");
+  const SOURCE_NAME: Record<ShotMatch["source"], string> = { steam: "Steam", igdb: "IGDB", rawg: "RAWG" };
   let q = $state("");
   let found = $state<ShotResults | null>(null);
   let finding = $state(false);
@@ -156,7 +157,7 @@
         if (!res.ok) throw new Error((await res.text()) || "Couldn't fetch that screenshot.");
         const blob = await res.blob();
         // "rawg-1-game-name": the source comes first so the server's 60-character
-        // cut keeps it (articles with RAWG images credit RAWG; see ArticleView).
+        // cut keeps it (articles with IGDB or RAWG images credit them; see ArticleView).
         const file = new File([blob], `${found?.current?.source ?? "shot"}-${i + 1}-${name.slice(0, 40)}.${blob.type.split("/")[1] || "jpg"}`, { type: blob.type });
         fileSource.set(file, url);
         files.push(file);
@@ -210,14 +211,14 @@
               class="rounded-full px-2.5 py-1 font-medium ring-1 transition {active ? 'bg-indigo-600 text-white ring-indigo-600' : 'ring-slate-200 text-slate-600 hover:bg-slate-100 dark:ring-slate-700 dark:text-slate-300 dark:hover:bg-slate-800'}"
               disabled={finding}
               onclick={() => find(m)}
-            >{m.name}{m.year ? ` (${m.year})` : ""} · {m.source === "steam" ? "Steam" : "RAWG"}</button>
+            >{m.name}{m.year ? ` (${m.year})` : ""} · {SOURCE_NAME[m.source]}</button>
           {/each}
         </div>
       {/if}
       {#if finding}
         <p class="py-10 text-center text-sm text-slate-500">Searching…</p>
       {:else if !found}
-        <p class="py-10 text-center text-sm text-slate-500">Type the game's name to see its official screenshots from Steam (or RAWG for console games).</p>
+        <p class="py-10 text-center text-sm text-slate-500">Type the game's name to see its official screenshots from Steam (or IGDB and RAWG for console games).</p>
       {:else if !found.shots.length}
         <p class="py-10 text-center text-sm text-slate-500">No screenshots found{found.current ? ` for ${found.current.name}` : ""}. Try another match above, or a different spelling.</p>
       {:else}
@@ -240,7 +241,7 @@
           {/each}
         </div>
         <p class="text-[11px] text-slate-500">
-          Official screenshots from {found.current?.source === "steam" ? "the game's Steam page" : "RAWG"}. Picked images are copied into this article's uploads. Your own screenshots are always the safest choice.
+          Official screenshots from {found.current?.source === "steam" ? "the game's Steam page" : SOURCE_NAME[found.current?.source ?? "rawg"]}. Picked images are copied into this article's uploads. Your own screenshots are always the safest choice.
         </p>
       {/if}
     {:else if loading}

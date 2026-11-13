@@ -90,7 +90,8 @@ Worker secrets are set with `npx wrangler secret put NAME`, run in the project f
 | `CF_ANALYTICS_TOKEN` | Worker | Watchdog. Custom token: **Account Analytics: Read** |
 | `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` | Worker | Google sign-in for the studio **and** reader comments. Authorized redirect URIs: `<site>/api/studio/auth/google/callback` and `<site>/api/comments/auth/google/callback` |
 | `STUDIO_OWNER_KEY` | Worker (+ your local `.dev.vars`) | Chief-editor sign-in before Google is configured |
-| `OPENROUTER_API_KEY`, `RAWG_API_KEY` | Worker | AI features, game data |
+| `OPENROUTER_API_KEY`, `RAWG_API_KEY` | Worker | AI features, game data (RAWG is the fallback) |
+| `TWITCH_CLIENT_ID`, `TWITCH_CLIENT_SECRET` | Worker | IGDB game data (first choice) and Find screenshots. From a Twitch developer app: dev.twitch.tv/console/apps, Confidential, redirect `http://localhost`. Without them the site falls back to RAWG |
 | `ALERT_WEBHOOK_URL` | Worker (optional) | Usage alerts |
 
 ## Maintenance

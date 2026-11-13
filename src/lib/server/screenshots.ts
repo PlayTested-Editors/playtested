@@ -1,14 +1,15 @@
 /**
  * "Find screenshots" for the studio's image picker: official screenshots by
- * game name, from Steam first (1920×1080, no key) and RAWG as the fallback
- * (console exclusives). Results are cached in KV so a search costs at most a
+ * game name, from Steam first (1920×1080, no key), then IGDB, then RAWG (both
+ * cover console exclusives). Results are cached in KV so a search costs at most a
  * few outbound calls once a day. Picked images are fetched through
  * proxyScreenshot() (the CDNs don't allow the browser to read them) and then
  * uploaded like any other image.
  */
 import type { Env } from "./env";
+import { igdbConfigured, igdbShotSearch, igdbShots } from "./igdb";
 
-export type ShotSource = "steam" | "rawg";
+export type ShotSource = "steam" | "igdb" | "rawg";
 export interface ShotMatch {
   source: ShotSource;
   id: string;
@@ -39,7 +40,8 @@ export function normName(s: string): string {
 
 async function getJson<T>(url: string): Promise<T | null> {
   try {
-    const r = await fetch(url, { headers: { "User-Agent": UA, Accept: "application/json" } });
+    // A hung source (RAWG has been) mustn't stall the whole search: they run in parallel.
+    const r = await fetch(url, { headers: { "User-Agent": UA, Accept: "application/json" }, signal: AbortSignal.timeout(7000) });
     if (!r.ok) return null;
     return (await r.json()) as T;
   } catch {
@@ -76,6 +78,26 @@ async function steamShots(id: string): Promise<Shot[] | null> {
   const entry = data?.[id];
   if (!entry) return null;
   return (entry.data?.screenshots ?? []).map((s) => ({ thumb: s.path_thumbnail, full: s.path_full }));
+}
+
+// --- IGDB ------------------------------------------------------------------
+
+async function igdbSearch(env: Env, q: string): Promise<ShotMatch[] | null> {
+  if (!igdbConfigured(env)) return [];
+  try {
+    return (await igdbShotSearch(env, q)).map((g) => ({ source: "igdb" as const, ...g }));
+  } catch {
+    return null;
+  }
+}
+
+async function igdbShotList(env: Env, id: string): Promise<Shot[] | null> {
+  if (!igdbConfigured(env)) return [];
+  try {
+    return await igdbShots(env, id);
+  } catch {
+    return null;
+  }
 }
 
 // --- RAWG ------------------------------------------------------------------
@@ -121,28 +143,35 @@ function sameGame(a: string, b: string): boolean {
   return !!x && !!y && (x === y || x.startsWith(y + " ") || y.startsWith(x + " "));
 }
 
+function shotsFrom(env: Env, m: { source: ShotSource; id: string }): Promise<Shot[] | null> {
+  return m.source === "steam" ? steamShots(m.id) : m.source === "igdb" ? igdbShotList(env, m.id) : rawgShots(env, m.id);
+}
+
 export async function findScreenshots(
   env: Env,
   q: string,
   pick?: { source: ShotSource; id: string },
 ): Promise<{ matches: ShotMatch[]; current: ShotMatch | null; shots: Shot[] }> {
   const key = normName(q).slice(0, 80);
-  const [steam, rawg] = key
+  const [steam, igdb, rawg] = key
     ? await Promise.all([
         cached(env, `shots:search:steam:${key}`, SEARCH_TTL, () => steamSearch(q)),
+        cached(env, `shots:search:igdb:${key}`, SEARCH_TTL, () => igdbSearch(env, q)),
         cached(env, `shots:search:rawg:${key}`, SEARCH_TTL, () => rawgSearch(env, q)),
       ])
-    : [[], []];
-  const matches = [...(steam ?? []), ...(rawg ?? [])];
+    : [[], [], []];
+  const matches = [...(steam ?? []), ...(igdb ?? []), ...(rawg ?? [])];
 
   let current: ShotMatch | null = null;
   if (pick) current = matches.find((m) => m.source === pick.source && m.id === pick.id) ?? { ...pick, name: q };
   else {
-    // Steam first when it has this exact game; otherwise RAWG's match (console
-    // exclusives); otherwise the closest of either.
+    // Steam first when it has this exact game; otherwise IGDB's, then RAWG's
+    // (console exclusives); otherwise the closest of any.
     current =
       (steam ?? []).find((m) => sameGame(m.name, q)) ??
+      (igdb ?? []).find((m) => sameGame(m.name, q)) ??
       (rawg ?? []).find((m) => sameGame(m.name, q)) ??
+      (igdb ?? [])[0] ??
       (rawg ?? [])[0] ??
       (steam ?? [])[0] ??
       null;
@@ -151,16 +180,19 @@ export async function findScreenshots(
   let shots: Shot[] = [];
   if (current) {
     const c = current;
-    shots =
-      (await cached(env, `shots:${c.source}:${c.id}`, SHOTS_TTL, () => (c.source === "steam" ? steamShots(c.id) : rawgShots(env, c.id)))) ?? [];
-    // A Steam page without screenshots: try the same game on RAWG.
-    if (!shots.length && c.source === "steam" && !pick) {
-      const alt = (rawg ?? []).find((m) => sameGame(m.name, c.name));
-      if (alt) {
-        const more = await cached(env, `shots:rawg:${alt.id}`, SHOTS_TTL, () => rawgShots(env, alt.id));
+    shots = (await cached(env, `shots:${c.source}:${c.id}`, SHOTS_TTL, () => shotsFrom(env, c))) ?? [];
+    // No screenshots there: try the same game (same name and, when both are
+    // known, same year) on the next sources, in order.
+    if (!shots.length && !pick) {
+      const next = c.source === "steam" ? [igdb, rawg] : c.source === "igdb" ? [rawg] : [];
+      for (const list of next) {
+        const alt = (list ?? []).find((m) => sameGame(m.name, c.name) && (!c.year || !m.year || m.year === c.year));
+        if (!alt) continue;
+        const more = await cached(env, `shots:${alt.source}:${alt.id}`, SHOTS_TTL, () => shotsFrom(env, alt));
         if (more?.length) {
           current = alt;
           shots = more;
+          break;
         }
       }
     }
@@ -174,10 +206,10 @@ const MAX_BYTES = 15 * 1024 * 1024;
 
 function allowedImageHost(u: URL): boolean {
   const h = u.hostname;
-  return u.protocol === "https:" && (h.endsWith(".steamstatic.com") || h === "steamcdn-a.akamaihd.net" || h === "media.rawg.io");
+  return u.protocol === "https:" && (h.endsWith(".steamstatic.com") || h === "steamcdn-a.akamaihd.net" || h === "images.igdb.com" || h === "media.rawg.io");
 }
 
-/** Fetch a Steam/RAWG image for the browser to re-encode and upload. */
+/** Fetch a Steam/IGDB/RAWG image for the browser to re-encode and upload. */
 export async function proxyScreenshot(raw: string): Promise<Response> {
   let u: URL;
   try {
@@ -185,7 +217,7 @@ export async function proxyScreenshot(raw: string): Promise<Response> {
   } catch {
     return new Response("Bad image address.", { status: 400 });
   }
-  if (!allowedImageHost(u)) return new Response("Only Steam and RAWG images.", { status: 400 });
+  if (!allowedImageHost(u)) return new Response("Only Steam, IGDB and RAWG images.", { status: 400 });
   const r = await fetch(u.toString(), { headers: { "User-Agent": UA } });
   const type = (r.headers.get("content-type") || "").split(";")[0].trim();
   if (!r.ok || !type.startsWith("image/")) return new Response("Couldn't fetch that image.", { status: 502 });

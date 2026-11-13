@@ -63,7 +63,8 @@
     { key: "analytics", label: "Cloudflare analytics (watchdog)", how: "Worker secret CF_ANALYTICS_TOKEN — API token with Account Analytics: Read." },
     { key: "google", label: "Google sign-in", how: "Worker secrets GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET." },
     { key: "openrouter", label: "OpenRouter (AI)", how: "Worker secret OPENROUTER_API_KEY." },
-    { key: "rawg", label: "RAWG (game data)", how: "Worker secret RAWG_API_KEY." },
+    { key: "igdb", label: "IGDB (game data, first choice)", how: "Worker secrets TWITCH_CLIENT_ID and TWITCH_CLIENT_SECRET (a Twitch developer app)." },
+    { key: "rawg", label: "RAWG (game data, fallback)", how: "Worker secret RAWG_API_KEY." },
     { key: "alerts", label: "Discord alerts", how: "Optional Worker secret ALERT_WEBHOOK_URL: in Discord, Server settings → Integrations → Webhooks → New webhook → Copy URL." },
     { key: "email", label: "Email notifications (review needed)", how: "Production only: the send_email binding plus Email Routing on playtested.net, with your sign-in email as a verified destination." },
   ];

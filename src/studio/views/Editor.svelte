@@ -1052,7 +1052,7 @@
                 <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="1.6" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" /></svg>
                 Find screenshots
               </button>
-              <span class="text-xs text-slate-500">Official screenshots from Steam, or RAWG for console games{data.game ? ` (searches for ${data.game})` : ""}.</span>
+              <span class="text-xs text-slate-500">Official screenshots from Steam, or IGDB and RAWG for console games{data.game ? ` (searches for ${data.game})` : ""}.</span>
             </div>
             <MediaPicker bind:open={findShots} start="find" multiple title="Find screenshots" articleId={detail.article.id} articleMedia={detail.media} onpick={addMedia} />
             {#if !detail.media.length}

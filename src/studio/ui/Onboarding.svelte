@@ -114,7 +114,7 @@
   const tools = [
     ["Write with AI", "Turn your rough notes into a structured draft with your favourite AI, then make it yours.", "from-indigo-500 to-purple-500", "M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09Z"],
     ["Tidy formatting", "Cleans pasted text: fixes Pros & Cons lists and strips stray styles from Google Docs.", "from-sky-500 to-blue-600", "M3.75 6.75h16.5M3.75 12h10.5m-10.5 5.25h7.5"],
-    ["Find screenshots", "Official screenshots from Steam (or RAWG for console games), right in the image picker.", "from-green-500 to-green-700", "m2.25 15.75 5.16-5.16a2.25 2.25 0 0 1 3.18 0l5.16 5.16m-1.5-1.5 1.41-1.41a2.25 2.25 0 0 1 3.18 0l2.91 2.91M3.75 21h16.5A1.5 1.5 0 0 0 21.75 19.5V4.5A1.5 1.5 0 0 0 20.25 3H3.75A1.5 1.5 0 0 0 2.25 4.5v15A1.5 1.5 0 0 0 3.75 21Z"],
+    ["Find screenshots", "Official screenshots from Steam (or IGDB and RAWG for console games), right in the image picker.", "from-green-500 to-green-700", "m2.25 15.75 5.16-5.16a2.25 2.25 0 0 1 3.18 0l5.16 5.16m-1.5-1.5 1.41-1.41a2.25 2.25 0 0 1 3.18 0l2.91 2.91M3.75 21h16.5A1.5 1.5 0 0 0 21.75 19.5V4.5A1.5 1.5 0 0 0 20.25 3H3.75A1.5 1.5 0 0 0 2.25 4.5v15A1.5 1.5 0 0 0 3.75 21Z"],
     ["Live preview", "See exactly how it will look on the site, on desktop or phone, as you type.", "from-amber-500 to-orange-600", "M9 17.25v1.007a3 3 0 0 1-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0 1 15 18.257V17.25m6-12V15a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 15V5.25m18 0A2.25 2.25 0 0 0 18.75 3H5.25A2.25 2.25 0 0 0 3 5.25m18 0V12a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 12V5.25"],
   ];
   const flow = [

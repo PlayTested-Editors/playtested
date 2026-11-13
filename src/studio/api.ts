@@ -152,7 +152,7 @@ export interface Media {
 
 /** "Find screenshots" in the image picker (mirrors src/lib/server/screenshots.ts). */
 export interface ShotMatch {
-  source: "steam" | "rawg";
+  source: "steam" | "igdb" | "rawg";
   id: string;
   name: string;
   year?: string;

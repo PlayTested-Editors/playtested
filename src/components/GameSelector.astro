@@ -1,7 +1,7 @@
 ---
 /**
  * Game picker + results for the AI recommender and comparator. Games come from
- * RAWG (/api/rawg-search); results link to our own reviews when we have one
+ * IGDB, else RAWG (/api/game-search); results link to our own reviews when we have one
  * ("We reviewed this — 8.5/10 →"). `?games=A|B` preselects games by name.
  */
 export interface Props {
@@ -77,17 +77,23 @@ const isCompare = id === "comparator";
   import { formatScore } from "../lib/score";
 
   type Game = { id: string; name: string; image: string | null; year: string };
-  type RawgGame = { id: number; name: string; released?: string | null; background_image?: string | null; parent_platforms?: { platform: { name: string } }[] };
+  /** RAWG's game shape; IGDB results come in the same shape with "igdb-" ids. */
+  type RawgGame = { id: number | string; name: string; released?: string | null; background_image?: string | null; parent_platforms?: { platform: { name: string } }[] };
   type Review = { title: string; url: string; score: number | null } | null;
-  type Recommended = { name: string; title: string; released: string; image: string | null; url: string | null; review: Review };
+  type Recommended = { name: string; title: string; released: string; image: string | null; url: string | null; source?: "igdb" | "rawg" | null; review: Review };
 
   const SPINNER = `<svg class="h-4 w-4 animate-spin motion-reduce:animate-none" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path></svg>`;
   // Still placeholders: no pulsing (see CLAUDE.md, UI rules).
   const PULSE = "rounded bg-gray-200 dark:bg-slate-700";
 
   const yearOf = (d?: string | null) => (d && /^\d{4}/.test(d) ? d.slice(0, 4) : "");
-  /** Same game — also matches a name-only pick from ?games= against its RAWG result. */
-  const sameGame = (a: Game, b: Game) => a.id === b.id || a.name.toLowerCase() === b.name.toLowerCase();
+  /**
+   * Same game: same id, or the same name and (when both are known) the same
+   * year, so a name-only pick from ?games= matches its search result but
+   * Resident Evil 4 (2005) and (2023) stay apart.
+   */
+  const sameGame = (a: Game, b: Game) =>
+    a.id === b.id || (a.name.toLowerCase() === b.name.toLowerCase() && (!a.year || !b.year || a.year === b.year));
   const EXTERNAL = `<svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7M9 7h8v8"/></svg>`;
 
   /** "We reviewed this — 8.5/10 →" (or a quiet note when we haven't). */
@@ -203,7 +209,7 @@ const isCompare = id === "comparator";
       const ctl = (searchCtl = new AbortController());
       searching(term);
       try {
-        const data = await getJson<{ results?: RawgGame[] }>(`/api/rawg-search?query=${encodeURIComponent(term)}`, ctl.signal);
+        const data = await getJson<{ results?: RawgGame[] }>(`/api/game-search?query=${encodeURIComponent(term)}`, ctl.signal);
         if (ctl.signal.aborted) return;
         const games = (data.results ?? []).slice(0, 8);
         status.textContent = games.length ? "" : `No games found for “${term}”. Try a shorter or different name.`;
@@ -232,7 +238,7 @@ const isCompare = id === "comparator";
       const g = found.get(id);
       if (!g) return;
       const i = selected.findIndex((s) => sameGame(s, g));
-      if (i >= 0 && selected[i].id !== g.id) selected[i] = g; // name-only pick: fill in RAWG details
+      if (i >= 0 && selected[i].id !== g.id) selected[i] = g; // name-only pick: fill in the search result's details
       else if (i >= 0) selected.splice(i, 1);
       else if (selected.length >= max) {
         status.textContent = `You can pick up to ${max} games — remove one first.`;
@@ -259,7 +265,8 @@ const isCompare = id === "comparator";
       const paras = paragraphsFor(data.explanation ?? "", recs);
       const cards = recs
         .map((g, i) => {
-          const rawg = safeHref(g.url);
+          const more = safeHref(g.url);
+          const moreOn = g.source === "igdb" ? "IGDB" : "RAWG";
           const score = typeof g.review?.score === "number" ? `<span class="score-badge score-outline-${Math.round(g.review.score)}">${formatScore(g.review.score)}</span>` : "";
           const year = yearOf(g.released);
           return `<article class="flex flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-900/40">
@@ -269,7 +276,7 @@ const isCompare = id === "comparator";
               <h4 class="mt-0.5 text-lg font-bold leading-snug text-gray-900 dark:text-slate-100">${escapeHtml(g.name)}</h4>
               ${year ? `<p class="text-xs text-gray-500 dark:text-slate-400">Released ${year}</p>` : ""}
               <div class="mt-3 text-sm leading-relaxed text-gray-700 dark:text-slate-300">${renderMarkdown(paras[i])}</div>
-              <div class="mt-auto flex flex-wrap items-center gap-x-3 gap-y-2 pt-4">${reviewLink(g.review)}${rawg ? `<a href="${escapeHtml(rawg)}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-sm font-medium text-gray-600 hover:text-indigo-600 dark:text-slate-400 dark:hover:text-indigo-400">More on RAWG ${EXTERNAL}</a>` : ""}</div>
+              <div class="mt-auto flex flex-wrap items-center gap-x-3 gap-y-2 pt-4">${reviewLink(g.review)}${more ? `<a href="${escapeHtml(more)}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-sm font-medium text-gray-600 hover:text-indigo-600 dark:text-slate-400 dark:hover:text-indigo-400">More on ${moreOn} ${EXTERNAL}</a>` : ""}</div>
             </div>
           </article>`;
         })

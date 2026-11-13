@@ -10,6 +10,7 @@ import { hasIntent, matchesIntent, parseIntent, plainIntent, sortByIntent } from
 import { error, json } from "../util";
 import { liveOf, type ArticleRow } from "../articles";
 import { shortTitle } from "../../titles";
+import { UNAVAILABLE, findGame, gameDetails, searchGames } from "../games";
 
 type Handler = (request: Request, env: Env, ctx: ExecutionContext) => Promise<Response>;
 
@@ -382,43 +383,53 @@ const summary: Handler = async (request, env) => {
 };
 
 // ---------------------------------------------------------------------------
-// Recommender / comparator (ported; RAWG for game data)
+// Recommender / comparator. Game data: IGDB first, RAWG as the fallback (games.ts).
 
-async function rawgFetch(env: Env, path: string): Promise<Response> {
-  if (!env.RAWG_API_KEY) return error(500, "RAWG_API_KEY is missing on this environment");
-  const sep = path.includes("?") ? "&" : "?";
-  const r = await fetch(`https://api.rawg.io/api${path}${sep}key=${encodeURIComponent(env.RAWG_API_KEY)}`, {
-    headers: { "User-Agent": "PlayTested/1.0 (lyndon@playtested.net)", Accept: "application/json" },
-  });
-  return new Response(await r.text(), {
-    status: r.status,
-    headers: { "Content-Type": "application/json", "Cache-Control": r.ok ? "public, max-age=86400" : "no-store" },
-  });
+// Edge-cached (shared per location, a no-op on workers.dev) so the 4 requests a
+// second IGDB allows the whole site go a long way.
+const GAME_CACHE = "public, max-age=300, s-maxage=3600, stale-while-revalidate=86400";
+const edgeCache = (): Cache | undefined => (typeof caches !== "undefined" ? (caches as unknown as { default?: Cache }).default : undefined);
+
+/** Answer from the edge cache, or build the response and cache it if it worked. */
+async function edgeCached(key: string, ctx: ExecutionContext, build: () => Promise<Response>): Promise<Response> {
+  const cacheKey = new Request(key);
+  const edge = edgeCache();
+  const hit = await edge?.match(cacheKey).catch(() => undefined);
+  if (hit) return hit;
+  const res = await build();
+  if (res.ok && edge) ctx.waitUntil(edge.put(cacheKey, res.clone()).catch(() => undefined));
+  return res;
 }
 
-const rawgSearch: Handler = async (request, env, ctx) => {
+const unavailable = () => error(503, UNAVAILABLE, { code: "game_data_unavailable" });
+
+/** Search results in RAWG's list shape ({ results }), whichever source answered. */
+const gameSearch: Handler = async (request, env, ctx) => {
   const url = new URL(request.url);
   const q = (url.searchParams.get("query") || "").trim().toLowerCase().slice(0, 100);
   if (!q) return error(400, "Missing search term");
   const blocked = await gate(env, request, "search");
   if (blocked) return blocked;
-
-  // RAWG can take seconds; repeat searches come from this location's edge cache (a no-op on workers.dev).
-  const cacheKey = new Request(`${url.origin}/api/rawg-search?query=${encodeURIComponent(q)}`);
-  const edge = typeof caches !== "undefined" ? (caches as unknown as { default?: Cache }).default : undefined;
-  const hit = await edge?.match(cacheKey).catch(() => undefined);
-  if (hit) return hit;
-  const res = await rawgFetch(env, `/games?search=${encodeURIComponent(q)}&page_size=10`);
-  if (res.ok && edge) ctx.waitUntil(edge.put(cacheKey, res.clone()).catch(() => undefined));
-  return res;
+  return edgeCached(`${url.origin}/api/game-search?v=2&query=${encodeURIComponent(q)}`, ctx, async () => {
+    const found = await searchGames(env, q, url.origin, ctx);
+    if (!found) return unavailable();
+    return json({ results: found.results, source: found.source }, { headers: { "Cache-Control": GAME_CACHE } });
+  });
 };
 
-const rawgDetails: Handler = async (request, env) => {
-  const slug = new URL(request.url).searchParams.get("slug");
-  if (!slug) return error(400, "Missing slug");
+/** One game: ?slug=igdb-123 (IGDB) or a RAWG id/slug. */
+const gameDetailsRoute: Handler = async (request, env, ctx) => {
+  const url = new URL(request.url);
+  const id = (url.searchParams.get("slug") || url.searchParams.get("id") || "").trim().toLowerCase().slice(0, 120);
+  if (!id) return error(400, "Missing slug");
   const blocked = await gate(env, request, "search");
   if (blocked) return blocked;
-  return rawgFetch(env, `/games/${encodeURIComponent(slug.slice(0, 120))}`);
+  return edgeCached(`${url.origin}/api/game-details?v=2&id=${encodeURIComponent(id)}`, ctx, async () => {
+    const g = await gameDetails(env, id, url.origin, ctx);
+    if (g === null) return unavailable();
+    if (g === undefined) return error(404, "We couldn't find that game.", { code: "game_not_found" });
+    return json(g, { headers: { "Cache-Control": GAME_CACHE } });
+  });
 };
 
 /** Reviews on this site that match a game title, best first. */
@@ -427,7 +438,7 @@ async function siteReviewsFor(env: Env, title: string, limit = 2) {
   return docs.filter((d) => d.title.toLowerCase().includes(title.toLowerCase().split(":")[0].slice(0, 20)));
 }
 
-const recommend: Handler = async (request, env) => {
+const recommend: Handler = async (request, env, ctx) => {
   const body = await readJson<{ gameNames?: string[] }>(request);
   const games = (body?.gameNames ?? []).map((g) => String(g).slice(0, 100)).filter(Boolean).slice(0, 5);
   if (!games.length) return error(400, "No games provided.");
@@ -450,17 +461,10 @@ const recommend: Handler = async (request, env) => {
     .slice(0, 3);
   if (titles.length < 3) return error(500, "Unable to generate sufficient recommendations.", { rawResponse: titleLine });
 
+  const origin = new URL(request.url).origin;
   const enriched = await Promise.all(
     titles.map(async (title) => {
-      const [rawg, reviews] = await Promise.all([
-        env.RAWG_API_KEY
-          ? fetch(`https://api.rawg.io/api/games?key=${env.RAWG_API_KEY}&search=${encodeURIComponent(title)}&page_size=1`)
-              .then((r) => (r.ok ? r.json() : null))
-              .catch(() => null)
-          : Promise.resolve(null),
-        siteReviewsFor(env, title, 1).catch(() => []),
-      ]);
-      const g = (rawg as { results?: { name: string; released: string; background_image: string; slug: string }[] } | null)?.results?.[0];
+      const [g, reviews] = await Promise.all([findGame(env, title, origin, ctx).catch(() => null), siteReviewsFor(env, title, 1).catch(() => [])]);
       const review = reviews[0];
       return {
         title,
@@ -468,7 +472,8 @@ const recommend: Handler = async (request, env) => {
         released: g?.released || "Unknown",
         image: g?.background_image || review?.thumb || null,
         slug: g?.slug || null,
-        url: g?.slug ? `https://rawg.io/games/${g.slug}` : null,
+        url: g?.url || null,
+        source: g?.source ?? null,
         review: review ? { title: review.title, url: review.url, score: review.score } : null,
       };
     }),
@@ -527,7 +532,10 @@ export const publicRoutes: Record<string, { method: string; handler: Handler }> 
   "/api/summary": { method: "POST", handler: summary },
   "/api/recommend": { method: "POST", handler: recommend },
   "/api/compare": { method: "POST", handler: compare },
-  "/api/rawg-search": { method: "GET", handler: rawgSearch },
-  "/api/query": { method: "GET", handler: rawgSearch },
-  "/api/rawg-game-details": { method: "GET", handler: rawgDetails },
+  // The old RAWG-named paths stay as aliases (cached pages and bookmarks).
+  "/api/game-search": { method: "GET", handler: gameSearch },
+  "/api/rawg-search": { method: "GET", handler: gameSearch },
+  "/api/query": { method: "GET", handler: gameSearch },
+  "/api/game-details": { method: "GET", handler: gameDetailsRoute },
+  "/api/rawg-game-details": { method: "GET", handler: gameDetailsRoute },
 };

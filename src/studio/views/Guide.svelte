@@ -284,7 +284,7 @@
         "Good",
         [
           "Your own screenshots. They're the best choice and show you played it (Steam: F12; consoles: the Share/Capture button).",
-          "Official screenshots from <b>Media → Find screenshots</b> (Steam, or RAWG for console games). RAWG is credited automatically.",
+          "Official screenshots from <b>Media → Find screenshots</b> (Steam, or IGDB and RAWG for console games). IGDB and RAWG are credited automatically.",
           "A short alt text on each image describing what's in it.",
         ],
         "Please avoid",

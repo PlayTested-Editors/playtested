@@ -121,6 +121,7 @@ function integrations(env: Env) {
     google: googleConfigured(env),
     openrouter: Boolean(env.OPENROUTER_API_KEY),
     rawg: Boolean(env.RAWG_API_KEY),
+    igdb: Boolean(env.TWITCH_CLIENT_ID && env.TWITCH_CLIENT_SECRET),
     alerts: Boolean(env.ALERT_WEBHOOK_URL),
     email: Boolean(env.NOTIFY_EMAIL),
     ownerKey: Boolean(env.STUDIO_OWNER_KEY),
@@ -867,7 +868,7 @@ route("GET", "/media", "contributor", async (c) => {
   return json({ media: rows.results.map(mediaJson), page, pageSize });
 });
 
-// Official screenshots by game name (Steam, then RAWG) for the image picker.
+// Official screenshots by game name (Steam, then IGDB, then RAWG) for the image picker.
 route("GET", "/screenshots", "contributor", async (c) => {
   const p = c.url.searchParams;
   const q = (p.get("q") || "").trim().slice(0, 100);
@@ -875,7 +876,7 @@ route("GET", "/screenshots", "contributor", async (c) => {
   if (!(await withinRate(c.env, "RL_SEARCH", `shots:${c.user!.id}`))) return error(429, "Too many searches. Wait a minute.");
   const source = p.get("source");
   const id = p.get("id");
-  const pick = (source === "steam" || source === "rawg") && id && /^[0-9]{1,12}$/.test(id) ? { source: source as ShotSource, id } : undefined;
+  const pick = (source === "steam" || source === "igdb" || source === "rawg") && id && /^[0-9]{1,12}$/.test(id) ? { source: source as ShotSource, id } : undefined;
   return json(await findScreenshots(c.env, q, pick));
 });
 

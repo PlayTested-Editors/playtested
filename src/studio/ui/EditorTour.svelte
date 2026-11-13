@@ -14,7 +14,7 @@
     { key: "title", h: "Start with the title", p: 'Use "Review Title | Game Name Review". The part before | is the headline, the part after names the game.' },
     { key: "ai", h: "Write with AI (optional)", p: "Got rough notes? This gives you a ready prompt for ChatGPT, Gemini or any AI. Paste its reply back and it's formatted for you. Then make it your own." },
     { key: "tidy", h: "Tidy formatting", p: "Pasted from Google Docs or an AI? One click fixes Pros & Cons lists and strips stray colours and fonts. You can undo it." },
-    { key: "images", h: "Add images (optional)", p: "Upload your own, or open Find screenshots for official ones from Steam or RAWG. Skip it if you like: the chief editor can add images." },
+    { key: "images", h: "Add images (optional)", p: "Upload your own, or open Find screenshots for official ones from Steam, IGDB or RAWG. Skip it if you like: the chief editor can add images." },
     { key: "details", h: "Details", p: "Game name, score, a short description and the thumbnail live here. Filling in the game name helps Find screenshots." },
     { key: "preview", h: "Live preview", p: "Exactly how it will look on PlayTested.net, updated as you type. Switch to Phone to check the mobile view." },
     { key: "history", h: "Autosave and History", p: "Everything saves as you go. History keeps every version, so nothing you write is lost." },

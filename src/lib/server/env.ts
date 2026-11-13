@@ -20,6 +20,9 @@ export interface Env {
   // the matching feature instead of breaking the Worker.
   OPENROUTER_API_KEY?: string;
   RAWG_API_KEY?: string;
+  /** IGDB (Twitch's game database): a Twitch developer app's id and secret. */
+  TWITCH_CLIENT_ID?: string;
+  TWITCH_CLIENT_SECRET?: string;
   GITHUB_TOKEN?: string;
   CF_ANALYTICS_TOKEN?: string;
   GOOGLE_CLIENT_ID?: string;

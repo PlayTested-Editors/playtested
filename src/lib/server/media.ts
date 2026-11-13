@@ -155,7 +155,7 @@ export async function storeUpload(
 /**
  * A readable file name: the article's game ("halo-campaign-evolved"), else its
  * slug or headline, else the original file name without long digit runs.
- * Screenshots from RAWG start with "rawg-" (articles using them credit RAWG).
+ * Screenshots from RAWG or IGDB start with "rawg-" / "igdb-" (articles using them credit the source).
  */
 async function uploadBase(env: Env, meta: { filename: string; articleId?: string; sourceUrl?: string }): Promise<string> {
   let base = "";
@@ -169,13 +169,13 @@ async function uploadBase(env: Env, meta: { filename: string; articleId?: string
   }
   if (!base) base = slugify(meta.filename.replace(/\.[a-z0-9]+$/i, "").replace(/\d{5,}/g, " "));
   base = base.slice(0, 50).replace(/-+$/, "") || "image";
-  let rawg = false;
+  let host = "";
   try {
-    rawg = Boolean(meta.sourceUrl) && new URL(meta.sourceUrl!).hostname === "media.rawg.io";
+    host = meta.sourceUrl ? new URL(meta.sourceUrl).hostname : "";
   } catch {
     /* not a URL */
   }
-  return rawg ? `rawg-${base}` : base;
+  return host === "media.rawg.io" ? `rawg-${base}` : host === "images.igdb.com" ? `igdb-${base}` : base;
 }
 
 /** An image already on the site under this name (uploads committed before the studio tracked them). */
