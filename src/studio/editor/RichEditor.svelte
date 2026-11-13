@@ -371,7 +371,7 @@
 {#if locked && !disabled}
   <div class="mb-3 rounded-lg bg-amber-50 px-3 py-2.5 text-sm text-amber-900 ring-1 ring-amber-200 dark:bg-amber-500/10 dark:text-amber-100 dark:ring-amber-500/25" role="status">
     <p>
-      <span class="font-semibold">This article uses formatting the visual editor can't keep</span> — {problems.join("; ")}. Edit it in Markdown so nothing is lost.
+      <span class="font-semibold">This article uses formatting the visual editor can't keep</span> — {problems.join("; ")}. Try <b>Tidy formatting</b> first: it fixes the common causes. Otherwise edit it in Markdown so nothing is lost.
     </p>
     <div class="mt-2 flex flex-wrap gap-2">
       {#if onmarkdown}

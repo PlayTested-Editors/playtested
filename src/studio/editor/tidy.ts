@@ -220,6 +220,66 @@ export function tidyLabelledPoints(markdown: string): { text: string; changed: n
   return { text: out.join("\n"), changed };
 }
 
+const BR_ONLY = /^[ \t]*(?:<br\s*\/?>[ \t]*)+$/i;
+const BR_END = /[ \t]*(?:<br\s*\/?>[ \t]*)+$/i;
+// Block-level HTML whose inside must not gain blank lines (that would end the HTML block).
+const HTML_OPEN = /^[ \t]*<(div|figure|table|section|details|aside|blockquote|center)\b/i;
+
+/**
+ * Paragraph breaks typed as `<br>` lines (`text<br>` / `<br>` / `text`) become
+ * normal paragraphs. Besides looking messy, a line holding only `<br>` starts an
+ * HTML block in Markdown, so whatever follows it up to the next blank line is
+ * read as raw HTML: a `<https://…>` link there shows nothing at all, and the
+ * visual editor refuses the article. A `<br>` inside a paragraph (a real line
+ * break) is kept, and so is anything inside code or block-level HTML.
+ */
+export function tidyLineBreaks(markdown: string): { text: string; changed: number } {
+  const lines = markdown.split("\n");
+  let changed = 0;
+  let fence: string | null = null;
+  let html: string | null = null;
+  const skip: boolean[] = [];
+  for (const [i, line] of lines.entries()) {
+    const f = /^[ \t]{0,3}(`{3,}|~{3,})/.exec(line);
+    if (fence) {
+      if (f && f[1][0] === fence[0] && f[1].length >= fence.length) fence = null;
+      skip[i] = true;
+      continue;
+    }
+    if (f) {
+      fence = f[1];
+      skip[i] = true;
+      continue;
+    }
+    if (html) {
+      skip[i] = true;
+      if (new RegExp(`</${html}\\s*>`, "i").test(line)) html = null;
+      continue;
+    }
+    const open = HTML_OPEN.exec(line);
+    if (open && !new RegExp(`</${open[1]}\\s*>`, "i").test(line)) {
+      html = open[1];
+      skip[i] = true;
+      continue;
+    }
+    skip[i] = false;
+    if (BR_ONLY.test(line)) {
+      lines[i] = "";
+      changed++;
+    }
+  }
+  // A break at the end of a paragraph's last line does nothing but add space.
+  for (let i = 0; i < lines.length; i++) {
+    if (skip[i] || !BR_END.test(lines[i]) || BR_ONLY.test(lines[i])) continue;
+    if (i + 1 < lines.length && lines[i + 1].trim() !== "") continue;
+    lines[i] = lines[i].replace(BR_END, "");
+    changed++;
+  }
+  // The emptied lines leave runs of blank lines: one is enough.
+  const text = changed ? lines.join("\n").replace(/\n{3,}/g, "\n\n") : markdown;
+  return { text, changed };
+}
+
 /**
  * Removes inline styling pasted in from Google Docs, Word or web pages
  * (`<span style="color: #000000; font-family: Arial…">text</span>` → `text`).
@@ -398,11 +458,12 @@ export function boldGameName(markdown: string, game: string | undefined): { text
 }
 
 /** Everything the "Tidy" button does: pasted styling, split sentences, inline "Pro:"/"Con:" points, Pros / Cons sections, and the game's name in bold. */
-export function tidyFormatting(markdown: string, game?: string): { text: string; styles: number; sections: number; rejoined: number; bolded: number } {
-  const a = stripPastedStyles(markdown);
+export function tidyFormatting(markdown: string, game?: string): { text: string; styles: number; sections: number; rejoined: number; bolded: number; breaks: number } {
+  const br = tidyLineBreaks(markdown);
+  const a = stripPastedStyles(br.text);
   const r = rejoinSplitParagraphs(a.text);
   const b = tidyLabelledPoints(r.text);
   const c = tidyProsCons(b.text);
   const g = boldGameName(c.text, game);
-  return { text: g.text, styles: a.changed, sections: b.changed + c.changed, rejoined: r.changed, bolded: g.changed };
+  return { text: g.text, styles: a.changed, sections: b.changed + c.changed, rejoined: r.changed, bolded: g.changed, breaks: br.changed };
 }

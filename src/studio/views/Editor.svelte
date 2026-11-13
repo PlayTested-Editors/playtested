@@ -103,10 +103,10 @@
   /** Pros / Cons sections in the site's usual format (only real, labelled lists). */
   function tidyBody() {
     if (!data) return;
-    const { text, styles, sections, rejoined, bolded } = tidyFormatting(data.body, data.game);
+    const { text, styles, sections, rejoined, bolded, breaks } = tidyFormatting(data.body, data.game);
     const unsorted = findUnsortedPoints(text);
     if (unsorted) sortPoints = { found: unsorted, kinds: [...unsorted.guess] };
-    if (!styles && !sections && !rejoined && !bolded) {
+    if (!styles && !sections && !rejoined && !bolded && !breaks) {
       if (!unsorted) toast("Formatting already looks right. Nothing to change.", "info");
       return;
     }
@@ -117,6 +117,7 @@
       rejoined ? `rejoined ${rejoined} sentence${rejoined === 1 ? "" : "s"} split by an image` : "",
       styles ? `removed pasted styling from ${styles} place${styles === 1 ? "" : "s"}` : "",
       bolded ? `put the game's name in bold (${bolded}×)` : "",
+      breaks ? `turned ${breaks} <br> line break${breaks === 1 ? "" : "s"} into normal paragraphs` : "",
     ].filter(Boolean);
     toast(`Tidied: ${parts.join(", ")}.`, "success", { label: "Undo", run: () => data && (data.body = before) }, 8000);
   }
